@@ -1,0 +1,397 @@
+from __future__ import annotations
+
+from dataclasses import dataclass
+from pathlib import Path
+from typing import List
+
+import joblib
+import numpy as np
+import pandas as pd
+from sklearn.compose import ColumnTransformer
+from sklearn.impute import SimpleImputer
+from sklearn.model_selection import train_test_split
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
+
+from .config import DataConfig
+
+
+@dataclass
+class DatasetBundle:
+    X_train: np.ndarray
+    y_train: np.ndarray
+    X_val: np.ndarray
+    y_val: np.ndarray
+    # Standard benchmark: the complete official test partition. The decision
+    # threshold for this protocol is selected only on the training validation set.
+    X_test: np.ndarray
+    y_test: np.ndarray
+    test_attack_categories: np.ndarray
+    # Secondary calibrated protocol: a deterministic subset of the official test
+    # file is used only for threshold calibration, and the remainder is held out
+    # for evaluation. Results from this protocol must be labelled separately.
+    X_calibration: np.ndarray
+    y_calibration: np.ndarray
+    calibration_attack_categories: np.ndarray
+    X_calibrated_test: np.ndarray
+    y_calibrated_test: np.ndarray
+    calibrated_test_attack_categories: np.ndarray
+    calibration_enabled: bool
+    feature_names: List[str]
+    raw_train_rows: int
+    raw_test_rows: int
+    original_column_count: int
+    selected_raw_feature_count: int
+
+
+def _stratified_subsample(
+    frame: pd.DataFrame, label_col: str, max_samples: int | None, seed: int
+) -> pd.DataFrame:
+    if max_samples is None or len(frame) <= max_samples:
+        return frame.reset_index(drop=True)
+    sampled, _ = train_test_split(
+        frame,
+        train_size=max_samples,
+        random_state=seed,
+        stratify=frame[label_col],
+    )
+    return sampled.reset_index(drop=True)
+
+
+def _sanitize_frame(frame: pd.DataFrame) -> pd.DataFrame:
+    cleaned = frame.copy()
+    cleaned = cleaned.replace([np.inf, -np.inf], np.nan)
+    return cleaned
+
+
+def _attack_categories(frame: pd.DataFrame, cfg: DataConfig) -> np.ndarray:
+    if cfg.attack_category_col in frame:
+        return frame[cfg.attack_category_col].fillna("Unknown").astype(str).to_numpy()
+    return np.where(frame[cfg.label_col].to_numpy() == 0, "Normal", "Attack")
+
+
+def _calibration_stratify_key(frame: pd.DataFrame, cfg: DataConfig) -> pd.Series:
+    """Build a stable stratification key and collapse rare attack categories.
+
+    A train/test split requires at least two members in every stratum. Rare
+    attack categories are therefore collapsed to the binary label rather than
+    causing the entire calibrated protocol to fail.
+    """
+    labels = frame[cfg.label_col].astype(str)
+    if not cfg.calibration_stratify_attack_category or cfg.attack_category_col not in frame:
+        return labels
+
+    categories = frame[cfg.attack_category_col].fillna("Unknown").astype(str)
+    composite = labels + "::" + categories
+    counts = composite.value_counts()
+    rare = composite.map(counts).fillna(0) < 2
+    return composite.where(~rare, labels + "::OTHER")
+
+
+def _split_calibration_protocol(
+    raw_test: pd.DataFrame,
+    cfg: DataConfig,
+    seed: int,
+) -> tuple[pd.DataFrame, pd.DataFrame, bool]:
+    if not cfg.enable_calibrated_evaluation:
+        empty = raw_test.iloc[0:0].copy().reset_index(drop=True)
+        return empty, raw_test.reset_index(drop=True), False
+
+    stratify_key = _calibration_stratify_key(raw_test, cfg)
+    try:
+        calibration, final_eval = train_test_split(
+            raw_test,
+            train_size=cfg.calibration_fraction_of_test,
+            random_state=seed + 2,
+            stratify=stratify_key,
+        )
+    except ValueError:
+        # Fallback to binary label stratification for very small pilot samples.
+        calibration, final_eval = train_test_split(
+            raw_test,
+            train_size=cfg.calibration_fraction_of_test,
+            random_state=seed + 2,
+            stratify=raw_test[cfg.label_col],
+        )
+    return (
+        calibration.reset_index(drop=True),
+        final_eval.reset_index(drop=True),
+        True,
+    )
+
+
+def load_and_preprocess_unsw(
+    cfg: DataConfig,
+    seed: int,
+    preprocessor_output: str | Path | None = None,
+) -> DatasetBundle:
+    train_path = Path(cfg.train_csv)
+    test_path = Path(cfg.test_csv)
+    if not train_path.exists():
+        raise FileNotFoundError(
+            f"Training dataset not found: {train_path}. Put UNSW_NB15_training-set.csv in data/."
+        )
+    if not test_path.exists():
+        raise FileNotFoundError(
+            f"Testing dataset not found: {test_path}. Put UNSW_NB15_testing-set.csv in data/."
+        )
+
+    raw_train = pd.read_csv(train_path)
+    raw_test = pd.read_csv(test_path)
+    original_column_count = len(raw_train.columns)
+    raw_train_rows = len(raw_train)
+    raw_test_rows = len(raw_test)
+
+    if cfg.label_col not in raw_train or cfg.label_col not in raw_test:
+        raise ValueError(f"Label column '{cfg.label_col}' was not found in both CSV files")
+
+    raw_train = _stratified_subsample(raw_train, cfg.label_col, cfg.max_train_samples, seed)
+    raw_test = _stratified_subsample(raw_test, cfg.label_col, cfg.max_test_samples, seed + 1)
+
+    raw_calibration, raw_calibrated_test, calibration_enabled = _split_calibration_protocol(
+        raw_test, cfg, seed
+    )
+
+    y_all = raw_train[cfg.label_col].astype(int).to_numpy(dtype=np.int64)
+    y_test = raw_test[cfg.label_col].astype(int).to_numpy(dtype=np.int64)
+    y_calibration = raw_calibration[cfg.label_col].astype(int).to_numpy(dtype=np.int64)
+    y_calibrated_test = raw_calibrated_test[cfg.label_col].astype(int).to_numpy(dtype=np.int64)
+
+    test_attack_categories = _attack_categories(raw_test, cfg)
+    calibration_attack_categories = _attack_categories(raw_calibration, cfg)
+    calibrated_test_attack_categories = _attack_categories(raw_calibrated_test, cfg)
+
+    train_features = raw_train.drop(columns=[cfg.label_col, *cfg.drop_cols], errors="ignore")
+    test_features = raw_test.drop(columns=[cfg.label_col, *cfg.drop_cols], errors="ignore")
+    calibration_features = raw_calibration.drop(
+        columns=[cfg.label_col, *cfg.drop_cols], errors="ignore"
+    )
+    calibrated_test_features = raw_calibrated_test.drop(
+        columns=[cfg.label_col, *cfg.drop_cols], errors="ignore"
+    )
+    train_features = _sanitize_frame(train_features)
+    test_features = _sanitize_frame(test_features)
+    calibration_features = _sanitize_frame(calibration_features)
+    calibrated_test_features = _sanitize_frame(calibrated_test_features)
+
+    missing_categorical = [column for column in cfg.categorical_cols if column not in train_features]
+    if missing_categorical:
+        raise ValueError(f"Missing expected categorical columns: {missing_categorical}")
+
+    X_train_raw, X_val_raw, y_train, y_val = train_test_split(
+        train_features,
+        y_all,
+        test_size=cfg.validation_fraction,
+        random_state=seed,
+        stratify=y_all,
+    )
+
+    categorical = list(cfg.categorical_cols)
+    numeric = [column for column in X_train_raw.columns if column not in categorical]
+
+    categorical_pipeline = Pipeline(
+        steps=[
+            ("imputer", SimpleImputer(strategy="most_frequent")),
+            ("encoder", OneHotEncoder(handle_unknown="ignore", sparse_output=False)),
+        ]
+    )
+    numeric_pipeline = Pipeline(
+        steps=[
+            ("imputer", SimpleImputer(strategy="median")),
+            ("scaler", StandardScaler()),
+        ]
+    )
+    preprocessor = ColumnTransformer(
+        transformers=[
+            ("categorical", categorical_pipeline, categorical),
+            ("numeric", numeric_pipeline, numeric),
+        ],
+        remainder="drop",
+        verbose_feature_names_out=True,
+    )
+
+    X_train = preprocessor.fit_transform(X_train_raw).astype(np.float32, copy=False)
+    X_val = preprocessor.transform(X_val_raw).astype(np.float32, copy=False)
+    X_test = preprocessor.transform(test_features).astype(np.float32, copy=False)
+    if len(calibration_features):
+        X_calibration = preprocessor.transform(calibration_features).astype(np.float32, copy=False)
+    else:
+        X_calibration = np.empty((0, X_train.shape[1]), dtype=np.float32)
+    X_calibrated_test = preprocessor.transform(calibrated_test_features).astype(
+        np.float32, copy=False
+    )
+    feature_names = preprocessor.get_feature_names_out().tolist()
+
+    if preprocessor_output is not None:
+        preprocessor_output = Path(preprocessor_output)
+        preprocessor_output.parent.mkdir(parents=True, exist_ok=True)
+        joblib.dump(preprocessor, preprocessor_output)
+
+    return DatasetBundle(
+        X_train=X_train,
+        y_train=y_train,
+        X_val=X_val,
+        y_val=y_val,
+        X_test=X_test,
+        y_test=y_test,
+        test_attack_categories=test_attack_categories,
+        X_calibration=X_calibration,
+        y_calibration=y_calibration,
+        calibration_attack_categories=calibration_attack_categories,
+        X_calibrated_test=X_calibrated_test,
+        y_calibrated_test=y_calibrated_test,
+        calibrated_test_attack_categories=calibrated_test_attack_categories,
+        calibration_enabled=calibration_enabled,
+        feature_names=feature_names,
+        raw_train_rows=raw_train_rows,
+        raw_test_rows=raw_test_rows,
+        original_column_count=original_column_count,
+        selected_raw_feature_count=len(train_features.columns),
+    )
+
+
+def load_and_preprocess_ciciot2023(
+    cfg: DataConfig,
+    seed: int,
+    preprocessor_output: str | Path | None = None,
+) -> DatasetBundle:
+    """Load prepared CICIoT2023 train/validation/test CSV files.
+
+    The raw 169 CSV shards must first be converted with prepare_ciciot2023.py.
+    That script creates explicit, reproducible splits and stores both the binary
+    label and the original attack name. The preprocessor is fit on training only.
+    """
+    train_path = Path(cfg.train_csv)
+    val_path = Path(cfg.validation_csv or "")
+    test_path = Path(cfg.test_csv)
+    for role, path in (("training", train_path), ("validation", val_path), ("testing", test_path)):
+        if not path.exists():
+            raise FileNotFoundError(
+                f"Prepared CICIoT2023 {role} file not found: {path}. "
+                "Run 02_PREPARE_CICIOT2023_PILOT.bat or "
+                "02_PREPARE_CICIOT2023_PAPER.bat first."
+            )
+
+    raw_train = pd.read_csv(train_path)
+    raw_val = pd.read_csv(val_path)
+    raw_test = pd.read_csv(test_path)
+    original_column_count = len(raw_train.columns)
+    raw_train_rows = len(raw_train)
+    raw_test_rows = len(raw_test)
+
+    for role, frame in (("training", raw_train), ("validation", raw_val), ("testing", raw_test)):
+        if cfg.label_col not in frame:
+            raise ValueError(f"Label column '{cfg.label_col}' missing from CICIoT2023 {role} file")
+        if frame[cfg.label_col].nunique(dropna=False) < 2:
+            raise ValueError(f"CICIoT2023 {role} split does not contain both binary classes")
+
+    raw_train = _stratified_subsample(raw_train, cfg.label_col, cfg.max_train_samples, seed)
+    raw_val = _stratified_subsample(raw_val, cfg.label_col, cfg.max_val_samples, seed + 1)
+    raw_test = _stratified_subsample(raw_test, cfg.label_col, cfg.max_test_samples, seed + 2)
+
+    y_train = raw_train[cfg.label_col].astype(int).to_numpy(dtype=np.int64)
+    y_val = raw_val[cfg.label_col].astype(int).to_numpy(dtype=np.int64)
+    y_test = raw_test[cfg.label_col].astype(int).to_numpy(dtype=np.int64)
+
+    test_attack_categories = _attack_categories(raw_test, cfg)
+
+    train_features = raw_train.drop(columns=[cfg.label_col, *cfg.drop_cols], errors="ignore")
+    val_features = raw_val.drop(columns=[cfg.label_col, *cfg.drop_cols], errors="ignore")
+    test_features = raw_test.drop(columns=[cfg.label_col, *cfg.drop_cols], errors="ignore")
+
+    # Enforce identical feature schema and ordering across all prepared splits.
+    missing_in_val = sorted(set(train_features.columns) - set(val_features.columns))
+    missing_in_test = sorted(set(train_features.columns) - set(test_features.columns))
+    extras_in_val = sorted(set(val_features.columns) - set(train_features.columns))
+    extras_in_test = sorted(set(test_features.columns) - set(train_features.columns))
+    if missing_in_val or missing_in_test or extras_in_val or extras_in_test:
+        raise ValueError(
+            "Prepared CICIoT2023 split schemas differ. "
+            f"missing_in_val={missing_in_val[:5]}, missing_in_test={missing_in_test[:5]}, "
+            f"extras_in_val={extras_in_val[:5]}, extras_in_test={extras_in_test[:5]}"
+        )
+    val_features = val_features[train_features.columns]
+    test_features = test_features[train_features.columns]
+
+    train_features = _sanitize_frame(train_features)
+    val_features = _sanitize_frame(val_features)
+    test_features = _sanitize_frame(test_features)
+
+    missing_categorical = [column for column in cfg.categorical_cols if column not in train_features]
+    if missing_categorical:
+        raise ValueError(f"Missing expected categorical columns: {missing_categorical}")
+    categorical = list(cfg.categorical_cols)
+    numeric = [column for column in train_features.columns if column not in categorical]
+    if not numeric and not categorical:
+        raise ValueError("No usable CICIoT2023 features remain after dropping label columns")
+
+    transformers = []
+    if categorical:
+        categorical_pipeline = Pipeline(
+            steps=[
+                ("imputer", SimpleImputer(strategy="most_frequent")),
+                ("encoder", OneHotEncoder(handle_unknown="ignore", sparse_output=False)),
+            ]
+        )
+        transformers.append(("categorical", categorical_pipeline, categorical))
+    if numeric:
+        numeric_pipeline = Pipeline(
+            steps=[
+                ("imputer", SimpleImputer(strategy="median")),
+                ("scaler", StandardScaler()),
+            ]
+        )
+        transformers.append(("numeric", numeric_pipeline, numeric))
+
+    preprocessor = ColumnTransformer(
+        transformers=transformers,
+        remainder="drop",
+        verbose_feature_names_out=True,
+    )
+    X_train = preprocessor.fit_transform(train_features).astype(np.float32, copy=False)
+    X_val = preprocessor.transform(val_features).astype(np.float32, copy=False)
+    X_test = preprocessor.transform(test_features).astype(np.float32, copy=False)
+    feature_names = preprocessor.get_feature_names_out().tolist()
+
+    if preprocessor_output is not None:
+        preprocessor_output = Path(preprocessor_output)
+        preprocessor_output.parent.mkdir(parents=True, exist_ok=True)
+        joblib.dump(preprocessor, preprocessor_output)
+
+    empty_X = np.empty((0, X_train.shape[1]), dtype=np.float32)
+    empty_y = np.empty((0,), dtype=np.int64)
+    empty_categories = np.empty((0,), dtype=str)
+    return DatasetBundle(
+        X_train=X_train,
+        y_train=y_train,
+        X_val=X_val,
+        y_val=y_val,
+        X_test=X_test,
+        y_test=y_test,
+        test_attack_categories=test_attack_categories,
+        X_calibration=empty_X,
+        y_calibration=empty_y,
+        calibration_attack_categories=empty_categories,
+        X_calibrated_test=X_test,
+        y_calibrated_test=y_test,
+        calibrated_test_attack_categories=test_attack_categories,
+        calibration_enabled=False,
+        feature_names=feature_names,
+        raw_train_rows=raw_train_rows,
+        raw_test_rows=raw_test_rows,
+        original_column_count=original_column_count,
+        selected_raw_feature_count=len(train_features.columns),
+    )
+
+
+def load_dataset(
+    cfg: DataConfig,
+    seed: int,
+    preprocessor_output: str | Path | None = None,
+) -> DatasetBundle:
+    """Dispatch to the dataset-specific, leakage-safe loader."""
+    if cfg.dataset_name == "unsw_nb15":
+        return load_and_preprocess_unsw(cfg, seed, preprocessor_output)
+    if cfg.dataset_name == "ciciot2023":
+        return load_and_preprocess_ciciot2023(cfg, seed, preprocessor_output)
+    raise ValueError(f"Unsupported dataset: {cfg.dataset_name}")

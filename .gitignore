@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+.env
+.venv/
+venv/
+env/
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Data and large artifacts
+data/**/*.csv
+data/**/*.csv.gz
+data/**/*.zip
+data/**/*.parquet
+data/**/*.joblib
+datasets/
+checkpoints/
+*.pt
+*.pth
+*.h5
+*.pkl
+
+# Experiment outputs
+results/
+outputs/
+logs/
+*.log
+
+# Review/temporary packages
+*_review*.zip
+pilot_review*.zip
+sweeps_review*.zip
