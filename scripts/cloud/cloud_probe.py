@@ -29,7 +29,7 @@ def ram_gb() -> float:
         import ctypes
 
         class MS(ctypes.Structure):
-            _fields_ = [("l", ctypes.c_ulong), ("m", ctypes.c_ulong), ("tp", ctypes.c_ulonglong)] + [("x", ctypes.c_ulonglong)] * 5
+            _fields_ = [("l", ctypes.c_ulong), ("m", ctypes.c_ulong), ("tp", ctypes.c_ulonglong)] + [("x", ctypes.c_ulonglong)] * 6
         s = MS(); s.l = ctypes.sizeof(MS); ctypes.windll.kernel32.GlobalMemoryStatusEx(ctypes.byref(s))
         return s.tp / 2**30
     except Exception:  # noqa: BLE001

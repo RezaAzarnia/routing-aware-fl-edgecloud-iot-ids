@@ -80,7 +80,8 @@ def main() -> int:
     lock = subprocess.run([sys.executable, "-m", "pip", "freeze"], capture_output=True, text=True).stdout
     wanted = ("torch", "numpy", "pandas", "scikit-learn", "scipy", "PyYAML", "joblib", "tqdm", "matplotlib", "threadpoolctl", "pytest")
     lines = [l for l in lock.splitlines() if l.split("==")[0] in wanted]
-    (out / "requirements-cloud-lock.txt").write_text("\n".join(lines) + f"\n# python {sys.version.split()[0]}\n", encoding="utf-8")
+    with open(out / "requirements-cloud-lock.txt", "w", encoding="utf-8", newline="\n") as handle:
+        handle.write("\n".join(lines) + f"\n# python {sys.version.split()[0]}\n")
 
     # 4. verified local runs (reference only; never merged automatically)
     ref = out / "reference_local_partial"
@@ -107,7 +108,8 @@ def main() -> int:
     sums = []
     for path in sorted(p for p in out.rglob("*") if p.is_file() and p.name != "SHA256SUMS.txt"):
         sums.append(f"{sha256(path)}  {path.relative_to(out).as_posix()}")
-    (out / "SHA256SUMS.txt").write_text("\n".join(sums) + "\n", encoding="utf-8")
+    with open(out / "SHA256SUMS.txt", "w", encoding="utf-8", newline="\n") as handle:  # LF: must work with Linux `sha256sum -c`
+        handle.write("\n".join(sums) + "\n")
     archive = out.with_suffix(".tar")
     with tarfile.open(archive, "w") as tar:
         tar.add(out, arcname="cloud_transfer")
