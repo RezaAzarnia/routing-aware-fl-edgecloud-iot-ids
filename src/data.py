@@ -47,6 +47,9 @@ class DatasetBundle:
     # Optional audit information (defaults keep older constructors valid).
     validation_split_info: dict | None = None
     train_exclusions: pd.DataFrame | None = None
+    # Threshold-calibration partition (None when the historical protocol is used).
+    X_thr: np.ndarray | None = None
+    y_thr: np.ndarray | None = None
 
 
 def _group_disjoint_validation_split(
@@ -62,6 +65,28 @@ def _group_disjoint_validation_split(
     splitter = StratifiedGroupKFold(n_splits=n_splits, shuffle=True, random_state=seed)
     train_idx, val_idx = next(splitter.split(features, y, groups))
     return np.sort(train_idx), np.sort(val_idx), fingerprint, n_splits
+
+
+def _split_threshold_partition(features: pd.DataFrame, y: np.ndarray, fraction: float, seed: int):
+    """Split the validation pool into (evaluation, calibration) parts that never share a
+    predictor vector. Returns eval_features, calib_features, y_eval, y_calib, info."""
+    from sklearn.model_selection import StratifiedGroupKFold
+
+    fingerprint = predictor_fingerprint(features, list(features.columns))
+    _, groups = np.unique(fingerprint, return_inverse=True)
+    n_splits = max(2, int(round(1.0 / fraction)))
+    splitter = StratifiedGroupKFold(n_splits=n_splits, shuffle=True, random_state=seed)
+    eval_idx, calib_idx = next(splitter.split(features, y, groups))
+    eval_idx, calib_idx = np.sort(eval_idx), np.sort(calib_idx)
+    info = {
+        "protocol": "predictor_group_disjoint_calibration_vs_evaluation",
+        "n_splits": n_splits,
+        "calibration_rows": int(len(calib_idx)), "evaluation_rows": int(len(eval_idx)),
+        "calibration_benign": int((y[calib_idx] == 0).sum()), "calibration_attack": int((y[calib_idx] == 1).sum()),
+        "evaluation_benign": int((y[eval_idx] == 0).sum()), "evaluation_attack": int((y[eval_idx] == 1).sum()),
+        "shared_predictor_vectors": int(np.isin(fingerprint[calib_idx], fingerprint[eval_idx]).sum()),
+    }
+    return features.iloc[eval_idx], features.iloc[calib_idx], y[eval_idx], y[calib_idx], info
 
 
 def _transform_or_empty(preprocessor, features: pd.DataFrame, width: int) -> np.ndarray:
@@ -256,6 +281,14 @@ def load_and_preprocess_unsw(
         X_train_raw, y_train, cfg
     )
     split_info["train_rows_after_conflict_exclusion"] = int(len(y_train))
+    thr_frame = None
+    y_thr = None
+    if cfg.threshold_calibration_fraction > 0:
+        X_val_raw, thr_frame, y_val, y_thr, thr_info = _split_threshold_partition(
+            X_val_raw, y_val, cfg.threshold_calibration_fraction, seed + 17
+        )
+        split_info["threshold_calibration"] = thr_info
+        split_info["validation_rows"] = int(len(y_val))
 
     categorical = list(cfg.categorical_cols)
     numeric = [column for column in X_train_raw.columns if column not in categorical]
@@ -283,6 +316,7 @@ def load_and_preprocess_unsw(
 
     X_train = preprocessor.fit_transform(X_train_raw).astype(np.float32, copy=False)
     X_val = preprocessor.transform(X_val_raw).astype(np.float32, copy=False)
+    X_thr = None if thr_frame is None else _transform_or_empty(preprocessor, thr_frame, X_train.shape[1])
     X_test = _transform_or_empty(preprocessor, test_features, X_train.shape[1])
     if len(calibration_features):
         X_calibration = preprocessor.transform(calibration_features).astype(np.float32, copy=False)
@@ -320,6 +354,8 @@ def load_and_preprocess_unsw(
         selected_raw_feature_count=len(train_features.columns),
         validation_split_info=split_info,
         train_exclusions=train_exclusions,
+        X_thr=X_thr,
+        y_thr=y_thr,
     )
 
 
@@ -414,6 +450,15 @@ def load_and_preprocess_ciciot2023(
         "validation_attack": int((y_val == 1).sum()), "validation_benign": int((y_val == 0).sum()),
     }
 
+    thr_frame = None
+    y_thr = None
+    if cfg.threshold_calibration_fraction > 0:
+        val_features, thr_frame, y_val, y_thr, thr_info = _split_threshold_partition(
+            val_features, y_val, cfg.threshold_calibration_fraction, seed + 17
+        )
+        split_info["threshold_calibration"] = thr_info
+        split_info["validation_rows"] = int(len(y_val))
+
     transformers = []
     if categorical:
         categorical_pipeline = Pipeline(
@@ -439,6 +484,7 @@ def load_and_preprocess_ciciot2023(
     )
     X_train = preprocessor.fit_transform(train_features).astype(np.float32, copy=False)
     X_val = preprocessor.transform(val_features).astype(np.float32, copy=False)
+    X_thr = None if thr_frame is None else _transform_or_empty(preprocessor, thr_frame, X_train.shape[1])
     X_test = _transform_or_empty(preprocessor, test_features, X_train.shape[1])
     feature_names = preprocessor.get_feature_names_out().tolist()
 
@@ -472,6 +518,8 @@ def load_and_preprocess_ciciot2023(
         selected_raw_feature_count=len(train_features.columns),
         validation_split_info=split_info,
         train_exclusions=train_exclusions,
+        X_thr=X_thr,
+        y_thr=y_thr,
     )
 
 

@@ -1,0 +1,68 @@
+{
+  "recorded_before_execution": true,
+  "seed": 2,
+  "code_commit_base": "7e29d24c915770a03535dd7b1f25c897e147ac09",
+  "note": "working-tree code is committed immediately after this file; configs below are hashed before any variant is run",
+  "configs": {
+    "ciciot_v0_reference_matched.yaml": "e33ecea37064a145e3b5eaf0e24eb8fc546e1201cf79df3c9e9e6381084fca21",
+    "ciciot_v1_no_imputation.yaml": "4090bd82fa7f6d1c4fa44099651ca6b2427a12b058cc03be8bac9cef002104bc",
+    "ciciot_v2_surrogate_cap_0p10.yaml": "7c652dbe8dc04b538da874137fbbfd523241e819fa1ea035ad95efc7cc2d9d02",
+    "ciciot_v3_uniform_random_selection.yaml": "d409ba1efb16d5fb909f150d9c8f67c9efdd1ea41ec07ede22ebad94f56db5c1",
+    "ciciot_v4_coverage_aware_selection.yaml": "2f50a11c4bd47fe4489613d8aeb1d1740783c9cfa0af1c90d8141372aae21d18",
+    "ciciot_v5_packet_coupled_delivery.yaml": "c0b3fbed3cd11af042e581000059c391e91442c4b82163affd768bac8401b1e1",
+    "ciciot_v6_uniform_weighting.yaml": "34f3f57a2d0f713c5cee008695967778aeaeb7ecf70c3c754053f83b15745b4e",
+    "ciciot_v7_gaussian_diagnostic_eps10.yaml": "28d839ec42ff3f000e6b921eb1c85d404513c92ea8b4cea73e3d14d13547eeed",
+    "ciciot_v8_momentum0_lr0p5.yaml": "3e58d5838279b9ab8eb82c47105cb5fa750537c3c4252fe4d1fba0898353704a",
+    "ciciot_v9_momentum0_lr5p0_gain_matched.yaml": "ac4372a34302cbf0e55f7ba44e2223f0694d16171617457289a5d37f16d5d532",
+    "unsw_v0_reference_matched.yaml": "1c5a6c67c4705c60ac86aeb4a9a5f66d269d379c44a8d8c7fe811f46c7255fe5",
+    "unsw_v1_no_imputation.yaml": "d45c51a981c803b3e89c83fdc81d2f1c07d4f924101d037d0d034f95020da99d",
+    "unsw_v2_surrogate_cap_0p10.yaml": "180e3225cfe63c02903203b57957dcc7bcda9bcfaf4ae23379fc42e12b4e4544",
+    "unsw_v3_uniform_random_selection.yaml": "da2ffa0fb2f1b02b9e2b5af713a369a5035c7a65a71176bbf37cf8bfdd86746a",
+    "unsw_v4_coverage_aware_selection.yaml": "1697aa02505f136b1abca87610be1a324787eaf4bdf331a54c5e011d59abe2c2",
+    "unsw_v5_packet_coupled_delivery.yaml": "6bc24e73a07d664bdc031d97da3117c23863d9a51b673e5c3f9afecf04e462bb",
+    "unsw_v6_uniform_weighting.yaml": "d5d1c2edf68ecf812b9e6ea33495479a4ca3b5a46ec6ac25970c1b57e459649d",
+    "unsw_v7_gaussian_diagnostic_eps10.yaml": "495dad7eead399a1e9af67e9a91a19f2a2666e8c77ff1e13c9c12ee61fb3c7d5",
+    "unsw_v8_momentum0_lr0p5.yaml": "c6ac571768dbeb5fa1bee03fae210b04576bc0564f5bc0a613c355b2136a82ce",
+    "unsw_v9_momentum0_lr5p0_gain_matched.yaml": "10ffd6c78c289661573863d3f44b31d1e37907307aab2ab65cbf134b3ff37b61"
+  },
+  "design": {
+    "common": "validation-only; matched exogenous traces (per round/client draws); threshold from a predictor-group-disjoint calibration half of the validation pool, metrics on the other half; 30 rounds; early stopping off; CPU; final test locked",
+    "reference": "v0_reference_matched = the historical algorithm under matched traces and the independent-calibration protocol",
+    "paired_comparisons_vs_v0": [
+      "v1 no imputation",
+      "v2 collective surrogate cap 0.10 (a priori value, not tuned)",
+      "v3 uniform random selection",
+      "v4 coverage-aware selection (penalty 0.5, a priori)",
+      "v5 packet-coupled delivery (2 retransmissions, a priori)",
+      "v6 uniform weighting",
+      "v7 Gaussian diagnostic (original DP settings, eps is diagnostic only)",
+      "v8/v9 isolated momentum controls (v9 keeps the steady-state gain lr/(1-m)=5)"
+    ]
+  },
+  "primary_metrics": [
+    "evaluation-partition ROC-AUC (best checkpoint)",
+    "F1 and FPR at the calibration-selected 15% threshold",
+    "FPR/recall at 1% and 5% calibration targets"
+  ],
+  "secondary_metrics": [
+    "PR-AUC",
+    "worst-client recall",
+    "never-selected-client recall",
+    "selection Gini",
+    "clients ever selected",
+    "longest exclusion gap",
+    "surrogate weight share",
+    "honest-update rejection",
+    "malicious retention",
+    "min AUC after round 3",
+    "delivery ratio vs PDR",
+    "bytes attempted/on-wire/delivered",
+    "wall time, peak memory"
+  ],
+  "rules": [
+    "No hyperparameter, seed or variant definition changes after any outcome is seen.",
+    "All variants are reported, including unstable or unfavorable ones.",
+    "One seed is a functional/diagnostic check; no statistical claim is made.",
+    "Test files are never opened (validation_only)."
+  ]
+}

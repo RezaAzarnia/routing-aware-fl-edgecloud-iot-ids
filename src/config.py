@@ -48,6 +48,12 @@ class DataConfig:
     # partition. Validation/test are never filtered. The exclusion manifest is
     # saved with each run.
     exclude_conflicting_train_groups: bool = False
+    # Leakage-safe threshold protocol: when > 0 the validation partition is split
+    # (predictor-group disjoint, label stratified) into a threshold-CALIBRATION part
+    # and an independent EVALUATION part. Thresholds are selected on the calibration
+    # part only; all reported validation metrics and model selection use the
+    # evaluation part. 0 reproduces the historical same-observation behaviour.
+    threshold_calibration_fraction: float = 0.0
 
 
 @dataclass
@@ -73,6 +79,9 @@ class FLConfig:
     partition: str = "dirichlet"  # iid | dirichlet
     dirichlet_alpha: float = 0.5
     min_client_samples: int = 100
+    # sample_proportional (historical) | uniform (every retained real update has weight 1;
+    # a surrogate update has weight recovery_weight_factor)
+    weighting: str = "sample_proportional"
 
 
 @dataclass
@@ -140,6 +149,9 @@ class FailureConfig:
     # Recovery is assessed on a short moving average rather than a single noisy
     # validation point.
     recovery_smoothing_window: int = 3
+    # Experimental variant C: cap on the COLLECTIVE share of retained surrogate
+    # (imputed) updates in the aggregation weights. None = historical behaviour.
+    surrogate_total_weight_cap: float | None = None
 
 
 @dataclass
@@ -152,6 +164,19 @@ class RoutingConfig:
     dynamic_sigma: float = 0.025
     link_outage_probability: float = 0.01
     packets_per_update: int = 100
+    # top_k (historical deterministic routing) | uniform_random | coverage_aware
+    selection_policy: str = "top_k"
+    # coverage_aware utility = route_score - coverage_penalty * (times selected) / (round-1)
+    coverage_penalty: float = 0.5
+    # independent_draws (historical: packet reception and update delivery are separate
+    # random events) | packet_coupled (update delivered iff every packet is received within
+    # 1 + max_retransmissions transmissions)
+    delivery_model: str = "independent_draws"
+    max_retransmissions: int = 2
+    retransmission_rtt_factor: float = 2.0
+    # sequential (historical shared generators) | matched (every random draw is derived from
+    # (seed, round, client), so exogenous traces do not depend on who else was selected)
+    trace_mode: str = "sequential"
 
 
 @dataclass
@@ -171,6 +196,11 @@ class ExperimentConfig:
     # used for threshold selection, or exported. Final metrics are computed on
     # the validation partition only.
     validation_only: bool = False
+    # Identifier of the exact algorithm variant (written into run metadata).
+    variant_name: str = "reference_6a"
+    # Per-round forensic diagnostics (aggregate/applied/velocity norms and cosines, saved
+    # global states). Logging only; no effect on training.
+    save_round_diagnostics: bool = False
 
 
 @dataclass
@@ -267,6 +297,22 @@ class Config:
             raise ValueError("Unsupported threshold.model_selection_metric")
         if self.data.validation_split not in {"random_stratified", "group_disjoint"}:
             raise ValueError("data.validation_split must be random_stratified or group_disjoint")
+        if not 0.0 <= self.data.threshold_calibration_fraction <= 0.9:
+            raise ValueError("data.threshold_calibration_fraction must be in [0, 0.9]")
+        if self.fl.weighting not in {"sample_proportional", "uniform"}:
+            raise ValueError("fl.weighting must be sample_proportional or uniform")
+        if self.failure.surrogate_total_weight_cap is not None and not 0.0 < self.failure.surrogate_total_weight_cap < 1.0:
+            raise ValueError("failure.surrogate_total_weight_cap must be in (0, 1) or null")
+        if self.routing.selection_policy not in {"top_k", "uniform_random", "coverage_aware"}:
+            raise ValueError("routing.selection_policy must be top_k, uniform_random or coverage_aware")
+        if self.routing.delivery_model not in {"independent_draws", "packet_coupled"}:
+            raise ValueError("routing.delivery_model must be independent_draws or packet_coupled")
+        if self.routing.trace_mode not in {"sequential", "matched"}:
+            raise ValueError("routing.trace_mode must be sequential or matched")
+        if self.routing.max_retransmissions < 0 or self.routing.coverage_penalty < 0:
+            raise ValueError("routing.max_retransmissions and coverage_penalty must be non-negative")
+        if self.routing.selection_policy != "top_k" and not self.routing.enabled:
+            raise ValueError("a non-default selection_policy requires routing.enabled=true")
         if self.aggregation.method not in {
             "fedavg",
             "median",

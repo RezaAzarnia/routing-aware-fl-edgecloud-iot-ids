@@ -34,7 +34,8 @@ from .privacy import (
 )
 from .recovery import recover_failed_update
 from .server import Server
-from .state import State, state_l2_norm, state_num_bytes, subtract_states
+from .metric_accounting import reconcile_network_events
+from .state import State, state_l2_norm, state_num_bytes, state_to_vector, subtract_states
 from .utils import resolve_device, save_json, set_global_seed
 
 
@@ -93,6 +94,9 @@ NETWORK_COLUMNS = [
     "serialization_ms",
     "jitter_ms",
     "bandwidth_mbps",
+    "bytes_on_wire",
+    "retransmission_rounds",
+    "packets_unrecovered",
 ]
 
 
@@ -233,8 +237,41 @@ def _safe_aggregate(
 
 def _selection_mechanism(cfg: Config) -> str:
     if cfg.routing.enabled:
+        if cfg.routing.selection_policy == "uniform_random":
+            return "uniform_without_replacement_fixed_size_with_intelligent_edge_routing"
+        if cfg.routing.selection_policy == "coverage_aware":
+            return "deterministic_coverage_aware_top_k"
         return "deterministic_top_k_by_route_score"
     return "uniform_without_replacement_fixed_size"
+
+
+def _evaluate_protocol(cfg: Config, bundle: DatasetBundle, server: Server):
+    """Validation-side evaluation. With a calibration partition the decision threshold is
+    selected on the CALIBRATION observations only and applied to the independent
+    EVALUATION observations; otherwise (historical) both use the same observations."""
+    p_val = server.predict_probabilities(bundle.X_val)
+    if bundle.X_thr is None or bundle.y_thr is None or len(bundle.y_thr) == 0:
+        default, selected = _validation_metrics(cfg, bundle.y_val, p_val)
+        selected = dict(selected)
+        selected["threshold_source"] = "same_validation_observations"
+        return default, selected, p_val
+    p_thr = server.predict_probabilities(bundle.X_thr)
+    _, calibration = _validation_metrics(cfg, bundle.y_thr, p_thr)
+    threshold = float(calibration["threshold"])
+    default = binary_classification_metrics(bundle.y_val, p_val, 0.5)
+    selected = dict(binary_classification_metrics(bundle.y_val, p_val, threshold))
+    selected.update({
+        "objective": calibration.get("objective"),
+        "constraint_feasible": bool(calibration["constraint_feasible"]),
+        "max_fpr_constraint": calibration.get("max_fpr_constraint", cfg.threshold.max_fpr),
+        "min_recall_constraint": calibration.get("min_recall_constraint", cfg.threshold.min_recall),
+        "threshold_source": "separate_calibration_partition",
+        "calibration_fpr": float(calibration["fpr"]),
+        "calibration_recall_adr": float(calibration["recall_adr"]),
+        "calibration_f1": float(calibration["f1"]),
+        "calibration_rows": int(len(bundle.y_thr)),
+    })
+    return default, selected, p_val
 
 
 def _privacy_plan(cfg: Config) -> Dict[str, float | str | bool | None]:
@@ -351,6 +388,22 @@ def _write_run_metadata(
                 "weight_factor": cfg.failure.recovery_weight_factor,
             },
             "routing_enabled": cfg.routing.enabled,
+            "variant_name": cfg.experiment.variant_name,
+            "algorithm_spec": {
+                "selection_policy": cfg.routing.selection_policy,
+                "coverage_penalty": cfg.routing.coverage_penalty,
+                "delivery_model": cfg.routing.delivery_model,
+                "max_retransmissions": cfg.routing.max_retransmissions,
+                "trace_mode": cfg.routing.trace_mode,
+                "weighting": cfg.fl.weighting,
+                "imputation": ("none" if not cfg.failure.recovery_enabled else "coordinate_median_surrogate"),
+                "recovery_weight_factor": cfg.failure.recovery_weight_factor,
+                "surrogate_total_weight_cap": cfg.failure.surrogate_total_weight_cap,
+                "threshold_calibration_fraction": cfg.data.threshold_calibration_fraction,
+                "privacy_mode": cfg.privacy.mode,
+                "server_momentum": cfg.fl.server_momentum,
+                "server_learning_rate": cfg.fl.server_learning_rate,
+            },
             "validation_only": cfg.experiment.validation_only,
             "test_data_loaded": not cfg.experiment.validation_only,
             "seed": cfg.experiment.seed,
@@ -380,8 +433,7 @@ def _finalize_validation_only(
 ) -> Path:
     """Final reporting for validation-only runs: no test data exists in `bundle`."""
     server.load_global_state(best_state, reset_optimizer_state=True)
-    probabilities = server.predict_probabilities(bundle.X_val)
-    default_metrics, selected = _validation_metrics(cfg, bundle.y_val, probabilities)
+    default_metrics, selected, probabilities = _evaluate_protocol(cfg, bundle, server)
 
     def plain(mapping):
         out = {}
@@ -396,13 +448,43 @@ def _finalize_validation_only(
                 out[key] = value
         return out
 
+    # Prespecified FPR targets (not chosen from any result). Thresholds come from the
+    # calibration partition when it exists; the "same observations" numbers are shown
+    # only to quantify the optimism of the historical protocol.
+    has_calibration = bundle.X_thr is not None and bundle.y_thr is not None and len(bundle.y_thr) > 0
+    p_calibration = server.predict_probabilities(bundle.X_thr) if has_calibration else None
+    threshold_diagnostics = {}
+    for target in (0.01, 0.05, 0.15):
+        entry = {"target_fpr": target}
+        same = select_decision_threshold(
+            bundle.y_val, probabilities, objective="fpr_cap", max_fpr=target, min_recall=0.0,
+            grid_size=cfg.threshold.grid_size,
+        )
+        entry["same_observation_optimistic"] = plain({
+            k: same[k] for k in ("threshold", "fpr", "recall_adr", "precision", "f1", "constraint_feasible")})
+        if has_calibration:
+            cal = select_decision_threshold(
+                bundle.y_thr, p_calibration, objective="fpr_cap", max_fpr=target, min_recall=0.0,
+                grid_size=cfg.threshold.grid_size,
+            )
+            held = binary_classification_metrics(bundle.y_val, probabilities, threshold=float(cal["threshold"]))
+            entry["calibration_partition"] = plain({
+                k: cal[k] for k in ("threshold", "fpr", "recall_adr", "precision", "f1", "constraint_feasible")})
+            entry["independent_evaluation"] = plain({
+                k: held[k] for k in ("threshold", "fpr", "recall_adr", "precision", "f1", "tn", "fp", "fn", "tp")})
+            entry["fpr_shift_evaluation_minus_calibration"] = float(held["fpr"] - cal["fpr"])
+        threshold_diagnostics[f"{int(round(target * 100))}pct"] = entry
+    save_json(threshold_diagnostics, run_dir / "threshold_diagnostics.json")
+
     final = {
         "protocol": "validation_only",
         "test_data_loaded": False,
+        "threshold_source": selected.get("threshold_source"),
         "best_round": int(best_round),
         "validation_rows": int(len(bundle.y_val)),
         "selected_operating_point": plain(selected),
         "default_threshold_0_5": plain(default_metrics),
+        "threshold_diagnostics": threshold_diagnostics,
     }
     save_json(final, run_dir / "final_validation_metrics.json")
     pd.DataFrame(
@@ -506,10 +588,7 @@ def run_experiment(cfg: Config) -> Path:
         cfg.experiment.seed + 3000,
     )
 
-    initial_probabilities = server.predict_probabilities(bundle.X_val)
-    initial_default, initial_selected = _validation_metrics(
-        cfg, bundle.y_val, initial_probabilities
-    )
+    initial_default, initial_selected, initial_probabilities = _evaluate_protocol(cfg, bundle, server)
     round_rows = [
         {
             "round": 0,
@@ -567,6 +646,11 @@ def run_experiment(cfg: Config) -> Path:
     stale_rounds = 0
     privacy_steps = 0
     early_stopped = False
+    selection_counts = np.zeros(cfg.fl.num_clients)
+    diag_rows: List[Dict] = []
+    diag_prev: Dict[str, torch.Tensor] = {}
+    if cfg.experiment.save_round_diagnostics:
+        (run_dir / "round_states").mkdir(exist_ok=True)
 
     update_bytes = state_num_bytes(server.get_global_state())
 
@@ -574,13 +658,26 @@ def run_experiment(cfg: Config) -> Path:
         round_start = time.perf_counter()
         network.update_round(cfg.routing.enabled)
         if cfg.routing.enabled:
-            selected_clients = network.select_clients(cfg.fl.clients_per_round)
+            policy = cfg.routing.selection_policy
+            if policy == "uniform_random":
+                selection_rng = np.random.default_rng([cfg.experiment.seed, 5000, round_number])
+                selected_clients = selection_rng.choice(
+                    cfg.fl.num_clients, size=cfg.fl.clients_per_round, replace=False
+                ).tolist()
+            elif policy == "coverage_aware":
+                selected_clients = network.select_clients_coverage_aware(
+                    cfg.fl.clients_per_round, selection_counts, round_number, cfg.routing.coverage_penalty
+                )
+            else:
+                selected_clients = network.select_clients(cfg.fl.clients_per_round)
         else:
             selected_clients = rng.choice(
                 cfg.fl.num_clients,
                 size=cfg.fl.clients_per_round,
                 replace=False,
             ).tolist()
+        for chosen in selected_clients:
+            selection_counts[chosen] += 1
 
         global_snapshot = server.get_global_state()
         updates: List[State] = []
@@ -597,7 +694,14 @@ def run_experiment(cfg: Config) -> Path:
             transfer = network.simulate_transfer(client_id, update_bytes)
             # Same RNG consumption as before: the draw happens only when failures
             # are enabled. The draw value is logged for diagnosis.
-            failure_draw = float(rng.random()) if cfg.failure.enabled else float("nan")
+            if not cfg.failure.enabled:
+                failure_draw = float("nan")
+            elif cfg.routing.trace_mode == "matched":
+                failure_draw = float(
+                    np.random.default_rng([cfg.experiment.seed, 2000, round_number, int(client_id)]).random()
+                )
+            else:
+                failure_draw = float(rng.random())
             explicit_failure = bool(
                 cfg.failure.enabled
                 and failure_draw < cfg.failure.client_failure_probability
@@ -661,7 +765,9 @@ def run_experiment(cfg: Config) -> Path:
                 malicious_received += 1
 
             updates.append(update)
-            weights.append(float(local_result.num_samples))
+            weights.append(
+                float(local_result.num_samples) if cfg.fl.weighting == "sample_proportional" else 1.0
+            )
             update_client_ids.append(client_id)
             update_recovered_flags.append(False)
             local_losses.append(local_result.mean_loss)
@@ -688,9 +794,10 @@ def run_experiment(cfg: Config) -> Path:
                     average_delay,
                 )
                 updates.append(recovery.update)
-                recovered_weight = (
-                    len(clients[failed_client].y) * cfg.failure.recovery_weight_factor
+                base_weight = (
+                    len(clients[failed_client].y) if cfg.fl.weighting == "sample_proportional" else 1.0
                 )
+                recovered_weight = base_weight * cfg.failure.recovery_weight_factor
                 weights.append(float(recovered_weight))
                 update_client_ids.append(failed_client)
                 update_recovered_flags.append(True)
@@ -732,6 +839,12 @@ def run_experiment(cfg: Config) -> Path:
         rejected_count = 0
         actual_aggregation_method = "none"
         applied_shares: List[float] = []
+        weight_diag = {
+            "weight_cap_requested": float("nan"), "weight_cap_min_feasible": float("nan"),
+            "weight_cap_effective": float("nan"), "retained_for_weighting": 0,
+            "max_applied_weight_share": float("nan"), "weight_cap_binding": False,
+            "weight_cap_infeasible_strict": False, "surrogate_cap_applied": False,
+        }
         privacy_noise_std = 0.0
         privacy_max_weight_share = 0.0
         privacy_clipped_fraction = 0.0
@@ -751,6 +864,21 @@ def run_experiment(cfg: Config) -> Path:
             kept_count = len(kept_indices)
             rejected_count = len(detection_result.rejected_indices)
 
+            # Variant C: collective cap on the surrogate share among RETAINED updates.
+            effective_weights = list(weights)
+            surrogate_cap_applied = False
+            surrogate_cap = cfg.failure.surrogate_total_weight_cap
+            if surrogate_cap is not None:
+                kept_real = [i for i in kept_indices if not update_recovered_flags[i]]
+                kept_sur = [i for i in kept_indices if update_recovered_flags[i]]
+                total_real = sum(weights[i] for i in kept_real)
+                total_sur = sum(weights[i] for i in kept_sur)
+                if kept_sur and total_real > 0 and total_sur / (total_real + total_sur) > surrogate_cap:
+                    scale = surrogate_cap * total_real / ((1.0 - surrogate_cap) * total_sur)
+                    for i in kept_sur:
+                        effective_weights[i] = weights[i] * scale
+                    surrogate_cap_applied = True
+
             if cfg.privacy.mode == "central_client":
                 kept_norms = [
                     float(state_l2_norm(updates[index]).item()) for index in kept_indices
@@ -762,7 +890,7 @@ def run_experiment(cfg: Config) -> Path:
                     clip_update(updates[index], cfg.privacy.clip_norm)
                     for index in kept_indices
                 ]
-                private_raw_weights = [weights[index] for index in kept_indices]
+                private_raw_weights = [effective_weights[index] for index in kept_indices]
                 private_weights, privacy_max_weight_share = capped_normalized_weights(
                     private_raw_weights,
                     cfg.privacy.max_client_weight_share,
@@ -794,6 +922,11 @@ def run_experiment(cfg: Config) -> Path:
                 actual_aggregation_method += "+clipped_capped_fedavg+central_noise"
             else:
                 aggregate = detection_result.update
+                if surrogate_cap_applied and cfg.aggregation.method not in {"median", "trimmed_mean"}:
+                    aggregate = fedavg(
+                        [updates[i] for i in kept_indices],
+                        [effective_weights[i] for i in kept_indices],
+                    )
                 aggregate_signal_l2_norm = float(state_l2_norm(aggregate).item())
 
             # Final weight share each update actually received in the released
@@ -806,10 +939,26 @@ def run_experiment(cfg: Config) -> Path:
             elif cfg.aggregation.method in {"median", "trimmed_mean"}:
                 applied_shares = [float("nan")] * len(updates)
             else:
-                kept_total = float(sum(weights[i] for i in kept_indices)) or 1.0
+                kept_total = float(sum(effective_weights[i] for i in kept_indices)) or 1.0
                 applied_shares = [0.0] * len(updates)
                 for index in kept_indices:
-                    applied_shares[index] = float(weights[index]) / kept_total
+                    applied_shares[index] = float(effective_weights[index]) / kept_total
+
+            retained = len(kept_indices)
+            valid_shares = [s for s in applied_shares if not np.isnan(s)]
+            max_share = max(valid_shares) if valid_shares else float("nan")
+            dp_active = cfg.privacy.mode == "central_client"
+            requested_cap = cfg.privacy.max_client_weight_share if dp_active else float("nan")
+            weight_diag = {
+                "weight_cap_requested": requested_cap,
+                "weight_cap_min_feasible": 1.0 / max(retained, 1),
+                "weight_cap_effective": (min(1.0, max(requested_cap, 1.0 / max(retained, 1))) if dp_active else float("nan")),
+                "retained_for_weighting": retained,
+                "max_applied_weight_share": max_share,
+                "weight_cap_binding": bool(dp_active and max_share >= max(requested_cap, 1.0 / max(retained, 1)) - 1e-9),
+                "weight_cap_infeasible_strict": bool(dp_active and requested_cap < 1.0 / max(retained, 1) - 1e-12),
+                "surrogate_cap_applied": surrogate_cap_applied,
+            }
 
             kept_set = set(kept_indices)
             for update_index, client_id in enumerate(update_client_ids):
@@ -849,13 +998,39 @@ def run_experiment(cfg: Config) -> Path:
             server_applied_update_l2_norm = float(
                 state_l2_norm(applied_update).item()
             )
+            if cfg.experiment.save_round_diagnostics:
+                vec_applied = state_to_vector(applied_update)
+                vec_aggregate = state_to_vector(aggregate)
+                vec_velocity = state_to_vector(server._velocity)
+                vec_params = state_to_vector(server.get_global_state())
+
+                def _cos(a, b):
+                    return float(torch.dot(a, b) / (a.norm() * b.norm() + 1e-12))
+
+                diag_rows.append({
+                    "round": round_number,
+                    "aggregate_norm": float(vec_aggregate.norm()),
+                    "applied_norm": float(vec_applied.norm()),
+                    "velocity_norm": float(vec_velocity.norm()),
+                    "global_param_norm": float(vec_params.norm()),
+                    "cos_applied_vs_prev_applied": _cos(vec_applied, diag_prev["applied"]) if "applied" in diag_prev else float("nan"),
+                    "cos_aggregate_vs_prev_aggregate": _cos(vec_aggregate, diag_prev["aggregate"]) if "aggregate" in diag_prev else float("nan"),
+                    "cos_applied_vs_velocity": _cos(vec_applied, vec_velocity),
+                    "selected_clients": ";".join(str(c) for c in selected_clients),
+                    "kept_clients": ";".join(str(update_client_ids[i]) for i in kept_indices),
+                })
+                diag_prev["applied"], diag_prev["aggregate"] = vec_applied, vec_aggregate
+                torch.save(server.get_global_state(), run_dir / "round_states" / f"round_{round_number:02d}.pt")
             if cfg.privacy.mode != "none":
                 privacy_steps += 1
 
-        val_probabilities = server.predict_probabilities(bundle.X_val)
-        val_default, val_selected = _validation_metrics(
-            cfg, bundle.y_val, val_probabilities
-        )
+        val_default, val_selected, val_probabilities = _evaluate_protocol(cfg, bundle, server)
+        if diag_rows and diag_rows[-1]["round"] == round_number:
+            diag_rows[-1].update({
+                "val_mean_probability": float(np.mean(val_probabilities)),
+                "val_fraction_predicted_attack_at_0_5": float(np.mean(val_probabilities >= 0.5)),
+                "val_roc_auc": float(val_selected.get("roc_auc", float("nan"))),
+            })
 
         current_recovery_raw = float(val_selected[cfg.failure.recovery_metric])
         recovery_metric_history.append(current_recovery_raw)
@@ -924,6 +1099,10 @@ def run_experiment(cfg: Config) -> Path:
                 # Terminology: these are surrogate (imputed) updates built from the
                 # received updates; nothing about the missing client's data is recovered.
                 "imputed_clients": recovered_count,
+                **weight_diag,
+                "communication_bytes_on_wire": int(
+                    sum(int(r.get("bytes_on_wire", r["update_bytes"])) for r in round_network)
+                ),
                 "real_weight_share": float(
                     np.nansum([s for s, f in zip(applied_shares, update_recovered_flags) if not f])
                 ),
@@ -1016,6 +1195,14 @@ def run_experiment(cfg: Config) -> Path:
     network_df.to_csv(run_dir / "network_metrics.csv", index=False)
     recovery_df.to_csv(run_dir / "recovery_events.csv", index=False)
     aggregation_df.to_csv(run_dir / "aggregation_diagnostics.csv", index=False)
+    if len(network_df) and "pdr" in network_df:
+        # Raises AssertionError if the event / round accounting is inconsistent.
+        save_json(
+            reconcile_network_events(network_df, round_df, cfg.failure.enabled),
+            run_dir / "metric_accounting.json",
+        )
+    if diag_rows:
+        pd.DataFrame(diag_rows).to_csv(run_dir / "round_diagnostics.csv", index=False)
 
     if cfg.experiment.validation_only:
         return _finalize_validation_only(
