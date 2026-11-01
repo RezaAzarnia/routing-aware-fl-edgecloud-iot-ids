@@ -1,0 +1,10 @@
+{
+  "config": "configs/phase6b/ciciot_v4_coverage_aware_selection.yaml",
+  "config_sha256": "2f50a11c4bd47fe4489613d8aeb1d1740783c9cfa0af1c90d8141372aae21d18",
+  "git_commit": "f935ee0e3d26349e0fd6c4b021a1592291f0c166",
+  "seed": 2,
+  "variant": "v4_coverage_aware_selection",
+  "wall_seconds": 167.8,
+  "cpu_seconds": 717.0,
+  "peak_working_set_mb": 2557.8
+}

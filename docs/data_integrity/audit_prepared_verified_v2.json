@@ -1,0 +1,207 @@
+{
+  "prepared_dir": "data\\CICIoT2023\\prepared_verified_v2",
+  "n_features": 39,
+  "within": {
+    "train": {
+      "rows": 928321,
+      "unique_feature_vectors": 922535,
+      "feature_only_duplicate_rows": 5786,
+      "same_label_repeat_groups": 4163,
+      "conflicting_label_groups": 129,
+      "rows_in_conflicting_label_groups": 612,
+      "exact_full_row_duplicate_rows": 4364
+    },
+    "validation": {
+      "rows": 143240,
+      "unique_feature_vectors": 137200,
+      "feature_only_duplicate_rows": 6040,
+      "same_label_repeat_groups": 4921,
+      "conflicting_label_groups": 1,
+      "rows_in_conflicting_label_groups": 2,
+      "exact_full_row_duplicate_rows": 4741
+    },
+    "test": {
+      "rows": 300000,
+      "unique_feature_vectors": 244325,
+      "feature_only_duplicate_rows": 55675,
+      "same_label_repeat_groups": 29789,
+      "conflicting_label_groups": 8,
+      "rows_in_conflicting_label_groups": 29,
+      "exact_full_row_duplicate_rows": 45424
+    }
+  },
+  "cross": {
+    "test_rows_found_in_train": {
+      "evaluated_rows": 300000,
+      "rows_with_feature_vector_in_reference": 0,
+      "distinct_shared_vectors": 0,
+      "same_binary_label": 0,
+      "conflicting_binary_label": 0
+    },
+    "test_rows_found_in_validation": {
+      "evaluated_rows": 300000,
+      "rows_with_feature_vector_in_reference": 0,
+      "distinct_shared_vectors": 0,
+      "same_binary_label": 0,
+      "conflicting_binary_label": 0
+    },
+    "validation_rows_found_in_train": {
+      "evaluated_rows": 143240,
+      "rows_with_feature_vector_in_reference": 0,
+      "distinct_shared_vectors": 0,
+      "same_binary_label": 0,
+      "conflicting_binary_label": 0
+    },
+    "test_vs_train_category_relation": {
+      "shared_rows": 0,
+      "same_attack_category": 0,
+      "different_attack_category": 0,
+      "top_different_category_pairs": []
+    }
+  },
+  "prevalence": {
+    "train": {
+      "rows": 928321,
+      "benign": 499216,
+      "attack": 429105,
+      "benign_fraction": 0.5378,
+      "nan_cells": 139
+    },
+    "validation": {
+      "rows": 143240,
+      "benign": 4686,
+      "attack": 138554,
+      "benign_fraction": 0.0327,
+      "nan_cells": 13
+    },
+    "test": {
+      "rows": 300000,
+      "benign": 7043,
+      "attack": 292957,
+      "benign_fraction": 0.0235,
+      "nan_cells": 5
+    }
+  },
+  "class_counts": {
+    "train": {
+      "Benign_Final": 499216,
+      "DDoS-SlowLoris": 18411,
+      "DDoS-HTTP_Flood": 18411,
+      "DDoS-ACK_Fragmentation": 18410,
+      "DDoS-ICMP_Fragmentation": 18410,
+      "DoS-HTTP_Flood": 18410,
+      "DDoS-UDP_Fragmentation": 18407,
+      "VulnerabilityScan": 18395,
+      "Mirai-greip_flood": 18385,
+      "Mirai-greeth_flood": 18377,
+      "Mirai-udpplain": 18323,
+      "Recon-OSScan": 18323,
+      "Recon-PortScan": 18320,
+      "Recon-HostDiscovery": 18310,
+      "DNS_Spoofing": 18201,
+      "MITM-ArpSpoofing": 17381,
+      "DoS-UDP_Flood": 13594,
+      "DDoS-PSHACK_FLOOD": 12935,
+      "DictionaryBruteForce": 12912,
+      "DoS-SYN_Flood": 12738,
+      "DDoS-RSTFINFLOOD": 11547,
+      "DDoS-SYN_Flood": 11418,
+      "DoS-TCP_Flood": 11261,
+      "DDoS-UDP_Flood": 11045,
+      "DDoS-TCP_Flood": 10382,
+      "DDoS-SynonymousIP_Flood": 10311,
+      "DDoS-ICMP_Flood": 9789,
+      "BrowserHijacking": 5705,
+      "CommandInjection": 5351,
+      "SqlInjection": 5188,
+      "XSS": 3802,
+      "Backdoor_Malware": 3177,
+      "Recon-PingSweep": 2237,
+      "Uploading_Attack": 1239
+    },
+    "validation": {
+      "DDoS-ICMP_Flood": 18371,
+      "DDoS-UDP_Flood": 15389,
+      "DDoS-PSHACK_FLOOD": 13382,
+      "DDoS-RSTFINFLOOD": 12140,
+      "DDoS-TCP_Flood": 11972,
+      "DDoS-SYN_Flood": 11827,
+      "DoS-UDP_Flood": 10342,
+      "DDoS-SynonymousIP_Flood": 9702,
+      "DoS-TCP_Flood": 7720,
+      "DoS-SYN_Flood": 6437,
+      "Benign_Final": 4686,
+      "Mirai-greeth_flood": 4236,
+      "Mirai-udpplain": 3797,
+      "Mirai-greip_flood": 3213,
+      "DDoS-ICMP_Fragmentation": 1935,
+      "VulnerabilityScan": 1592,
+      "MITM-ArpSpoofing": 1249,
+      "DDoS-UDP_Fragmentation": 1227,
+      "DDoS-ACK_Fragmentation": 1219,
+      "DNS_Spoofing": 764,
+      "Recon-HostDiscovery": 572,
+      "Recon-OSScan": 418,
+      "Recon-PortScan": 349,
+      "DoS-HTTP_Flood": 307,
+      "DDoS-HTTP_Flood": 123,
+      "DDoS-SlowLoris": 100,
+      "DictionaryBruteForce": 56,
+      "BrowserHijacking": 25,
+      "CommandInjection": 23,
+      "SqlInjection": 22,
+      "XSS": 16,
+      "Backdoor_Malware": 14,
+      "Recon-PingSweep": 10,
+      "Uploading_Attack": 5
+    },
+    "test": {
+      "DDoS-ICMP_Flood": 46180,
+      "DDoS-UDP_Flood": 34711,
+      "DDoS-TCP_Flood": 28845,
+      "DDoS-PSHACK_FLOOD": 26262,
+      "DDoS-SYN_Flood": 26033,
+      "DDoS-RSTFINFLOOD": 25944,
+      "DDoS-SynonymousIP_Flood": 23076,
+      "DoS-UDP_Flood": 19708,
+      "DoS-TCP_Flood": 17133,
+      "DoS-SYN_Flood": 13012,
+      "Benign_Final": 7043,
+      "Mirai-greeth_flood": 6361,
+      "Mirai-udpplain": 5712,
+      "Mirai-greip_flood": 4821,
+      "DDoS-ICMP_Fragmentation": 2902,
+      "VulnerabilityScan": 2394,
+      "MITM-ArpSpoofing": 1973,
+      "DDoS-UDP_Fragmentation": 1840,
+      "DDoS-ACK_Fragmentation": 1828,
+      "DNS_Spoofing": 1147,
+      "Recon-HostDiscovery": 862,
+      "Recon-OSScan": 630,
+      "Recon-PortScan": 528,
+      "DoS-HTTP_Flood": 461,
+      "DDoS-HTTP_Flood": 185,
+      "DDoS-SlowLoris": 150,
+      "DictionaryBruteForce": 84,
+      "BrowserHijacking": 38,
+      "CommandInjection": 35,
+      "SqlInjection": 34,
+      "XSS": 25,
+      "Backdoor_Malware": 21,
+      "Recon-PingSweep": 14,
+      "Uploading_Attack": 8
+    }
+  },
+  "conflicting_label_groups_within_train": 129,
+  "provenance_same_source_file_test_vs_train": {
+    "shared_row_pairs": 0,
+    "same_source_file": 0,
+    "different_source_file": 0
+  },
+  "source_files_present_in_multiple_splits": {
+    "train_and_test": 309,
+    "train_and_validation": 309,
+    "all_three": 309,
+    "files_total": 309
+  }
+}

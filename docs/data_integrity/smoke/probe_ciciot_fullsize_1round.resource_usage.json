@@ -1,0 +1,8 @@
+{
+  "config": "configs/probe_ciciot_fullsize_1round.yaml",
+  "seed": 1,
+  "wall_seconds": 22.54,
+  "cpu_seconds": 34.78,
+  "peak_working_set_mb": 2602.1,
+  "device": "cpu"
+}

@@ -1,0 +1,10 @@
+{
+  "config": "configs/phase6b/unsw_v0_reference_matched.yaml",
+  "config_sha256": "1c5a6c67c4705c60ac86aeb4a9a5f66d269d379c44a8d8c7fe811f46c7255fe5",
+  "git_commit": "f935ee0e3d26349e0fd6c4b021a1592291f0c166",
+  "seed": 2,
+  "variant": "v0_reference_matched",
+  "wall_seconds": 78.1,
+  "cpu_seconds": 186.2,
+  "peak_working_set_mb": 1029.9
+}

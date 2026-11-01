@@ -1,0 +1,10 @@
+{
+  "config": "configs/phase6b/ciciot_v6_uniform_weighting.yaml",
+  "config_sha256": "34f3f57a2d0f713c5cee008695967778aeaeb7ecf70c3c754053f83b15745b4e",
+  "git_commit": "f935ee0e3d26349e0fd6c4b021a1592291f0c166",
+  "seed": 2,
+  "variant": "v6_uniform_weighting",
+  "wall_seconds": 212.7,
+  "cpu_seconds": 913.1,
+  "peak_working_set_mb": 2558.1
+}

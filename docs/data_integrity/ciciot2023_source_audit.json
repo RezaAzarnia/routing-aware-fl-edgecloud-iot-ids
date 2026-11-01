@@ -1,0 +1,372 @@
+{
+  "files_total_on_disk": 310,
+  "files_unique": 309,
+  "files_skipped_as_byte_identical": [
+    "Backdoor_Malware.pcap.csv"
+  ],
+  "feature_columns": [
+    "Header_Length",
+    "Protocol Type",
+    "Time_To_Live",
+    "Rate",
+    "fin_flag_number",
+    "syn_flag_number",
+    "rst_flag_number",
+    "psh_flag_number",
+    "ack_flag_number",
+    "ece_flag_number",
+    "cwr_flag_number",
+    "ack_count",
+    "syn_count",
+    "fin_count",
+    "rst_count",
+    "HTTP",
+    "HTTPS",
+    "DNS",
+    "Telnet",
+    "SMTP",
+    "SSH",
+    "IRC",
+    "TCP",
+    "UDP",
+    "DHCP",
+    "ARP",
+    "ICMP",
+    "IGMP",
+    "IPv",
+    "LLC",
+    "Tot sum",
+    "Min",
+    "Max",
+    "AVG",
+    "Std",
+    "Tot size",
+    "IAT",
+    "Number",
+    "Variance"
+  ],
+  "n_features": 39,
+  "rows_total_unique_files": 46776700,
+  "unique_feature_vectors": 21055674,
+  "duplicate_rows_total": 25721026,
+  "duplicate_fraction": 0.5499,
+  "vectors_shared_by_multiple_classes": 543079,
+  "rows_in_multi_class_vectors": 14321335,
+  "vectors_with_both_benign_and_attack": 906,
+  "rows_in_benign_attack_conflict_vectors": 26671,
+  "multi_class_vectors_spanning_multiple_files": 543079,
+  "top_class_pairs_for_multi_class_vectors": [
+    {
+      "classes": [
+        "DDoS-TCP_Flood",
+        "DoS-TCP_Flood"
+      ],
+      "vectors": 174402
+    },
+    {
+      "classes": [
+        "DDoS-SYN_Flood",
+        "DoS-SYN_Flood"
+      ],
+      "vectors": 151307
+    },
+    {
+      "classes": [
+        "DDoS-UDP_Flood",
+        "DoS-UDP_Flood"
+      ],
+      "vectors": 117223
+    },
+    {
+      "classes": [
+        "DDoS-SYN_Flood",
+        "DDoS-SynonymousIP_Flood"
+      ],
+      "vectors": 80081
+    },
+    {
+      "classes": [
+        "DDoS-SynonymousIP_Flood",
+        "DoS-SYN_Flood"
+      ],
+      "vectors": 17247
+    },
+    {
+      "classes": [
+        "Recon-OSScan",
+        "Recon-PortScan"
+      ],
+      "vectors": 1130
+    },
+    {
+      "classes": [
+        "Benign_Final",
+        "MITM-ArpSpoofing"
+      ],
+      "vectors": 327
+    },
+    {
+      "classes": [
+        "Benign_Final",
+        "VulnerabilityScan"
+      ],
+      "vectors": 233
+    },
+    {
+      "classes": [
+        "DNS_Spoofing",
+        "MITM-ArpSpoofing"
+      ],
+      "vectors": 165
+    },
+    {
+      "classes": [
+        "Benign_Final",
+        "DNS_Spoofing"
+      ],
+      "vectors": 150
+    },
+    {
+      "classes": [
+        "MITM-ArpSpoofing",
+        "VulnerabilityScan"
+      ],
+      "vectors": 129
+    },
+    {
+      "classes": [
+        "Benign_Final",
+        "Recon-HostDiscovery"
+      ],
+      "vectors": 103
+    },
+    {
+      "classes": [
+        "DDoS-PSHACK_FLOOD",
+        "DoS-SYN_Flood"
+      ],
+      "vectors": 80
+    },
+    {
+      "classes": [
+        "MITM-ArpSpoofing",
+        "Recon-HostDiscovery"
+      ],
+      "vectors": 46
+    },
+    {
+      "classes": [
+        "Recon-HostDiscovery",
+        "VulnerabilityScan"
+      ],
+      "vectors": 45
+    }
+  ],
+  "per_class": {
+    "Backdoor_Malware": {
+      "rows": 3218,
+      "unique_vectors": 3215,
+      "duplicate_rows": 3,
+      "duplicate_fraction": 0.0009
+    },
+    "Benign_Final": {
+      "rows": 1098191,
+      "unique_vectors": 1093940,
+      "duplicate_rows": 4251,
+      "duplicate_fraction": 0.0039
+    },
+    "BrowserHijacking": {
+      "rows": 5859,
+      "unique_vectors": 5788,
+      "duplicate_rows": 71,
+      "duplicate_fraction": 0.0121
+    },
+    "CommandInjection": {
+      "rows": 5409,
+      "unique_vectors": 5388,
+      "duplicate_rows": 21,
+      "duplicate_fraction": 0.0039
+    },
+    "DDoS-ACK_Fragmentation": {
+      "rows": 285075,
+      "unique_vectors": 283756,
+      "duplicate_rows": 1319,
+      "duplicate_fraction": 0.0046
+    },
+    "DDoS-HTTP_Flood": {
+      "rows": 28790,
+      "unique_vectors": 28790,
+      "duplicate_rows": 0,
+      "duplicate_fraction": 0.0
+    },
+    "DDoS-ICMP_Flood": {
+      "rows": 7200501,
+      "unique_vectors": 1978346,
+      "duplicate_rows": 5222155,
+      "duplicate_fraction": 0.7252
+    },
+    "DDoS-ICMP_Fragmentation": {
+      "rows": 452490,
+      "unique_vectors": 450333,
+      "duplicate_rows": 2157,
+      "duplicate_fraction": 0.0048
+    },
+    "DDoS-PSHACK_FLOOD": {
+      "rows": 4094772,
+      "unique_vectors": 1705092,
+      "duplicate_rows": 2389680,
+      "duplicate_fraction": 0.5836
+    },
+    "DDoS-RSTFINFLOOD": {
+      "rows": 4045279,
+      "unique_vectors": 1302702,
+      "duplicate_rows": 2742577,
+      "duplicate_fraction": 0.678
+    },
+    "DDoS-SYN_Flood": {
+      "rows": 4059179,
+      "unique_vectors": 1835450,
+      "duplicate_rows": 2223729,
+      "duplicate_fraction": 0.5478
+    },
+    "DDoS-SlowLoris": {
+      "rows": 23426,
+      "unique_vectors": 23426,
+      "duplicate_rows": 0,
+      "duplicate_fraction": 0.0
+    },
+    "DDoS-SynonymousIP_Flood": {
+      "rows": 3598133,
+      "unique_vectors": 1214685,
+      "duplicate_rows": 2383448,
+      "duplicate_fraction": 0.6624
+    },
+    "DDoS-TCP_Flood": {
+      "rows": 4497649,
+      "unique_vectors": 1620899,
+      "duplicate_rows": 2876750,
+      "duplicate_fraction": 0.6396
+    },
+    "DDoS-UDP_Flood": {
+      "rows": 5412231,
+      "unique_vectors": 2041914,
+      "duplicate_rows": 3370317,
+      "duplicate_fraction": 0.6227
+    },
+    "DDoS-UDP_Fragmentation": {
+      "rows": 286925,
+      "unique_vectors": 285309,
+      "duplicate_rows": 1616,
+      "duplicate_fraction": 0.0056
+    },
+    "DNS_Spoofing": {
+      "rows": 178898,
+      "unique_vectors": 174211,
+      "duplicate_rows": 4687,
+      "duplicate_fraction": 0.0262
+    },
+    "DictionaryBruteForce": {
+      "rows": 13064,
+      "unique_vectors": 13062,
+      "duplicate_rows": 2,
+      "duplicate_fraction": 0.0002
+    },
+    "DoS-HTTP_Flood": {
+      "rows": 71861,
+      "unique_vectors": 71489,
+      "duplicate_rows": 372,
+      "duplicate_fraction": 0.0052
+    },
+    "DoS-SYN_Flood": {
+      "rows": 2028836,
+      "unique_vectors": 1185278,
+      "duplicate_rows": 843558,
+      "duplicate_fraction": 0.4158
+    },
+    "DoS-TCP_Flood": {
+      "rows": 2671430,
+      "unique_vectors": 1164076,
+      "duplicate_rows": 1507354,
+      "duplicate_fraction": 0.5642
+    },
+    "DoS-UDP_Flood": {
+      "rows": 3072993,
+      "unique_vectors": 1771170,
+      "duplicate_rows": 1301823,
+      "duplicate_fraction": 0.4236
+    },
+    "MITM-ArpSpoofing": {
+      "rows": 307560,
+      "unique_vectors": 280920,
+      "duplicate_rows": 26640,
+      "duplicate_fraction": 0.0866
+    },
+    "Mirai-greeth_flood": {
+      "rows": 991834,
+      "unique_vectors": 936306,
+      "duplicate_rows": 55528,
+      "duplicate_fraction": 0.056
+    },
+    "Mirai-greip_flood": {
+      "rows": 751646,
+      "unique_vectors": 724410,
+      "duplicate_rows": 27236,
+      "duplicate_fraction": 0.0362
+    },
+    "Mirai-udpplain": {
+      "rows": 890574,
+      "unique_vectors": 799346,
+      "duplicate_rows": 91228,
+      "duplicate_fraction": 0.1024
+    },
+    "Recon-HostDiscovery": {
+      "rows": 134378,
+      "unique_vectors": 133532,
+      "duplicate_rows": 846,
+      "duplicate_fraction": 0.0063
+    },
+    "Recon-OSScan": {
+      "rows": 98259,
+      "unique_vectors": 96503,
+      "duplicate_rows": 1756,
+      "duplicate_fraction": 0.0179
+    },
+    "Recon-PingSweep": {
+      "rows": 2262,
+      "unique_vectors": 2262,
+      "duplicate_rows": 0,
+      "duplicate_fraction": 0.0
+    },
+    "Recon-PortScan": {
+      "rows": 82284,
+      "unique_vectors": 80244,
+      "duplicate_rows": 2040,
+      "duplicate_fraction": 0.0248
+    },
+    "SqlInjection": {
+      "rows": 5245,
+      "unique_vectors": 5245,
+      "duplicate_rows": 0,
+      "duplicate_fraction": 0.0
+    },
+    "Uploading_Attack": {
+      "rows": 1252,
+      "unique_vectors": 1252,
+      "duplicate_rows": 0,
+      "duplicate_fraction": 0.0
+    },
+    "VulnerabilityScan": {
+      "rows": 373351,
+      "unique_vectors": 372000,
+      "duplicate_rows": 1351,
+      "duplicate_fraction": 0.0036
+    },
+    "XSS": {
+      "rows": 3846,
+      "unique_vectors": 3846,
+      "duplicate_rows": 0,
+      "duplicate_fraction": 0.0
+    }
+  },
+  "hashing": "canonical float64, -0.0->0.0, NaN kept, no rounding; 64-bit pandas row hash"
+}

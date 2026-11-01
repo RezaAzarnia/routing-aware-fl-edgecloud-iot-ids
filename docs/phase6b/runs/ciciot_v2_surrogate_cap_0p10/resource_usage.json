@@ -1,0 +1,10 @@
+{
+  "config": "configs/phase6b/ciciot_v2_surrogate_cap_0p10.yaml",
+  "config_sha256": "7c652dbe8dc04b538da874137fbbfd523241e819fa1ea035ad95efc7cc2d9d02",
+  "git_commit": "f935ee0e3d26349e0fd6c4b021a1592291f0c166",
+  "seed": 2,
+  "variant": "v2_surrogate_cap_0p10",
+  "wall_seconds": 218.3,
+  "cpu_seconds": 922.7,
+  "peak_working_set_mb": 2557.3
+}

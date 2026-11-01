@@ -1,0 +1,55 @@
+{
+  "run": "results_smoke_no_official_test\\smoke_ciciot_filegroup_nodp\\smoke_proposed\\seed_1",
+  "clients": {
+    "n": 10,
+    "min_samples": 187,
+    "max_samples": 11035
+  },
+  "participation": {
+    "unique_clients_selected": 6,
+    "transfers": 30,
+    "delivered": 24,
+    "failed_transfers": 6
+  },
+  "recovery": {
+    "events": 6,
+    "applied": 6
+  },
+  "aggregation": {
+    "methods": [
+      "fedavg"
+    ],
+    "kept": 30,
+    "rejected": 0,
+    "malicious_rows": 0
+  },
+  "privacy": {
+    "privacy_mode": "none",
+    "effective_noise_multiplier": 0.0,
+    "accountant_sample_rate": 0.0,
+    "planned_epsilon_estimate": 0.0,
+    "subsampling_amplification_valid": null
+  },
+  "epsilon_after_last_round": 0.0,
+  "server_momentum_applied_update_norm_last": 0.6541005969047546,
+  "checkpoint_saved": true,
+  "validation_split": {
+    "protocol": "explicit_prepared_validation_file",
+    "train_rows": 40000,
+    "validation_rows": 20000,
+    "train_attack": 18444,
+    "train_benign": 21556,
+    "validation_attack": 19360,
+    "validation_benign": 640
+  },
+  "resources": {
+    "config": "configs/smoke_ciciot_filegroup_nodp.yaml",
+    "seed": 1,
+    "wall_seconds": 8.17,
+    "cpu_seconds": 10.31,
+    "peak_working_set_mb": 1418.3,
+    "device": "cpu"
+  },
+  "finite_validation_metrics": true,
+  "note": "Final-test files in this directory are NOT used or reported (test slot is a stand-in)."
+}

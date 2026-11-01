@@ -1,0 +1,9 @@
+{
+  "protocol": "explicit_prepared_validation_file",
+  "train_rows": 926133,
+  "validation_rows": 146626,
+  "train_attack": 427036,
+  "train_benign": 499097,
+  "validation_attack": 141934,
+  "validation_benign": 4692
+}

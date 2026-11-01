@@ -1,0 +1,118 @@
+{
+  "rounds_executed": 30,
+  "participation": {
+    "clients_ever_selected": 50,
+    "clients_total": 50,
+    "clients_ever_received": 49,
+    "sample_coverage_of_ever_selected": 1.0,
+    "selection_counts_min_max_mean": [
+      2.0,
+      12.0,
+      6.0
+    ],
+    "longest_exclusion_gap_rounds_selection": {
+      "max": 28,
+      "clients_never_selected": 0
+    },
+    "longest_exclusion_gap_rounds_received": 30,
+    "top5_client_selection_share": 0.16333333333333333,
+    "selection_gini": 0.19746666666666668,
+    "clients_ever_selected_fraction": 1.0
+  },
+  "updates": {
+    "selected_total": 300,
+    "received_total": 208,
+    "failed_total": 92,
+    "imputed_total": 92,
+    "kept_total": 256,
+    "rejected_total": 44,
+    "mean_real_weight_share": 0.7094031580670958,
+    "mean_surrogate_weight_share": 0.2905968419329044,
+    "malicious_received_total": 47,
+    "effective_malicious_updates_kept": 6,
+    "effective_malicious_updates_rejected": 41,
+    "benign_real_rows_rejected": 3
+  },
+  "clipping_and_noise": {
+    "mean_clipped_fraction": 0.0,
+    "mean_noise_std": 0.0,
+    "mean_noise_l2_norm": 0.0,
+    "mean_signal_l2_norm": 0.7663177281618119,
+    "mean_noise_to_signal": 0.0,
+    "median_noise_to_signal": 0.0,
+    "mean_max_weight_share": 0.0,
+    "mean_server_applied_update_norm": 0.9711585323015849,
+    "final_epsilon_estimate": 0.0
+  },
+  "network": {
+    "mean_pdr": 0.8376666666666667,
+    "mean_update_delivery_ratio": 0.7933333333333333,
+    "mean_expected_pdr": 0.8349805434477996,
+    "corr_pdr_vs_update_delivered": 0.39721680281394656,
+    "events": 300,
+    "pdr_ge_0.95_but_not_delivered": 5,
+    "pdr_le_0.80_but_delivered": 49,
+    "failure_reasons": {
+      "none": 208,
+      "network_update_not_delivered": 56,
+      "explicit_client_failure": 30,
+      "explicit_and_network": 6
+    },
+    "explicit_failure_rate": 0.12,
+    "mean_end_to_end_delay_ms": 79.93470687954292,
+    "mean_path_stability": 0.8774902717238998,
+    "communication_bytes_attempted": 28610400,
+    "communication_bytes_delivered_to_server": 19836544
+  },
+  "learning": {
+    "best_round": 19,
+    "final_round_val": {
+      "val_f1": 0.99250936329588,
+      "val_roc_auc": 0.9956882591783744,
+      "val_precision": 0.9954779995463824,
+      "val_recall_adr": 0.989558380069329,
+      "val_fpr": 0.1359761295822676,
+      "mean_train_loss": 0.2392625484632143
+    },
+    "val_roc_auc_first_last": [
+      0.9841578585511418,
+      0.9956882591783744
+    ],
+    "val_roc_auc_max_and_round": [
+      0.9960346481735582,
+      19
+    ]
+  },
+  "fairness": {
+    "threshold_used": 0.5917549501061441,
+    "worst_client_recall": 0.8617886178861789,
+    "worst_client_recall_client": 45,
+    "mean_client_recall_ever_selected": 0.910547852851971,
+    "mean_client_recall_never_selected": null,
+    "worst_client_recall_never_selected": null,
+    "clients_with_evaluable_recall": 48
+  },
+  "weights": {
+    "retained_updates_mean": 8.533333333333333,
+    "min_feasible_cap_mean": 0.11865079365079365,
+    "max_applied_weight_share_mean": 0.34416735023112704,
+    "requested_cap": null,
+    "rounds_strict_cap_infeasible": 0,
+    "mean_surrogate_weight_share": 0.2905968419329044
+  },
+  "round_stability": {
+    "val_roc_auc_min_after_round3": 0.9683097616550116,
+    "val_roc_auc_std_last10": 0.000626326055628672,
+    "rounds_with_auc_below_0.9_after_round3": 0
+  },
+  "resources": {
+    "config": "configs/phase6b/ciciot_v3_uniform_random_selection.yaml",
+    "config_sha256": "d409ba1efb16d5fb909f150d9c8f67c9efdd1ea41ec07ede22ebad94f56db5c1",
+    "git_commit": "f935ee0e3d26349e0fd6c4b021a1592291f0c166",
+    "seed": 2,
+    "variant": "v3_uniform_random_selection",
+    "wall_seconds": 137.7,
+    "cpu_seconds": 520.0,
+    "peak_working_set_mb": 2557.0
+  }
+}

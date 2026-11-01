@@ -1,0 +1,10 @@
+{
+  "config": "configs/phase6b/unsw_v9_momentum0_lr5p0_gain_matched.yaml",
+  "config_sha256": "10ffd6c78c289661573863d3f44b31d1e37907307aab2ab65cbf134b3ff37b61",
+  "git_commit": "f935ee0e3d26349e0fd6c4b021a1592291f0c166",
+  "seed": 2,
+  "variant": "v9_momentum0_lr5p0_gain_matched",
+  "wall_seconds": 51.5,
+  "cpu_seconds": 146.3,
+  "peak_working_set_mb": 1029.3
+}

@@ -1,0 +1,30 @@
+{
+  "recorded_before_execution": true,
+  "seed": 2,
+  "seed_rationale": "first seed of the manuscript's seed list (2..6); fixed in advance, never changed after seeing results",
+  "base_commit_for_code": "e42eae5539cc6ff78019e7397c56e15670ccfaa0",
+  "configs": {
+    "phase6a_unsw_no_dp": "6d357ae9c266b2ddd8bdb17d132c44cf10eac04aef03d30888915aa965cb025e",
+    "phase6a_unsw_dp_original": "a4bc5454daed6028643bda784a95320c509dad236d953fe29d7ea99c3d5b3135",
+    "phase6a_ciciot_no_dp": "b1048d1fd94d3634aa1f4f93e86c8d0a7208f90780d24326bc4a17db947b0a32",
+    "phase6a_ciciot_dp_original": "7b324a5b02e90d804cc4ee7f8ef688568760e6f81269dcb029c2a15b262a7922"
+  },
+  "protocol": {
+    "validation_only": true,
+    "test_files_opened": false,
+    "threshold_selection": "validation only (fpr_cap objective, as in original config)",
+    "model_selection": "best validation ROC-AUC checkpoint over exactly 30 rounds (early stopping disabled to obtain a fixed-length curve)",
+    "exogenous_streams": "network (seed+3000) and failure/malicious (seed+2000) generators are independent of model state; equality of traces between DP and no-DP runs is verified after the fact (scripts/phase6a/compare_traces.py)"
+  },
+  "rules": [
+    "No hyperparameter, noise multiplier, clip norm, architecture or seed is changed after inspecting any outcome.",
+    "A failed run is preserved with its log and reported with its cause; it is not silently retried with different settings.",
+    "Single seed: functional/diagnostic evidence only, not a statistical comparison and not a validated privacy trade-off."
+  ],
+  "run_order": [
+    "phase6a_unsw_no_dp",
+    "phase6a_unsw_dp_original",
+    "phase6a_ciciot_no_dp",
+    "phase6a_ciciot_dp_original"
+  ]
+}

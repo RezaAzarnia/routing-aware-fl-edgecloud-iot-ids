@@ -1,0 +1,8 @@
+{
+  "config": "configs/probe_unsw_fullsize_1round.yaml",
+  "seed": 1,
+  "wall_seconds": 25.38,
+  "cpu_seconds": 9.23,
+  "peak_working_set_mb": 1038.7,
+  "device": "cpu"
+}

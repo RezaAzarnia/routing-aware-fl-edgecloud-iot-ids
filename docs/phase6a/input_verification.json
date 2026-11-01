@@ -1,0 +1,171 @@
+{
+  "checks": {
+    "unsw_sha256::UNSW_NB15_training-set.csv": {
+      "pass": true,
+      "detail": "bec7dd5ec88dc2a0ccc7a07879d338395ed7421750f675fd0339e07dfe0648fa"
+    },
+    "unsw_sha256::UNSW_NB15_testing-set.csv": {
+      "pass": true,
+      "detail": "734fe6642edf758f7c94d7d9149426b49d202fe8e7bf0bef47392489c3c0a559"
+    },
+    "cic_filegroup_content_sha256::train": {
+      "pass": true,
+      "detail": "a1f372de870a836928eb202014ee07fcad14a1485da209a3c7c7eb00c1629384"
+    },
+    "cic_filegroup_content_sha256::validation": {
+      "pass": true,
+      "detail": "8636b82217da15584df218c122074a2ff3ad2c8d2dcdd6ab6a00b52ef739408f"
+    },
+    "cic_filegroup_content_sha256::test": {
+      "pass": true,
+      "detail": "1ae0ecc42eb73c1ca752f94a93292202e9444fb850921f66d615ac4a8d45c8ce"
+    },
+    "cic_filegroup_rows::train": {
+      "pass": true,
+      "detail": 926133
+    },
+    "cic_filegroup_rows::validation": {
+      "pass": true,
+      "detail": 146626
+    },
+    "cic_filegroup_rows::test": {
+      "pass": true,
+      "detail": 300000
+    },
+    "cic_feature_count_39": {
+      "pass": true,
+      "detail": null
+    },
+    "cic_external_manifest_exact_match": {
+      "pass": true,
+      "detail": null
+    },
+    "phase6a_unsw_no_dp::validation_only_and_blank_test": {
+      "pass": true,
+      "detail": null
+    },
+    "phase6a_unsw_no_dp::scale": {
+      "pass": true,
+      "detail": null
+    },
+    "phase6a_unsw_no_dp::no_test_rows_loaded": {
+      "pass": true,
+      "detail": null
+    },
+    "phase6a_unsw_no_dp::finite_inputs": {
+      "pass": true,
+      "detail": null
+    },
+    "phase6a_unsw_no_dp::group_disjoint_zero_overlap": {
+      "pass": true,
+      "detail": null
+    },
+    "phase6a_unsw_dp_original::validation_only_and_blank_test": {
+      "pass": true,
+      "detail": null
+    },
+    "phase6a_unsw_dp_original::scale": {
+      "pass": true,
+      "detail": null
+    },
+    "phase6a_unsw_dp_original::no_test_rows_loaded": {
+      "pass": true,
+      "detail": null
+    },
+    "phase6a_unsw_dp_original::finite_inputs": {
+      "pass": true,
+      "detail": null
+    },
+    "phase6a_unsw_dp_original::group_disjoint_zero_overlap": {
+      "pass": true,
+      "detail": null
+    },
+    "phase6a_ciciot_no_dp::validation_only_and_blank_test": {
+      "pass": true,
+      "detail": null
+    },
+    "phase6a_ciciot_no_dp::scale": {
+      "pass": true,
+      "detail": null
+    },
+    "phase6a_ciciot_no_dp::no_test_rows_loaded": {
+      "pass": true,
+      "detail": null
+    },
+    "phase6a_ciciot_no_dp::finite_inputs": {
+      "pass": true,
+      "detail": null
+    },
+    "phase6a_ciciot_no_dp::cic_split_sizes": {
+      "pass": true,
+      "detail": null
+    },
+    "phase6a_ciciot_dp_original::validation_only_and_blank_test": {
+      "pass": true,
+      "detail": null
+    },
+    "phase6a_ciciot_dp_original::scale": {
+      "pass": true,
+      "detail": null
+    },
+    "phase6a_ciciot_dp_original::no_test_rows_loaded": {
+      "pass": true,
+      "detail": null
+    },
+    "phase6a_ciciot_dp_original::finite_inputs": {
+      "pass": true,
+      "detail": null
+    },
+    "phase6a_ciciot_dp_original::cic_split_sizes": {
+      "pass": true,
+      "detail": null
+    }
+  },
+  "splits": {
+    "phase6a_unsw_no_dp": {
+      "train": 150293,
+      "validation": 25048,
+      "features": 193,
+      "validation_rows_sharing_predictor_vector_with_train": 0,
+      "train_benign": 48000,
+      "train_attack": 102293,
+      "val_benign": 8000,
+      "val_attack": 17048
+    },
+    "phase6a_unsw_dp_original": {
+      "train": 150293,
+      "validation": 25048,
+      "features": 193,
+      "validation_rows_sharing_predictor_vector_with_train": 0,
+      "train_benign": 48000,
+      "train_attack": 102293,
+      "val_benign": 8000,
+      "val_attack": 17048
+    },
+    "phase6a_ciciot_no_dp": {
+      "train": 926133,
+      "validation": 146626,
+      "features": 39,
+      "validation_rows_sharing_predictor_vector_with_train": null,
+      "train_benign": 499097,
+      "train_attack": 427036,
+      "val_benign": 4692,
+      "val_attack": 141934
+    },
+    "phase6a_ciciot_dp_original": {
+      "train": 926133,
+      "validation": 146626,
+      "features": 39,
+      "validation_rows_sharing_predictor_vector_with_train": null,
+      "train_benign": 499097,
+      "train_attack": 427036,
+      "val_benign": 4692,
+      "val_attack": 141934
+    }
+  },
+  "test_files_locked": {
+    "unsw_testing_csv_sha256": "734fe6642edf758f7c94d7d9149426b49d202fe8e7bf0bef47392489c3c0a559",
+    "cic_filegroup_test_content_sha256": "1ae0ecc42eb73c1ca752f94a93292202e9444fb850921f66d615ac4a8d45c8ce"
+  },
+  "all_pass": true
+}

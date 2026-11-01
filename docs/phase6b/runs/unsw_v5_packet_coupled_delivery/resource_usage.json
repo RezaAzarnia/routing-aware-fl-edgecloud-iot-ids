@@ -1,0 +1,10 @@
+{
+  "config": "configs/phase6b/unsw_v5_packet_coupled_delivery.yaml",
+  "config_sha256": "6bc24e73a07d664bdc031d97da3117c23863d9a51b673e5c3f9afecf04e462bb",
+  "git_commit": "f935ee0e3d26349e0fd6c4b021a1592291f0c166",
+  "seed": 2,
+  "variant": "v5_packet_coupled_delivery",
+  "wall_seconds": 92.6,
+  "cpu_seconds": 296.1,
+  "peak_working_set_mb": 1029.8
+}

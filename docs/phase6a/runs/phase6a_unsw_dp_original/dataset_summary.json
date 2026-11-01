@@ -1,0 +1,23 @@
+{
+  "raw_training_rows": 175341,
+  "raw_testing_rows": 0,
+  "training_rows_after_validation_split": 150293,
+  "validation_rows": 25048,
+  "testing_rows_used_standard_benchmark": 0,
+  "calibration_rows_secondary_protocol": 0,
+  "calibrated_final_test_rows_secondary_protocol": 0,
+  "calibrated_evaluation_enabled": false,
+  "original_column_count": 45,
+  "selected_raw_input_features": 42,
+  "encoded_feature_dimension": 193,
+  "training_normal": 48000,
+  "training_attack": 102293,
+  "validation_normal": 8000,
+  "validation_attack": 17048,
+  "testing_normal": 0,
+  "testing_attack": 0,
+  "calibration_normal": 0,
+  "calibration_attack": 0,
+  "calibrated_test_normal": 0,
+  "calibrated_test_attack": 0
+}

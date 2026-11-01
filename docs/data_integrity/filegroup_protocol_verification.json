@@ -1,0 +1,218 @@
+{
+  "dataset": "data\\CICIoT2023\\prepared_verified_v2_filegroup",
+  "n_features": 39,
+  "content_sha256_matches_metadata": {
+    "train": true,
+    "validation": true,
+    "test": true
+  },
+  "label_category_consistent": {
+    "train": true,
+    "validation": true,
+    "test": true
+  },
+  "sizes": {
+    "train": 926133,
+    "validation": 146626,
+    "test": 300000
+  },
+  "benign_prevalence": {
+    "train": 0.5389,
+    "validation": 0.032,
+    "test": 0.0235
+  },
+  "class_counts": {
+    "train": {
+      "Benign_Final": 499097,
+      "DDoS-SlowLoris": 18411,
+      "DDoS-HTTP_Flood": 18411,
+      "DoS-HTTP_Flood": 18410,
+      "DDoS-ICMP_Fragmentation": 18408,
+      "DDoS-ACK_Fragmentation": 18407,
+      "DDoS-UDP_Fragmentation": 18407,
+      "VulnerabilityScan": 18394,
+      "Mirai-greip_flood": 18383,
+      "Mirai-greeth_flood": 18381,
+      "Mirai-udpplain": 18343,
+      "Recon-OSScan": 18324,
+      "Recon-PortScan": 18319,
+      "Recon-HostDiscovery": 18311,
+      "DNS_Spoofing": 18205,
+      "MITM-ArpSpoofing": 17386,
+      "DoS-UDP_Flood": 13225,
+      "DictionaryBruteForce": 12912,
+      "DDoS-PSHACK_FLOOD": 12685,
+      "DoS-SYN_Flood": 12539,
+      "DDoS-SYN_Flood": 11300,
+      "DDoS-RSTFINFLOOD": 11121,
+      "DoS-TCP_Flood": 11090,
+      "DDoS-UDP_Flood": 10947,
+      "DDoS-SynonymousIP_Flood": 10782,
+      "DDoS-TCP_Flood": 9747,
+      "DDoS-ICMP_Flood": 9489,
+      "BrowserHijacking": 5705,
+      "CommandInjection": 5351,
+      "SqlInjection": 5188,
+      "XSS": 3802,
+      "Backdoor_Malware": 3177,
+      "Recon-PingSweep": 2237,
+      "Uploading_Attack": 1239
+    },
+    "validation": {
+      "DDoS-ICMP_Flood": 18874,
+      "DDoS-UDP_Flood": 15493,
+      "DDoS-PSHACK_FLOOD": 13951,
+      "DDoS-RSTFINFLOOD": 13112,
+      "DDoS-TCP_Flood": 11846,
+      "DoS-UDP_Flood": 11181,
+      "DDoS-SYN_Flood": 10894,
+      "DDoS-SynonymousIP_Flood": 9751,
+      "DoS-TCP_Flood": 8399,
+      "DoS-SYN_Flood": 7170,
+      "Benign_Final": 4692,
+      "Mirai-greeth_flood": 4236,
+      "Mirai-udpplain": 3791,
+      "Mirai-greip_flood": 3210,
+      "DDoS-ICMP_Fragmentation": 1934,
+      "VulnerabilityScan": 1592,
+      "MITM-ArpSpoofing": 1250,
+      "DDoS-UDP_Fragmentation": 1227,
+      "DDoS-ACK_Fragmentation": 1219,
+      "DNS_Spoofing": 764,
+      "Recon-HostDiscovery": 572,
+      "Recon-OSScan": 418,
+      "Recon-PortScan": 349,
+      "DoS-HTTP_Flood": 307,
+      "DDoS-HTTP_Flood": 123,
+      "DDoS-SlowLoris": 100,
+      "DictionaryBruteForce": 56,
+      "BrowserHijacking": 25,
+      "CommandInjection": 23,
+      "SqlInjection": 22,
+      "XSS": 16,
+      "Backdoor_Malware": 14,
+      "Recon-PingSweep": 10,
+      "Uploading_Attack": 5
+    },
+    "test": {
+      "DDoS-ICMP_Flood": 46180,
+      "DDoS-UDP_Flood": 34711,
+      "DDoS-TCP_Flood": 28845,
+      "DDoS-PSHACK_FLOOD": 26262,
+      "DDoS-SYN_Flood": 26033,
+      "DDoS-RSTFINFLOOD": 25944,
+      "DDoS-SynonymousIP_Flood": 23076,
+      "DoS-UDP_Flood": 19708,
+      "DoS-TCP_Flood": 17133,
+      "DoS-SYN_Flood": 13012,
+      "Benign_Final": 7043,
+      "Mirai-greeth_flood": 6361,
+      "Mirai-udpplain": 5712,
+      "Mirai-greip_flood": 4821,
+      "DDoS-ICMP_Fragmentation": 2902,
+      "VulnerabilityScan": 2394,
+      "MITM-ArpSpoofing": 1973,
+      "DDoS-UDP_Fragmentation": 1840,
+      "DDoS-ACK_Fragmentation": 1828,
+      "DNS_Spoofing": 1147,
+      "Recon-HostDiscovery": 862,
+      "Recon-OSScan": 630,
+      "Recon-PortScan": 528,
+      "DoS-HTTP_Flood": 461,
+      "DDoS-HTTP_Flood": 185,
+      "DDoS-SlowLoris": 150,
+      "DictionaryBruteForce": 84,
+      "BrowserHijacking": 38,
+      "CommandInjection": 35,
+      "SqlInjection": 34,
+      "XSS": 25,
+      "Backdoor_Malware": 21,
+      "Recon-PingSweep": 14,
+      "Uploading_Attack": 8
+    }
+  },
+  "cross_split_exact_predictor_overlap_rows": {
+    "train_vs_validation": 0,
+    "train_vs_test": 0,
+    "validation_vs_test": 0
+  },
+  "file_group_exclusivity": {
+    "eligible_classes": 17,
+    "eligible_files": 290,
+    "violations": 0
+  },
+  "residual_limitation": {
+    "ungrouped_classes": [
+      "Backdoor_Malware",
+      "BrowserHijacking",
+      "CommandInjection",
+      "DDoS-HTTP_Flood",
+      "DDoS-SlowLoris",
+      "DNS_Spoofing",
+      "DictionaryBruteForce",
+      "DoS-HTTP_Flood",
+      "MITM-ArpSpoofing",
+      "Recon-HostDiscovery",
+      "Recon-OSScan",
+      "Recon-PingSweep",
+      "Recon-PortScan",
+      "SqlInjection",
+      "Uploading_Attack",
+      "VulnerabilityScan",
+      "XSS"
+    ],
+    "ungrouped_class_rows_per_split": {
+      "train": 203782,
+      "validation": 5646,
+      "test": 8589
+    },
+    "ungrouped_fraction_of_test": 0.0286,
+    "statement": "For these classes rows of the same capture file occur in several splits; capture-level independence is NOT established. Grouped classes are only file-disjoint, not device-disjoint."
+  },
+  "conflicting_label_groups": {
+    "train": {
+      "groups": 154,
+      "rows": 765
+    },
+    "validation": {
+      "groups": 1,
+      "rows": 2
+    },
+    "test": {
+      "groups": 5,
+      "rows": 15
+    }
+  },
+  "model_input": {
+    "feature_dim": 39,
+    "all_finite": true,
+    "shapes": {
+      "train": [
+        926133,
+        39
+      ],
+      "validation": [
+        146626,
+        39
+      ],
+      "test": [
+        300000,
+        39
+      ]
+    },
+    "raw_nan_cells": {
+      "train": 127,
+      "validation": 6,
+      "test": 9
+    }
+  },
+  "manifests_present": {
+    "source_files_manifest.csv": true,
+    "split_manifest.csv": true,
+    "preparation_metadata.json": true,
+    "train_provenance.csv.gz": true,
+    "validation_provenance.csv.gz": true,
+    "test_provenance.csv.gz": true
+  },
+  "claim": "Capture-level independence is NOT claimed."
+}

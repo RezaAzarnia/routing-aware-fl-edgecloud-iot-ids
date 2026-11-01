@@ -1,0 +1,13 @@
+{
+  "protocol": "group_disjoint",
+  "seed": 2,
+  "n_splits": 7,
+  "validation_rows_sharing_predictor_vector_with_train": 0,
+  "train_rows": 150293,
+  "validation_rows": 25048,
+  "train_attack": 102293,
+  "train_benign": 48000,
+  "validation_attack": 17048,
+  "validation_benign": 8000,
+  "train_rows_after_conflict_exclusion": 150293
+}

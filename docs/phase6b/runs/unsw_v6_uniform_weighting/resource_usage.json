@@ -1,0 +1,10 @@
+{
+  "config": "configs/phase6b/unsw_v6_uniform_weighting.yaml",
+  "config_sha256": "d5d1c2edf68ecf812b9e6ea33495479a4ca3b5a46ec6ac25970c1b57e459649d",
+  "git_commit": "f935ee0e3d26349e0fd6c4b021a1592291f0c166",
+  "seed": 2,
+  "variant": "v6_uniform_weighting",
+  "wall_seconds": 78.3,
+  "cpu_seconds": 206.8,
+  "peak_working_set_mb": 1028.7
+}

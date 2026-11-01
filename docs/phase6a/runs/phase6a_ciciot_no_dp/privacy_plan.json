@@ -1,0 +1,15 @@
+{
+  "privacy_mode": "none",
+  "privacy_enabled": false,
+  "effective_noise_multiplier": 0.0,
+  "accountant_sample_rate": 0.0,
+  "planned_steps": 30,
+  "planned_epsilon_estimate": 0.0,
+  "delta": 1e-05,
+  "target_epsilon": null,
+  "accounting_note": "Privacy disabled.",
+  "subsampling_amplification_valid": false,
+  "poisson_subsampling_assumption_satisfied": false,
+  "epsilon_is_certified_guarantee": false,
+  "selection_mechanism": "deterministic_top_k_by_route_score"
+}

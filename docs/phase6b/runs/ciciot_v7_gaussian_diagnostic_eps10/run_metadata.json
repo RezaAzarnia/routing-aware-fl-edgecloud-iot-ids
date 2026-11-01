@@ -1,0 +1,67 @@
+{
+  "median_convention": "true median: mean of the two middle order statistics for even counts (src.aggregation.true_median); torch.median (lower median) is not used",
+  "aggregation": {
+    "requested": "distance_filter",
+    "actual_methods_used": [
+      "distance_filter+clipped_capped_fedavg+central_noise"
+    ],
+    "distance_k": 2.5,
+    "trim_ratio": 0.2,
+    "byzantine_assumption": 2
+  },
+  "privacy": {
+    "privacy_mode": "central_client",
+    "privacy_enabled": true,
+    "effective_noise_multiplier": 0.9939025878906251,
+    "accountant_sample_rate": 0.2,
+    "planned_steps": 30,
+    "planned_epsilon_estimate": 9.999307360963746,
+    "delta": 1e-05,
+    "target_epsilon": 10.0,
+    "auto_calibrated": true,
+    "clip_norm": 0.05,
+    "max_client_weight_share": 0.1,
+    "adjacency_factor": 1.0,
+    "client_selection_is_random": false,
+    "selection_mechanism": "deterministic_top_k_by_route_score",
+    "poisson_subsampling_assumption_satisfied": false,
+    "subsampling_amplification_valid": false,
+    "epsilon_is_certified_guarantee": false,
+    "accounting_note": "RDP Poisson-sampling estimate. Routed client selection and the data-dependent robust filter are not covered by a formal proof; report this value as an estimated privacy budget.",
+    "mechanism": "central Gaussian noise added to the clipped, weight-capped aggregate released after robust filtering; server momentum is post-processing",
+    "release_count": 30,
+    "epsilon_label": "diagnostic RDP estimate under a Poisson-sampling assumption"
+  },
+  "missing_update_handling": {
+    "enabled": true,
+    "terminology": "surrogate imputation: a coordinate-wise true median of received updates substitutes for a missing update; no information about the missing client's private data is recovered",
+    "weight_factor": 0.5
+  },
+  "routing_enabled": true,
+  "variant_name": "v7_gaussian_diagnostic_eps10",
+  "algorithm_spec": {
+    "selection_policy": "top_k",
+    "coverage_penalty": 0.5,
+    "delivery_model": "independent_draws",
+    "max_retransmissions": 2,
+    "trace_mode": "matched",
+    "weighting": "sample_proportional",
+    "imputation": "coordinate_median_surrogate",
+    "recovery_weight_factor": 0.5,
+    "surrogate_total_weight_cap": null,
+    "threshold_calibration_fraction": 0.5,
+    "privacy_mode": "central_client",
+    "server_momentum": 0.9,
+    "server_learning_rate": 0.5
+  },
+  "validation_only": true,
+  "test_data_loaded": false,
+  "seed": 2,
+  "rounds_executed": 30,
+  "early_stopped": false,
+  "versions": {
+    "torch": "2.15.0+cpu",
+    "numpy": "2.4.6",
+    "pandas": "2.3.3"
+  }
+}

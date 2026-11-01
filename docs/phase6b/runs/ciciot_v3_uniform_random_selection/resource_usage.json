@@ -1,0 +1,10 @@
+{
+  "config": "configs/phase6b/ciciot_v3_uniform_random_selection.yaml",
+  "config_sha256": "d409ba1efb16d5fb909f150d9c8f67c9efdd1ea41ec07ede22ebad94f56db5c1",
+  "git_commit": "f935ee0e3d26349e0fd6c4b021a1592291f0c166",
+  "seed": 2,
+  "variant": "v3_uniform_random_selection",
+  "wall_seconds": 137.7,
+  "cpu_seconds": 520.0,
+  "peak_working_set_mb": 2557.0
+}

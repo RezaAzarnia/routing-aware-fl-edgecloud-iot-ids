@@ -1,0 +1,10 @@
+{
+  "config": "configs/phase6b/unsw_v8_momentum0_lr0p5.yaml",
+  "config_sha256": "c6ac571768dbeb5fa1bee03fae210b04576bc0564f5bc0a613c355b2136a82ce",
+  "git_commit": "f935ee0e3d26349e0fd6c4b021a1592291f0c166",
+  "seed": 2,
+  "variant": "v8_momentum0_lr0p5",
+  "wall_seconds": 51.5,
+  "cpu_seconds": 147.6,
+  "peak_working_set_mb": 1030.5
+}

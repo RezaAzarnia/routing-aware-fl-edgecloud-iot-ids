@@ -1,0 +1,47 @@
+{
+  "top_k": {
+    "seeds": 200,
+    "malicious_share_mean": 0.20973333333333335,
+    "malicious_share_sd": 0.09279628823994585,
+    "malicious_share_p10_p50_p90": [
+      0.08600000000000002,
+      0.20666666666666667,
+      0.32699999999999996
+    ],
+    "malicious_share_max": 0.48,
+    "fraction_of_seeds_with_any_majority_attacker_round": 0.205,
+    "mean_rounds_with_majority_attackers": 0.685,
+    "fraction_of_seeds_with_over_10_majority_rounds": 0.01,
+    "clients_ever_selected_mean": 22.99
+  },
+  "coverage_aware": {
+    "seeds": 200,
+    "malicious_share_mean": 0.20361666666666664,
+    "malicious_share_sd": 0.053736783904923494,
+    "malicious_share_p10_p50_p90": [
+      0.13666666666666666,
+      0.20500000000000002,
+      0.28
+    ],
+    "malicious_share_max": 0.34,
+    "fraction_of_seeds_with_any_majority_attacker_round": 0.365,
+    "mean_rounds_with_majority_attackers": 0.62,
+    "fraction_of_seeds_with_over_10_majority_rounds": 0.0,
+    "clients_ever_selected_mean": 41.185
+  },
+  "uniform_random": {
+    "seeds": 200,
+    "malicious_share_mean": 0.20024999999999998,
+    "malicious_share_sd": 0.018734808660767144,
+    "malicious_share_p10_p50_p90": [
+      0.17966666666666667,
+      0.2,
+      0.22666666666666666
+    ],
+    "malicious_share_max": 0.24666666666666667,
+    "fraction_of_seeds_with_any_majority_attacker_round": 0.45,
+    "mean_rounds_with_majority_attackers": 0.615,
+    "fraction_of_seeds_with_over_10_majority_rounds": 0.0,
+    "clients_ever_selected_mean": 49.96
+  }
+}
