@@ -50,4 +50,7 @@ def test_privacy_plan_flags_invalid_amplification_under_routed_selection():
     plan = _privacy_plan(cfg)
     assert plan["subsampling_amplification_valid"] is False
     cfg.routing.enabled = False
-    assert _privacy_plan(cfg)["subsampling_amplification_valid"] is True
+    # Phase 6A: fixed-size uniform selection is not Poisson subsampling either, so no
+    # amplification claim is made for any selection scheme.
+    assert _privacy_plan(cfg)["subsampling_amplification_valid"] is False
+    assert _privacy_plan(cfg)["client_selection_is_random"] is True

@@ -143,7 +143,11 @@ class DynamicEdgeCloudNetwork:
         packets_sent = self.cfg.packets_per_update
         packets_received = int(self.rng.binomial(packets_sent, decision.expected_pdr))
         pdr = packets_received / max(packets_sent, 1)
-        delivered = bool(self.rng.random() < decision.expected_pdr)
+        # The delivery decision uses its OWN Bernoulli draw; it is not derived from
+        # packets_received. The draw value is logged purely for diagnosis (RNG
+        # consumption is unchanged).
+        delivery_draw = float(self.rng.random())
+        delivered = bool(delivery_draw < decision.expected_pdr)
         serialization_ms = update_bytes * 8 / (decision.bandwidth_mbps * 1e6) * 1000
         jitter_ms = abs(float(self.rng.normal(0, max(1.0, decision.latency_ms * 0.05))))
         end_to_end_ms = decision.latency_ms + serialization_ms + jitter_ms
@@ -168,4 +172,12 @@ class DynamicEdgeCloudNetwork:
             "update_delivered": delivered,
             "update_bytes": update_bytes,
             "transfer_efficiency_mbps": efficiency_mbps,
+            # --- diagnostic fields (added; do not influence the simulation) ---
+            "expected_pdr": decision.expected_pdr,
+            "delivery_draw": delivery_draw,
+            "packets_lost": packets_sent - packets_received,
+            "propagation_latency_ms": decision.latency_ms,
+            "serialization_ms": serialization_ms,
+            "jitter_ms": jitter_ms,
+            "bandwidth_mbps": decision.bandwidth_mbps,
         }

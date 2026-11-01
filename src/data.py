@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import dataclasses
 from dataclasses import dataclass
 from pathlib import Path
 from typing import List
@@ -61,6 +62,13 @@ def _group_disjoint_validation_split(
     splitter = StratifiedGroupKFold(n_splits=n_splits, shuffle=True, random_state=seed)
     train_idx, val_idx = next(splitter.split(features, y, groups))
     return np.sort(train_idx), np.sort(val_idx), fingerprint, n_splits
+
+
+def _transform_or_empty(preprocessor, features: pd.DataFrame, width: int) -> np.ndarray:
+    """Transform features, returning an empty (0, width) float32 array for empty input."""
+    if len(features) == 0:
+        return np.empty((0, width), dtype=np.float32)
+    return preprocessor.transform(features).astype(np.float32, copy=False)
 
 
 def _split_validation(features: pd.DataFrame, y: np.ndarray, cfg: DataConfig, seed: int):
@@ -182,20 +190,25 @@ def load_and_preprocess_unsw(
     cfg: DataConfig,
     seed: int,
     preprocessor_output: str | Path | None = None,
+    load_test: bool = True,
 ) -> DatasetBundle:
+    if not load_test:
+        # Validation-only mode: the calibrated protocol is derived from the test
+        # file, so it is disabled, and the test file path is never touched.
+        cfg = dataclasses.replace(cfg, enable_calibrated_evaluation=False)
     train_path = Path(cfg.train_csv)
     test_path = Path(cfg.test_csv)
     if not train_path.exists():
         raise FileNotFoundError(
             f"Training dataset not found: {train_path}. Put UNSW_NB15_training-set.csv in data/."
         )
-    if not test_path.exists():
+    if load_test and not test_path.exists():
         raise FileNotFoundError(
             f"Testing dataset not found: {test_path}. Put UNSW_NB15_testing-set.csv in data/."
         )
 
     raw_train = pd.read_csv(train_path)
-    raw_test = pd.read_csv(test_path)
+    raw_test = pd.read_csv(test_path) if load_test else raw_train.iloc[0:0].copy()
     original_column_count = len(raw_train.columns)
     raw_train_rows = len(raw_train)
     raw_test_rows = len(raw_test)
@@ -270,13 +283,13 @@ def load_and_preprocess_unsw(
 
     X_train = preprocessor.fit_transform(X_train_raw).astype(np.float32, copy=False)
     X_val = preprocessor.transform(X_val_raw).astype(np.float32, copy=False)
-    X_test = preprocessor.transform(test_features).astype(np.float32, copy=False)
+    X_test = _transform_or_empty(preprocessor, test_features, X_train.shape[1])
     if len(calibration_features):
         X_calibration = preprocessor.transform(calibration_features).astype(np.float32, copy=False)
     else:
         X_calibration = np.empty((0, X_train.shape[1]), dtype=np.float32)
-    X_calibrated_test = preprocessor.transform(calibrated_test_features).astype(
-        np.float32, copy=False
+    X_calibrated_test = _transform_or_empty(
+        preprocessor, calibrated_test_features, X_train.shape[1]
     )
     feature_names = preprocessor.get_feature_names_out().tolist()
 
@@ -314,6 +327,7 @@ def load_and_preprocess_ciciot2023(
     cfg: DataConfig,
     seed: int,
     preprocessor_output: str | Path | None = None,
+    load_test: bool = True,
 ) -> DatasetBundle:
     """Load prepared CICIoT2023 train/validation/test CSV files.
 
@@ -324,7 +338,10 @@ def load_and_preprocess_ciciot2023(
     train_path = Path(cfg.train_csv)
     val_path = Path(cfg.validation_csv or "")
     test_path = Path(cfg.test_csv)
-    for role, path in (("training", train_path), ("validation", val_path), ("testing", test_path)):
+    required = [("training", train_path), ("validation", val_path)]
+    if load_test:
+        required.append(("testing", test_path))
+    for role, path in required:
         if not path.exists():
             raise FileNotFoundError(
                 f"Prepared CICIoT2023 {role} file not found: {path}. "
@@ -334,12 +351,14 @@ def load_and_preprocess_ciciot2023(
 
     raw_train = pd.read_csv(train_path)
     raw_val = pd.read_csv(val_path)
-    raw_test = pd.read_csv(test_path)
+    raw_test = pd.read_csv(test_path) if load_test else raw_train.iloc[0:0].copy()
     original_column_count = len(raw_train.columns)
     raw_train_rows = len(raw_train)
     raw_test_rows = len(raw_test)
 
     for role, frame in (("training", raw_train), ("validation", raw_val), ("testing", raw_test)):
+        if role == "testing" and not load_test:
+            continue
         if cfg.label_col not in frame:
             raise ValueError(f"Label column '{cfg.label_col}' missing from CICIoT2023 {role} file")
         if frame[cfg.label_col].nunique(dropna=False) < 2:
@@ -420,7 +439,7 @@ def load_and_preprocess_ciciot2023(
     )
     X_train = preprocessor.fit_transform(train_features).astype(np.float32, copy=False)
     X_val = preprocessor.transform(val_features).astype(np.float32, copy=False)
-    X_test = preprocessor.transform(test_features).astype(np.float32, copy=False)
+    X_test = _transform_or_empty(preprocessor, test_features, X_train.shape[1])
     feature_names = preprocessor.get_feature_names_out().tolist()
 
     if preprocessor_output is not None:
@@ -460,10 +479,14 @@ def load_dataset(
     cfg: DataConfig,
     seed: int,
     preprocessor_output: str | Path | None = None,
+    load_test: bool = True,
 ) -> DatasetBundle:
-    """Dispatch to the dataset-specific, leakage-safe loader."""
+    """Dispatch to the dataset-specific, leakage-safe loader.
+
+    ``load_test=False`` guarantees the test CSV is never opened.
+    """
     if cfg.dataset_name == "unsw_nb15":
-        return load_and_preprocess_unsw(cfg, seed, preprocessor_output)
+        return load_and_preprocess_unsw(cfg, seed, preprocessor_output, load_test)
     if cfg.dataset_name == "ciciot2023":
-        return load_and_preprocess_ciciot2023(cfg, seed, preprocessor_output)
+        return load_and_preprocess_ciciot2023(cfg, seed, preprocessor_output, load_test)
     raise ValueError(f"Unsupported dataset: {cfg.dataset_name}")

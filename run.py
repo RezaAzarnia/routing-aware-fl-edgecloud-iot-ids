@@ -100,6 +100,10 @@ def main() -> None:
             print(f"Saved run outputs to: {output}")
 
     experiment_dir = Path(base.experiment.output_dir) / base.experiment.name
+    if base.experiment.validation_only:
+        print("Validation-only run: suite summary (which requires final test metrics) is skipped.")
+        print(f"Completed={completed} | Skipped=0")
+        return
     summary = summarize_experiment(
         experiment_dir, create_plots=base.experiment.create_plots
     )

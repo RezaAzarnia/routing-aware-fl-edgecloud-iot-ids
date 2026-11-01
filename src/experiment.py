@@ -65,6 +65,8 @@ AGGREGATION_COLUMNS = [
     "post_clip_l2_norm",
     "diagnostic_distance_or_score",
     "actual_aggregation_method",
+    "raw_weight",
+    "applied_weight_share",
 ]
 
 NETWORK_COLUMNS = [
@@ -82,6 +84,15 @@ NETWORK_COLUMNS = [
     "selected",
     "malicious",
     "received_by_server",
+    "expected_pdr",
+    "delivery_draw",
+    "packets_lost",
+    "explicit_failure_draw",
+    "failure_reason",
+    "propagation_latency_ms",
+    "serialization_ms",
+    "jitter_ms",
+    "bandwidth_mbps",
 ]
 
 
@@ -220,6 +231,12 @@ def _safe_aggregate(
         raise
 
 
+def _selection_mechanism(cfg: Config) -> str:
+    if cfg.routing.enabled:
+        return "deterministic_top_k_by_route_score"
+    return "uniform_without_replacement_fixed_size"
+
+
 def _privacy_plan(cfg: Config) -> Dict[str, float | str | bool | None]:
     if cfg.privacy.mode == "none":
         return {
@@ -232,6 +249,10 @@ def _privacy_plan(cfg: Config) -> Dict[str, float | str | bool | None]:
             "delta": cfg.privacy.delta,
             "target_epsilon": None,
             "accounting_note": "Privacy disabled.",
+            "subsampling_amplification_valid": False,
+            "poisson_subsampling_assumption_satisfied": False,
+            "epsilon_is_certified_guarantee": False,
+            "selection_mechanism": _selection_mechanism(cfg),
         }
 
     sample_rate = (
@@ -270,13 +291,131 @@ def _privacy_plan(cfg: Config) -> Dict[str, float | str | bool | None]:
         # and secret. Deterministic top-k routed selection re-selects the same
         # clients, so q=clients_per_round/num_clients does not hold for them.
         "client_selection_is_random": not cfg.routing.enabled,
-        "subsampling_amplification_valid": not cfg.routing.enabled,
+        # Neither selection scheme is Poisson subsampling: routed selection is
+        # deterministic top-k, the alternative is a fixed-size uniform draw without
+        # replacement. The RDP routine assumes Poisson sampling, so amplification
+        # by subsampling is NOT established for either; epsilon is a diagnostic
+        # estimate, not a certified guarantee.
+        "selection_mechanism": _selection_mechanism(cfg),
+        "poisson_subsampling_assumption_satisfied": False,
+        "subsampling_amplification_valid": False,
+        "epsilon_is_certified_guarantee": False,
         "accounting_note": (
             "RDP Poisson-sampling estimate. Routed client selection and the "
             "data-dependent robust filter are not covered by a formal proof; "
             "report this value as an estimated privacy budget."
         ),
     }
+
+
+def _write_run_metadata(
+    cfg: Config,
+    run_dir: Path,
+    round_df: pd.DataFrame,
+    privacy_plan: Dict,
+    privacy_steps: int,
+    early_stopped: bool,
+) -> None:
+    methods = []
+    if "actual_aggregation_method" in round_df:
+        methods = sorted(round_df["actual_aggregation_method"].dropna().astype(str).unique().tolist())
+    save_json(
+        {
+            "median_convention": (
+                "true median: mean of the two middle order statistics for even counts "
+                "(src.aggregation.true_median); torch.median (lower median) is not used"
+            ),
+            "aggregation": {
+                "requested": cfg.aggregation.method,
+                "actual_methods_used": methods,
+                "distance_k": cfg.aggregation.distance_k,
+                "trim_ratio": cfg.aggregation.trim_ratio,
+                "byzantine_assumption": cfg.aggregation.byzantine_assumption,
+            },
+            "privacy": {
+                **privacy_plan,
+                "mechanism": (
+                    "central Gaussian noise added to the clipped, weight-capped aggregate "
+                    "released after robust filtering; server momentum is post-processing"
+                ),
+                "release_count": int(privacy_steps),
+                "epsilon_label": "diagnostic RDP estimate under a Poisson-sampling assumption",
+            },
+            "missing_update_handling": {
+                "enabled": cfg.failure.recovery_enabled,
+                "terminology": (
+                    "surrogate imputation: a coordinate-wise true median of received updates "
+                    "substitutes for a missing update; no information about the missing "
+                    "client's private data is recovered"
+                ),
+                "weight_factor": cfg.failure.recovery_weight_factor,
+            },
+            "routing_enabled": cfg.routing.enabled,
+            "validation_only": cfg.experiment.validation_only,
+            "test_data_loaded": not cfg.experiment.validation_only,
+            "seed": cfg.experiment.seed,
+            "rounds_executed": int(len(round_df) - 1),
+            "early_stopped": bool(early_stopped),
+            "versions": {
+                "torch": torch.__version__,
+                "numpy": np.__version__,
+                "pandas": pd.__version__,
+            },
+        },
+        run_dir / "run_metadata.json",
+    )
+
+
+def _finalize_validation_only(
+    cfg: Config,
+    bundle: DatasetBundle,
+    server: Server,
+    best_state: State,
+    best_round: int,
+    run_dir: Path,
+    round_df: pd.DataFrame,
+    privacy_plan: Dict,
+    privacy_steps: int,
+    early_stopped: bool,
+) -> Path:
+    """Final reporting for validation-only runs: no test data exists in `bundle`."""
+    server.load_global_state(best_state, reset_optimizer_state=True)
+    probabilities = server.predict_probabilities(bundle.X_val)
+    default_metrics, selected = _validation_metrics(cfg, bundle.y_val, probabilities)
+
+    def plain(mapping):
+        out = {}
+        for key, value in mapping.items():
+            if isinstance(value, (np.bool_, bool)):
+                out[key] = bool(value)
+            elif isinstance(value, (np.integer,)):
+                out[key] = int(value)
+            elif isinstance(value, (np.floating, float)):
+                out[key] = float(value)
+            elif isinstance(value, (int, str)):
+                out[key] = value
+        return out
+
+    final = {
+        "protocol": "validation_only",
+        "test_data_loaded": False,
+        "best_round": int(best_round),
+        "validation_rows": int(len(bundle.y_val)),
+        "selected_operating_point": plain(selected),
+        "default_threshold_0_5": plain(default_metrics),
+    }
+    save_json(final, run_dir / "final_validation_metrics.json")
+    pd.DataFrame(
+        [[selected["tn"], selected["fp"]], [selected["fn"], selected["tp"]]],
+        index=["true_normal", "true_attack"],
+        columns=["pred_normal", "pred_attack"],
+    ).to_csv(run_dir / "confusion_matrix_validation.csv")
+    if cfg.experiment.save_probabilities:
+        pd.DataFrame({"y_true": bundle.y_val, "probability_attack": probabilities}).to_csv(
+            run_dir / "validation_predictions.csv", index=False
+        )
+    _write_run_metadata(cfg, run_dir, round_df, privacy_plan, privacy_steps, early_stopped)
+    return run_dir
 
 
 def run_experiment(cfg: Config) -> Path:
@@ -302,6 +441,7 @@ def run_experiment(cfg: Config) -> Path:
         cfg.data,
         seed=cfg.experiment.seed,
         preprocessor_output=run_dir / "preprocessor.joblib",
+        load_test=not cfg.experiment.validation_only,
     )
     dataset_summary = _dataset_summary(bundle)
     save_json(dataset_summary, run_dir / "dataset_summary.json")
@@ -455,16 +595,30 @@ def run_experiment(cfg: Config) -> Path:
 
         for client_id in selected_clients:
             transfer = network.simulate_transfer(client_id, update_bytes)
-            explicit_failure = (
+            # Same RNG consumption as before: the draw happens only when failures
+            # are enabled. The draw value is logged for diagnosis.
+            failure_draw = float(rng.random()) if cfg.failure.enabled else float("nan")
+            explicit_failure = bool(
                 cfg.failure.enabled
-                and rng.random() < cfg.failure.client_failure_probability
+                and failure_draw < cfg.failure.client_failure_probability
             )
             transfer["round"] = round_number
             transfer["explicit_client_failure"] = explicit_failure
+            transfer["explicit_failure_draw"] = failure_draw
             transfer["selected"] = True
             transfer["malicious"] = client_id in malicious_clients
 
             network_failure = cfg.failure.enabled and not bool(transfer["update_delivered"])
+            if explicit_failure and network_failure:
+                transfer["failure_reason"] = "explicit_and_network"
+            elif explicit_failure:
+                transfer["failure_reason"] = "explicit_client_failure"
+            elif network_failure:
+                transfer["failure_reason"] = "network_update_not_delivered"
+            elif not bool(transfer["update_delivered"]):
+                transfer["failure_reason"] = "delivery_draw_failed_but_failure_model_disabled"
+            else:
+                transfer["failure_reason"] = "none"
             if explicit_failure or network_failure:
                 failed_clients.append(client_id)
                 transfer["received_by_server"] = False
@@ -577,6 +731,7 @@ def run_experiment(cfg: Config) -> Path:
         kept_count = 0
         rejected_count = 0
         actual_aggregation_method = "none"
+        applied_shares: List[float] = []
         privacy_noise_std = 0.0
         privacy_max_weight_share = 0.0
         privacy_clipped_fraction = 0.0
@@ -641,6 +796,21 @@ def run_experiment(cfg: Config) -> Path:
                 aggregate = detection_result.update
                 aggregate_signal_l2_norm = float(state_l2_norm(aggregate).item())
 
+            # Final weight share each update actually received in the released
+            # aggregate (NaN for coordinate-wise robust estimators, which are not
+            # weight based).
+            if cfg.privacy.mode == "central_client":
+                applied_shares = [0.0] * len(updates)
+                for position, index in enumerate(kept_indices):
+                    applied_shares[index] = float(private_weights[position])
+            elif cfg.aggregation.method in {"median", "trimmed_mean"}:
+                applied_shares = [float("nan")] * len(updates)
+            else:
+                kept_total = float(sum(weights[i] for i in kept_indices)) or 1.0
+                applied_shares = [0.0] * len(updates)
+                for index in kept_indices:
+                    applied_shares[index] = float(weights[index]) / kept_total
+
             kept_set = set(kept_indices)
             for update_index, client_id in enumerate(update_client_ids):
                 diagnostic = (
@@ -666,6 +836,8 @@ def run_experiment(cfg: Config) -> Path:
                         "post_clip_l2_norm": post_norm,
                         "diagnostic_distance_or_score": diagnostic,
                         "actual_aggregation_method": actual_aggregation_method,
+                        "raw_weight": float(weights[update_index]),
+                        "applied_weight_share": applied_shares[update_index],
                     }
                 )
 
@@ -749,6 +921,21 @@ def run_experiment(cfg: Config) -> Path:
                 "rejected_updates": rejected_count,
                 "failed_clients": len(failed_clients),
                 "recovered_clients": recovered_count,
+                # Terminology: these are surrogate (imputed) updates built from the
+                # received updates; nothing about the missing client's data is recovered.
+                "imputed_clients": recovered_count,
+                "real_weight_share": float(
+                    np.nansum([s for s, f in zip(applied_shares, update_recovered_flags) if not f])
+                ),
+                "surrogate_weight_share": float(
+                    np.nansum([s for s, f in zip(applied_shares, update_recovered_flags) if f])
+                ),
+                "mean_update_delivered": float(
+                    np.mean([bool(r["update_delivered"]) for r in round_network])
+                ) if round_network else np.nan,
+                "mean_expected_pdr": float(
+                    np.mean([r["expected_pdr"] for r in round_network])
+                ) if round_network else np.nan,
                 "malicious_selected": len(set(selected_clients) & malicious_clients),
                 "malicious_received": malicious_received,
                 "mean_train_loss": float(np.mean(local_losses)) if local_losses else np.nan,
@@ -829,6 +1016,12 @@ def run_experiment(cfg: Config) -> Path:
     network_df.to_csv(run_dir / "network_metrics.csv", index=False)
     recovery_df.to_csv(run_dir / "recovery_events.csv", index=False)
     aggregation_df.to_csv(run_dir / "aggregation_diagnostics.csv", index=False)
+
+    if cfg.experiment.validation_only:
+        return _finalize_validation_only(
+            cfg, bundle, server, best_state, best_round, run_dir, round_df,
+            privacy_plan, privacy_steps, early_stopped,
+        )
 
     # ------------------------------------------------------------------
     # Final evaluation protocols
@@ -1212,4 +1405,5 @@ def run_experiment(cfg: Config) -> Path:
             run_dir / "plots",
             decision_threshold=best_threshold,
         )
+    _write_run_metadata(cfg, run_dir, round_df, privacy_plan, privacy_steps, early_stopped)
     return run_dir

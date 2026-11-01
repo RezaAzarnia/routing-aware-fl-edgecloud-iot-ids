@@ -167,6 +167,10 @@ class ExperimentConfig:
     early_stopping_patience: int | None = 6
     early_stopping_min_rounds: int = 15
     early_stopping_min_delta: float = 1e-4
+    # Validation-only mode: the test partition is never loaded, predicted on,
+    # used for threshold selection, or exported. Final metrics are computed on
+    # the validation partition only.
+    validation_only: bool = False
 
 
 @dataclass
