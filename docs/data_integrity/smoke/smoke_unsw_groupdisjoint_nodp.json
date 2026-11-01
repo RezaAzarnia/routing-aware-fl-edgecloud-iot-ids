@@ -1,0 +1,59 @@
+{
+  "run": "results_smoke_no_official_test\\smoke_unsw_groupdisjoint_nodp\\smoke_proposed\\seed_1",
+  "clients": {
+    "n": 10,
+    "min_samples": 170,
+    "max_samples": 9347
+  },
+  "participation": {
+    "unique_clients_selected": 6,
+    "transfers": 30,
+    "delivered": 24,
+    "failed_transfers": 6
+  },
+  "recovery": {
+    "events": 6,
+    "applied": 6
+  },
+  "aggregation": {
+    "methods": [
+      "fedavg"
+    ],
+    "kept": 30,
+    "rejected": 0,
+    "malicious_rows": 0
+  },
+  "privacy": {
+    "privacy_mode": "none",
+    "effective_noise_multiplier": 0.0,
+    "accountant_sample_rate": 0.0,
+    "planned_epsilon_estimate": 0.0,
+    "subsampling_amplification_valid": null
+  },
+  "epsilon_after_last_round": 0.0,
+  "server_momentum_applied_update_norm_last": 0.9920532703399658,
+  "checkpoint_saved": true,
+  "validation_split": {
+    "protocol": "group_disjoint",
+    "seed": 1,
+    "n_splits": 7,
+    "validation_rows_sharing_predictor_vector_with_train": 0,
+    "train_rows": 34286,
+    "validation_rows": 5714,
+    "train_attack": 23336,
+    "train_benign": 10950,
+    "validation_attack": 3889,
+    "validation_benign": 1825,
+    "train_rows_after_conflict_exclusion": 34286
+  },
+  "resources": {
+    "config": "configs/smoke_unsw_groupdisjoint_nodp.yaml",
+    "seed": 1,
+    "wall_seconds": 9.84,
+    "cpu_seconds": 9.42,
+    "peak_working_set_mb": 674.2,
+    "device": "cpu"
+  },
+  "finite_validation_metrics": true,
+  "note": "Final-test files in this directory are NOT used or reported (test slot is a stand-in)."
+}
