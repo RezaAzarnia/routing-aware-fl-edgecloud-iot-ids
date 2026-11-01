@@ -1,9 +1,9 @@
 {
  "schema": 1,
- "created_utc": "2026-11-01T15:51:53Z",
+ "created_utc": "2026-11-01T16:23:56Z",
  "purpose": "Phase 6C confirmatory five-seed experiments (training stage; final test locked)",
- "git_commit_at_build": "5cdeca6edd9aa12fc0c2e10b274c8438b8a7c9e2",
- "code_fingerprint": "536354bd6c886ea6b970dd849ff92d08c90e0a6e77436f5448bcbdc8514138ea",
+ "git_commit_at_build": "9b8786993af521deedbfbc39e9c29cb5f578bb18",
+ "code_fingerprint": "1273afef07015ca873f658b4087e1b5b25124ce08d8422dfb16e0c92f686b524",
  "seeds": [
   12,
   13,
@@ -294,7 +294,7 @@
    "arm": "clean_centralized",
    "seed": 12,
    "config": "configs/phase6c/unsw_clean_centralized.yaml",
-   "config_sha256": "8e9676941b43b32262957e5e697241744c98506477257cc507abf082de899973",
+   "config_sha256": "9012c600379ee28322ec5d7c593773bf1a413f50b2a4315d53c9963f02eada05",
    "out_dir": "results_phase6c/unsw/clean_centralized/seed_12"
   },
   {
@@ -304,7 +304,7 @@
    "arm": "clean_fedavg",
    "seed": 12,
    "config": "configs/phase6c/unsw_clean_fedavg.yaml",
-   "config_sha256": "ff38721691234e007559c43dfa082a5986393c0cfa76110a9f44e2e693f53f4d",
+   "config_sha256": "56e2a5ac31c25d267442b7bfdfd46150150991fddd887879f0c4262b5facd870",
    "out_dir": "results_phase6c/unsw/clean_fedavg/seed_12"
   },
   {
@@ -314,7 +314,7 @@
    "arm": "scenario_fedavg_random",
    "seed": 12,
    "config": "configs/phase6c/unsw_scenario_fedavg_random.yaml",
-   "config_sha256": "46c9d55012b6ef0fba2ba756404e8150861d7c6fba6f2e47a75a4797d2340413",
+   "config_sha256": "4da160a9fbc743e466a0d842bd1d001769513636053da62abf0946b80ee9db29",
    "out_dir": "results_phase6c/unsw/scenario_fedavg_random/seed_12"
   },
   {
@@ -324,7 +324,7 @@
    "arm": "scenario_fedavg_topk",
    "seed": 12,
    "config": "configs/phase6c/unsw_scenario_fedavg_topk.yaml",
-   "config_sha256": "856312973bd6a37ed87988cc53cad069be12051c7a7a83ebc76733c0337e2074",
+   "config_sha256": "653792148d45572c4fd5b2e1f7e03501403e9cc6104deab6382de04e6fee4eed",
    "out_dir": "results_phase6c/unsw/scenario_fedavg_topk/seed_12"
   },
   {
@@ -334,7 +334,7 @@
    "arm": "robust_random_no_imputation",
    "seed": 12,
    "config": "configs/phase6c/unsw_robust_random_no_imputation.yaml",
-   "config_sha256": "d72f802cca7a42c92eb0bcf56260a0c60648b12cc14cf34b495c3f19081e9e14",
+   "config_sha256": "d4e14e17330bd8e6e89895b15fc3e22a9da41f5f164a4628b4407f098c0d3d63",
    "out_dir": "results_phase6c/unsw/robust_random_no_imputation/seed_12"
   },
   {
@@ -344,7 +344,7 @@
    "arm": "reference",
    "seed": 12,
    "config": "configs/phase6c/unsw_reference.yaml",
-   "config_sha256": "0b510f2b63ae975f34ec682ea76e524928522b497c1cd0b07377c5f933a907c0",
+   "config_sha256": "9670b7806f91d83b7f0b4a8210b72b4eddadb9df608d48d83fd25f63cccbc45b",
    "out_dir": "results_phase6c/unsw/reference/seed_12"
   },
   {
@@ -354,7 +354,7 @@
    "arm": "reference_gaussian",
    "seed": 12,
    "config": "configs/phase6c/unsw_reference_gaussian.yaml",
-   "config_sha256": "a464dc0a6ba302db29d020630571c7bd5c097f5179fac5fd7aeef1542c4e5948",
+   "config_sha256": "0a43700817add6b63a934e3eb7eae744456de18360375460b606fe1b93ef5f15",
    "out_dir": "results_phase6c/unsw/reference_gaussian/seed_12"
   },
   {
@@ -364,7 +364,7 @@
    "arm": "corrected",
    "seed": 12,
    "config": "configs/phase6c/unsw_corrected.yaml",
-   "config_sha256": "9205a1cd0caed176e7e730713e440cf00be86d0eef9768407ec6365540b7c352",
+   "config_sha256": "b28510b4da0bf5e7c0a8c62f6e8f9f2003de4693dad4085ad741d4a6d1bc19b1",
    "out_dir": "results_phase6c/unsw/corrected/seed_12"
   },
   {
@@ -374,7 +374,7 @@
    "arm": "corrected_gaussian",
    "seed": 12,
    "config": "configs/phase6c/unsw_corrected_gaussian.yaml",
-   "config_sha256": "630d798618ed5b50601427f6c6d4088b7c160a61005efc0a28752e9105a98a24",
+   "config_sha256": "641c08a103a8b00272495e4340d314435e1fbce778757e336d2e59ec11e3097e",
    "out_dir": "results_phase6c/unsw/corrected_gaussian/seed_12"
   },
   {
@@ -384,7 +384,7 @@
    "arm": "ctl_selection_uniform",
    "seed": 12,
    "config": "configs/phase6c/unsw_ctl_selection_uniform.yaml",
-   "config_sha256": "d13702c7bc6b33b7abf9c7aa6b4ce8b629dd7b0ace8040a5a094dbe3905864b0",
+   "config_sha256": "aa1ca7a728022be1a2c7b9cc7f503b8006c79b069ae78aa493c9738a3d971a51",
    "out_dir": "results_phase6c/unsw/ctl_selection_uniform/seed_12"
   },
   {
@@ -394,7 +394,7 @@
    "arm": "ctl_selection_coverage",
    "seed": 12,
    "config": "configs/phase6c/unsw_ctl_selection_coverage.yaml",
-   "config_sha256": "34b0ce9b78d0be6aceb013249a00ebbcad99053e1747e9295b70c5822b7b02b0",
+   "config_sha256": "c71aff9f1af868b62579583bff4aefdfdeccabb8b545f801b1135ecc8e6a871b",
    "out_dir": "results_phase6c/unsw/ctl_selection_coverage/seed_12"
   },
   {
@@ -404,7 +404,7 @@
    "arm": "ctl_imputation_none",
    "seed": 12,
    "config": "configs/phase6c/unsw_ctl_imputation_none.yaml",
-   "config_sha256": "25ea1fabb7eb29308d592792433db553ac34f17ec69e0b104b9c28ee374fadbb",
+   "config_sha256": "25c5d106618efbec9430299d4ba6ceafb4247c3893fb4b413b6f8858ed4b229d",
    "out_dir": "results_phase6c/unsw/ctl_imputation_none/seed_12"
   },
   {
@@ -414,7 +414,7 @@
    "arm": "ctl_imputation_cap010",
    "seed": 12,
    "config": "configs/phase6c/unsw_ctl_imputation_cap010.yaml",
-   "config_sha256": "1ff05d2ff9bf2ce29688ac7080097f1c56021a0f40707105c1b964ec2b3521fe",
+   "config_sha256": "d0310612f25e7d6235ee17f7b063066f5face0d03ba036303e15b63ff8507776",
    "out_dir": "results_phase6c/unsw/ctl_imputation_cap010/seed_12"
   },
   {
@@ -424,7 +424,7 @@
    "arm": "ctl_imputation_postfilter",
    "seed": 12,
    "config": "configs/phase6c/unsw_ctl_imputation_postfilter.yaml",
-   "config_sha256": "aa3f713609d31a9bef55ffac81f6c1c0104eabf6ed20c885ea86106ca4515070",
+   "config_sha256": "373567dd93307c1da77b3b6a4a00c28a4596a82e82751477ef672773939f725f",
    "out_dir": "results_phase6c/unsw/ctl_imputation_postfilter/seed_12"
   },
   {
@@ -434,7 +434,7 @@
    "arm": "ctl_delivery_coupled",
    "seed": 12,
    "config": "configs/phase6c/unsw_ctl_delivery_coupled.yaml",
-   "config_sha256": "35a237cac186e67af0633a5b0e782253985b34bd46209c518c2be9ab401f1841",
+   "config_sha256": "8adada17a95ea857a947f76276d3dca612bf0befc70a0b5a05763e250d5b4076",
    "out_dir": "results_phase6c/unsw/ctl_delivery_coupled/seed_12"
   },
   {
@@ -444,7 +444,7 @@
    "arm": "ctl_momentum0_lr0p5",
    "seed": 12,
    "config": "configs/phase6c/unsw_ctl_momentum0_lr0p5.yaml",
-   "config_sha256": "a223b19d8dc580e396e30d542f909198b9604bdf6723a5b752b238a91d7436fa",
+   "config_sha256": "38377eaee21e39072795fe29546619dcfa8a9df561764cece86a10c0027a56e0",
    "out_dir": "results_phase6c/unsw/ctl_momentum0_lr0p5/seed_12"
   },
   {
@@ -454,7 +454,7 @@
    "arm": "ctl_momentum0_lr5p0",
    "seed": 12,
    "config": "configs/phase6c/unsw_ctl_momentum0_lr5p0.yaml",
-   "config_sha256": "1156e06faff3bcc0c6cce01046b740ff508076487b63ab4e7c4ed7bbf7caf2c0",
+   "config_sha256": "6a4226aa020e1a607a14c8374be9fb025a89248c0a7bd6625092b7519001b2e7",
    "out_dir": "results_phase6c/unsw/ctl_momentum0_lr5p0/seed_12"
   },
   {
@@ -464,7 +464,7 @@
    "arm": "ctl_weighting_uniform",
    "seed": 12,
    "config": "configs/phase6c/unsw_ctl_weighting_uniform.yaml",
-   "config_sha256": "dc589cd5279e5e69383212a73b81d25b1a7a34956054d9643098e631a3b94d04",
+   "config_sha256": "df870b0a52eab4e66fa8edb3a7067ec995d839c3559c7c94047e37079832c1aa",
    "out_dir": "results_phase6c/unsw/ctl_weighting_uniform/seed_12"
   },
   {
@@ -474,7 +474,7 @@
    "arm": "nat_reference",
    "seed": 12,
    "config": "configs/phase6c/unsw_nat_reference.yaml",
-   "config_sha256": "f06423c499a4f23888d23a9702092f7bb862cbfd562d904e405b298cf92b7910",
+   "config_sha256": "4be04b2043fb7f9a58d7ab5a2dc30aaf52cd44aa862906122a3d3e234010184e",
    "out_dir": "results_phase6c/unsw/nat_reference/seed_12"
   },
   {
@@ -484,7 +484,7 @@
    "arm": "nat_selection_uniform",
    "seed": 12,
    "config": "configs/phase6c/unsw_nat_selection_uniform.yaml",
-   "config_sha256": "21d99cf79fe369050cbe14d6cebb6d73bbc38b0dc5071c30b58ee1c0355af60b",
+   "config_sha256": "7fd9ca81ce0bc68b28bf99d467da14616f9f2b611c73e5965d59115b525c2222",
    "out_dir": "results_phase6c/unsw/nat_selection_uniform/seed_12"
   },
   {
@@ -494,7 +494,7 @@
    "arm": "nat_corrected",
    "seed": 12,
    "config": "configs/phase6c/unsw_nat_corrected.yaml",
-   "config_sha256": "43ce38a9612a8b16f8ef9c4b58f22e1112952c11cd63d42ec5a5df89967f6e20",
+   "config_sha256": "63d6beb98f50cf4fd28a564c712ee914f3a6ae1dd5da000bdf785397757e9baf",
    "out_dir": "results_phase6c/unsw/nat_corrected/seed_12"
   },
   {
@@ -504,7 +504,7 @@
    "arm": "fail0p0_reference",
    "seed": 12,
    "config": "configs/phase6c/unsw_fail0p0_reference.yaml",
-   "config_sha256": "2186533f42fa3ed7984c5de75f7e5f22e06d1121f1e98f857ad349c24cfebc19",
+   "config_sha256": "3a192834bd1fa85f7518c308e7a83110b3a114a06ebf6997af7fcbd84a8ba65a",
    "out_dir": "results_phase6c/unsw/fail0p0_reference/seed_12"
   },
   {
@@ -514,7 +514,7 @@
    "arm": "fail0p3_reference",
    "seed": 12,
    "config": "configs/phase6c/unsw_fail0p3_reference.yaml",
-   "config_sha256": "d1f933c1371102e19fd08d7cc2451d174c6126cf0dfbace7ba76748c0db037ec",
+   "config_sha256": "bf49c076ea25176fd653f6f561bcf6e973fac476ce1fe3f4e6a73a175135c889",
    "out_dir": "results_phase6c/unsw/fail0p3_reference/seed_12"
   },
   {
@@ -524,7 +524,7 @@
    "arm": "fail0p3_corrected",
    "seed": 12,
    "config": "configs/phase6c/unsw_fail0p3_corrected.yaml",
-   "config_sha256": "5a74c66c6305242f9b25349d861bc708269b132a5a223b54fdfb5a28498c8d12",
+   "config_sha256": "15a8f7387a1dfbb061ad2de2a45125ba53f6e77218a5cdc761d10de47e95ba31",
    "out_dir": "results_phase6c/unsw/fail0p3_corrected/seed_12"
   },
   {
@@ -534,7 +534,7 @@
    "arm": "clean_centralized",
    "seed": 13,
    "config": "configs/phase6c/unsw_clean_centralized.yaml",
-   "config_sha256": "8e9676941b43b32262957e5e697241744c98506477257cc507abf082de899973",
+   "config_sha256": "9012c600379ee28322ec5d7c593773bf1a413f50b2a4315d53c9963f02eada05",
    "out_dir": "results_phase6c/unsw/clean_centralized/seed_13"
   },
   {
@@ -544,7 +544,7 @@
    "arm": "clean_fedavg",
    "seed": 13,
    "config": "configs/phase6c/unsw_clean_fedavg.yaml",
-   "config_sha256": "ff38721691234e007559c43dfa082a5986393c0cfa76110a9f44e2e693f53f4d",
+   "config_sha256": "56e2a5ac31c25d267442b7bfdfd46150150991fddd887879f0c4262b5facd870",
    "out_dir": "results_phase6c/unsw/clean_fedavg/seed_13"
   },
   {
@@ -554,7 +554,7 @@
    "arm": "scenario_fedavg_random",
    "seed": 13,
    "config": "configs/phase6c/unsw_scenario_fedavg_random.yaml",
-   "config_sha256": "46c9d55012b6ef0fba2ba756404e8150861d7c6fba6f2e47a75a4797d2340413",
+   "config_sha256": "4da160a9fbc743e466a0d842bd1d001769513636053da62abf0946b80ee9db29",
    "out_dir": "results_phase6c/unsw/scenario_fedavg_random/seed_13"
   },
   {
@@ -564,7 +564,7 @@
    "arm": "scenario_fedavg_topk",
    "seed": 13,
    "config": "configs/phase6c/unsw_scenario_fedavg_topk.yaml",
-   "config_sha256": "856312973bd6a37ed87988cc53cad069be12051c7a7a83ebc76733c0337e2074",
+   "config_sha256": "653792148d45572c4fd5b2e1f7e03501403e9cc6104deab6382de04e6fee4eed",
    "out_dir": "results_phase6c/unsw/scenario_fedavg_topk/seed_13"
   },
   {
@@ -574,7 +574,7 @@
    "arm": "robust_random_no_imputation",
    "seed": 13,
    "config": "configs/phase6c/unsw_robust_random_no_imputation.yaml",
-   "config_sha256": "d72f802cca7a42c92eb0bcf56260a0c60648b12cc14cf34b495c3f19081e9e14",
+   "config_sha256": "d4e14e17330bd8e6e89895b15fc3e22a9da41f5f164a4628b4407f098c0d3d63",
    "out_dir": "results_phase6c/unsw/robust_random_no_imputation/seed_13"
   },
   {
@@ -584,7 +584,7 @@
    "arm": "reference",
    "seed": 13,
    "config": "configs/phase6c/unsw_reference.yaml",
-   "config_sha256": "0b510f2b63ae975f34ec682ea76e524928522b497c1cd0b07377c5f933a907c0",
+   "config_sha256": "9670b7806f91d83b7f0b4a8210b72b4eddadb9df608d48d83fd25f63cccbc45b",
    "out_dir": "results_phase6c/unsw/reference/seed_13"
   },
   {
@@ -594,7 +594,7 @@
    "arm": "reference_gaussian",
    "seed": 13,
    "config": "configs/phase6c/unsw_reference_gaussian.yaml",
-   "config_sha256": "a464dc0a6ba302db29d020630571c7bd5c097f5179fac5fd7aeef1542c4e5948",
+   "config_sha256": "0a43700817add6b63a934e3eb7eae744456de18360375460b606fe1b93ef5f15",
    "out_dir": "results_phase6c/unsw/reference_gaussian/seed_13"
   },
   {
@@ -604,7 +604,7 @@
    "arm": "corrected",
    "seed": 13,
    "config": "configs/phase6c/unsw_corrected.yaml",
-   "config_sha256": "9205a1cd0caed176e7e730713e440cf00be86d0eef9768407ec6365540b7c352",
+   "config_sha256": "b28510b4da0bf5e7c0a8c62f6e8f9f2003de4693dad4085ad741d4a6d1bc19b1",
    "out_dir": "results_phase6c/unsw/corrected/seed_13"
   },
   {
@@ -614,7 +614,7 @@
    "arm": "corrected_gaussian",
    "seed": 13,
    "config": "configs/phase6c/unsw_corrected_gaussian.yaml",
-   "config_sha256": "630d798618ed5b50601427f6c6d4088b7c160a61005efc0a28752e9105a98a24",
+   "config_sha256": "641c08a103a8b00272495e4340d314435e1fbce778757e336d2e59ec11e3097e",
    "out_dir": "results_phase6c/unsw/corrected_gaussian/seed_13"
   },
   {
@@ -624,7 +624,7 @@
    "arm": "ctl_selection_uniform",
    "seed": 13,
    "config": "configs/phase6c/unsw_ctl_selection_uniform.yaml",
-   "config_sha256": "d13702c7bc6b33b7abf9c7aa6b4ce8b629dd7b0ace8040a5a094dbe3905864b0",
+   "config_sha256": "aa1ca7a728022be1a2c7b9cc7f503b8006c79b069ae78aa493c9738a3d971a51",
    "out_dir": "results_phase6c/unsw/ctl_selection_uniform/seed_13"
   },
   {
@@ -634,7 +634,7 @@
    "arm": "ctl_selection_coverage",
    "seed": 13,
    "config": "configs/phase6c/unsw_ctl_selection_coverage.yaml",
-   "config_sha256": "34b0ce9b78d0be6aceb013249a00ebbcad99053e1747e9295b70c5822b7b02b0",
+   "config_sha256": "c71aff9f1af868b62579583bff4aefdfdeccabb8b545f801b1135ecc8e6a871b",
    "out_dir": "results_phase6c/unsw/ctl_selection_coverage/seed_13"
   },
   {
@@ -644,7 +644,7 @@
    "arm": "ctl_imputation_none",
    "seed": 13,
    "config": "configs/phase6c/unsw_ctl_imputation_none.yaml",
-   "config_sha256": "25ea1fabb7eb29308d592792433db553ac34f17ec69e0b104b9c28ee374fadbb",
+   "config_sha256": "25c5d106618efbec9430299d4ba6ceafb4247c3893fb4b413b6f8858ed4b229d",
    "out_dir": "results_phase6c/unsw/ctl_imputation_none/seed_13"
   },
   {
@@ -654,7 +654,7 @@
    "arm": "ctl_imputation_cap010",
    "seed": 13,
    "config": "configs/phase6c/unsw_ctl_imputation_cap010.yaml",
-   "config_sha256": "1ff05d2ff9bf2ce29688ac7080097f1c56021a0f40707105c1b964ec2b3521fe",
+   "config_sha256": "d0310612f25e7d6235ee17f7b063066f5face0d03ba036303e15b63ff8507776",
    "out_dir": "results_phase6c/unsw/ctl_imputation_cap010/seed_13"
   },
   {
@@ -664,7 +664,7 @@
    "arm": "ctl_imputation_postfilter",
    "seed": 13,
    "config": "configs/phase6c/unsw_ctl_imputation_postfilter.yaml",
-   "config_sha256": "aa3f713609d31a9bef55ffac81f6c1c0104eabf6ed20c885ea86106ca4515070",
+   "config_sha256": "373567dd93307c1da77b3b6a4a00c28a4596a82e82751477ef672773939f725f",
    "out_dir": "results_phase6c/unsw/ctl_imputation_postfilter/seed_13"
   },
   {
@@ -674,7 +674,7 @@
    "arm": "ctl_delivery_coupled",
    "seed": 13,
    "config": "configs/phase6c/unsw_ctl_delivery_coupled.yaml",
-   "config_sha256": "35a237cac186e67af0633a5b0e782253985b34bd46209c518c2be9ab401f1841",
+   "config_sha256": "8adada17a95ea857a947f76276d3dca612bf0befc70a0b5a05763e250d5b4076",
    "out_dir": "results_phase6c/unsw/ctl_delivery_coupled/seed_13"
   },
   {
@@ -684,7 +684,7 @@
    "arm": "ctl_momentum0_lr0p5",
    "seed": 13,
    "config": "configs/phase6c/unsw_ctl_momentum0_lr0p5.yaml",
-   "config_sha256": "a223b19d8dc580e396e30d542f909198b9604bdf6723a5b752b238a91d7436fa",
+   "config_sha256": "38377eaee21e39072795fe29546619dcfa8a9df561764cece86a10c0027a56e0",
    "out_dir": "results_phase6c/unsw/ctl_momentum0_lr0p5/seed_13"
   },
   {
@@ -694,7 +694,7 @@
    "arm": "ctl_momentum0_lr5p0",
    "seed": 13,
    "config": "configs/phase6c/unsw_ctl_momentum0_lr5p0.yaml",
-   "config_sha256": "1156e06faff3bcc0c6cce01046b740ff508076487b63ab4e7c4ed7bbf7caf2c0",
+   "config_sha256": "6a4226aa020e1a607a14c8374be9fb025a89248c0a7bd6625092b7519001b2e7",
    "out_dir": "results_phase6c/unsw/ctl_momentum0_lr5p0/seed_13"
   },
   {
@@ -704,7 +704,7 @@
    "arm": "ctl_weighting_uniform",
    "seed": 13,
    "config": "configs/phase6c/unsw_ctl_weighting_uniform.yaml",
-   "config_sha256": "dc589cd5279e5e69383212a73b81d25b1a7a34956054d9643098e631a3b94d04",
+   "config_sha256": "df870b0a52eab4e66fa8edb3a7067ec995d839c3559c7c94047e37079832c1aa",
    "out_dir": "results_phase6c/unsw/ctl_weighting_uniform/seed_13"
   },
   {
@@ -714,7 +714,7 @@
    "arm": "nat_reference",
    "seed": 13,
    "config": "configs/phase6c/unsw_nat_reference.yaml",
-   "config_sha256": "f06423c499a4f23888d23a9702092f7bb862cbfd562d904e405b298cf92b7910",
+   "config_sha256": "4be04b2043fb7f9a58d7ab5a2dc30aaf52cd44aa862906122a3d3e234010184e",
    "out_dir": "results_phase6c/unsw/nat_reference/seed_13"
   },
   {
@@ -724,7 +724,7 @@
    "arm": "nat_selection_uniform",
    "seed": 13,
    "config": "configs/phase6c/unsw_nat_selection_uniform.yaml",
-   "config_sha256": "21d99cf79fe369050cbe14d6cebb6d73bbc38b0dc5071c30b58ee1c0355af60b",
+   "config_sha256": "7fd9ca81ce0bc68b28bf99d467da14616f9f2b611c73e5965d59115b525c2222",
    "out_dir": "results_phase6c/unsw/nat_selection_uniform/seed_13"
   },
   {
@@ -734,7 +734,7 @@
    "arm": "nat_corrected",
    "seed": 13,
    "config": "configs/phase6c/unsw_nat_corrected.yaml",
-   "config_sha256": "43ce38a9612a8b16f8ef9c4b58f22e1112952c11cd63d42ec5a5df89967f6e20",
+   "config_sha256": "63d6beb98f50cf4fd28a564c712ee914f3a6ae1dd5da000bdf785397757e9baf",
    "out_dir": "results_phase6c/unsw/nat_corrected/seed_13"
   },
   {
@@ -744,7 +744,7 @@
    "arm": "fail0p0_reference",
    "seed": 13,
    "config": "configs/phase6c/unsw_fail0p0_reference.yaml",
-   "config_sha256": "2186533f42fa3ed7984c5de75f7e5f22e06d1121f1e98f857ad349c24cfebc19",
+   "config_sha256": "3a192834bd1fa85f7518c308e7a83110b3a114a06ebf6997af7fcbd84a8ba65a",
    "out_dir": "results_phase6c/unsw/fail0p0_reference/seed_13"
   },
   {
@@ -754,7 +754,7 @@
    "arm": "fail0p3_reference",
    "seed": 13,
    "config": "configs/phase6c/unsw_fail0p3_reference.yaml",
-   "config_sha256": "d1f933c1371102e19fd08d7cc2451d174c6126cf0dfbace7ba76748c0db037ec",
+   "config_sha256": "bf49c076ea25176fd653f6f561bcf6e973fac476ce1fe3f4e6a73a175135c889",
    "out_dir": "results_phase6c/unsw/fail0p3_reference/seed_13"
   },
   {
@@ -764,7 +764,7 @@
    "arm": "fail0p3_corrected",
    "seed": 13,
    "config": "configs/phase6c/unsw_fail0p3_corrected.yaml",
-   "config_sha256": "5a74c66c6305242f9b25349d861bc708269b132a5a223b54fdfb5a28498c8d12",
+   "config_sha256": "15a8f7387a1dfbb061ad2de2a45125ba53f6e77218a5cdc761d10de47e95ba31",
    "out_dir": "results_phase6c/unsw/fail0p3_corrected/seed_13"
   },
   {
@@ -774,7 +774,7 @@
    "arm": "clean_centralized",
    "seed": 14,
    "config": "configs/phase6c/unsw_clean_centralized.yaml",
-   "config_sha256": "8e9676941b43b32262957e5e697241744c98506477257cc507abf082de899973",
+   "config_sha256": "9012c600379ee28322ec5d7c593773bf1a413f50b2a4315d53c9963f02eada05",
    "out_dir": "results_phase6c/unsw/clean_centralized/seed_14"
   },
   {
@@ -784,7 +784,7 @@
    "arm": "clean_fedavg",
    "seed": 14,
    "config": "configs/phase6c/unsw_clean_fedavg.yaml",
-   "config_sha256": "ff38721691234e007559c43dfa082a5986393c0cfa76110a9f44e2e693f53f4d",
+   "config_sha256": "56e2a5ac31c25d267442b7bfdfd46150150991fddd887879f0c4262b5facd870",
    "out_dir": "results_phase6c/unsw/clean_fedavg/seed_14"
   },
   {
@@ -794,7 +794,7 @@
    "arm": "scenario_fedavg_random",
    "seed": 14,
    "config": "configs/phase6c/unsw_scenario_fedavg_random.yaml",
-   "config_sha256": "46c9d55012b6ef0fba2ba756404e8150861d7c6fba6f2e47a75a4797d2340413",
+   "config_sha256": "4da160a9fbc743e466a0d842bd1d001769513636053da62abf0946b80ee9db29",
    "out_dir": "results_phase6c/unsw/scenario_fedavg_random/seed_14"
   },
   {
@@ -804,7 +804,7 @@
    "arm": "scenario_fedavg_topk",
    "seed": 14,
    "config": "configs/phase6c/unsw_scenario_fedavg_topk.yaml",
-   "config_sha256": "856312973bd6a37ed87988cc53cad069be12051c7a7a83ebc76733c0337e2074",
+   "config_sha256": "653792148d45572c4fd5b2e1f7e03501403e9cc6104deab6382de04e6fee4eed",
    "out_dir": "results_phase6c/unsw/scenario_fedavg_topk/seed_14"
   },
   {
@@ -814,7 +814,7 @@
    "arm": "robust_random_no_imputation",
    "seed": 14,
    "config": "configs/phase6c/unsw_robust_random_no_imputation.yaml",
-   "config_sha256": "d72f802cca7a42c92eb0bcf56260a0c60648b12cc14cf34b495c3f19081e9e14",
+   "config_sha256": "d4e14e17330bd8e6e89895b15fc3e22a9da41f5f164a4628b4407f098c0d3d63",
    "out_dir": "results_phase6c/unsw/robust_random_no_imputation/seed_14"
   },
   {
@@ -824,7 +824,7 @@
    "arm": "reference",
    "seed": 14,
    "config": "configs/phase6c/unsw_reference.yaml",
-   "config_sha256": "0b510f2b63ae975f34ec682ea76e524928522b497c1cd0b07377c5f933a907c0",
+   "config_sha256": "9670b7806f91d83b7f0b4a8210b72b4eddadb9df608d48d83fd25f63cccbc45b",
    "out_dir": "results_phase6c/unsw/reference/seed_14"
   },
   {
@@ -834,7 +834,7 @@
    "arm": "reference_gaussian",
    "seed": 14,
    "config": "configs/phase6c/unsw_reference_gaussian.yaml",
-   "config_sha256": "a464dc0a6ba302db29d020630571c7bd5c097f5179fac5fd7aeef1542c4e5948",
+   "config_sha256": "0a43700817add6b63a934e3eb7eae744456de18360375460b606fe1b93ef5f15",
    "out_dir": "results_phase6c/unsw/reference_gaussian/seed_14"
   },
   {
@@ -844,7 +844,7 @@
    "arm": "corrected",
    "seed": 14,
    "config": "configs/phase6c/unsw_corrected.yaml",
-   "config_sha256": "9205a1cd0caed176e7e730713e440cf00be86d0eef9768407ec6365540b7c352",
+   "config_sha256": "b28510b4da0bf5e7c0a8c62f6e8f9f2003de4693dad4085ad741d4a6d1bc19b1",
    "out_dir": "results_phase6c/unsw/corrected/seed_14"
   },
   {
@@ -854,7 +854,7 @@
    "arm": "corrected_gaussian",
    "seed": 14,
    "config": "configs/phase6c/unsw_corrected_gaussian.yaml",
-   "config_sha256": "630d798618ed5b50601427f6c6d4088b7c160a61005efc0a28752e9105a98a24",
+   "config_sha256": "641c08a103a8b00272495e4340d314435e1fbce778757e336d2e59ec11e3097e",
    "out_dir": "results_phase6c/unsw/corrected_gaussian/seed_14"
   },
   {
@@ -864,7 +864,7 @@
    "arm": "ctl_selection_uniform",
    "seed": 14,
    "config": "configs/phase6c/unsw_ctl_selection_uniform.yaml",
-   "config_sha256": "d13702c7bc6b33b7abf9c7aa6b4ce8b629dd7b0ace8040a5a094dbe3905864b0",
+   "config_sha256": "aa1ca7a728022be1a2c7b9cc7f503b8006c79b069ae78aa493c9738a3d971a51",
    "out_dir": "results_phase6c/unsw/ctl_selection_uniform/seed_14"
   },
   {
@@ -874,7 +874,7 @@
    "arm": "ctl_selection_coverage",
    "seed": 14,
    "config": "configs/phase6c/unsw_ctl_selection_coverage.yaml",
-   "config_sha256": "34b0ce9b78d0be6aceb013249a00ebbcad99053e1747e9295b70c5822b7b02b0",
+   "config_sha256": "c71aff9f1af868b62579583bff4aefdfdeccabb8b545f801b1135ecc8e6a871b",
    "out_dir": "results_phase6c/unsw/ctl_selection_coverage/seed_14"
   },
   {
@@ -884,7 +884,7 @@
    "arm": "ctl_imputation_none",
    "seed": 14,
    "config": "configs/phase6c/unsw_ctl_imputation_none.yaml",
-   "config_sha256": "25ea1fabb7eb29308d592792433db553ac34f17ec69e0b104b9c28ee374fadbb",
+   "config_sha256": "25c5d106618efbec9430299d4ba6ceafb4247c3893fb4b413b6f8858ed4b229d",
    "out_dir": "results_phase6c/unsw/ctl_imputation_none/seed_14"
   },
   {
@@ -894,7 +894,7 @@
    "arm": "ctl_imputation_cap010",
    "seed": 14,
    "config": "configs/phase6c/unsw_ctl_imputation_cap010.yaml",
-   "config_sha256": "1ff05d2ff9bf2ce29688ac7080097f1c56021a0f40707105c1b964ec2b3521fe",
+   "config_sha256": "d0310612f25e7d6235ee17f7b063066f5face0d03ba036303e15b63ff8507776",
    "out_dir": "results_phase6c/unsw/ctl_imputation_cap010/seed_14"
   },
   {
@@ -904,7 +904,7 @@
    "arm": "ctl_imputation_postfilter",
    "seed": 14,
    "config": "configs/phase6c/unsw_ctl_imputation_postfilter.yaml",
-   "config_sha256": "aa3f713609d31a9bef55ffac81f6c1c0104eabf6ed20c885ea86106ca4515070",
+   "config_sha256": "373567dd93307c1da77b3b6a4a00c28a4596a82e82751477ef672773939f725f",
    "out_dir": "results_phase6c/unsw/ctl_imputation_postfilter/seed_14"
   },
   {
@@ -914,7 +914,7 @@
    "arm": "ctl_delivery_coupled",
    "seed": 14,
    "config": "configs/phase6c/unsw_ctl_delivery_coupled.yaml",
-   "config_sha256": "35a237cac186e67af0633a5b0e782253985b34bd46209c518c2be9ab401f1841",
+   "config_sha256": "8adada17a95ea857a947f76276d3dca612bf0befc70a0b5a05763e250d5b4076",
    "out_dir": "results_phase6c/unsw/ctl_delivery_coupled/seed_14"
   },
   {
@@ -924,7 +924,7 @@
    "arm": "ctl_momentum0_lr0p5",
    "seed": 14,
    "config": "configs/phase6c/unsw_ctl_momentum0_lr0p5.yaml",
-   "config_sha256": "a223b19d8dc580e396e30d542f909198b9604bdf6723a5b752b238a91d7436fa",
+   "config_sha256": "38377eaee21e39072795fe29546619dcfa8a9df561764cece86a10c0027a56e0",
    "out_dir": "results_phase6c/unsw/ctl_momentum0_lr0p5/seed_14"
   },
   {
@@ -934,7 +934,7 @@
    "arm": "ctl_momentum0_lr5p0",
    "seed": 14,
    "config": "configs/phase6c/unsw_ctl_momentum0_lr5p0.yaml",
-   "config_sha256": "1156e06faff3bcc0c6cce01046b740ff508076487b63ab4e7c4ed7bbf7caf2c0",
+   "config_sha256": "6a4226aa020e1a607a14c8374be9fb025a89248c0a7bd6625092b7519001b2e7",
    "out_dir": "results_phase6c/unsw/ctl_momentum0_lr5p0/seed_14"
   },
   {
@@ -944,7 +944,7 @@
    "arm": "ctl_weighting_uniform",
    "seed": 14,
    "config": "configs/phase6c/unsw_ctl_weighting_uniform.yaml",
-   "config_sha256": "dc589cd5279e5e69383212a73b81d25b1a7a34956054d9643098e631a3b94d04",
+   "config_sha256": "df870b0a52eab4e66fa8edb3a7067ec995d839c3559c7c94047e37079832c1aa",
    "out_dir": "results_phase6c/unsw/ctl_weighting_uniform/seed_14"
   },
   {
@@ -954,7 +954,7 @@
    "arm": "nat_reference",
    "seed": 14,
    "config": "configs/phase6c/unsw_nat_reference.yaml",
-   "config_sha256": "f06423c499a4f23888d23a9702092f7bb862cbfd562d904e405b298cf92b7910",
+   "config_sha256": "4be04b2043fb7f9a58d7ab5a2dc30aaf52cd44aa862906122a3d3e234010184e",
    "out_dir": "results_phase6c/unsw/nat_reference/seed_14"
   },
   {
@@ -964,7 +964,7 @@
    "arm": "nat_selection_uniform",
    "seed": 14,
    "config": "configs/phase6c/unsw_nat_selection_uniform.yaml",
-   "config_sha256": "21d99cf79fe369050cbe14d6cebb6d73bbc38b0dc5071c30b58ee1c0355af60b",
+   "config_sha256": "7fd9ca81ce0bc68b28bf99d467da14616f9f2b611c73e5965d59115b525c2222",
    "out_dir": "results_phase6c/unsw/nat_selection_uniform/seed_14"
   },
   {
@@ -974,7 +974,7 @@
    "arm": "nat_corrected",
    "seed": 14,
    "config": "configs/phase6c/unsw_nat_corrected.yaml",
-   "config_sha256": "43ce38a9612a8b16f8ef9c4b58f22e1112952c11cd63d42ec5a5df89967f6e20",
+   "config_sha256": "63d6beb98f50cf4fd28a564c712ee914f3a6ae1dd5da000bdf785397757e9baf",
    "out_dir": "results_phase6c/unsw/nat_corrected/seed_14"
   },
   {
@@ -984,7 +984,7 @@
    "arm": "fail0p0_reference",
    "seed": 14,
    "config": "configs/phase6c/unsw_fail0p0_reference.yaml",
-   "config_sha256": "2186533f42fa3ed7984c5de75f7e5f22e06d1121f1e98f857ad349c24cfebc19",
+   "config_sha256": "3a192834bd1fa85f7518c308e7a83110b3a114a06ebf6997af7fcbd84a8ba65a",
    "out_dir": "results_phase6c/unsw/fail0p0_reference/seed_14"
   },
   {
@@ -994,7 +994,7 @@
    "arm": "fail0p3_reference",
    "seed": 14,
    "config": "configs/phase6c/unsw_fail0p3_reference.yaml",
-   "config_sha256": "d1f933c1371102e19fd08d7cc2451d174c6126cf0dfbace7ba76748c0db037ec",
+   "config_sha256": "bf49c076ea25176fd653f6f561bcf6e973fac476ce1fe3f4e6a73a175135c889",
    "out_dir": "results_phase6c/unsw/fail0p3_reference/seed_14"
   },
   {
@@ -1004,7 +1004,7 @@
    "arm": "fail0p3_corrected",
    "seed": 14,
    "config": "configs/phase6c/unsw_fail0p3_corrected.yaml",
-   "config_sha256": "5a74c66c6305242f9b25349d861bc708269b132a5a223b54fdfb5a28498c8d12",
+   "config_sha256": "15a8f7387a1dfbb061ad2de2a45125ba53f6e77218a5cdc761d10de47e95ba31",
    "out_dir": "results_phase6c/unsw/fail0p3_corrected/seed_14"
   },
   {
@@ -1014,7 +1014,7 @@
    "arm": "clean_centralized",
    "seed": 15,
    "config": "configs/phase6c/unsw_clean_centralized.yaml",
-   "config_sha256": "8e9676941b43b32262957e5e697241744c98506477257cc507abf082de899973",
+   "config_sha256": "9012c600379ee28322ec5d7c593773bf1a413f50b2a4315d53c9963f02eada05",
    "out_dir": "results_phase6c/unsw/clean_centralized/seed_15"
   },
   {
@@ -1024,7 +1024,7 @@
    "arm": "clean_fedavg",
    "seed": 15,
    "config": "configs/phase6c/unsw_clean_fedavg.yaml",
-   "config_sha256": "ff38721691234e007559c43dfa082a5986393c0cfa76110a9f44e2e693f53f4d",
+   "config_sha256": "56e2a5ac31c25d267442b7bfdfd46150150991fddd887879f0c4262b5facd870",
    "out_dir": "results_phase6c/unsw/clean_fedavg/seed_15"
   },
   {
@@ -1034,7 +1034,7 @@
    "arm": "scenario_fedavg_random",
    "seed": 15,
    "config": "configs/phase6c/unsw_scenario_fedavg_random.yaml",
-   "config_sha256": "46c9d55012b6ef0fba2ba756404e8150861d7c6fba6f2e47a75a4797d2340413",
+   "config_sha256": "4da160a9fbc743e466a0d842bd1d001769513636053da62abf0946b80ee9db29",
    "out_dir": "results_phase6c/unsw/scenario_fedavg_random/seed_15"
   },
   {
@@ -1044,7 +1044,7 @@
    "arm": "scenario_fedavg_topk",
    "seed": 15,
    "config": "configs/phase6c/unsw_scenario_fedavg_topk.yaml",
-   "config_sha256": "856312973bd6a37ed87988cc53cad069be12051c7a7a83ebc76733c0337e2074",
+   "config_sha256": "653792148d45572c4fd5b2e1f7e03501403e9cc6104deab6382de04e6fee4eed",
    "out_dir": "results_phase6c/unsw/scenario_fedavg_topk/seed_15"
   },
   {
@@ -1054,7 +1054,7 @@
    "arm": "robust_random_no_imputation",
    "seed": 15,
    "config": "configs/phase6c/unsw_robust_random_no_imputation.yaml",
-   "config_sha256": "d72f802cca7a42c92eb0bcf56260a0c60648b12cc14cf34b495c3f19081e9e14",
+   "config_sha256": "d4e14e17330bd8e6e89895b15fc3e22a9da41f5f164a4628b4407f098c0d3d63",
    "out_dir": "results_phase6c/unsw/robust_random_no_imputation/seed_15"
   },
   {
@@ -1064,7 +1064,7 @@
    "arm": "reference",
    "seed": 15,
    "config": "configs/phase6c/unsw_reference.yaml",
-   "config_sha256": "0b510f2b63ae975f34ec682ea76e524928522b497c1cd0b07377c5f933a907c0",
+   "config_sha256": "9670b7806f91d83b7f0b4a8210b72b4eddadb9df608d48d83fd25f63cccbc45b",
    "out_dir": "results_phase6c/unsw/reference/seed_15"
   },
   {
@@ -1074,7 +1074,7 @@
    "arm": "reference_gaussian",
    "seed": 15,
    "config": "configs/phase6c/unsw_reference_gaussian.yaml",
-   "config_sha256": "a464dc0a6ba302db29d020630571c7bd5c097f5179fac5fd7aeef1542c4e5948",
+   "config_sha256": "0a43700817add6b63a934e3eb7eae744456de18360375460b606fe1b93ef5f15",
    "out_dir": "results_phase6c/unsw/reference_gaussian/seed_15"
   },
   {
@@ -1084,7 +1084,7 @@
    "arm": "corrected",
    "seed": 15,
    "config": "configs/phase6c/unsw_corrected.yaml",
-   "config_sha256": "9205a1cd0caed176e7e730713e440cf00be86d0eef9768407ec6365540b7c352",
+   "config_sha256": "b28510b4da0bf5e7c0a8c62f6e8f9f2003de4693dad4085ad741d4a6d1bc19b1",
    "out_dir": "results_phase6c/unsw/corrected/seed_15"
   },
   {
@@ -1094,7 +1094,7 @@
    "arm": "corrected_gaussian",
    "seed": 15,
    "config": "configs/phase6c/unsw_corrected_gaussian.yaml",
-   "config_sha256": "630d798618ed5b50601427f6c6d4088b7c160a61005efc0a28752e9105a98a24",
+   "config_sha256": "641c08a103a8b00272495e4340d314435e1fbce778757e336d2e59ec11e3097e",
    "out_dir": "results_phase6c/unsw/corrected_gaussian/seed_15"
   },
   {
@@ -1104,7 +1104,7 @@
    "arm": "ctl_selection_uniform",
    "seed": 15,
    "config": "configs/phase6c/unsw_ctl_selection_uniform.yaml",
-   "config_sha256": "d13702c7bc6b33b7abf9c7aa6b4ce8b629dd7b0ace8040a5a094dbe3905864b0",
+   "config_sha256": "aa1ca7a728022be1a2c7b9cc7f503b8006c79b069ae78aa493c9738a3d971a51",
    "out_dir": "results_phase6c/unsw/ctl_selection_uniform/seed_15"
   },
   {
@@ -1114,7 +1114,7 @@
    "arm": "ctl_selection_coverage",
    "seed": 15,
    "config": "configs/phase6c/unsw_ctl_selection_coverage.yaml",
-   "config_sha256": "34b0ce9b78d0be6aceb013249a00ebbcad99053e1747e9295b70c5822b7b02b0",
+   "config_sha256": "c71aff9f1af868b62579583bff4aefdfdeccabb8b545f801b1135ecc8e6a871b",
    "out_dir": "results_phase6c/unsw/ctl_selection_coverage/seed_15"
   },
   {
@@ -1124,7 +1124,7 @@
    "arm": "ctl_imputation_none",
    "seed": 15,
    "config": "configs/phase6c/unsw_ctl_imputation_none.yaml",
-   "config_sha256": "25ea1fabb7eb29308d592792433db553ac34f17ec69e0b104b9c28ee374fadbb",
+   "config_sha256": "25c5d106618efbec9430299d4ba6ceafb4247c3893fb4b413b6f8858ed4b229d",
    "out_dir": "results_phase6c/unsw/ctl_imputation_none/seed_15"
   },
   {
@@ -1134,7 +1134,7 @@
    "arm": "ctl_imputation_cap010",
    "seed": 15,
    "config": "configs/phase6c/unsw_ctl_imputation_cap010.yaml",
-   "config_sha256": "1ff05d2ff9bf2ce29688ac7080097f1c56021a0f40707105c1b964ec2b3521fe",
+   "config_sha256": "d0310612f25e7d6235ee17f7b063066f5face0d03ba036303e15b63ff8507776",
    "out_dir": "results_phase6c/unsw/ctl_imputation_cap010/seed_15"
   },
   {
@@ -1144,7 +1144,7 @@
    "arm": "ctl_imputation_postfilter",
    "seed": 15,
    "config": "configs/phase6c/unsw_ctl_imputation_postfilter.yaml",
-   "config_sha256": "aa3f713609d31a9bef55ffac81f6c1c0104eabf6ed20c885ea86106ca4515070",
+   "config_sha256": "373567dd93307c1da77b3b6a4a00c28a4596a82e82751477ef672773939f725f",
    "out_dir": "results_phase6c/unsw/ctl_imputation_postfilter/seed_15"
   },
   {
@@ -1154,7 +1154,7 @@
    "arm": "ctl_delivery_coupled",
    "seed": 15,
    "config": "configs/phase6c/unsw_ctl_delivery_coupled.yaml",
-   "config_sha256": "35a237cac186e67af0633a5b0e782253985b34bd46209c518c2be9ab401f1841",
+   "config_sha256": "8adada17a95ea857a947f76276d3dca612bf0befc70a0b5a05763e250d5b4076",
    "out_dir": "results_phase6c/unsw/ctl_delivery_coupled/seed_15"
   },
   {
@@ -1164,7 +1164,7 @@
    "arm": "ctl_momentum0_lr0p5",
    "seed": 15,
    "config": "configs/phase6c/unsw_ctl_momentum0_lr0p5.yaml",
-   "config_sha256": "a223b19d8dc580e396e30d542f909198b9604bdf6723a5b752b238a91d7436fa",
+   "config_sha256": "38377eaee21e39072795fe29546619dcfa8a9df561764cece86a10c0027a56e0",
    "out_dir": "results_phase6c/unsw/ctl_momentum0_lr0p5/seed_15"
   },
   {
@@ -1174,7 +1174,7 @@
    "arm": "ctl_momentum0_lr5p0",
    "seed": 15,
    "config": "configs/phase6c/unsw_ctl_momentum0_lr5p0.yaml",
-   "config_sha256": "1156e06faff3bcc0c6cce01046b740ff508076487b63ab4e7c4ed7bbf7caf2c0",
+   "config_sha256": "6a4226aa020e1a607a14c8374be9fb025a89248c0a7bd6625092b7519001b2e7",
    "out_dir": "results_phase6c/unsw/ctl_momentum0_lr5p0/seed_15"
   },
   {
@@ -1184,7 +1184,7 @@
    "arm": "ctl_weighting_uniform",
    "seed": 15,
    "config": "configs/phase6c/unsw_ctl_weighting_uniform.yaml",
-   "config_sha256": "dc589cd5279e5e69383212a73b81d25b1a7a34956054d9643098e631a3b94d04",
+   "config_sha256": "df870b0a52eab4e66fa8edb3a7067ec995d839c3559c7c94047e37079832c1aa",
    "out_dir": "results_phase6c/unsw/ctl_weighting_uniform/seed_15"
   },
   {
@@ -1194,7 +1194,7 @@
    "arm": "nat_reference",
    "seed": 15,
    "config": "configs/phase6c/unsw_nat_reference.yaml",
-   "config_sha256": "f06423c499a4f23888d23a9702092f7bb862cbfd562d904e405b298cf92b7910",
+   "config_sha256": "4be04b2043fb7f9a58d7ab5a2dc30aaf52cd44aa862906122a3d3e234010184e",
    "out_dir": "results_phase6c/unsw/nat_reference/seed_15"
   },
   {
@@ -1204,7 +1204,7 @@
    "arm": "nat_selection_uniform",
    "seed": 15,
    "config": "configs/phase6c/unsw_nat_selection_uniform.yaml",
-   "config_sha256": "21d99cf79fe369050cbe14d6cebb6d73bbc38b0dc5071c30b58ee1c0355af60b",
+   "config_sha256": "7fd9ca81ce0bc68b28bf99d467da14616f9f2b611c73e5965d59115b525c2222",
    "out_dir": "results_phase6c/unsw/nat_selection_uniform/seed_15"
   },
   {
@@ -1214,7 +1214,7 @@
    "arm": "nat_corrected",
    "seed": 15,
    "config": "configs/phase6c/unsw_nat_corrected.yaml",
-   "config_sha256": "43ce38a9612a8b16f8ef9c4b58f22e1112952c11cd63d42ec5a5df89967f6e20",
+   "config_sha256": "63d6beb98f50cf4fd28a564c712ee914f3a6ae1dd5da000bdf785397757e9baf",
    "out_dir": "results_phase6c/unsw/nat_corrected/seed_15"
   },
   {
@@ -1224,7 +1224,7 @@
    "arm": "fail0p0_reference",
    "seed": 15,
    "config": "configs/phase6c/unsw_fail0p0_reference.yaml",
-   "config_sha256": "2186533f42fa3ed7984c5de75f7e5f22e06d1121f1e98f857ad349c24cfebc19",
+   "config_sha256": "3a192834bd1fa85f7518c308e7a83110b3a114a06ebf6997af7fcbd84a8ba65a",
    "out_dir": "results_phase6c/unsw/fail0p0_reference/seed_15"
   },
   {
@@ -1234,7 +1234,7 @@
    "arm": "fail0p3_reference",
    "seed": 15,
    "config": "configs/phase6c/unsw_fail0p3_reference.yaml",
-   "config_sha256": "d1f933c1371102e19fd08d7cc2451d174c6126cf0dfbace7ba76748c0db037ec",
+   "config_sha256": "bf49c076ea25176fd653f6f561bcf6e973fac476ce1fe3f4e6a73a175135c889",
    "out_dir": "results_phase6c/unsw/fail0p3_reference/seed_15"
   },
   {
@@ -1244,7 +1244,7 @@
    "arm": "fail0p3_corrected",
    "seed": 15,
    "config": "configs/phase6c/unsw_fail0p3_corrected.yaml",
-   "config_sha256": "5a74c66c6305242f9b25349d861bc708269b132a5a223b54fdfb5a28498c8d12",
+   "config_sha256": "15a8f7387a1dfbb061ad2de2a45125ba53f6e77218a5cdc761d10de47e95ba31",
    "out_dir": "results_phase6c/unsw/fail0p3_corrected/seed_15"
   },
   {
@@ -1254,7 +1254,7 @@
    "arm": "clean_centralized",
    "seed": 16,
    "config": "configs/phase6c/unsw_clean_centralized.yaml",
-   "config_sha256": "8e9676941b43b32262957e5e697241744c98506477257cc507abf082de899973",
+   "config_sha256": "9012c600379ee28322ec5d7c593773bf1a413f50b2a4315d53c9963f02eada05",
    "out_dir": "results_phase6c/unsw/clean_centralized/seed_16"
   },
   {
@@ -1264,7 +1264,7 @@
    "arm": "clean_fedavg",
    "seed": 16,
    "config": "configs/phase6c/unsw_clean_fedavg.yaml",
-   "config_sha256": "ff38721691234e007559c43dfa082a5986393c0cfa76110a9f44e2e693f53f4d",
+   "config_sha256": "56e2a5ac31c25d267442b7bfdfd46150150991fddd887879f0c4262b5facd870",
    "out_dir": "results_phase6c/unsw/clean_fedavg/seed_16"
   },
   {
@@ -1274,7 +1274,7 @@
    "arm": "scenario_fedavg_random",
    "seed": 16,
    "config": "configs/phase6c/unsw_scenario_fedavg_random.yaml",
-   "config_sha256": "46c9d55012b6ef0fba2ba756404e8150861d7c6fba6f2e47a75a4797d2340413",
+   "config_sha256": "4da160a9fbc743e466a0d842bd1d001769513636053da62abf0946b80ee9db29",
    "out_dir": "results_phase6c/unsw/scenario_fedavg_random/seed_16"
   },
   {
@@ -1284,7 +1284,7 @@
    "arm": "scenario_fedavg_topk",
    "seed": 16,
    "config": "configs/phase6c/unsw_scenario_fedavg_topk.yaml",
-   "config_sha256": "856312973bd6a37ed87988cc53cad069be12051c7a7a83ebc76733c0337e2074",
+   "config_sha256": "653792148d45572c4fd5b2e1f7e03501403e9cc6104deab6382de04e6fee4eed",
    "out_dir": "results_phase6c/unsw/scenario_fedavg_topk/seed_16"
   },
   {
@@ -1294,7 +1294,7 @@
    "arm": "robust_random_no_imputation",
    "seed": 16,
    "config": "configs/phase6c/unsw_robust_random_no_imputation.yaml",
-   "config_sha256": "d72f802cca7a42c92eb0bcf56260a0c60648b12cc14cf34b495c3f19081e9e14",
+   "config_sha256": "d4e14e17330bd8e6e89895b15fc3e22a9da41f5f164a4628b4407f098c0d3d63",
    "out_dir": "results_phase6c/unsw/robust_random_no_imputation/seed_16"
   },
   {
@@ -1304,7 +1304,7 @@
    "arm": "reference",
    "seed": 16,
    "config": "configs/phase6c/unsw_reference.yaml",
-   "config_sha256": "0b510f2b63ae975f34ec682ea76e524928522b497c1cd0b07377c5f933a907c0",
+   "config_sha256": "9670b7806f91d83b7f0b4a8210b72b4eddadb9df608d48d83fd25f63cccbc45b",
    "out_dir": "results_phase6c/unsw/reference/seed_16"
   },
   {
@@ -1314,7 +1314,7 @@
    "arm": "reference_gaussian",
    "seed": 16,
    "config": "configs/phase6c/unsw_reference_gaussian.yaml",
-   "config_sha256": "a464dc0a6ba302db29d020630571c7bd5c097f5179fac5fd7aeef1542c4e5948",
+   "config_sha256": "0a43700817add6b63a934e3eb7eae744456de18360375460b606fe1b93ef5f15",
    "out_dir": "results_phase6c/unsw/reference_gaussian/seed_16"
   },
   {
@@ -1324,7 +1324,7 @@
    "arm": "corrected",
    "seed": 16,
    "config": "configs/phase6c/unsw_corrected.yaml",
-   "config_sha256": "9205a1cd0caed176e7e730713e440cf00be86d0eef9768407ec6365540b7c352",
+   "config_sha256": "b28510b4da0bf5e7c0a8c62f6e8f9f2003de4693dad4085ad741d4a6d1bc19b1",
    "out_dir": "results_phase6c/unsw/corrected/seed_16"
   },
   {
@@ -1334,7 +1334,7 @@
    "arm": "corrected_gaussian",
    "seed": 16,
    "config": "configs/phase6c/unsw_corrected_gaussian.yaml",
-   "config_sha256": "630d798618ed5b50601427f6c6d4088b7c160a61005efc0a28752e9105a98a24",
+   "config_sha256": "641c08a103a8b00272495e4340d314435e1fbce778757e336d2e59ec11e3097e",
    "out_dir": "results_phase6c/unsw/corrected_gaussian/seed_16"
   },
   {
@@ -1344,7 +1344,7 @@
    "arm": "ctl_selection_uniform",
    "seed": 16,
    "config": "configs/phase6c/unsw_ctl_selection_uniform.yaml",
-   "config_sha256": "d13702c7bc6b33b7abf9c7aa6b4ce8b629dd7b0ace8040a5a094dbe3905864b0",
+   "config_sha256": "aa1ca7a728022be1a2c7b9cc7f503b8006c79b069ae78aa493c9738a3d971a51",
    "out_dir": "results_phase6c/unsw/ctl_selection_uniform/seed_16"
   },
   {
@@ -1354,7 +1354,7 @@
    "arm": "ctl_selection_coverage",
    "seed": 16,
    "config": "configs/phase6c/unsw_ctl_selection_coverage.yaml",
-   "config_sha256": "34b0ce9b78d0be6aceb013249a00ebbcad99053e1747e9295b70c5822b7b02b0",
+   "config_sha256": "c71aff9f1af868b62579583bff4aefdfdeccabb8b545f801b1135ecc8e6a871b",
    "out_dir": "results_phase6c/unsw/ctl_selection_coverage/seed_16"
   },
   {
@@ -1364,7 +1364,7 @@
    "arm": "ctl_imputation_none",
    "seed": 16,
    "config": "configs/phase6c/unsw_ctl_imputation_none.yaml",
-   "config_sha256": "25ea1fabb7eb29308d592792433db553ac34f17ec69e0b104b9c28ee374fadbb",
+   "config_sha256": "25c5d106618efbec9430299d4ba6ceafb4247c3893fb4b413b6f8858ed4b229d",
    "out_dir": "results_phase6c/unsw/ctl_imputation_none/seed_16"
   },
   {
@@ -1374,7 +1374,7 @@
    "arm": "ctl_imputation_cap010",
    "seed": 16,
    "config": "configs/phase6c/unsw_ctl_imputation_cap010.yaml",
-   "config_sha256": "1ff05d2ff9bf2ce29688ac7080097f1c56021a0f40707105c1b964ec2b3521fe",
+   "config_sha256": "d0310612f25e7d6235ee17f7b063066f5face0d03ba036303e15b63ff8507776",
    "out_dir": "results_phase6c/unsw/ctl_imputation_cap010/seed_16"
   },
   {
@@ -1384,7 +1384,7 @@
    "arm": "ctl_imputation_postfilter",
    "seed": 16,
    "config": "configs/phase6c/unsw_ctl_imputation_postfilter.yaml",
-   "config_sha256": "aa3f713609d31a9bef55ffac81f6c1c0104eabf6ed20c885ea86106ca4515070",
+   "config_sha256": "373567dd93307c1da77b3b6a4a00c28a4596a82e82751477ef672773939f725f",
    "out_dir": "results_phase6c/unsw/ctl_imputation_postfilter/seed_16"
   },
   {
@@ -1394,7 +1394,7 @@
    "arm": "ctl_delivery_coupled",
    "seed": 16,
    "config": "configs/phase6c/unsw_ctl_delivery_coupled.yaml",
-   "config_sha256": "35a237cac186e67af0633a5b0e782253985b34bd46209c518c2be9ab401f1841",
+   "config_sha256": "8adada17a95ea857a947f76276d3dca612bf0befc70a0b5a05763e250d5b4076",
    "out_dir": "results_phase6c/unsw/ctl_delivery_coupled/seed_16"
   },
   {
@@ -1404,7 +1404,7 @@
    "arm": "ctl_momentum0_lr0p5",
    "seed": 16,
    "config": "configs/phase6c/unsw_ctl_momentum0_lr0p5.yaml",
-   "config_sha256": "a223b19d8dc580e396e30d542f909198b9604bdf6723a5b752b238a91d7436fa",
+   "config_sha256": "38377eaee21e39072795fe29546619dcfa8a9df561764cece86a10c0027a56e0",
    "out_dir": "results_phase6c/unsw/ctl_momentum0_lr0p5/seed_16"
   },
   {
@@ -1414,7 +1414,7 @@
    "arm": "ctl_momentum0_lr5p0",
    "seed": 16,
    "config": "configs/phase6c/unsw_ctl_momentum0_lr5p0.yaml",
-   "config_sha256": "1156e06faff3bcc0c6cce01046b740ff508076487b63ab4e7c4ed7bbf7caf2c0",
+   "config_sha256": "6a4226aa020e1a607a14c8374be9fb025a89248c0a7bd6625092b7519001b2e7",
    "out_dir": "results_phase6c/unsw/ctl_momentum0_lr5p0/seed_16"
   },
   {
@@ -1424,7 +1424,7 @@
    "arm": "ctl_weighting_uniform",
    "seed": 16,
    "config": "configs/phase6c/unsw_ctl_weighting_uniform.yaml",
-   "config_sha256": "dc589cd5279e5e69383212a73b81d25b1a7a34956054d9643098e631a3b94d04",
+   "config_sha256": "df870b0a52eab4e66fa8edb3a7067ec995d839c3559c7c94047e37079832c1aa",
    "out_dir": "results_phase6c/unsw/ctl_weighting_uniform/seed_16"
   },
   {
@@ -1434,7 +1434,7 @@
    "arm": "nat_reference",
    "seed": 16,
    "config": "configs/phase6c/unsw_nat_reference.yaml",
-   "config_sha256": "f06423c499a4f23888d23a9702092f7bb862cbfd562d904e405b298cf92b7910",
+   "config_sha256": "4be04b2043fb7f9a58d7ab5a2dc30aaf52cd44aa862906122a3d3e234010184e",
    "out_dir": "results_phase6c/unsw/nat_reference/seed_16"
   },
   {
@@ -1444,7 +1444,7 @@
    "arm": "nat_selection_uniform",
    "seed": 16,
    "config": "configs/phase6c/unsw_nat_selection_uniform.yaml",
-   "config_sha256": "21d99cf79fe369050cbe14d6cebb6d73bbc38b0dc5071c30b58ee1c0355af60b",
+   "config_sha256": "7fd9ca81ce0bc68b28bf99d467da14616f9f2b611c73e5965d59115b525c2222",
    "out_dir": "results_phase6c/unsw/nat_selection_uniform/seed_16"
   },
   {
@@ -1454,7 +1454,7 @@
    "arm": "nat_corrected",
    "seed": 16,
    "config": "configs/phase6c/unsw_nat_corrected.yaml",
-   "config_sha256": "43ce38a9612a8b16f8ef9c4b58f22e1112952c11cd63d42ec5a5df89967f6e20",
+   "config_sha256": "63d6beb98f50cf4fd28a564c712ee914f3a6ae1dd5da000bdf785397757e9baf",
    "out_dir": "results_phase6c/unsw/nat_corrected/seed_16"
   },
   {
@@ -1464,7 +1464,7 @@
    "arm": "fail0p0_reference",
    "seed": 16,
    "config": "configs/phase6c/unsw_fail0p0_reference.yaml",
-   "config_sha256": "2186533f42fa3ed7984c5de75f7e5f22e06d1121f1e98f857ad349c24cfebc19",
+   "config_sha256": "3a192834bd1fa85f7518c308e7a83110b3a114a06ebf6997af7fcbd84a8ba65a",
    "out_dir": "results_phase6c/unsw/fail0p0_reference/seed_16"
   },
   {
@@ -1474,7 +1474,7 @@
    "arm": "fail0p3_reference",
    "seed": 16,
    "config": "configs/phase6c/unsw_fail0p3_reference.yaml",
-   "config_sha256": "d1f933c1371102e19fd08d7cc2451d174c6126cf0dfbace7ba76748c0db037ec",
+   "config_sha256": "bf49c076ea25176fd653f6f561bcf6e973fac476ce1fe3f4e6a73a175135c889",
    "out_dir": "results_phase6c/unsw/fail0p3_reference/seed_16"
   },
   {
@@ -1484,7 +1484,7 @@
    "arm": "fail0p3_corrected",
    "seed": 16,
    "config": "configs/phase6c/unsw_fail0p3_corrected.yaml",
-   "config_sha256": "5a74c66c6305242f9b25349d861bc708269b132a5a223b54fdfb5a28498c8d12",
+   "config_sha256": "15a8f7387a1dfbb061ad2de2a45125ba53f6e77218a5cdc761d10de47e95ba31",
    "out_dir": "results_phase6c/unsw/fail0p3_corrected/seed_16"
   },
   {
@@ -1494,7 +1494,7 @@
    "arm": "clean_centralized",
    "seed": 12,
    "config": "configs/phase6c/ciciot_clean_centralized.yaml",
-   "config_sha256": "d1e96b5fb3c882d4070ba26879c17a97ebe94ae6fdbf79e54df218d975c4817e",
+   "config_sha256": "9695b4e4e4a07dbb4fa51200be8958c64de1c73ab5c84ceb7e5a15fda9b31711",
    "out_dir": "results_phase6c/ciciot/clean_centralized/seed_12"
   },
   {
@@ -1504,7 +1504,7 @@
    "arm": "clean_fedavg",
    "seed": 12,
    "config": "configs/phase6c/ciciot_clean_fedavg.yaml",
-   "config_sha256": "7ea3d683782d278e5f600b9e3f7750e9e051a3de4e1f56239de6fab48091d65f",
+   "config_sha256": "a5a90cc09a938710a3bba5d369bc45ab4adbcc50dac41b1cfc7e13726bd60edb",
    "out_dir": "results_phase6c/ciciot/clean_fedavg/seed_12"
   },
   {
@@ -1514,7 +1514,7 @@
    "arm": "scenario_fedavg_random",
    "seed": 12,
    "config": "configs/phase6c/ciciot_scenario_fedavg_random.yaml",
-   "config_sha256": "855bd712b4318a91681c33787608ec7032e14d854e63d0ff61fb6128fa83e183",
+   "config_sha256": "6e0976e8fa5b277fc0e708849e483d20a7eeae00469dbc667847739cf04d7016",
    "out_dir": "results_phase6c/ciciot/scenario_fedavg_random/seed_12"
   },
   {
@@ -1524,7 +1524,7 @@
    "arm": "scenario_fedavg_topk",
    "seed": 12,
    "config": "configs/phase6c/ciciot_scenario_fedavg_topk.yaml",
-   "config_sha256": "6f58dc144fc5ad51bf35af4f81198592e276e47ea58c63b9a6e3cc62976fffb2",
+   "config_sha256": "6cb65f614f9bcd52550ce811fdf194e7ed3cc85232fdfa3377f8a4f7436805f6",
    "out_dir": "results_phase6c/ciciot/scenario_fedavg_topk/seed_12"
   },
   {
@@ -1534,7 +1534,7 @@
    "arm": "robust_random_no_imputation",
    "seed": 12,
    "config": "configs/phase6c/ciciot_robust_random_no_imputation.yaml",
-   "config_sha256": "198bbf00227b5635ba73b5b14ef98387c5db45f71293b3cc6ccf04149bebc141",
+   "config_sha256": "d813dde7f6d44075c5151c87972ca55d6c49d47d7098aaa78abe161567909db3",
    "out_dir": "results_phase6c/ciciot/robust_random_no_imputation/seed_12"
   },
   {
@@ -1544,7 +1544,7 @@
    "arm": "reference",
    "seed": 12,
    "config": "configs/phase6c/ciciot_reference.yaml",
-   "config_sha256": "3f3da9c5f3480106f85522bd0e96b846aa4bdb9ea194cd6f9b1bc05e8b39d634",
+   "config_sha256": "0cb4f1f55b550babfcc85c4c882d5ad89097d1d87f617debe1004a9dd3de3eaa",
    "out_dir": "results_phase6c/ciciot/reference/seed_12"
   },
   {
@@ -1554,7 +1554,7 @@
    "arm": "reference_gaussian",
    "seed": 12,
    "config": "configs/phase6c/ciciot_reference_gaussian.yaml",
-   "config_sha256": "eba5ceae55d669e4c4e9cd59fc347b4b7fb7f1073eb24aaaf50fe7fed813b2c6",
+   "config_sha256": "b9892314d3527dec962fecc3bc49d4db79fe6d2d1d300442b8df31d3d748f868",
    "out_dir": "results_phase6c/ciciot/reference_gaussian/seed_12"
   },
   {
@@ -1564,7 +1564,7 @@
    "arm": "corrected",
    "seed": 12,
    "config": "configs/phase6c/ciciot_corrected.yaml",
-   "config_sha256": "930c1f05c91983d2ec6de9d717289c67b1fd641fc5c3e4e2b73c084f45f3faf0",
+   "config_sha256": "4a40b648232ff5029c0632f872b182b671df1463604928b26e5679b2faac3eaf",
    "out_dir": "results_phase6c/ciciot/corrected/seed_12"
   },
   {
@@ -1574,7 +1574,7 @@
    "arm": "corrected_gaussian",
    "seed": 12,
    "config": "configs/phase6c/ciciot_corrected_gaussian.yaml",
-   "config_sha256": "c5a2ce8b837e624b73f06f443f0538e91c3803b0569747882a0a9a007ea577b9",
+   "config_sha256": "00e77d728e236506f893e672191e819175f8569ddc75e38a2e61579bd952ee04",
    "out_dir": "results_phase6c/ciciot/corrected_gaussian/seed_12"
   },
   {
@@ -1584,7 +1584,7 @@
    "arm": "ctl_selection_uniform",
    "seed": 12,
    "config": "configs/phase6c/ciciot_ctl_selection_uniform.yaml",
-   "config_sha256": "3e5796e16e23a2e73c44fa968bb9d0cee190c267961451c9ecdd36b02cd94f04",
+   "config_sha256": "035acdf79808e0e8db2acb3a4773ababcf7abadae06b7a7faf3b4035f2b483da",
    "out_dir": "results_phase6c/ciciot/ctl_selection_uniform/seed_12"
   },
   {
@@ -1594,7 +1594,7 @@
    "arm": "ctl_selection_coverage",
    "seed": 12,
    "config": "configs/phase6c/ciciot_ctl_selection_coverage.yaml",
-   "config_sha256": "1227274c66166bf8aa7985de5e19be0bd541fb89ebe2b4242e83baadb2d1df82",
+   "config_sha256": "b3991cf63a16d4223b09658bca014726767c162e362c5bc3596abc7ef680bc23",
    "out_dir": "results_phase6c/ciciot/ctl_selection_coverage/seed_12"
   },
   {
@@ -1604,7 +1604,7 @@
    "arm": "ctl_imputation_none",
    "seed": 12,
    "config": "configs/phase6c/ciciot_ctl_imputation_none.yaml",
-   "config_sha256": "a12aebaa7be8691039827afe5dcc4b13ac5e061ef18c8d91e2b9d839b12aaf73",
+   "config_sha256": "6ec87fa91455727f90300d672511d73a8867f1b87dc483540b844f50eec4fc1e",
    "out_dir": "results_phase6c/ciciot/ctl_imputation_none/seed_12"
   },
   {
@@ -1614,7 +1614,7 @@
    "arm": "ctl_imputation_cap010",
    "seed": 12,
    "config": "configs/phase6c/ciciot_ctl_imputation_cap010.yaml",
-   "config_sha256": "5ce09c242a59804ec44255fd1f387cff572518ec90870d481c8c6ef28ce43d22",
+   "config_sha256": "29abc457c66c6c958f69f30614ce8722e4857f847a5c67b2b86f0464924c5aa9",
    "out_dir": "results_phase6c/ciciot/ctl_imputation_cap010/seed_12"
   },
   {
@@ -1624,7 +1624,7 @@
    "arm": "ctl_imputation_postfilter",
    "seed": 12,
    "config": "configs/phase6c/ciciot_ctl_imputation_postfilter.yaml",
-   "config_sha256": "c97f1bd3c5f14b4ee463f82eeefd2d4b036ecb0d8179ef99f8baeb32a325202e",
+   "config_sha256": "8a5372781e5714769d6e301e7001a3931bf98ce14bdb81d4d703d4697e37b51b",
    "out_dir": "results_phase6c/ciciot/ctl_imputation_postfilter/seed_12"
   },
   {
@@ -1634,7 +1634,7 @@
    "arm": "ctl_delivery_coupled",
    "seed": 12,
    "config": "configs/phase6c/ciciot_ctl_delivery_coupled.yaml",
-   "config_sha256": "2dc11b598ed4290fb3bcf0b9cc0963719c5a2fc3617c73a68f339221104345d0",
+   "config_sha256": "a4a990b1d17eeb851dfb4ae30f0b7f6a7dc437d682b9d12388c52c7078235397",
    "out_dir": "results_phase6c/ciciot/ctl_delivery_coupled/seed_12"
   },
   {
@@ -1644,7 +1644,7 @@
    "arm": "ctl_momentum0_lr0p5",
    "seed": 12,
    "config": "configs/phase6c/ciciot_ctl_momentum0_lr0p5.yaml",
-   "config_sha256": "21ec83d8fed799f15cbfa7ec7ccc5ed796b6ecddcb816dd2a175936119351949",
+   "config_sha256": "2404d1359e91033c2fdd93ec000c1172aeaccf1fa4e212f0fccdcf6c379a0de6",
    "out_dir": "results_phase6c/ciciot/ctl_momentum0_lr0p5/seed_12"
   },
   {
@@ -1654,7 +1654,7 @@
    "arm": "ctl_momentum0_lr5p0",
    "seed": 12,
    "config": "configs/phase6c/ciciot_ctl_momentum0_lr5p0.yaml",
-   "config_sha256": "9a30f07d08768d1818010841ed235c8ae06696a312277a51b2fff08742a84be0",
+   "config_sha256": "0f966e13caa4fdc2e0db18c0a616242a1cd47c99c85304f50f837b21bdaa894b",
    "out_dir": "results_phase6c/ciciot/ctl_momentum0_lr5p0/seed_12"
   },
   {
@@ -1664,7 +1664,7 @@
    "arm": "ctl_weighting_uniform",
    "seed": 12,
    "config": "configs/phase6c/ciciot_ctl_weighting_uniform.yaml",
-   "config_sha256": "41065210ce4d5961f8d95ed66196c3c9adb6d8368c0ca32015bc7e40012b4033",
+   "config_sha256": "ce66f58eace837e9ac8d24e709286ea9604aec41341696458bc70c05cc70c659",
    "out_dir": "results_phase6c/ciciot/ctl_weighting_uniform/seed_12"
   },
   {
@@ -1674,7 +1674,7 @@
    "arm": "nat_reference",
    "seed": 12,
    "config": "configs/phase6c/ciciot_nat_reference.yaml",
-   "config_sha256": "017d32074c89ea05adc3a959b68af7d23750a39e12009e731a8d93223be75de8",
+   "config_sha256": "5a675481cc3d3389565e048169199018a5009e062a49eb038c45d0b172f1e52e",
    "out_dir": "results_phase6c/ciciot/nat_reference/seed_12"
   },
   {
@@ -1684,7 +1684,7 @@
    "arm": "nat_selection_uniform",
    "seed": 12,
    "config": "configs/phase6c/ciciot_nat_selection_uniform.yaml",
-   "config_sha256": "3fb5fcbb71c6846ee01467be5396224781aff078d5b4fd3d0e4b9323e8770137",
+   "config_sha256": "f4c761c6e06d3d10fdc96556cbed6c9de02a28e2d543ead41b8cdecb51a82434",
    "out_dir": "results_phase6c/ciciot/nat_selection_uniform/seed_12"
   },
   {
@@ -1694,7 +1694,7 @@
    "arm": "nat_corrected",
    "seed": 12,
    "config": "configs/phase6c/ciciot_nat_corrected.yaml",
-   "config_sha256": "6957d3b7ef1df440495e40f29f2a526e60f74d12d6c86b670bdb9a604fca9459",
+   "config_sha256": "c05bf2cee15515d40d5c082ef2d4252c4488e294c70b238c9138a9c4215497cf",
    "out_dir": "results_phase6c/ciciot/nat_corrected/seed_12"
   },
   {
@@ -1704,7 +1704,7 @@
    "arm": "fail0p0_reference",
    "seed": 12,
    "config": "configs/phase6c/ciciot_fail0p0_reference.yaml",
-   "config_sha256": "fc652b2cdd718aafedccb853d0af308f785d776d484ff020391ecb96aa780407",
+   "config_sha256": "fdb36a9bc66d0aaf68f5d40aed6ff18169f8af27806bcad764c52acfe4279bcb",
    "out_dir": "results_phase6c/ciciot/fail0p0_reference/seed_12"
   },
   {
@@ -1714,7 +1714,7 @@
    "arm": "fail0p3_reference",
    "seed": 12,
    "config": "configs/phase6c/ciciot_fail0p3_reference.yaml",
-   "config_sha256": "07da320340e8771e1852210fc4b56c9af56d773c90f9bcefbc5e3b8f59076d4b",
+   "config_sha256": "29b5f42e70a623542b0cb42c018129e63fbd4d42b12393499b0d72445fb0a6ed",
    "out_dir": "results_phase6c/ciciot/fail0p3_reference/seed_12"
   },
   {
@@ -1724,7 +1724,7 @@
    "arm": "fail0p3_corrected",
    "seed": 12,
    "config": "configs/phase6c/ciciot_fail0p3_corrected.yaml",
-   "config_sha256": "1847414d7c12480680e96dcb62e08b44c3dbc3813eaa2835874fcd1caabe3584",
+   "config_sha256": "a97923921c05583164f6281c6d6936b322dbd35f2fa3bee62193224921f97ef2",
    "out_dir": "results_phase6c/ciciot/fail0p3_corrected/seed_12"
   },
   {
@@ -1734,7 +1734,7 @@
    "arm": "clean_centralized",
    "seed": 13,
    "config": "configs/phase6c/ciciot_clean_centralized.yaml",
-   "config_sha256": "d1e96b5fb3c882d4070ba26879c17a97ebe94ae6fdbf79e54df218d975c4817e",
+   "config_sha256": "9695b4e4e4a07dbb4fa51200be8958c64de1c73ab5c84ceb7e5a15fda9b31711",
    "out_dir": "results_phase6c/ciciot/clean_centralized/seed_13"
   },
   {
@@ -1744,7 +1744,7 @@
    "arm": "clean_fedavg",
    "seed": 13,
    "config": "configs/phase6c/ciciot_clean_fedavg.yaml",
-   "config_sha256": "7ea3d683782d278e5f600b9e3f7750e9e051a3de4e1f56239de6fab48091d65f",
+   "config_sha256": "a5a90cc09a938710a3bba5d369bc45ab4adbcc50dac41b1cfc7e13726bd60edb",
    "out_dir": "results_phase6c/ciciot/clean_fedavg/seed_13"
   },
   {
@@ -1754,7 +1754,7 @@
    "arm": "scenario_fedavg_random",
    "seed": 13,
    "config": "configs/phase6c/ciciot_scenario_fedavg_random.yaml",
-   "config_sha256": "855bd712b4318a91681c33787608ec7032e14d854e63d0ff61fb6128fa83e183",
+   "config_sha256": "6e0976e8fa5b277fc0e708849e483d20a7eeae00469dbc667847739cf04d7016",
    "out_dir": "results_phase6c/ciciot/scenario_fedavg_random/seed_13"
   },
   {
@@ -1764,7 +1764,7 @@
    "arm": "scenario_fedavg_topk",
    "seed": 13,
    "config": "configs/phase6c/ciciot_scenario_fedavg_topk.yaml",
-   "config_sha256": "6f58dc144fc5ad51bf35af4f81198592e276e47ea58c63b9a6e3cc62976fffb2",
+   "config_sha256": "6cb65f614f9bcd52550ce811fdf194e7ed3cc85232fdfa3377f8a4f7436805f6",
    "out_dir": "results_phase6c/ciciot/scenario_fedavg_topk/seed_13"
   },
   {
@@ -1774,7 +1774,7 @@
    "arm": "robust_random_no_imputation",
    "seed": 13,
    "config": "configs/phase6c/ciciot_robust_random_no_imputation.yaml",
-   "config_sha256": "198bbf00227b5635ba73b5b14ef98387c5db45f71293b3cc6ccf04149bebc141",
+   "config_sha256": "d813dde7f6d44075c5151c87972ca55d6c49d47d7098aaa78abe161567909db3",
    "out_dir": "results_phase6c/ciciot/robust_random_no_imputation/seed_13"
   },
   {
@@ -1784,7 +1784,7 @@
    "arm": "reference",
    "seed": 13,
    "config": "configs/phase6c/ciciot_reference.yaml",
-   "config_sha256": "3f3da9c5f3480106f85522bd0e96b846aa4bdb9ea194cd6f9b1bc05e8b39d634",
+   "config_sha256": "0cb4f1f55b550babfcc85c4c882d5ad89097d1d87f617debe1004a9dd3de3eaa",
    "out_dir": "results_phase6c/ciciot/reference/seed_13"
   },
   {
@@ -1794,7 +1794,7 @@
    "arm": "reference_gaussian",
    "seed": 13,
    "config": "configs/phase6c/ciciot_reference_gaussian.yaml",
-   "config_sha256": "eba5ceae55d669e4c4e9cd59fc347b4b7fb7f1073eb24aaaf50fe7fed813b2c6",
+   "config_sha256": "b9892314d3527dec962fecc3bc49d4db79fe6d2d1d300442b8df31d3d748f868",
    "out_dir": "results_phase6c/ciciot/reference_gaussian/seed_13"
   },
   {
@@ -1804,7 +1804,7 @@
    "arm": "corrected",
    "seed": 13,
    "config": "configs/phase6c/ciciot_corrected.yaml",
-   "config_sha256": "930c1f05c91983d2ec6de9d717289c67b1fd641fc5c3e4e2b73c084f45f3faf0",
+   "config_sha256": "4a40b648232ff5029c0632f872b182b671df1463604928b26e5679b2faac3eaf",
    "out_dir": "results_phase6c/ciciot/corrected/seed_13"
   },
   {
@@ -1814,7 +1814,7 @@
    "arm": "corrected_gaussian",
    "seed": 13,
    "config": "configs/phase6c/ciciot_corrected_gaussian.yaml",
-   "config_sha256": "c5a2ce8b837e624b73f06f443f0538e91c3803b0569747882a0a9a007ea577b9",
+   "config_sha256": "00e77d728e236506f893e672191e819175f8569ddc75e38a2e61579bd952ee04",
    "out_dir": "results_phase6c/ciciot/corrected_gaussian/seed_13"
   },
   {
@@ -1824,7 +1824,7 @@
    "arm": "ctl_selection_uniform",
    "seed": 13,
    "config": "configs/phase6c/ciciot_ctl_selection_uniform.yaml",
-   "config_sha256": "3e5796e16e23a2e73c44fa968bb9d0cee190c267961451c9ecdd36b02cd94f04",
+   "config_sha256": "035acdf79808e0e8db2acb3a4773ababcf7abadae06b7a7faf3b4035f2b483da",
    "out_dir": "results_phase6c/ciciot/ctl_selection_uniform/seed_13"
   },
   {
@@ -1834,7 +1834,7 @@
    "arm": "ctl_selection_coverage",
    "seed": 13,
    "config": "configs/phase6c/ciciot_ctl_selection_coverage.yaml",
-   "config_sha256": "1227274c66166bf8aa7985de5e19be0bd541fb89ebe2b4242e83baadb2d1df82",
+   "config_sha256": "b3991cf63a16d4223b09658bca014726767c162e362c5bc3596abc7ef680bc23",
    "out_dir": "results_phase6c/ciciot/ctl_selection_coverage/seed_13"
   },
   {
@@ -1844,7 +1844,7 @@
    "arm": "ctl_imputation_none",
    "seed": 13,
    "config": "configs/phase6c/ciciot_ctl_imputation_none.yaml",
-   "config_sha256": "a12aebaa7be8691039827afe5dcc4b13ac5e061ef18c8d91e2b9d839b12aaf73",
+   "config_sha256": "6ec87fa91455727f90300d672511d73a8867f1b87dc483540b844f50eec4fc1e",
    "out_dir": "results_phase6c/ciciot/ctl_imputation_none/seed_13"
   },
   {
@@ -1854,7 +1854,7 @@
    "arm": "ctl_imputation_cap010",
    "seed": 13,
    "config": "configs/phase6c/ciciot_ctl_imputation_cap010.yaml",
-   "config_sha256": "5ce09c242a59804ec44255fd1f387cff572518ec90870d481c8c6ef28ce43d22",
+   "config_sha256": "29abc457c66c6c958f69f30614ce8722e4857f847a5c67b2b86f0464924c5aa9",
    "out_dir": "results_phase6c/ciciot/ctl_imputation_cap010/seed_13"
   },
   {
@@ -1864,7 +1864,7 @@
    "arm": "ctl_imputation_postfilter",
    "seed": 13,
    "config": "configs/phase6c/ciciot_ctl_imputation_postfilter.yaml",
-   "config_sha256": "c97f1bd3c5f14b4ee463f82eeefd2d4b036ecb0d8179ef99f8baeb32a325202e",
+   "config_sha256": "8a5372781e5714769d6e301e7001a3931bf98ce14bdb81d4d703d4697e37b51b",
    "out_dir": "results_phase6c/ciciot/ctl_imputation_postfilter/seed_13"
   },
   {
@@ -1874,7 +1874,7 @@
    "arm": "ctl_delivery_coupled",
    "seed": 13,
    "config": "configs/phase6c/ciciot_ctl_delivery_coupled.yaml",
-   "config_sha256": "2dc11b598ed4290fb3bcf0b9cc0963719c5a2fc3617c73a68f339221104345d0",
+   "config_sha256": "a4a990b1d17eeb851dfb4ae30f0b7f6a7dc437d682b9d12388c52c7078235397",
    "out_dir": "results_phase6c/ciciot/ctl_delivery_coupled/seed_13"
   },
   {
@@ -1884,7 +1884,7 @@
    "arm": "ctl_momentum0_lr0p5",
    "seed": 13,
    "config": "configs/phase6c/ciciot_ctl_momentum0_lr0p5.yaml",
-   "config_sha256": "21ec83d8fed799f15cbfa7ec7ccc5ed796b6ecddcb816dd2a175936119351949",
+   "config_sha256": "2404d1359e91033c2fdd93ec000c1172aeaccf1fa4e212f0fccdcf6c379a0de6",
    "out_dir": "results_phase6c/ciciot/ctl_momentum0_lr0p5/seed_13"
   },
   {
@@ -1894,7 +1894,7 @@
    "arm": "ctl_momentum0_lr5p0",
    "seed": 13,
    "config": "configs/phase6c/ciciot_ctl_momentum0_lr5p0.yaml",
-   "config_sha256": "9a30f07d08768d1818010841ed235c8ae06696a312277a51b2fff08742a84be0",
+   "config_sha256": "0f966e13caa4fdc2e0db18c0a616242a1cd47c99c85304f50f837b21bdaa894b",
    "out_dir": "results_phase6c/ciciot/ctl_momentum0_lr5p0/seed_13"
   },
   {
@@ -1904,7 +1904,7 @@
    "arm": "ctl_weighting_uniform",
    "seed": 13,
    "config": "configs/phase6c/ciciot_ctl_weighting_uniform.yaml",
-   "config_sha256": "41065210ce4d5961f8d95ed66196c3c9adb6d8368c0ca32015bc7e40012b4033",
+   "config_sha256": "ce66f58eace837e9ac8d24e709286ea9604aec41341696458bc70c05cc70c659",
    "out_dir": "results_phase6c/ciciot/ctl_weighting_uniform/seed_13"
   },
   {
@@ -1914,7 +1914,7 @@
    "arm": "nat_reference",
    "seed": 13,
    "config": "configs/phase6c/ciciot_nat_reference.yaml",
-   "config_sha256": "017d32074c89ea05adc3a959b68af7d23750a39e12009e731a8d93223be75de8",
+   "config_sha256": "5a675481cc3d3389565e048169199018a5009e062a49eb038c45d0b172f1e52e",
    "out_dir": "results_phase6c/ciciot/nat_reference/seed_13"
   },
   {
@@ -1924,7 +1924,7 @@
    "arm": "nat_selection_uniform",
    "seed": 13,
    "config": "configs/phase6c/ciciot_nat_selection_uniform.yaml",
-   "config_sha256": "3fb5fcbb71c6846ee01467be5396224781aff078d5b4fd3d0e4b9323e8770137",
+   "config_sha256": "f4c761c6e06d3d10fdc96556cbed6c9de02a28e2d543ead41b8cdecb51a82434",
    "out_dir": "results_phase6c/ciciot/nat_selection_uniform/seed_13"
   },
   {
@@ -1934,7 +1934,7 @@
    "arm": "nat_corrected",
    "seed": 13,
    "config": "configs/phase6c/ciciot_nat_corrected.yaml",
-   "config_sha256": "6957d3b7ef1df440495e40f29f2a526e60f74d12d6c86b670bdb9a604fca9459",
+   "config_sha256": "c05bf2cee15515d40d5c082ef2d4252c4488e294c70b238c9138a9c4215497cf",
    "out_dir": "results_phase6c/ciciot/nat_corrected/seed_13"
   },
   {
@@ -1944,7 +1944,7 @@
    "arm": "fail0p0_reference",
    "seed": 13,
    "config": "configs/phase6c/ciciot_fail0p0_reference.yaml",
-   "config_sha256": "fc652b2cdd718aafedccb853d0af308f785d776d484ff020391ecb96aa780407",
+   "config_sha256": "fdb36a9bc66d0aaf68f5d40aed6ff18169f8af27806bcad764c52acfe4279bcb",
    "out_dir": "results_phase6c/ciciot/fail0p0_reference/seed_13"
   },
   {
@@ -1954,7 +1954,7 @@
    "arm": "fail0p3_reference",
    "seed": 13,
    "config": "configs/phase6c/ciciot_fail0p3_reference.yaml",
-   "config_sha256": "07da320340e8771e1852210fc4b56c9af56d773c90f9bcefbc5e3b8f59076d4b",
+   "config_sha256": "29b5f42e70a623542b0cb42c018129e63fbd4d42b12393499b0d72445fb0a6ed",
    "out_dir": "results_phase6c/ciciot/fail0p3_reference/seed_13"
   },
   {
@@ -1964,7 +1964,7 @@
    "arm": "fail0p3_corrected",
    "seed": 13,
    "config": "configs/phase6c/ciciot_fail0p3_corrected.yaml",
-   "config_sha256": "1847414d7c12480680e96dcb62e08b44c3dbc3813eaa2835874fcd1caabe3584",
+   "config_sha256": "a97923921c05583164f6281c6d6936b322dbd35f2fa3bee62193224921f97ef2",
    "out_dir": "results_phase6c/ciciot/fail0p3_corrected/seed_13"
   },
   {
@@ -1974,7 +1974,7 @@
    "arm": "clean_centralized",
    "seed": 14,
    "config": "configs/phase6c/ciciot_clean_centralized.yaml",
-   "config_sha256": "d1e96b5fb3c882d4070ba26879c17a97ebe94ae6fdbf79e54df218d975c4817e",
+   "config_sha256": "9695b4e4e4a07dbb4fa51200be8958c64de1c73ab5c84ceb7e5a15fda9b31711",
    "out_dir": "results_phase6c/ciciot/clean_centralized/seed_14"
   },
   {
@@ -1984,7 +1984,7 @@
    "arm": "clean_fedavg",
    "seed": 14,
    "config": "configs/phase6c/ciciot_clean_fedavg.yaml",
-   "config_sha256": "7ea3d683782d278e5f600b9e3f7750e9e051a3de4e1f56239de6fab48091d65f",
+   "config_sha256": "a5a90cc09a938710a3bba5d369bc45ab4adbcc50dac41b1cfc7e13726bd60edb",
    "out_dir": "results_phase6c/ciciot/clean_fedavg/seed_14"
   },
   {
@@ -1994,7 +1994,7 @@
    "arm": "scenario_fedavg_random",
    "seed": 14,
    "config": "configs/phase6c/ciciot_scenario_fedavg_random.yaml",
-   "config_sha256": "855bd712b4318a91681c33787608ec7032e14d854e63d0ff61fb6128fa83e183",
+   "config_sha256": "6e0976e8fa5b277fc0e708849e483d20a7eeae00469dbc667847739cf04d7016",
    "out_dir": "results_phase6c/ciciot/scenario_fedavg_random/seed_14"
   },
   {
@@ -2004,7 +2004,7 @@
    "arm": "scenario_fedavg_topk",
    "seed": 14,
    "config": "configs/phase6c/ciciot_scenario_fedavg_topk.yaml",
-   "config_sha256": "6f58dc144fc5ad51bf35af4f81198592e276e47ea58c63b9a6e3cc62976fffb2",
+   "config_sha256": "6cb65f614f9bcd52550ce811fdf194e7ed3cc85232fdfa3377f8a4f7436805f6",
    "out_dir": "results_phase6c/ciciot/scenario_fedavg_topk/seed_14"
   },
   {
@@ -2014,7 +2014,7 @@
    "arm": "robust_random_no_imputation",
    "seed": 14,
    "config": "configs/phase6c/ciciot_robust_random_no_imputation.yaml",
-   "config_sha256": "198bbf00227b5635ba73b5b14ef98387c5db45f71293b3cc6ccf04149bebc141",
+   "config_sha256": "d813dde7f6d44075c5151c87972ca55d6c49d47d7098aaa78abe161567909db3",
    "out_dir": "results_phase6c/ciciot/robust_random_no_imputation/seed_14"
   },
   {
@@ -2024,7 +2024,7 @@
    "arm": "reference",
    "seed": 14,
    "config": "configs/phase6c/ciciot_reference.yaml",
-   "config_sha256": "3f3da9c5f3480106f85522bd0e96b846aa4bdb9ea194cd6f9b1bc05e8b39d634",
+   "config_sha256": "0cb4f1f55b550babfcc85c4c882d5ad89097d1d87f617debe1004a9dd3de3eaa",
    "out_dir": "results_phase6c/ciciot/reference/seed_14"
   },
   {
@@ -2034,7 +2034,7 @@
    "arm": "reference_gaussian",
    "seed": 14,
    "config": "configs/phase6c/ciciot_reference_gaussian.yaml",
-   "config_sha256": "eba5ceae55d669e4c4e9cd59fc347b4b7fb7f1073eb24aaaf50fe7fed813b2c6",
+   "config_sha256": "b9892314d3527dec962fecc3bc49d4db79fe6d2d1d300442b8df31d3d748f868",
    "out_dir": "results_phase6c/ciciot/reference_gaussian/seed_14"
   },
   {
@@ -2044,7 +2044,7 @@
    "arm": "corrected",
    "seed": 14,
    "config": "configs/phase6c/ciciot_corrected.yaml",
-   "config_sha256": "930c1f05c91983d2ec6de9d717289c67b1fd641fc5c3e4e2b73c084f45f3faf0",
+   "config_sha256": "4a40b648232ff5029c0632f872b182b671df1463604928b26e5679b2faac3eaf",
    "out_dir": "results_phase6c/ciciot/corrected/seed_14"
   },
   {
@@ -2054,7 +2054,7 @@
    "arm": "corrected_gaussian",
    "seed": 14,
    "config": "configs/phase6c/ciciot_corrected_gaussian.yaml",
-   "config_sha256": "c5a2ce8b837e624b73f06f443f0538e91c3803b0569747882a0a9a007ea577b9",
+   "config_sha256": "00e77d728e236506f893e672191e819175f8569ddc75e38a2e61579bd952ee04",
    "out_dir": "results_phase6c/ciciot/corrected_gaussian/seed_14"
   },
   {
@@ -2064,7 +2064,7 @@
    "arm": "ctl_selection_uniform",
    "seed": 14,
    "config": "configs/phase6c/ciciot_ctl_selection_uniform.yaml",
-   "config_sha256": "3e5796e16e23a2e73c44fa968bb9d0cee190c267961451c9ecdd36b02cd94f04",
+   "config_sha256": "035acdf79808e0e8db2acb3a4773ababcf7abadae06b7a7faf3b4035f2b483da",
    "out_dir": "results_phase6c/ciciot/ctl_selection_uniform/seed_14"
   },
   {
@@ -2074,7 +2074,7 @@
    "arm": "ctl_selection_coverage",
    "seed": 14,
    "config": "configs/phase6c/ciciot_ctl_selection_coverage.yaml",
-   "config_sha256": "1227274c66166bf8aa7985de5e19be0bd541fb89ebe2b4242e83baadb2d1df82",
+   "config_sha256": "b3991cf63a16d4223b09658bca014726767c162e362c5bc3596abc7ef680bc23",
    "out_dir": "results_phase6c/ciciot/ctl_selection_coverage/seed_14"
   },
   {
@@ -2084,7 +2084,7 @@
    "arm": "ctl_imputation_none",
    "seed": 14,
    "config": "configs/phase6c/ciciot_ctl_imputation_none.yaml",
-   "config_sha256": "a12aebaa7be8691039827afe5dcc4b13ac5e061ef18c8d91e2b9d839b12aaf73",
+   "config_sha256": "6ec87fa91455727f90300d672511d73a8867f1b87dc483540b844f50eec4fc1e",
    "out_dir": "results_phase6c/ciciot/ctl_imputation_none/seed_14"
   },
   {
@@ -2094,7 +2094,7 @@
    "arm": "ctl_imputation_cap010",
    "seed": 14,
    "config": "configs/phase6c/ciciot_ctl_imputation_cap010.yaml",
-   "config_sha256": "5ce09c242a59804ec44255fd1f387cff572518ec90870d481c8c6ef28ce43d22",
+   "config_sha256": "29abc457c66c6c958f69f30614ce8722e4857f847a5c67b2b86f0464924c5aa9",
    "out_dir": "results_phase6c/ciciot/ctl_imputation_cap010/seed_14"
   },
   {
@@ -2104,7 +2104,7 @@
    "arm": "ctl_imputation_postfilter",
    "seed": 14,
    "config": "configs/phase6c/ciciot_ctl_imputation_postfilter.yaml",
-   "config_sha256": "c97f1bd3c5f14b4ee463f82eeefd2d4b036ecb0d8179ef99f8baeb32a325202e",
+   "config_sha256": "8a5372781e5714769d6e301e7001a3931bf98ce14bdb81d4d703d4697e37b51b",
    "out_dir": "results_phase6c/ciciot/ctl_imputation_postfilter/seed_14"
   },
   {
@@ -2114,7 +2114,7 @@
    "arm": "ctl_delivery_coupled",
    "seed": 14,
    "config": "configs/phase6c/ciciot_ctl_delivery_coupled.yaml",
-   "config_sha256": "2dc11b598ed4290fb3bcf0b9cc0963719c5a2fc3617c73a68f339221104345d0",
+   "config_sha256": "a4a990b1d17eeb851dfb4ae30f0b7f6a7dc437d682b9d12388c52c7078235397",
    "out_dir": "results_phase6c/ciciot/ctl_delivery_coupled/seed_14"
   },
   {
@@ -2124,7 +2124,7 @@
    "arm": "ctl_momentum0_lr0p5",
    "seed": 14,
    "config": "configs/phase6c/ciciot_ctl_momentum0_lr0p5.yaml",
-   "config_sha256": "21ec83d8fed799f15cbfa7ec7ccc5ed796b6ecddcb816dd2a175936119351949",
+   "config_sha256": "2404d1359e91033c2fdd93ec000c1172aeaccf1fa4e212f0fccdcf6c379a0de6",
    "out_dir": "results_phase6c/ciciot/ctl_momentum0_lr0p5/seed_14"
   },
   {
@@ -2134,7 +2134,7 @@
    "arm": "ctl_momentum0_lr5p0",
    "seed": 14,
    "config": "configs/phase6c/ciciot_ctl_momentum0_lr5p0.yaml",
-   "config_sha256": "9a30f07d08768d1818010841ed235c8ae06696a312277a51b2fff08742a84be0",
+   "config_sha256": "0f966e13caa4fdc2e0db18c0a616242a1cd47c99c85304f50f837b21bdaa894b",
    "out_dir": "results_phase6c/ciciot/ctl_momentum0_lr5p0/seed_14"
   },
   {
@@ -2144,7 +2144,7 @@
    "arm": "ctl_weighting_uniform",
    "seed": 14,
    "config": "configs/phase6c/ciciot_ctl_weighting_uniform.yaml",
-   "config_sha256": "41065210ce4d5961f8d95ed66196c3c9adb6d8368c0ca32015bc7e40012b4033",
+   "config_sha256": "ce66f58eace837e9ac8d24e709286ea9604aec41341696458bc70c05cc70c659",
    "out_dir": "results_phase6c/ciciot/ctl_weighting_uniform/seed_14"
   },
   {
@@ -2154,7 +2154,7 @@
    "arm": "nat_reference",
    "seed": 14,
    "config": "configs/phase6c/ciciot_nat_reference.yaml",
-   "config_sha256": "017d32074c89ea05adc3a959b68af7d23750a39e12009e731a8d93223be75de8",
+   "config_sha256": "5a675481cc3d3389565e048169199018a5009e062a49eb038c45d0b172f1e52e",
    "out_dir": "results_phase6c/ciciot/nat_reference/seed_14"
   },
   {
@@ -2164,7 +2164,7 @@
    "arm": "nat_selection_uniform",
    "seed": 14,
    "config": "configs/phase6c/ciciot_nat_selection_uniform.yaml",
-   "config_sha256": "3fb5fcbb71c6846ee01467be5396224781aff078d5b4fd3d0e4b9323e8770137",
+   "config_sha256": "f4c761c6e06d3d10fdc96556cbed6c9de02a28e2d543ead41b8cdecb51a82434",
    "out_dir": "results_phase6c/ciciot/nat_selection_uniform/seed_14"
   },
   {
@@ -2174,7 +2174,7 @@
    "arm": "nat_corrected",
    "seed": 14,
    "config": "configs/phase6c/ciciot_nat_corrected.yaml",
-   "config_sha256": "6957d3b7ef1df440495e40f29f2a526e60f74d12d6c86b670bdb9a604fca9459",
+   "config_sha256": "c05bf2cee15515d40d5c082ef2d4252c4488e294c70b238c9138a9c4215497cf",
    "out_dir": "results_phase6c/ciciot/nat_corrected/seed_14"
   },
   {
@@ -2184,7 +2184,7 @@
    "arm": "fail0p0_reference",
    "seed": 14,
    "config": "configs/phase6c/ciciot_fail0p0_reference.yaml",
-   "config_sha256": "fc652b2cdd718aafedccb853d0af308f785d776d484ff020391ecb96aa780407",
+   "config_sha256": "fdb36a9bc66d0aaf68f5d40aed6ff18169f8af27806bcad764c52acfe4279bcb",
    "out_dir": "results_phase6c/ciciot/fail0p0_reference/seed_14"
   },
   {
@@ -2194,7 +2194,7 @@
    "arm": "fail0p3_reference",
    "seed": 14,
    "config": "configs/phase6c/ciciot_fail0p3_reference.yaml",
-   "config_sha256": "07da320340e8771e1852210fc4b56c9af56d773c90f9bcefbc5e3b8f59076d4b",
+   "config_sha256": "29b5f42e70a623542b0cb42c018129e63fbd4d42b12393499b0d72445fb0a6ed",
    "out_dir": "results_phase6c/ciciot/fail0p3_reference/seed_14"
   },
   {
@@ -2204,7 +2204,7 @@
    "arm": "fail0p3_corrected",
    "seed": 14,
    "config": "configs/phase6c/ciciot_fail0p3_corrected.yaml",
-   "config_sha256": "1847414d7c12480680e96dcb62e08b44c3dbc3813eaa2835874fcd1caabe3584",
+   "config_sha256": "a97923921c05583164f6281c6d6936b322dbd35f2fa3bee62193224921f97ef2",
    "out_dir": "results_phase6c/ciciot/fail0p3_corrected/seed_14"
   },
   {
@@ -2214,7 +2214,7 @@
    "arm": "clean_centralized",
    "seed": 15,
    "config": "configs/phase6c/ciciot_clean_centralized.yaml",
-   "config_sha256": "d1e96b5fb3c882d4070ba26879c17a97ebe94ae6fdbf79e54df218d975c4817e",
+   "config_sha256": "9695b4e4e4a07dbb4fa51200be8958c64de1c73ab5c84ceb7e5a15fda9b31711",
    "out_dir": "results_phase6c/ciciot/clean_centralized/seed_15"
   },
   {
@@ -2224,7 +2224,7 @@
    "arm": "clean_fedavg",
    "seed": 15,
    "config": "configs/phase6c/ciciot_clean_fedavg.yaml",
-   "config_sha256": "7ea3d683782d278e5f600b9e3f7750e9e051a3de4e1f56239de6fab48091d65f",
+   "config_sha256": "a5a90cc09a938710a3bba5d369bc45ab4adbcc50dac41b1cfc7e13726bd60edb",
    "out_dir": "results_phase6c/ciciot/clean_fedavg/seed_15"
   },
   {
@@ -2234,7 +2234,7 @@
    "arm": "scenario_fedavg_random",
    "seed": 15,
    "config": "configs/phase6c/ciciot_scenario_fedavg_random.yaml",
-   "config_sha256": "855bd712b4318a91681c33787608ec7032e14d854e63d0ff61fb6128fa83e183",
+   "config_sha256": "6e0976e8fa5b277fc0e708849e483d20a7eeae00469dbc667847739cf04d7016",
    "out_dir": "results_phase6c/ciciot/scenario_fedavg_random/seed_15"
   },
   {
@@ -2244,7 +2244,7 @@
    "arm": "scenario_fedavg_topk",
    "seed": 15,
    "config": "configs/phase6c/ciciot_scenario_fedavg_topk.yaml",
-   "config_sha256": "6f58dc144fc5ad51bf35af4f81198592e276e47ea58c63b9a6e3cc62976fffb2",
+   "config_sha256": "6cb65f614f9bcd52550ce811fdf194e7ed3cc85232fdfa3377f8a4f7436805f6",
    "out_dir": "results_phase6c/ciciot/scenario_fedavg_topk/seed_15"
   },
   {
@@ -2254,7 +2254,7 @@
    "arm": "robust_random_no_imputation",
    "seed": 15,
    "config": "configs/phase6c/ciciot_robust_random_no_imputation.yaml",
-   "config_sha256": "198bbf00227b5635ba73b5b14ef98387c5db45f71293b3cc6ccf04149bebc141",
+   "config_sha256": "d813dde7f6d44075c5151c87972ca55d6c49d47d7098aaa78abe161567909db3",
    "out_dir": "results_phase6c/ciciot/robust_random_no_imputation/seed_15"
   },
   {
@@ -2264,7 +2264,7 @@
    "arm": "reference",
    "seed": 15,
    "config": "configs/phase6c/ciciot_reference.yaml",
-   "config_sha256": "3f3da9c5f3480106f85522bd0e96b846aa4bdb9ea194cd6f9b1bc05e8b39d634",
+   "config_sha256": "0cb4f1f55b550babfcc85c4c882d5ad89097d1d87f617debe1004a9dd3de3eaa",
    "out_dir": "results_phase6c/ciciot/reference/seed_15"
   },
   {
@@ -2274,7 +2274,7 @@
    "arm": "reference_gaussian",
    "seed": 15,
    "config": "configs/phase6c/ciciot_reference_gaussian.yaml",
-   "config_sha256": "eba5ceae55d669e4c4e9cd59fc347b4b7fb7f1073eb24aaaf50fe7fed813b2c6",
+   "config_sha256": "b9892314d3527dec962fecc3bc49d4db79fe6d2d1d300442b8df31d3d748f868",
    "out_dir": "results_phase6c/ciciot/reference_gaussian/seed_15"
   },
   {
@@ -2284,7 +2284,7 @@
    "arm": "corrected",
    "seed": 15,
    "config": "configs/phase6c/ciciot_corrected.yaml",
-   "config_sha256": "930c1f05c91983d2ec6de9d717289c67b1fd641fc5c3e4e2b73c084f45f3faf0",
+   "config_sha256": "4a40b648232ff5029c0632f872b182b671df1463604928b26e5679b2faac3eaf",
    "out_dir": "results_phase6c/ciciot/corrected/seed_15"
   },
   {
@@ -2294,7 +2294,7 @@
    "arm": "corrected_gaussian",
    "seed": 15,
    "config": "configs/phase6c/ciciot_corrected_gaussian.yaml",
-   "config_sha256": "c5a2ce8b837e624b73f06f443f0538e91c3803b0569747882a0a9a007ea577b9",
+   "config_sha256": "00e77d728e236506f893e672191e819175f8569ddc75e38a2e61579bd952ee04",
    "out_dir": "results_phase6c/ciciot/corrected_gaussian/seed_15"
   },
   {
@@ -2304,7 +2304,7 @@
    "arm": "ctl_selection_uniform",
    "seed": 15,
    "config": "configs/phase6c/ciciot_ctl_selection_uniform.yaml",
-   "config_sha256": "3e5796e16e23a2e73c44fa968bb9d0cee190c267961451c9ecdd36b02cd94f04",
+   "config_sha256": "035acdf79808e0e8db2acb3a4773ababcf7abadae06b7a7faf3b4035f2b483da",
    "out_dir": "results_phase6c/ciciot/ctl_selection_uniform/seed_15"
   },
   {
@@ -2314,7 +2314,7 @@
    "arm": "ctl_selection_coverage",
    "seed": 15,
    "config": "configs/phase6c/ciciot_ctl_selection_coverage.yaml",
-   "config_sha256": "1227274c66166bf8aa7985de5e19be0bd541fb89ebe2b4242e83baadb2d1df82",
+   "config_sha256": "b3991cf63a16d4223b09658bca014726767c162e362c5bc3596abc7ef680bc23",
    "out_dir": "results_phase6c/ciciot/ctl_selection_coverage/seed_15"
   },
   {
@@ -2324,7 +2324,7 @@
    "arm": "ctl_imputation_none",
    "seed": 15,
    "config": "configs/phase6c/ciciot_ctl_imputation_none.yaml",
-   "config_sha256": "a12aebaa7be8691039827afe5dcc4b13ac5e061ef18c8d91e2b9d839b12aaf73",
+   "config_sha256": "6ec87fa91455727f90300d672511d73a8867f1b87dc483540b844f50eec4fc1e",
    "out_dir": "results_phase6c/ciciot/ctl_imputation_none/seed_15"
   },
   {
@@ -2334,7 +2334,7 @@
    "arm": "ctl_imputation_cap010",
    "seed": 15,
    "config": "configs/phase6c/ciciot_ctl_imputation_cap010.yaml",
-   "config_sha256": "5ce09c242a59804ec44255fd1f387cff572518ec90870d481c8c6ef28ce43d22",
+   "config_sha256": "29abc457c66c6c958f69f30614ce8722e4857f847a5c67b2b86f0464924c5aa9",
    "out_dir": "results_phase6c/ciciot/ctl_imputation_cap010/seed_15"
   },
   {
@@ -2344,7 +2344,7 @@
    "arm": "ctl_imputation_postfilter",
    "seed": 15,
    "config": "configs/phase6c/ciciot_ctl_imputation_postfilter.yaml",
-   "config_sha256": "c97f1bd3c5f14b4ee463f82eeefd2d4b036ecb0d8179ef99f8baeb32a325202e",
+   "config_sha256": "8a5372781e5714769d6e301e7001a3931bf98ce14bdb81d4d703d4697e37b51b",
    "out_dir": "results_phase6c/ciciot/ctl_imputation_postfilter/seed_15"
   },
   {
@@ -2354,7 +2354,7 @@
    "arm": "ctl_delivery_coupled",
    "seed": 15,
    "config": "configs/phase6c/ciciot_ctl_delivery_coupled.yaml",
-   "config_sha256": "2dc11b598ed4290fb3bcf0b9cc0963719c5a2fc3617c73a68f339221104345d0",
+   "config_sha256": "a4a990b1d17eeb851dfb4ae30f0b7f6a7dc437d682b9d12388c52c7078235397",
    "out_dir": "results_phase6c/ciciot/ctl_delivery_coupled/seed_15"
   },
   {
@@ -2364,7 +2364,7 @@
    "arm": "ctl_momentum0_lr0p5",
    "seed": 15,
    "config": "configs/phase6c/ciciot_ctl_momentum0_lr0p5.yaml",
-   "config_sha256": "21ec83d8fed799f15cbfa7ec7ccc5ed796b6ecddcb816dd2a175936119351949",
+   "config_sha256": "2404d1359e91033c2fdd93ec000c1172aeaccf1fa4e212f0fccdcf6c379a0de6",
    "out_dir": "results_phase6c/ciciot/ctl_momentum0_lr0p5/seed_15"
   },
   {
@@ -2374,7 +2374,7 @@
    "arm": "ctl_momentum0_lr5p0",
    "seed": 15,
    "config": "configs/phase6c/ciciot_ctl_momentum0_lr5p0.yaml",
-   "config_sha256": "9a30f07d08768d1818010841ed235c8ae06696a312277a51b2fff08742a84be0",
+   "config_sha256": "0f966e13caa4fdc2e0db18c0a616242a1cd47c99c85304f50f837b21bdaa894b",
    "out_dir": "results_phase6c/ciciot/ctl_momentum0_lr5p0/seed_15"
   },
   {
@@ -2384,7 +2384,7 @@
    "arm": "ctl_weighting_uniform",
    "seed": 15,
    "config": "configs/phase6c/ciciot_ctl_weighting_uniform.yaml",
-   "config_sha256": "41065210ce4d5961f8d95ed66196c3c9adb6d8368c0ca32015bc7e40012b4033",
+   "config_sha256": "ce66f58eace837e9ac8d24e709286ea9604aec41341696458bc70c05cc70c659",
    "out_dir": "results_phase6c/ciciot/ctl_weighting_uniform/seed_15"
   },
   {
@@ -2394,7 +2394,7 @@
    "arm": "nat_reference",
    "seed": 15,
    "config": "configs/phase6c/ciciot_nat_reference.yaml",
-   "config_sha256": "017d32074c89ea05adc3a959b68af7d23750a39e12009e731a8d93223be75de8",
+   "config_sha256": "5a675481cc3d3389565e048169199018a5009e062a49eb038c45d0b172f1e52e",
    "out_dir": "results_phase6c/ciciot/nat_reference/seed_15"
   },
   {
@@ -2404,7 +2404,7 @@
    "arm": "nat_selection_uniform",
    "seed": 15,
    "config": "configs/phase6c/ciciot_nat_selection_uniform.yaml",
-   "config_sha256": "3fb5fcbb71c6846ee01467be5396224781aff078d5b4fd3d0e4b9323e8770137",
+   "config_sha256": "f4c761c6e06d3d10fdc96556cbed6c9de02a28e2d543ead41b8cdecb51a82434",
    "out_dir": "results_phase6c/ciciot/nat_selection_uniform/seed_15"
   },
   {
@@ -2414,7 +2414,7 @@
    "arm": "nat_corrected",
    "seed": 15,
    "config": "configs/phase6c/ciciot_nat_corrected.yaml",
-   "config_sha256": "6957d3b7ef1df440495e40f29f2a526e60f74d12d6c86b670bdb9a604fca9459",
+   "config_sha256": "c05bf2cee15515d40d5c082ef2d4252c4488e294c70b238c9138a9c4215497cf",
    "out_dir": "results_phase6c/ciciot/nat_corrected/seed_15"
   },
   {
@@ -2424,7 +2424,7 @@
    "arm": "fail0p0_reference",
    "seed": 15,
    "config": "configs/phase6c/ciciot_fail0p0_reference.yaml",
-   "config_sha256": "fc652b2cdd718aafedccb853d0af308f785d776d484ff020391ecb96aa780407",
+   "config_sha256": "fdb36a9bc66d0aaf68f5d40aed6ff18169f8af27806bcad764c52acfe4279bcb",
    "out_dir": "results_phase6c/ciciot/fail0p0_reference/seed_15"
   },
   {
@@ -2434,7 +2434,7 @@
    "arm": "fail0p3_reference",
    "seed": 15,
    "config": "configs/phase6c/ciciot_fail0p3_reference.yaml",
-   "config_sha256": "07da320340e8771e1852210fc4b56c9af56d773c90f9bcefbc5e3b8f59076d4b",
+   "config_sha256": "29b5f42e70a623542b0cb42c018129e63fbd4d42b12393499b0d72445fb0a6ed",
    "out_dir": "results_phase6c/ciciot/fail0p3_reference/seed_15"
   },
   {
@@ -2444,7 +2444,7 @@
    "arm": "fail0p3_corrected",
    "seed": 15,
    "config": "configs/phase6c/ciciot_fail0p3_corrected.yaml",
-   "config_sha256": "1847414d7c12480680e96dcb62e08b44c3dbc3813eaa2835874fcd1caabe3584",
+   "config_sha256": "a97923921c05583164f6281c6d6936b322dbd35f2fa3bee62193224921f97ef2",
    "out_dir": "results_phase6c/ciciot/fail0p3_corrected/seed_15"
   },
   {
@@ -2454,7 +2454,7 @@
    "arm": "clean_centralized",
    "seed": 16,
    "config": "configs/phase6c/ciciot_clean_centralized.yaml",
-   "config_sha256": "d1e96b5fb3c882d4070ba26879c17a97ebe94ae6fdbf79e54df218d975c4817e",
+   "config_sha256": "9695b4e4e4a07dbb4fa51200be8958c64de1c73ab5c84ceb7e5a15fda9b31711",
    "out_dir": "results_phase6c/ciciot/clean_centralized/seed_16"
   },
   {
@@ -2464,7 +2464,7 @@
    "arm": "clean_fedavg",
    "seed": 16,
    "config": "configs/phase6c/ciciot_clean_fedavg.yaml",
-   "config_sha256": "7ea3d683782d278e5f600b9e3f7750e9e051a3de4e1f56239de6fab48091d65f",
+   "config_sha256": "a5a90cc09a938710a3bba5d369bc45ab4adbcc50dac41b1cfc7e13726bd60edb",
    "out_dir": "results_phase6c/ciciot/clean_fedavg/seed_16"
   },
   {
@@ -2474,7 +2474,7 @@
    "arm": "scenario_fedavg_random",
    "seed": 16,
    "config": "configs/phase6c/ciciot_scenario_fedavg_random.yaml",
-   "config_sha256": "855bd712b4318a91681c33787608ec7032e14d854e63d0ff61fb6128fa83e183",
+   "config_sha256": "6e0976e8fa5b277fc0e708849e483d20a7eeae00469dbc667847739cf04d7016",
    "out_dir": "results_phase6c/ciciot/scenario_fedavg_random/seed_16"
   },
   {
@@ -2484,7 +2484,7 @@
    "arm": "scenario_fedavg_topk",
    "seed": 16,
    "config": "configs/phase6c/ciciot_scenario_fedavg_topk.yaml",
-   "config_sha256": "6f58dc144fc5ad51bf35af4f81198592e276e47ea58c63b9a6e3cc62976fffb2",
+   "config_sha256": "6cb65f614f9bcd52550ce811fdf194e7ed3cc85232fdfa3377f8a4f7436805f6",
    "out_dir": "results_phase6c/ciciot/scenario_fedavg_topk/seed_16"
   },
   {
@@ -2494,7 +2494,7 @@
    "arm": "robust_random_no_imputation",
    "seed": 16,
    "config": "configs/phase6c/ciciot_robust_random_no_imputation.yaml",
-   "config_sha256": "198bbf00227b5635ba73b5b14ef98387c5db45f71293b3cc6ccf04149bebc141",
+   "config_sha256": "d813dde7f6d44075c5151c87972ca55d6c49d47d7098aaa78abe161567909db3",
    "out_dir": "results_phase6c/ciciot/robust_random_no_imputation/seed_16"
   },
   {
@@ -2504,7 +2504,7 @@
    "arm": "reference",
    "seed": 16,
    "config": "configs/phase6c/ciciot_reference.yaml",
-   "config_sha256": "3f3da9c5f3480106f85522bd0e96b846aa4bdb9ea194cd6f9b1bc05e8b39d634",
+   "config_sha256": "0cb4f1f55b550babfcc85c4c882d5ad89097d1d87f617debe1004a9dd3de3eaa",
    "out_dir": "results_phase6c/ciciot/reference/seed_16"
   },
   {
@@ -2514,7 +2514,7 @@
    "arm": "reference_gaussian",
    "seed": 16,
    "config": "configs/phase6c/ciciot_reference_gaussian.yaml",
-   "config_sha256": "eba5ceae55d669e4c4e9cd59fc347b4b7fb7f1073eb24aaaf50fe7fed813b2c6",
+   "config_sha256": "b9892314d3527dec962fecc3bc49d4db79fe6d2d1d300442b8df31d3d748f868",
    "out_dir": "results_phase6c/ciciot/reference_gaussian/seed_16"
   },
   {
@@ -2524,7 +2524,7 @@
    "arm": "corrected",
    "seed": 16,
    "config": "configs/phase6c/ciciot_corrected.yaml",
-   "config_sha256": "930c1f05c91983d2ec6de9d717289c67b1fd641fc5c3e4e2b73c084f45f3faf0",
+   "config_sha256": "4a40b648232ff5029c0632f872b182b671df1463604928b26e5679b2faac3eaf",
    "out_dir": "results_phase6c/ciciot/corrected/seed_16"
   },
   {
@@ -2534,7 +2534,7 @@
    "arm": "corrected_gaussian",
    "seed": 16,
    "config": "configs/phase6c/ciciot_corrected_gaussian.yaml",
-   "config_sha256": "c5a2ce8b837e624b73f06f443f0538e91c3803b0569747882a0a9a007ea577b9",
+   "config_sha256": "00e77d728e236506f893e672191e819175f8569ddc75e38a2e61579bd952ee04",
    "out_dir": "results_phase6c/ciciot/corrected_gaussian/seed_16"
   },
   {
@@ -2544,7 +2544,7 @@
    "arm": "ctl_selection_uniform",
    "seed": 16,
    "config": "configs/phase6c/ciciot_ctl_selection_uniform.yaml",
-   "config_sha256": "3e5796e16e23a2e73c44fa968bb9d0cee190c267961451c9ecdd36b02cd94f04",
+   "config_sha256": "035acdf79808e0e8db2acb3a4773ababcf7abadae06b7a7faf3b4035f2b483da",
    "out_dir": "results_phase6c/ciciot/ctl_selection_uniform/seed_16"
   },
   {
@@ -2554,7 +2554,7 @@
    "arm": "ctl_selection_coverage",
    "seed": 16,
    "config": "configs/phase6c/ciciot_ctl_selection_coverage.yaml",
-   "config_sha256": "1227274c66166bf8aa7985de5e19be0bd541fb89ebe2b4242e83baadb2d1df82",
+   "config_sha256": "b3991cf63a16d4223b09658bca014726767c162e362c5bc3596abc7ef680bc23",
    "out_dir": "results_phase6c/ciciot/ctl_selection_coverage/seed_16"
   },
   {
@@ -2564,7 +2564,7 @@
    "arm": "ctl_imputation_none",
    "seed": 16,
    "config": "configs/phase6c/ciciot_ctl_imputation_none.yaml",
-   "config_sha256": "a12aebaa7be8691039827afe5dcc4b13ac5e061ef18c8d91e2b9d839b12aaf73",
+   "config_sha256": "6ec87fa91455727f90300d672511d73a8867f1b87dc483540b844f50eec4fc1e",
    "out_dir": "results_phase6c/ciciot/ctl_imputation_none/seed_16"
   },
   {
@@ -2574,7 +2574,7 @@
    "arm": "ctl_imputation_cap010",
    "seed": 16,
    "config": "configs/phase6c/ciciot_ctl_imputation_cap010.yaml",
-   "config_sha256": "5ce09c242a59804ec44255fd1f387cff572518ec90870d481c8c6ef28ce43d22",
+   "config_sha256": "29abc457c66c6c958f69f30614ce8722e4857f847a5c67b2b86f0464924c5aa9",
    "out_dir": "results_phase6c/ciciot/ctl_imputation_cap010/seed_16"
   },
   {
@@ -2584,7 +2584,7 @@
    "arm": "ctl_imputation_postfilter",
    "seed": 16,
    "config": "configs/phase6c/ciciot_ctl_imputation_postfilter.yaml",
-   "config_sha256": "c97f1bd3c5f14b4ee463f82eeefd2d4b036ecb0d8179ef99f8baeb32a325202e",
+   "config_sha256": "8a5372781e5714769d6e301e7001a3931bf98ce14bdb81d4d703d4697e37b51b",
    "out_dir": "results_phase6c/ciciot/ctl_imputation_postfilter/seed_16"
   },
   {
@@ -2594,7 +2594,7 @@
    "arm": "ctl_delivery_coupled",
    "seed": 16,
    "config": "configs/phase6c/ciciot_ctl_delivery_coupled.yaml",
-   "config_sha256": "2dc11b598ed4290fb3bcf0b9cc0963719c5a2fc3617c73a68f339221104345d0",
+   "config_sha256": "a4a990b1d17eeb851dfb4ae30f0b7f6a7dc437d682b9d12388c52c7078235397",
    "out_dir": "results_phase6c/ciciot/ctl_delivery_coupled/seed_16"
   },
   {
@@ -2604,7 +2604,7 @@
    "arm": "ctl_momentum0_lr0p5",
    "seed": 16,
    "config": "configs/phase6c/ciciot_ctl_momentum0_lr0p5.yaml",
-   "config_sha256": "21ec83d8fed799f15cbfa7ec7ccc5ed796b6ecddcb816dd2a175936119351949",
+   "config_sha256": "2404d1359e91033c2fdd93ec000c1172aeaccf1fa4e212f0fccdcf6c379a0de6",
    "out_dir": "results_phase6c/ciciot/ctl_momentum0_lr0p5/seed_16"
   },
   {
@@ -2614,7 +2614,7 @@
    "arm": "ctl_momentum0_lr5p0",
    "seed": 16,
    "config": "configs/phase6c/ciciot_ctl_momentum0_lr5p0.yaml",
-   "config_sha256": "9a30f07d08768d1818010841ed235c8ae06696a312277a51b2fff08742a84be0",
+   "config_sha256": "0f966e13caa4fdc2e0db18c0a616242a1cd47c99c85304f50f837b21bdaa894b",
    "out_dir": "results_phase6c/ciciot/ctl_momentum0_lr5p0/seed_16"
   },
   {
@@ -2624,7 +2624,7 @@
    "arm": "ctl_weighting_uniform",
    "seed": 16,
    "config": "configs/phase6c/ciciot_ctl_weighting_uniform.yaml",
-   "config_sha256": "41065210ce4d5961f8d95ed66196c3c9adb6d8368c0ca32015bc7e40012b4033",
+   "config_sha256": "ce66f58eace837e9ac8d24e709286ea9604aec41341696458bc70c05cc70c659",
    "out_dir": "results_phase6c/ciciot/ctl_weighting_uniform/seed_16"
   },
   {
@@ -2634,7 +2634,7 @@
    "arm": "nat_reference",
    "seed": 16,
    "config": "configs/phase6c/ciciot_nat_reference.yaml",
-   "config_sha256": "017d32074c89ea05adc3a959b68af7d23750a39e12009e731a8d93223be75de8",
+   "config_sha256": "5a675481cc3d3389565e048169199018a5009e062a49eb038c45d0b172f1e52e",
    "out_dir": "results_phase6c/ciciot/nat_reference/seed_16"
   },
   {
@@ -2644,7 +2644,7 @@
    "arm": "nat_selection_uniform",
    "seed": 16,
    "config": "configs/phase6c/ciciot_nat_selection_uniform.yaml",
-   "config_sha256": "3fb5fcbb71c6846ee01467be5396224781aff078d5b4fd3d0e4b9323e8770137",
+   "config_sha256": "f4c761c6e06d3d10fdc96556cbed6c9de02a28e2d543ead41b8cdecb51a82434",
    "out_dir": "results_phase6c/ciciot/nat_selection_uniform/seed_16"
   },
   {
@@ -2654,7 +2654,7 @@
    "arm": "nat_corrected",
    "seed": 16,
    "config": "configs/phase6c/ciciot_nat_corrected.yaml",
-   "config_sha256": "6957d3b7ef1df440495e40f29f2a526e60f74d12d6c86b670bdb9a604fca9459",
+   "config_sha256": "c05bf2cee15515d40d5c082ef2d4252c4488e294c70b238c9138a9c4215497cf",
    "out_dir": "results_phase6c/ciciot/nat_corrected/seed_16"
   },
   {
@@ -2664,7 +2664,7 @@
    "arm": "fail0p0_reference",
    "seed": 16,
    "config": "configs/phase6c/ciciot_fail0p0_reference.yaml",
-   "config_sha256": "fc652b2cdd718aafedccb853d0af308f785d776d484ff020391ecb96aa780407",
+   "config_sha256": "fdb36a9bc66d0aaf68f5d40aed6ff18169f8af27806bcad764c52acfe4279bcb",
    "out_dir": "results_phase6c/ciciot/fail0p0_reference/seed_16"
   },
   {
@@ -2674,7 +2674,7 @@
    "arm": "fail0p3_reference",
    "seed": 16,
    "config": "configs/phase6c/ciciot_fail0p3_reference.yaml",
-   "config_sha256": "07da320340e8771e1852210fc4b56c9af56d773c90f9bcefbc5e3b8f59076d4b",
+   "config_sha256": "29b5f42e70a623542b0cb42c018129e63fbd4d42b12393499b0d72445fb0a6ed",
    "out_dir": "results_phase6c/ciciot/fail0p3_reference/seed_16"
   },
   {
@@ -2684,7 +2684,7 @@
    "arm": "fail0p3_corrected",
    "seed": 16,
    "config": "configs/phase6c/ciciot_fail0p3_corrected.yaml",
-   "config_sha256": "1847414d7c12480680e96dcb62e08b44c3dbc3813eaa2835874fcd1caabe3584",
+   "config_sha256": "a97923921c05583164f6281c6d6936b322dbd35f2fa3bee62193224921f97ef2",
    "out_dir": "results_phase6c/ciciot/fail0p3_corrected/seed_16"
   }
  ],
@@ -2715,5 +2715,5 @@
   "{out_dir}"
  ],
  "verify_training_semantics": true,
- "manifest_sha256": "891a53f411004fffd45721b3de2531772ac8842d4d98ef44969855acff69f395"
+ "manifest_sha256": "c648b93590494fcf260d5f143fe30eabbec28ee61c6b782dbe5f8550e0c1f267"
 }

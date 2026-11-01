@@ -21,7 +21,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from p6c_common import (  # noqa: E402
     ROOT, atomic_write_json, code_fingerprint, load_manifest, log, manifest_hash, now_utc, pid_alive,
-    sha256_file, sha256_gzip_content, verify_run_dir,
+    sha256_file, sha256_gzip_content, sha256_text_file, verify_run_dir,
 )
 
 PRIOR_SECONDS = {"unsw": 80.0, "ciciot": 220.0}
@@ -98,7 +98,7 @@ def preflight(manifest: dict, root: Path, hash_data: bool, min_free_gb: float) -
     fp = code_fingerprint(root)
     add("code fingerprint equals the manifest", fp == manifest.get("code_fingerprint"), f"{fp[:16]} vs {str(manifest.get('code_fingerprint'))[:16]}")
     configs = {r["config"]: r["config_sha256"] for r in manifest["runs"]}
-    bad = [c for c, h in configs.items() if not (root / c).exists() or sha256_file(root / c) != h]
+    bad = [c for c, h in configs.items() if not (root / c).exists() or sha256_text_file(root / c) != h]
     add(f"{len(configs)} configuration hashes match", not bad, f"mismatched: {bad[:3]}")
     unsafe = []
     try:

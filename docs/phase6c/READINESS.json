@@ -1,0 +1,22 @@
+{
+  "gate": "FIVE_SEED_READY_FOR_USER_EXECUTION",
+  "result": "PASS",
+  "evidence": {
+    "manifest_sha256": "c648b93590494fcf260d5f143fe30eabbec28ee61c6b782dbe5f8550e0c1f267",
+    "planned_runs": 240,
+    "seeds": [12, 13, 14, 15, 16],
+    "automated_tests": "119 passed",
+    "real_project_preflight": "15/15 checks passed (manifest, code fingerprint, 48 config hashes, dataset hashes, environment, disk, lock, no final-test results)",
+    "runner_validation": "mock workload: dry-run, sequential execution, failure recording, resume with attempt preservation, no-overwrite/tamper stop, lock refusal, stale-lock recovery, consecutive-failure stop, artifact verification, read-only monitor, aggregation; PowerShell wrappers incl. -Detached exercised",
+    "config_smoke": "28 real arm configurations ran 2 rounds on subsampled data (scratch) without errors; run_one.py end-to-end produced and verified all required artifacts",
+    "final_test_protection": "training configs have validation_only=true and blank test path (enforced in preflight, run_one assertion, tests); preflight reads only the size of test files; final_test_evaluate.py is a separate authorised one-time operation, never called by the runner"
+  },
+  "not_started": "No Phase 6C training run has been executed; results_phase6c does not exist.",
+  "known_limitations": [
+    "CICIoT2023 official provenance unverified; capture independence not established (17 rare classes row-stratified, thresholds share captures)",
+    "Gaussian epsilon is a diagnostic estimate, not a certified guarantee",
+    "A strict 0.1 aggregation-weight cap is infeasible with fewer than 10 retained updates",
+    "Packet-coupled delivery parameters are a-priori assumptions",
+    "Full-scale arm runtimes (notably clean_centralized on CICIoT2023) were not measured; ETA is approximate"
+  ]
+}

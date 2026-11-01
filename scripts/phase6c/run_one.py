@@ -21,7 +21,7 @@ sys.path.insert(0, str(ROOT / "scripts" / "phase6a"))
 sys.path.insert(0, str(ROOT / "scripts" / "phase6b"))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from p6c_common import git_head, sha256_file  # noqa: E402
+from p6c_common import git_head, sha256_text_file  # noqa: E402
 from src.config import Config  # noqa: E402
 from src.experiment import run_experiment  # noqa: E402
 
@@ -71,7 +71,7 @@ def main() -> None:
     (run_dir / "phase6c_diagnostics.json").write_text(json.dumps(diagnostics, indent=2), encoding="utf-8")
 
     record = {
-        "seed": args.seed, "config": str(args.config), "config_sha256": sha256_file(Path(args.config)),
+        "seed": args.seed, "config": str(args.config), "config_sha256": sha256_text_file(Path(args.config)),
         "code_commit": git_head(), "wall_seconds": round(wall, 1), "cpu_seconds": round(cpu_s, 1),
         "peak_working_set_mb": round(peak_mb, 1), "python": platform.python_version(),
         "torch": torch.__version__, "numpy": np.__version__, "pandas": pd.__version__,

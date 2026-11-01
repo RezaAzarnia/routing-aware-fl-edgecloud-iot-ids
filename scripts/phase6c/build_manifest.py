@@ -13,7 +13,7 @@ import yaml
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from p6c_common import (  # noqa: E402
-    DEFAULT_REQUIRED_ARTIFACTS, code_fingerprint, git_head, manifest_hash, now_utc, sha256_file,
+    DEFAULT_REQUIRED_ARTIFACTS, code_fingerprint, git_head, manifest_hash, now_utc, sha256_file, sha256_text_file,
 )
 
 SEEDS = [12, 13, 14, 15, 16]
@@ -139,7 +139,7 @@ def main() -> None:
             header = (f"# PHASE 6C confirmatory arm '{arm[0]}' ({dataset}) - {arm[2]}\n"
                       f"# algorithm_version={arm[3]} group={arm[1]}. Locked by docs/phase6c/EXPERIMENT_MANIFEST.json; do not edit.\n")
             path.write_text(header + yaml.safe_dump(cfg, sort_keys=False), encoding="utf-8")
-            config_hashes[(dataset, arm[0])] = sha256_file(path)
+            config_hashes[(dataset, arm[0])] = sha256_text_file(path)
     arms_meta = [{"arm": a[0], "group": a[1], "description": a[2], "algorithm_version": a[3],
                   "uses_gaussian": bool(a[5]), "natural_attacker_assignment": bool(a[6]), "compare_with": a[7]} for a in ARMS]
     hist = json.loads((ROOT / "docs" / "data_integrity" / "historical_data_hashes.json").read_text(encoding="utf-8"))

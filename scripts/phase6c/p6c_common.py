@@ -28,6 +28,12 @@ def sha256_file(path: Path, block: int = 1 << 24) -> str:
     return digest.hexdigest()
 
 
+def sha256_text_file(path: Path) -> str:
+    """Line-ending-insensitive hash (git may convert LF/CRLF between checkouts)."""
+    data = Path(path).read_bytes()
+    return sha256_bytes(data.replace(bytes([13, 10]), bytes([10])))
+
+
 def sha256_gzip_content(path: Path, block: int = 1 << 24) -> str:
     digest = hashlib.sha256()
     with gzip.open(path, "rb") as handle:
@@ -88,7 +94,7 @@ def pid_alive(pid: int) -> bool:
     return True
 
 
-CODE_GLOBS = ["src/*.py", "scripts/phase6c/p6c_common.py", "scripts/phase6c/run_one.py",
+CODE_GLOBS = ["src/*.py", "scripts/phase6c/p6c_common.py", "scripts/phase6c/run_one.py", "scripts/phase6c/final_test_evaluate.py",
               "scripts/phase6a/run_validation_only.py", "scripts/phase6b/run_variant.py",
               "prepare_ciciot2023.py", "configs/phase6c/*.yaml"]
 
@@ -99,7 +105,7 @@ def code_fingerprint(root: Path = ROOT, globs=None) -> str:
     for pattern in (globs or CODE_GLOBS):
         for path in sorted(Path(root).glob(pattern)):
             if path.is_file():
-                entries.append((path.relative_to(root).as_posix(), sha256_file(path)))
+                entries.append((path.relative_to(root).as_posix(), sha256_text_file(path)))
     entries.sort()
     return sha256_bytes(json.dumps(entries).encode("utf-8"))
 
