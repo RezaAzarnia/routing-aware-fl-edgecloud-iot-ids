@@ -1,0 +1,10 @@
+{
+  "config": "configs/phase6b/unsw_v4_coverage_aware_selection.yaml",
+  "config_sha256": "1697aa02505f136b1abca87610be1a324787eaf4bdf331a54c5e011d59abe2c2",
+  "git_commit": "f935ee0e3d26349e0fd6c4b021a1592291f0c166",
+  "seed": 2,
+  "variant": "v4_coverage_aware_selection",
+  "wall_seconds": 75.2,
+  "cpu_seconds": 238.9,
+  "peak_working_set_mb": 1030.1
+}

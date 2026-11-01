@@ -1,0 +1,10 @@
+{
+  "config": "configs/phase6b/ciciot_v7_gaussian_diagnostic_eps10.yaml",
+  "config_sha256": "28d839ec42ff3f000e6b921eb1c85d404513c92ea8b4cea73e3d14d13547eeed",
+  "git_commit": "f935ee0e3d26349e0fd6c4b021a1592291f0c166",
+  "seed": 2,
+  "variant": "v7_gaussian_diagnostic_eps10",
+  "wall_seconds": 182.1,
+  "cpu_seconds": 725.1,
+  "peak_working_set_mb": 2558.5
+}

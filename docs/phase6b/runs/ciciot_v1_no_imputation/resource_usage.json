@@ -1,0 +1,10 @@
+{
+  "config": "configs/phase6b/ciciot_v1_no_imputation.yaml",
+  "config_sha256": "4090bd82fa7f6d1c4fa44099651ca6b2427a12b058cc03be8bac9cef002104bc",
+  "git_commit": "f935ee0e3d26349e0fd6c4b021a1592291f0c166",
+  "seed": 2,
+  "variant": "v1_no_imputation",
+  "wall_seconds": 212.5,
+  "cpu_seconds": 707.4,
+  "peak_working_set_mb": 2559.9
+}

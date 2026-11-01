@@ -1,0 +1,10 @@
+{
+  "config": "configs/phase6b/unsw_v2_surrogate_cap_0p10.yaml",
+  "config_sha256": "180e3225cfe63c02903203b57957dcc7bcda9bcfaf4ae23379fc42e12b4e4544",
+  "git_commit": "f935ee0e3d26349e0fd6c4b021a1592291f0c166",
+  "seed": 2,
+  "variant": "v2_surrogate_cap_0p10",
+  "wall_seconds": 81.7,
+  "cpu_seconds": 203.4,
+  "peak_working_set_mb": 1029.2
+}

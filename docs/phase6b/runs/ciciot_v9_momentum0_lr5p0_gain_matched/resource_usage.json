@@ -1,0 +1,10 @@
+{
+  "config": "configs/phase6b/ciciot_v9_momentum0_lr5p0_gain_matched.yaml",
+  "config_sha256": "ac4372a34302cbf0e55f7ba44e2223f0694d16171617457289a5d37f16d5d532",
+  "git_commit": "f935ee0e3d26349e0fd6c4b021a1592291f0c166",
+  "seed": 2,
+  "variant": "v9_momentum0_lr5p0_gain_matched",
+  "wall_seconds": 245.7,
+  "cpu_seconds": 1087.7,
+  "peak_working_set_mb": 2556.3
+}

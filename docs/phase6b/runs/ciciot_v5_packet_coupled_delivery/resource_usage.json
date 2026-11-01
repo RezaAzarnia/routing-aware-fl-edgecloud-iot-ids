@@ -1,0 +1,10 @@
+{
+  "config": "configs/phase6b/ciciot_v5_packet_coupled_delivery.yaml",
+  "config_sha256": "c0b3fbed3cd11af042e581000059c391e91442c4b82163affd768bac8401b1e1",
+  "git_commit": "f935ee0e3d26349e0fd6c4b021a1592291f0c166",
+  "seed": 2,
+  "variant": "v5_packet_coupled_delivery",
+  "wall_seconds": 171.9,
+  "cpu_seconds": 603.2,
+  "peak_working_set_mb": 2558.6
+}

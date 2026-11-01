@@ -1,0 +1,15 @@
+{
+  "attack_type": "sign_flip",
+  "malicious_clients": [
+    6,
+    7,
+    14,
+    29,
+    30,
+    34,
+    37,
+    41,
+    42,
+    49
+  ]
+}

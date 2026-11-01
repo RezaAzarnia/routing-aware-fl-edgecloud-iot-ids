@@ -1,0 +1,19 @@
+{
+  "events_selected": 300,
+  "explicit_failures": 25,
+  "delivery_draw_failures": 53,
+  "network_failures_counted": 53,
+  "both_explicit_and_network": 4,
+  "failed_union": 74,
+  "received": 226,
+  "delivered_draw_successes": 247,
+  "delivered_but_explicit_failure": 21,
+  "update_delivery_ratio__delivered_over_selected": 0.8233333333333334,
+  "received_ratio__received_over_selected": 0.7533333333333333,
+  "failure_ratio__failed_over_selected": 0.24666666666666667,
+  "mean_pdr__over_selected": 0.8895000000000001,
+  "mean_pdr__given_delivered": 0.9050607287449394,
+  "mean_pdr__given_not_delivered": 0.8169811320754716,
+  "update_delivery_ratio__given_not_explicit": 0.8218181818181818,
+  "invariants_hold": true
+}

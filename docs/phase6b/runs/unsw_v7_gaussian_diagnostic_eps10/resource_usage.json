@@ -1,0 +1,10 @@
+{
+  "config": "configs/phase6b/unsw_v7_gaussian_diagnostic_eps10.yaml",
+  "config_sha256": "495dad7eead399a1e9af67e9a91a19f2a2666e8c77ff1e13c9c12ee61fb3c7d5",
+  "git_commit": "f935ee0e3d26349e0fd6c4b021a1592291f0c166",
+  "seed": 2,
+  "variant": "v7_gaussian_diagnostic_eps10",
+  "wall_seconds": 56.6,
+  "cpu_seconds": 157.2,
+  "peak_working_set_mb": 1029.8
+}

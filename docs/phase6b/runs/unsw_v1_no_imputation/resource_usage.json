@@ -1,0 +1,10 @@
+{
+  "config": "configs/phase6b/unsw_v1_no_imputation.yaml",
+  "config_sha256": "d45c51a981c803b3e89c83fdc81d2f1c07d4f924101d037d0d034f95020da99d",
+  "git_commit": "f935ee0e3d26349e0fd6c4b021a1592291f0c166",
+  "seed": 2,
+  "variant": "v1_no_imputation",
+  "wall_seconds": 57.3,
+  "cpu_seconds": 136.0,
+  "peak_working_set_mb": 1029.3
+}

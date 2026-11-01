@@ -1,0 +1,10 @@
+{
+  "config": "configs/phase6b/ciciot_v0_reference_matched.yaml",
+  "config_sha256": "e33ecea37064a145e3b5eaf0e24eb8fc546e1201cf79df3c9e9e6381084fca21",
+  "git_commit": "f935ee0e3d26349e0fd6c4b021a1592291f0c166",
+  "seed": 2,
+  "variant": "v0_reference_matched",
+  "wall_seconds": 201.2,
+  "cpu_seconds": 694.3,
+  "peak_working_set_mb": 2559.3
+}

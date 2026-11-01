@@ -1,0 +1,10 @@
+{
+  "config": "configs/phase6b/ciciot_v8_momentum0_lr0p5.yaml",
+  "config_sha256": "3e58d5838279b9ab8eb82c47105cb5fa750537c3c4252fe4d1fba0898353704a",
+  "git_commit": "f935ee0e3d26349e0fd6c4b021a1592291f0c166",
+  "seed": 2,
+  "variant": "v8_momentum0_lr0p5",
+  "wall_seconds": 242.4,
+  "cpu_seconds": 967.9,
+  "peak_working_set_mb": 2559.2
+}

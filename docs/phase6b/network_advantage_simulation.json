@@ -1,0 +1,44 @@
+{
+  "independent_draws|top_k": {
+    "delivery_ratio_mean": 0.8391,
+    "delivery_ratio_sd_across_seeds": 0.04034395177030188,
+    "pdr_first_tx_mean": 0.8397858333333333,
+    "delay_ms_mean": 72.17976253969036,
+    "wire_bytes_over_update_bytes": 1.0
+  },
+  "independent_draws|coverage_aware": {
+    "delivery_ratio_mean": 0.8247666666666666,
+    "delivery_ratio_sd_across_seeds": 0.039888051677998346,
+    "pdr_first_tx_mean": 0.8256165,
+    "delay_ms_mean": 73.9437596983913,
+    "wire_bytes_over_update_bytes": 1.0
+  },
+  "independent_draws|uniform_random": {
+    "delivery_ratio_mean": 0.7782333333333332,
+    "delivery_ratio_sd_across_seeds": 0.037013375960590254,
+    "pdr_first_tx_mean": 0.7761206666666667,
+    "delay_ms_mean": 78.96836413655929,
+    "wire_bytes_over_update_bytes": 1.0
+  },
+  "packet_coupled|top_k": {
+    "delivery_ratio_mean": 0.6347666666666667,
+    "delivery_ratio_sd_across_seeds": 0.1254832923805662,
+    "pdr_first_tx_mean": 0.8395678333333333,
+    "delay_ms_mean": 248.81919498978263,
+    "wire_bytes_over_update_bytes": 1.1941376666666668
+  },
+  "packet_coupled|coverage_aware": {
+    "delivery_ratio_mean": 0.5882166666666666,
+    "delivery_ratio_sd_across_seeds": 0.11491005057096713,
+    "pdr_first_tx_mean": 0.8257030000000001,
+    "delay_ms_mean": 261.0489530169942,
+    "wire_bytes_over_update_bytes": 1.2146133333333333
+  },
+  "packet_coupled|uniform_random": {
+    "delivery_ratio_mean": 0.5290166666666667,
+    "delivery_ratio_sd_across_seeds": 0.09952877724557858,
+    "pdr_first_tx_mean": 0.776178,
+    "delay_ms_mean": 286.3724916059392,
+    "wire_bytes_over_update_bytes": 1.3137066666666666
+  }
+}

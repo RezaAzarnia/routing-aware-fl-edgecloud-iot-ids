@@ -1,0 +1,62 @@
+{
+  "median_convention": "true median: mean of the two middle order statistics for even counts (src.aggregation.true_median); torch.median (lower median) is not used",
+  "aggregation": {
+    "requested": "distance_filter",
+    "actual_methods_used": [
+      "distance_filter"
+    ],
+    "distance_k": 2.5,
+    "trim_ratio": 0.2,
+    "byzantine_assumption": 2
+  },
+  "privacy": {
+    "privacy_mode": "none",
+    "privacy_enabled": false,
+    "effective_noise_multiplier": 0.0,
+    "accountant_sample_rate": 0.0,
+    "planned_steps": 30,
+    "planned_epsilon_estimate": 0.0,
+    "delta": 1e-05,
+    "target_epsilon": null,
+    "accounting_note": "Privacy disabled.",
+    "subsampling_amplification_valid": false,
+    "poisson_subsampling_assumption_satisfied": false,
+    "epsilon_is_certified_guarantee": false,
+    "selection_mechanism": "deterministic_top_k_by_route_score",
+    "mechanism": "central Gaussian noise added to the clipped, weight-capped aggregate released after robust filtering; server momentum is post-processing",
+    "release_count": 0,
+    "epsilon_label": "diagnostic RDP estimate under a Poisson-sampling assumption"
+  },
+  "missing_update_handling": {
+    "enabled": true,
+    "terminology": "surrogate imputation: a coordinate-wise true median of received updates substitutes for a missing update; no information about the missing client's private data is recovered",
+    "weight_factor": 0.5
+  },
+  "routing_enabled": true,
+  "variant_name": "v8_momentum0_lr0p5",
+  "algorithm_spec": {
+    "selection_policy": "top_k",
+    "coverage_penalty": 0.5,
+    "delivery_model": "independent_draws",
+    "max_retransmissions": 2,
+    "trace_mode": "matched",
+    "weighting": "sample_proportional",
+    "imputation": "coordinate_median_surrogate",
+    "recovery_weight_factor": 0.5,
+    "surrogate_total_weight_cap": null,
+    "threshold_calibration_fraction": 0.5,
+    "privacy_mode": "none",
+    "server_momentum": 0.0,
+    "server_learning_rate": 0.5
+  },
+  "validation_only": true,
+  "test_data_loaded": false,
+  "seed": 2,
+  "rounds_executed": 30,
+  "early_stopped": false,
+  "versions": {
+    "torch": "2.15.0+cpu",
+    "numpy": "2.4.6",
+    "pandas": "2.3.3"
+  }
+}

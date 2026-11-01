@@ -1,0 +1,95 @@
+{
+  "1pct": {
+    "target_fpr": 0.01,
+    "same_observation_optimistic": {
+      "threshold": 0.010522859176737327,
+      "fpr": 0.9594999999999998,
+      "recall_adr": 1.0,
+      "precision": 0.6895575507562889,
+      "f1": 0.8162581386441976,
+      "constraint_feasible": false
+    },
+    "calibration_partition": {
+      "threshold": 0.0009926280919462442,
+      "fpr": 0.9642499999999998,
+      "recall_adr": 1.0,
+      "precision": 0.6884491114701131,
+      "f1": 0.8154810314308951,
+      "constraint_feasible": false
+    },
+    "independent_evaluation": {
+      "threshold": 0.0009926280919462442,
+      "fpr": 0.9594999999999998,
+      "recall_adr": 1.0,
+      "precision": 0.6895575507562889,
+      "f1": 0.8162581386441976,
+      "tn": 162,
+      "fp": 3838,
+      "fn": 0,
+      "tp": 8525
+    },
+    "fpr_shift_evaluation_minus_calibration": -0.004750000000000032
+  },
+  "5pct": {
+    "target_fpr": 0.05,
+    "same_observation_optimistic": {
+      "threshold": 0.010522859176737327,
+      "fpr": 0.9594999999999998,
+      "recall_adr": 1.0,
+      "precision": 0.6895575507562889,
+      "f1": 0.8162581386441976,
+      "constraint_feasible": false
+    },
+    "calibration_partition": {
+      "threshold": 0.0009926280919462442,
+      "fpr": 0.9642499999999998,
+      "recall_adr": 1.0,
+      "precision": 0.6884491114701131,
+      "f1": 0.8154810314308951,
+      "constraint_feasible": false
+    },
+    "independent_evaluation": {
+      "threshold": 0.0009926280919462442,
+      "fpr": 0.9594999999999998,
+      "recall_adr": 1.0,
+      "precision": 0.6895575507562889,
+      "f1": 0.8162581386441976,
+      "tn": 162,
+      "fp": 3838,
+      "fn": 0,
+      "tp": 8525
+    },
+    "fpr_shift_evaluation_minus_calibration": -0.004750000000000032
+  },
+  "15pct": {
+    "target_fpr": 0.15,
+    "same_observation_optimistic": {
+      "threshold": 1.0,
+      "fpr": 0.0,
+      "recall_adr": 0.0,
+      "precision": 0.0,
+      "f1": 0.0,
+      "constraint_feasible": true
+    },
+    "calibration_partition": {
+      "threshold": 0.9999991841316224,
+      "fpr": 0.14699999999999996,
+      "recall_adr": 0.7218115686964683,
+      "precision": 0.912759643916914,
+      "f1": 0.8061324772325231,
+      "constraint_feasible": true
+    },
+    "independent_evaluation": {
+      "threshold": 0.9999991841316224,
+      "fpr": 0.17224999999999996,
+      "recall_adr": 0.7068621700879766,
+      "precision": 0.8973938942665673,
+      "f1": 0.7908136482939633,
+      "tn": 3311,
+      "fp": 689,
+      "fn": 2499,
+      "tp": 6026
+    },
+    "fpr_shift_evaluation_minus_calibration": 0.025249999999999995
+  }
+}

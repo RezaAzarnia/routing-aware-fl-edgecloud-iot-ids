@@ -1,0 +1,10 @@
+{
+  "config": "configs/phase6b/unsw_v3_uniform_random_selection.yaml",
+  "config_sha256": "da2ffa0fb2f1b02b9e2b5af713a369a5035c7a65a71176bbf37cf8bfdd86746a",
+  "git_commit": "f935ee0e3d26349e0fd6c4b021a1592291f0c166",
+  "seed": 2,
+  "variant": "v3_uniform_random_selection",
+  "wall_seconds": 58.2,
+  "cpu_seconds": 158.8,
+  "peak_working_set_mb": 1030.3
+}
