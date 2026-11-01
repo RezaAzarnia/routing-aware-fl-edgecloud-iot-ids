@@ -88,7 +88,7 @@ def release_lock(root: Path) -> None:
 
 
 # ----------------------------------------------------------------------------- preflight
-def preflight(manifest: dict, root: Path, hash_data: bool, min_free_gb: float) -> list[tuple[str, bool, str]]:
+def preflight(manifest: dict, root: Path, hash_data: bool, min_free_gb: float, cloud_mode: bool = False) -> list[tuple[str, bool, str]]:
     results: list[tuple[str, bool, str]] = []
 
     def add(name, ok, detail=""):
@@ -130,6 +130,10 @@ def preflight(manifest: dict, root: Path, hash_data: bool, min_free_gb: float) -
     # locked test files: existence + size only (they are NOT read before the authorised final-test step)
     for name, info in manifest["locked_test"].items():
         path = root / info["path"]
+        if cloud_mode:
+            # cloud mode: the locked test data must NOT exist on this machine (cannot leak into training)
+            add(f"cloud mode: locked test file ABSENT on this machine ({name})", not path.exists(), info["path"])
+            continue
         ok = path.exists() and (info.get("bytes") is None or path.stat().st_size == info["bytes"])
         add(f"locked test file present ({name}); size check only, content not read", ok, info["path"])
     free = shutil.disk_usage(root).free / 2**30
@@ -231,7 +235,13 @@ def finalize_run(out: Path, run: dict, manifest: dict, duration: float) -> list[
 
 
 def cmd_run(manifest: dict, root: Path, resume: bool, max_consecutive_failures: int, args) -> int:
-    results = preflight(manifest, root, hash_data=not args.skip_data_hash, min_free_gb=args.min_free_gb)
+    marker = state_dir(root) / "MIGRATED_TO_CLOUD.json"
+    if marker.exists() and not getattr(args, "cloud_mode", False):
+        print(f"REFUSED: this experiment was migrated to a cloud machine ({marker}). Running it here too would duplicate the work "
+              "and mix platforms. Delete the marker only if you deliberately cancel the migration.")
+        return 2
+    results = preflight(manifest, root, hash_data=not args.skip_data_hash, min_free_gb=args.min_free_gb,
+                        cloud_mode=getattr(args, "cloud_mode", False))
     if not print_preflight(results):
         return 2
     runs = sorted(manifest["runs"], key=lambda r: r["order"])
@@ -559,6 +569,8 @@ def main() -> int:
     parser.add_argument("--resume", action="store_true")
     parser.add_argument("--max-consecutive-failures", type=int, default=3)
     parser.add_argument("--skip-data-hash", action="store_true")
+    parser.add_argument("--cloud-mode", action="store_true",
+                        help="remote machine without the locked test files: requires them to be ABSENT")
     parser.add_argument("--min-free-gb", type=float, default=20.0)
     parser.add_argument("--source", choices=["validation", "test"], default="validation")
     parser.add_argument("--out", default=None)
@@ -570,7 +582,7 @@ def main() -> int:
         print(f"CRITICAL: {exc}")
         return 2
     if args.command == "preflight":
-        return 0 if print_preflight(preflight(manifest, root, not args.skip_data_hash, args.min_free_gb)) else 2
+        return 0 if print_preflight(preflight(manifest, root, not args.skip_data_hash, args.min_free_gb, args.cloud_mode)) else 2
     if args.command == "plan":
         cmd_plan(manifest, root)
         return 0

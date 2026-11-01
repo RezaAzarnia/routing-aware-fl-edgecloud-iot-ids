@@ -273,3 +273,32 @@ def test_exact_tests_and_holm():
     assert exact_wilcoxon([0, 0]) == 1.0
     adj = holm([0.01, 0.04, 0.03])
     assert adj == pytest.approx([0.03, 0.06, 0.06])
+
+
+def test_cloud_mode_requires_the_locked_test_files_to_be_absent(tmp_path):
+    m = make_project(tmp_path, seeds=[12])
+    # test files present -> cloud mode refuses (test data must never be on the remote machine)
+    r_present = orch(tmp_path, m, "preflight", *COMMON, "--cloud-mode")
+    assert r_present.returncode == 2 and "[FAIL] cloud mode: locked test file ABSENT" in r_present.stdout
+    (tmp_path / "data" / "test.csv").unlink()
+    r_absent = orch(tmp_path, m, "preflight", *COMMON, "--cloud-mode")
+    assert r_absent.returncode == 0, r_absent.stdout
+    # ... while normal (local) mode needs them present
+    r_local = orch(tmp_path, m, "preflight", *COMMON)
+    assert r_local.returncode == 2 and "locked test file present" in r_local.stdout
+    # a full mock run works in cloud mode and never needs the test files
+    r_run = orch(tmp_path, m, "run", *COMMON, "--cloud-mode")
+    assert r_run.returncode == 0, r_run.stdout
+
+
+def test_migration_marker_stops_the_local_runner_but_not_the_cloud_runner(tmp_path):
+    m = make_project(tmp_path, seeds=[12])
+    state = tmp_path / "results_phase6c" / "_state"
+    state.mkdir(parents=True)
+    (state / "MIGRATED_TO_CLOUD.json").write_text("{}", encoding="utf-8")
+    r = orch(tmp_path, m, "run", *COMMON)
+    assert r.returncode == 2 and "migrated to a cloud machine" in r.stdout
+    assert not (tmp_path / "results_phase6c" / "unsw").exists()          # nothing was started locally
+    (tmp_path / "data" / "test.csv").unlink()                           # the cloud copy has no test files
+    r_cloud = orch(tmp_path, m, "run", *COMMON, "--cloud-mode")
+    assert r_cloud.returncode == 0, r_cloud.stdout

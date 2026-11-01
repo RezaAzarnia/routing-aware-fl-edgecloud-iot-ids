@@ -1,0 +1,22 @@
+# Optional systemd unit: resumes the locked experiment automatically after a crash or VM reboot.
+# Install (as root), after cloud_setup.sh and a passed compatibility test:
+#   cp iotfl-phase6c.service /etc/systemd/system/ ; edit User/WorkingDirectory ; systemctl daemon-reload
+#   systemctl enable --now iotfl-phase6c
+# The orchestrator lock prevents duplicates; it exits 0 when all 240 runs are verified, 4 after 3 consecutive failures.
+[Unit]
+Description=IoT-FL Phase 6C locked five-seed experiments (resumable)
+After=network-online.target
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/home/ubuntu/iotfl/repo
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/home/ubuntu/iotfl/repo/.venv/bin/python scripts/phase6c/orchestrator.py run --cloud-mode --resume
+Restart=on-failure
+RestartSec=300
+StartLimitIntervalSec=3600
+StartLimitBurst=4
+
+[Install]
+WantedBy=multi-user.target

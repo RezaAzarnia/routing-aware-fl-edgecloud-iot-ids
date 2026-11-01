@@ -45,3 +45,6 @@ sweeps_review*.zip
 results_*/
 logs_phase6a/
 logs_phase6b/
+cloud_transfer/
+cloud_transfer.tar
+results_cloud_compat/
