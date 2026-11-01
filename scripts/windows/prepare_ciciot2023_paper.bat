@@ -1,6 +1,12 @@
 @echo off
 setlocal
 cd /d "%~dp0..\.."
+if exist "data\CICIoT2023\prepared_paper\train.csv.gz" (
+  echo prepared_paper already exists and is an immutable historical dataset. Refusing to overwrite it.
+  echo Use scripts\windows\v2_corrected\01_prepare_verified_v2_filegroup.bat for the corrected dataset.
+  pause
+  exit /b 1
+)
 echo Preparing the reproducible CICIoT2023 paper sample.
 echo This scans the official CSV release twice and may take a long time.
 python prepare_ciciot2023.py ^

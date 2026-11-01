@@ -14,6 +14,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
 from .config import DataConfig
+from .data_integrity import conflicting_fingerprint_groups, predictor_fingerprint
 
 
 @dataclass
@@ -42,6 +43,63 @@ class DatasetBundle:
     raw_test_rows: int
     original_column_count: int
     selected_raw_feature_count: int
+    # Optional audit information (defaults keep older constructors valid).
+    validation_split_info: dict | None = None
+    train_exclusions: pd.DataFrame | None = None
+
+
+def _group_disjoint_validation_split(
+    features: pd.DataFrame, y: np.ndarray, validation_fraction: float, seed: int
+):
+    """Deterministic, label-stratified split in which identical predictor vectors
+    (canonical fingerprint) never straddle the train/validation boundary."""
+    from sklearn.model_selection import StratifiedGroupKFold
+
+    fingerprint = predictor_fingerprint(features, list(features.columns))
+    _, groups = np.unique(fingerprint, return_inverse=True)
+    n_splits = max(2, int(round(1.0 / validation_fraction)))
+    splitter = StratifiedGroupKFold(n_splits=n_splits, shuffle=True, random_state=seed)
+    train_idx, val_idx = next(splitter.split(features, y, groups))
+    return np.sort(train_idx), np.sort(val_idx), fingerprint, n_splits
+
+
+def _split_validation(features: pd.DataFrame, y: np.ndarray, cfg: DataConfig, seed: int):
+    """Return X_train_raw, X_val_raw, y_train, y_val, info."""
+    info: dict = {"protocol": cfg.validation_split, "seed": int(seed)}
+    if cfg.validation_split == "group_disjoint":
+        tr, va, fingerprint, n_splits = _group_disjoint_validation_split(
+            features, y, cfg.validation_fraction, seed
+        )
+        shared = int(np.isin(fingerprint[va], fingerprint[tr]).sum())
+        info.update({"n_splits": n_splits, "validation_rows_sharing_predictor_vector_with_train": shared})
+        X_tr, X_va = features.iloc[tr], features.iloc[va]
+        y_tr, y_va = y[tr], y[va]
+    else:
+        X_tr, X_va, y_tr, y_va = train_test_split(
+            features, y, test_size=cfg.validation_fraction, random_state=seed, stratify=y
+        )
+        fingerprint_tr = predictor_fingerprint(X_tr, list(X_tr.columns))
+        fingerprint_va = predictor_fingerprint(X_va, list(X_va.columns))
+        info["validation_rows_sharing_predictor_vector_with_train"] = int(
+            np.isin(fingerprint_va, fingerprint_tr).sum()
+        )
+    info.update({
+        "train_rows": int(len(y_tr)), "validation_rows": int(len(y_va)),
+        "train_attack": int((y_tr == 1).sum()), "train_benign": int((y_tr == 0).sum()),
+        "validation_attack": int((y_va == 1).sum()), "validation_benign": int((y_va == 0).sum()),
+    })
+    return X_tr, X_va, y_tr, y_va, info
+
+
+def _drop_conflicting_train_groups(X: pd.DataFrame, y: np.ndarray, cfg: DataConfig):
+    """Optional prespecified training-side policy: drop predictor-identical groups
+    that carry both binary labels. Returns X, y, manifest (or None when disabled)."""
+    if not cfg.exclude_conflicting_train_groups:
+        return X, y, None
+    fingerprint = predictor_fingerprint(X, list(X.columns))
+    manifest = conflicting_fingerprint_groups(fingerprint, y)
+    drop = np.isin(fingerprint, manifest["fingerprint"].to_numpy(dtype=np.uint64))
+    return X.loc[~drop], y[~drop], manifest
 
 
 def _stratified_subsample(
@@ -178,13 +236,13 @@ def load_and_preprocess_unsw(
     if missing_categorical:
         raise ValueError(f"Missing expected categorical columns: {missing_categorical}")
 
-    X_train_raw, X_val_raw, y_train, y_val = train_test_split(
-        train_features,
-        y_all,
-        test_size=cfg.validation_fraction,
-        random_state=seed,
-        stratify=y_all,
+    X_train_raw, X_val_raw, y_train, y_val, split_info = _split_validation(
+        train_features, y_all, cfg, seed
     )
+    X_train_raw, y_train, train_exclusions = _drop_conflicting_train_groups(
+        X_train_raw, y_train, cfg
+    )
+    split_info["train_rows_after_conflict_exclusion"] = int(len(y_train))
 
     categorical = list(cfg.categorical_cols)
     numeric = [column for column in X_train_raw.columns if column not in categorical]
@@ -247,6 +305,8 @@ def load_and_preprocess_unsw(
         raw_test_rows=raw_test_rows,
         original_column_count=original_column_count,
         selected_raw_feature_count=len(train_features.columns),
+        validation_split_info=split_info,
+        train_exclusions=train_exclusions,
     )
 
 
@@ -325,6 +385,16 @@ def load_and_preprocess_ciciot2023(
     if not numeric and not categorical:
         raise ValueError("No usable CICIoT2023 features remain after dropping label columns")
 
+    train_features, y_train, train_exclusions = _drop_conflicting_train_groups(
+        train_features, y_train, cfg
+    )
+    split_info = {
+        "protocol": "explicit_prepared_validation_file",
+        "train_rows": int(len(y_train)), "validation_rows": int(len(y_val)),
+        "train_attack": int((y_train == 1).sum()), "train_benign": int((y_train == 0).sum()),
+        "validation_attack": int((y_val == 1).sum()), "validation_benign": int((y_val == 0).sum()),
+    }
+
     transformers = []
     if categorical:
         categorical_pipeline = Pipeline(
@@ -381,6 +451,8 @@ def load_and_preprocess_ciciot2023(
         raw_test_rows=raw_test_rows,
         original_column_count=original_column_count,
         selected_raw_feature_count=len(train_features.columns),
+        validation_split_info=split_info,
+        train_exclusions=train_exclusions,
     )
 
 

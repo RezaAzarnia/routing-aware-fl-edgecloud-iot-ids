@@ -36,6 +36,18 @@ class DataConfig:
     # Optional metadata written by prepare_ciciot2023.py. It is copied into the
     # run summary when present, making split/sample details auditable.
     prepared_metadata_json: str | None = None
+    # Validation split protocol for UNSW-NB15 (the only dataset whose validation
+    # set is carved from the official training file).
+    #   random_stratified : historical protocol (identical predictor vectors may
+    #                       fall on both sides of the split)
+    #   group_disjoint    : rows sharing a canonical predictor fingerprint always
+    #                       stay on the same side of the split
+    validation_split: str = "random_stratified"
+    # Optional training-side sensitivity policy: drop training rows whose
+    # predictor vector occurs with both binary labels inside the training
+    # partition. Validation/test are never filtered. The exclusion manifest is
+    # saved with each run.
+    exclude_conflicting_train_groups: bool = False
 
 
 @dataclass
@@ -249,6 +261,8 @@ class Config:
             "pr_auc",
         }:
             raise ValueError("Unsupported threshold.model_selection_metric")
+        if self.data.validation_split not in {"random_stratified", "group_disjoint"}:
+            raise ValueError("data.validation_split must be random_stratified or group_disjoint")
         if self.aggregation.method not in {
             "fedavg",
             "median",

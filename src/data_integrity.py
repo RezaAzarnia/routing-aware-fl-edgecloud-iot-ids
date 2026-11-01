@@ -107,3 +107,24 @@ def conflicting_label_groups(
 def feature_columns(frame: pd.DataFrame, exclude: Iterable[str] = ("label", "attack_category")) -> list[str]:
     skip = set(exclude)
     return [c for c in frame.columns if c not in skip]
+
+
+def predictor_fingerprint(frame: pd.DataFrame, columns: Sequence[str]) -> np.ndarray:
+    """64-bit canonical fingerprint of the predictor vector (numeric -> float64 with
+    -0.0 -> 0.0, NaN kept; non-numeric columns compared as strings)."""
+    parts = {}
+    for col in columns:
+        series = frame[col]
+        if pd.api.types.is_numeric_dtype(series):
+            parts[col] = series.to_numpy(dtype=np.float64) + 0.0
+        else:
+            parts[col] = series.astype(str).to_numpy()
+    return pd.util.hash_pandas_object(pd.DataFrame(parts), index=False).to_numpy(dtype=np.uint64)
+
+
+def conflicting_fingerprint_groups(fingerprint: np.ndarray, labels: np.ndarray) -> pd.DataFrame:
+    """Manifest of fingerprints that occur with both binary labels."""
+    table = pd.DataFrame({"fingerprint": fingerprint, "y": np.asarray(labels).astype(np.int64)})
+    grouped = table.groupby("fingerprint")["y"].agg(rows="size", attack="sum", labels="nunique").reset_index()
+    grouped["benign"] = grouped["rows"] - grouped["attack"]
+    return grouped[grouped["labels"] > 1][["fingerprint", "rows", "benign", "attack"]].reset_index(drop=True)

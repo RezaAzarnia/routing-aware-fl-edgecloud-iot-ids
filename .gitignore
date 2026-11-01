@@ -41,3 +41,5 @@ logs/
 *_review*.zip
 pilot_review*.zip
 sweeps_review*.zip
+
+results_*/

@@ -1,6 +1,11 @@
 @echo off
 setlocal
 cd /d "%~dp0..\.."
+if exist "data\CICIoT2023\prepared_pilot\train.csv.gz" (
+  echo prepared_pilot already exists and is an immutable historical dataset. Refusing to overwrite it.
+  pause
+  exit /b 1
+)
 echo Preparing a small reproducible CICIoT2023 pilot sample...
 python prepare_ciciot2023.py ^
   --raw-dir data/CICIoT2023/raw_csv ^

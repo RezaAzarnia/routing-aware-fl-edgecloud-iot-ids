@@ -304,6 +304,10 @@ def run_experiment(cfg: Config) -> Path:
     pd.DataFrame({"feature_name": bundle.feature_names}).to_csv(
         run_dir / "feature_names.csv", index=False
     )
+    if bundle.validation_split_info is not None:
+        save_json(bundle.validation_split_info, run_dir / "validation_split_info.json")
+    if bundle.train_exclusions is not None:
+        bundle.train_exclusions.to_csv(run_dir / "train_conflict_exclusion_manifest.csv", index=False)
     if cfg.data.prepared_metadata_json:
         metadata_path = Path(cfg.data.prepared_metadata_json)
         if metadata_path.exists():
