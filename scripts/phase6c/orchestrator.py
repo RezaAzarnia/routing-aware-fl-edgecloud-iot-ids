@@ -234,6 +234,27 @@ def finalize_run(out: Path, run: dict, manifest: dict, duration: float) -> list[
     return problems
 
 
+def parse_run_ids(value):
+    """None -> all runs; otherwise a set from a comma list or a file with one id per line."""
+    if not value:
+        return None
+    path = Path(value)
+    if path.exists():
+        items = [line.strip() for line in path.read_text(encoding="utf-8").splitlines()]
+    else:
+        items = [x.strip() for x in str(value).split(",")]
+    return {i for i in items if i}
+
+
+def load_estimates(path):
+    if not path:
+        return {}
+    try:
+        return {k: float(v) for k, v in json.loads(Path(path).read_text(encoding="utf-8")).items() if not k.startswith("_")}
+    except Exception:  # noqa: BLE001
+        return {}
+
+
 def cmd_run(manifest: dict, root: Path, resume: bool, max_consecutive_failures: int, args) -> int:
     marker = state_dir(root) / "MIGRATED_TO_CLOUD.json"
     if marker.exists() and not getattr(args, "cloud_mode", False):
@@ -245,6 +266,17 @@ def cmd_run(manifest: dict, root: Path, resume: bool, max_consecutive_failures: 
     if not print_preflight(results):
         return 2
     runs = sorted(manifest["runs"], key=lambda r: r["order"])
+    subset = parse_run_ids(getattr(args, "only_run_ids", None))
+    if subset is not None:
+        unknown = sorted(subset - {r["run_id"] for r in runs})
+        if unknown:
+            print(f"CRITICAL: unknown run ids requested: {unknown[:5]}")
+            return 2
+        runs = [r for r in runs if r["run_id"] in subset]
+    budget_min = getattr(args, "stop_after_minutes", None)
+    estimates = load_estimates(getattr(args, "duration_estimates", None))
+    session_start = time.time()
+    budget_hit = False
     # refuse to start if unresolved leftovers exist and -Resume was not given
     leftovers = [r for r in runs if run_status(r, manifest, root)[0] in ("failed", "incomplete")]
     if leftovers and not resume:
@@ -262,6 +294,13 @@ def cmd_run(manifest: dict, root: Path, resume: bool, max_consecutive_failures: 
             st, probs = run_status(run, manifest, root)
             if st == "verified":
                 continue
+            if budget_min is not None and st != "corrupt":
+                est_s = float(estimates.get(f"{run['dataset']}/{run['arm']}", 0.0))
+                if (time.time() - session_start + est_s) / 60.0 > budget_min:
+                    budget_hit = True
+                    log(f"TIME BUDGET: not starting {run['run_id']} (estimated {est_s / 60:.0f} min; budget {budget_min:.0f} min)")
+                    event(root, "budget_reached", next_run=run["run_id"])
+                    break
             if st == "corrupt":
                 print(f"CRITICAL: {run['run_id']} has a COMPLETE.json that no longer verifies: {probs}. Stopping; nothing was overwritten.")
                 event(root, "critical_corrupt", run=run["run_id"], problems=probs)
@@ -324,9 +363,15 @@ def cmd_run(manifest: dict, root: Path, resume: bool, max_consecutive_failures: 
                     return 4
         remaining = [r for r in runs if run_status(r, manifest, root)[0] != "verified"]
         if not remaining:
-            atomic_write_json(state_dir(root) / "DONE.json", {"t": now_utc(), "runs": len(runs)})
-            print(f"ALL {len(runs)} RUNS COMPLETE AND VERIFIED. Next: run the validation/aggregation command.")
+            if subset is None:
+                atomic_write_json(state_dir(root) / "DONE.json", {"t": now_utc(), "runs": len(runs)})
+                print(f"ALL {len(runs)} RUNS COMPLETE AND VERIFIED. Next: run the validation/aggregation command.")
+            else:
+                print(f"SHARD COMPLETE: all {len(runs)} requested runs are verified.")
             return 0
+        if budget_hit:
+            print(f"BUDGET REACHED: {done_now} completed this session, {len(remaining)} requested runs left PENDING (not started, nothing lost).")
+            return 1 if failures else 0
         print(f"Finished this session: {done_now} completed, {failures} failed, {len(remaining)} remain. Use -Resume to retry the failed ones.")
         return 1 if failures else 0
     finally:
@@ -569,6 +614,9 @@ def main() -> int:
     parser.add_argument("--resume", action="store_true")
     parser.add_argument("--max-consecutive-failures", type=int, default=3)
     parser.add_argument("--skip-data-hash", action="store_true")
+    parser.add_argument("--only-run-ids", default=None, help="comma list or file (one run id per line): run only these")
+    parser.add_argument("--stop-after-minutes", type=float, default=None, help="do not START a run that would exceed this wall-clock budget")
+    parser.add_argument("--duration-estimates", default=None, help="JSON {'dataset/arm': seconds} used by the time budget")
     parser.add_argument("--cloud-mode", action="store_true",
                         help="remote machine without the locked test files: requires them to be ABSENT")
     parser.add_argument("--min-free-gb", type=float, default=20.0)

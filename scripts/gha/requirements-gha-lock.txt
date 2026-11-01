@@ -1,0 +1,10 @@
+joblib==1.6.0
+matplotlib==3.11.2
+numpy==2.4.6
+pandas==2.3.3
+PyYAML==6.0.3
+scikit-learn==1.9.1
+scipy==1.17.1
+threadpoolctl==3.7.0
+torch==2.15.0
+tqdm==4.70.1
