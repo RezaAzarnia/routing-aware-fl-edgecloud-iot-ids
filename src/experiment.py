@@ -266,6 +266,11 @@ def _privacy_plan(cfg: Config) -> Dict[str, float | str | bool | None]:
         "clip_norm": cfg.privacy.clip_norm,
         "max_client_weight_share": cfg.privacy.max_client_weight_share,
         "adjacency_factor": cfg.privacy.adjacency_factor,
+        # Subsampling amplification requires client selection that is random
+        # and secret. Deterministic top-k routed selection re-selects the same
+        # clients, so q=clients_per_round/num_clients does not hold for them.
+        "client_selection_is_random": not cfg.routing.enabled,
+        "subsampling_amplification_valid": not cfg.routing.enabled,
         "accounting_note": (
             "RDP Poisson-sampling estimate. Routed client selection and the "
             "data-dependent robust filter are not covered by a formal proof; "

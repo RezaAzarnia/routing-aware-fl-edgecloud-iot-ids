@@ -271,6 +271,18 @@ class Config:
             "multi_krum",
         }:
             raise ValueError("Unsupported aggregation.method")
+        if self.privacy.mode == "central_client" and self.aggregation.method in {
+            "median",
+            "trimmed_mean",
+        }:
+            # The central-DP path re-aggregates survivors with clipped, capped
+            # FedAvg; a median/trimmed-mean estimate would be silently discarded.
+            raise ValueError(
+                "privacy.mode='central_client' is incompatible with "
+                f"aggregation.method='{self.aggregation.method}': the robust "
+                "estimate would be replaced by clipped FedAvg. Use "
+                "distance_filter, multi_krum or fedavg."
+            )
         if not 0 <= self.attack.malicious_fraction < 1:
             raise ValueError("attack.malicious_fraction must be in [0, 1)")
         if not 0 <= self.failure.client_failure_probability <= 1:
