@@ -1,0 +1,20 @@
+{
+  "privacy_mode": "central_client",
+  "privacy_enabled": true,
+  "effective_noise_multiplier": 0.9939025878906251,
+  "accountant_sample_rate": 0.2,
+  "planned_steps": 30,
+  "planned_epsilon_estimate": 9.999307360963746,
+  "delta": 1e-05,
+  "target_epsilon": 10.0,
+  "auto_calibrated": true,
+  "clip_norm": 0.05,
+  "max_client_weight_share": 0.1,
+  "adjacency_factor": 1.0,
+  "client_selection_is_random": false,
+  "selection_mechanism": "deterministic_top_k_by_route_score",
+  "poisson_subsampling_assumption_satisfied": false,
+  "subsampling_amplification_valid": false,
+  "epsilon_is_certified_guarantee": false,
+  "accounting_note": "RDP Poisson-sampling estimate. Routed client selection and the data-dependent robust filter are not covered by a formal proof; report this value as an estimated privacy budget."
+}

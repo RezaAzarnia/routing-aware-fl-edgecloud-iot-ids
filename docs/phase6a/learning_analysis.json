@@ -1,0 +1,112 @@
+{
+  "unsw": {
+    "no_dp": {
+      "median_pre_clip_update_norm_real": 0.5905352234840393,
+      "p10_p90_pre_clip_norm_real": [
+        0.2513063609600067,
+        2.7581438541412355
+      ],
+      "fraction_real_updates_above_clip": 1.0,
+      "median_pre_clip_norm_malicious_effective": 2.349605083465576,
+      "kept_updates_mean_per_round": 8.5,
+      "kept_updates_min": 6,
+      "val_roc_auc_mean_over_rounds": 0.9410048637181291,
+      "val_f1_mean_over_rounds": 0.8829400364730026,
+      "first_round_val_auc_ge_0.90": 4,
+      "first_round_val_auc_ge_0.95": 14,
+      "val_auc_round_to_round_std_last10": 0.002383978734582817,
+      "final_val_auc": 0.9792109228355234,
+      "server_applied_update_norm_mean": 0.6469584872325261,
+      "aggregate_signal_norm_mean": 0.4329671184221903
+    },
+    "dp_original": {
+      "median_pre_clip_update_norm_real": 0.5934385061264038,
+      "p10_p90_pre_clip_norm_real": [
+        0.24934954047203062,
+        2.956396341323854
+      ],
+      "fraction_real_updates_above_clip": 1.0,
+      "median_pre_clip_norm_malicious_effective": 2.4944130182266235,
+      "kept_updates_mean_per_round": 8.6,
+      "kept_updates_min": 6,
+      "val_roc_auc_mean_over_rounds": 0.8509795632185593,
+      "val_f1_mean_over_rounds": 0.7233907936260362,
+      "first_round_val_auc_ge_0.90": 16,
+      "first_round_val_auc_ge_0.95": 27,
+      "val_auc_round_to_round_std_last10": 0.005209933056467132,
+      "final_val_auc": 0.9543653177792116,
+      "clip_norm": 0.1,
+      "noise_multiplier": 0.9939025878906251,
+      "requested_weight_cap": 0.1,
+      "realized_max_weight_share_mean": 0.11777777777777779,
+      "realized_max_weight_share_max": 0.1666666666666667,
+      "rounds_where_cap_exceeded": 28,
+      "released_aggregate_signal_norm_mean": 0.06644598829249539,
+      "noise_norm_mean": 2.44019984404246,
+      "noise_to_signal_mean_median": [
+        38.88792691426888,
+        35.19651502970757
+      ],
+      "server_applied_update_norm_mean": 2.6060304005940753,
+      "accountant_sample_rate_assumed": 0.2,
+      "realized_distinct_clients_per_round": 10,
+      "epsilon_final": 9.999307360963746,
+      "release_count": 30
+    }
+  },
+  "ciciot": {
+    "no_dp": {
+      "median_pre_clip_update_norm_real": 1.1258634328842163,
+      "p10_p90_pre_clip_norm_real": [
+        0.48107268810272213,
+        7.719710731506347
+      ],
+      "fraction_real_updates_above_clip": 1.0,
+      "median_pre_clip_norm_malicious_effective": 7.2409892082214355,
+      "kept_updates_mean_per_round": 7.866666666666666,
+      "kept_updates_min": 6,
+      "val_roc_auc_mean_over_rounds": 0.9558145754954335,
+      "val_f1_mean_over_rounds": 0.9558689363383919,
+      "first_round_val_auc_ge_0.90": 1,
+      "first_round_val_auc_ge_0.95": 1,
+      "val_auc_round_to_round_std_last10": 0.24850578443344834,
+      "final_val_auc": 0.9957090968856952,
+      "server_applied_update_norm_mean": 1.2414356867472331,
+      "aggregate_signal_norm_mean": 0.8690105656782786
+    },
+    "dp_original": {
+      "median_pre_clip_update_norm_real": 1.6986955404281616,
+      "p10_p90_pre_clip_norm_real": [
+        0.554684853553772,
+        13.188302421569826
+      ],
+      "fraction_real_updates_above_clip": 1.0,
+      "median_pre_clip_norm_malicious_effective": 12.102808475494385,
+      "kept_updates_mean_per_round": 7.833333333333333,
+      "kept_updates_min": 6,
+      "val_roc_auc_mean_over_rounds": 0.9271974374294728,
+      "val_f1_mean_over_rounds": 0.9271234230913283,
+      "first_round_val_auc_ge_0.90": 3,
+      "first_round_val_auc_ge_0.95": 19,
+      "val_auc_round_to_round_std_last10": 0.005824881950764855,
+      "final_val_auc": 0.9821939035434872,
+      "clip_norm": 0.05,
+      "noise_multiplier": 0.9939025878906251,
+      "requested_weight_cap": 0.1,
+      "realized_max_weight_share_mean": 0.12958994708994714,
+      "realized_max_weight_share_max": 0.1666666666666667,
+      "rounds_where_cap_exceeded": 29,
+      "released_aggregate_signal_norm_mean": 0.039682651621599944,
+      "noise_norm_mean": 0.9939052681128184,
+      "noise_to_signal_mean_median": [
+        25.672231861933472,
+        25.648160561179722
+      ],
+      "server_applied_update_norm_mean": 1.0651969939470292,
+      "accountant_sample_rate_assumed": 0.2,
+      "realized_distinct_clients_per_round": 10,
+      "epsilon_final": 9.999307360963746,
+      "release_count": 30
+    }
+  }
+}

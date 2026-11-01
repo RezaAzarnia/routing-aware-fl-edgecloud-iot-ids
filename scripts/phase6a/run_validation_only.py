@@ -92,8 +92,10 @@ def diagnostics(run_dir: Path, cfg: Config) -> dict:
             "mean_real_weight_share": float(rm["real_weight_share"].mean()),
             "mean_surrogate_weight_share": float(rm["surrogate_weight_share"].mean()),
             "malicious_received_total": int(rm["malicious_received"].sum()),
-            "malicious_rows_kept": int(agg.loc[agg["is_malicious_client"].astype(bool) & agg["kept"].astype(bool)].shape[0]),
-            "malicious_rows_rejected": int(agg.loc[agg["is_malicious_client"].astype(bool) & ~agg["kept"].astype(bool)].shape[0]),
+            # effective_malicious_update = a malicious client's REAL attacked update
+            # (surrogate rows built for a malicious client are excluded)
+            "effective_malicious_updates_kept": int(agg.loc[agg["effective_malicious_update"].astype(bool) & agg["kept"].astype(bool)].shape[0]),
+            "effective_malicious_updates_rejected": int(agg.loc[agg["effective_malicious_update"].astype(bool) & ~agg["kept"].astype(bool)].shape[0]),
             "benign_real_rows_rejected": int(real_rows.loc[~real_rows["is_malicious_client"].astype(bool) & ~real_rows["kept"].astype(bool)].shape[0]),
         },
         "clipping_and_noise": {

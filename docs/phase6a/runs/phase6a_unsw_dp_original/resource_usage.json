@@ -1,0 +1,10 @@
+{
+  "config": "configs/phase6a_unsw_dp_original.yaml",
+  "config_sha256": "a4bc5454daed6028643bda784a95320c509dad236d953fe29d7ea99c3d5b3135",
+  "git_commit": "b82285bff2f4dd3e3f1c84c5c78d9f016eda6c92",
+  "seed": 2,
+  "wall_seconds": 52.6,
+  "cpu_seconds": 123.8,
+  "peak_working_set_mb": 1028.7,
+  "device": "cpu"
+}

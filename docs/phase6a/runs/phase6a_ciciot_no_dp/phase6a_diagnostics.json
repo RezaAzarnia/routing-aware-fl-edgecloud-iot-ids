@@ -1,0 +1,94 @@
+{
+  "rounds_executed": 30,
+  "participation": {
+    "clients_ever_selected": 26,
+    "clients_total": 50,
+    "clients_ever_received": 25,
+    "sample_coverage_of_ever_selected": 0.54237458334818,
+    "selection_counts_min_max_mean": [
+      0.0,
+      30.0,
+      6.0
+    ],
+    "longest_exclusion_gap_rounds_selection": {
+      "max": 30,
+      "clients_never_selected": 24
+    },
+    "longest_exclusion_gap_rounds_received": 30,
+    "top5_client_selection_share": 0.43666666666666665
+  },
+  "updates": {
+    "selected_total": 300,
+    "received_total": 217,
+    "failed_total": 83,
+    "imputed_total": 83,
+    "kept_total": 236,
+    "rejected_total": 64,
+    "mean_real_weight_share": 0.6378861869690812,
+    "mean_surrogate_weight_share": 0.362113813030919,
+    "malicious_received_total": 54,
+    "effective_malicious_updates_kept": 1,
+    "effective_malicious_updates_rejected": 53,
+    "benign_real_rows_rejected": 11
+  },
+  "clipping_and_noise": {
+    "mean_clipped_fraction": 0.0,
+    "mean_noise_std": 0.0,
+    "mean_noise_l2_norm": 0.0,
+    "mean_signal_l2_norm": 0.8690105656782786,
+    "mean_noise_to_signal": 0.0,
+    "median_noise_to_signal": 0.0,
+    "mean_max_weight_share": 0.0,
+    "mean_server_applied_update_norm": 1.2414356867472331,
+    "final_epsilon_estimate": 0.0
+  },
+  "network": {
+    "mean_pdr": 0.8423666666666665,
+    "mean_update_delivery_ratio": 0.8033333333333333,
+    "mean_expected_pdr": 0.8419024692668392,
+    "corr_pdr_vs_update_delivered": 0.22041393494840855,
+    "events": 300,
+    "pdr_ge_0.95_but_not_delivered": 4,
+    "pdr_le_0.80_but_delivered": 61,
+    "failure_reasons": {
+      "none": 217,
+      "network_update_not_delivered": 55,
+      "explicit_client_failure": 24,
+      "explicit_and_network": 4
+    },
+    "explicit_failure_rate": 0.09333333333333334,
+    "mean_end_to_end_delay_ms": 74.97726762864117,
+    "mean_path_stability": 0.919284567966753,
+    "communication_bytes_attempted": 28610400,
+    "communication_bytes_delivered_to_server": 20694856
+  },
+  "learning": {
+    "best_round": 21,
+    "final_round_val": {
+      "val_f1": 0.992683667488224,
+      "val_roc_auc": 0.9957090968856952,
+      "val_precision": 0.9950236430047852,
+      "val_recall_adr": 0.9903546718897516,
+      "val_fpr": 0.1498294970161977,
+      "mean_train_loss": 0.3313943097031611
+    },
+    "val_roc_auc_first_last": [
+      0.9809978583095866,
+      0.9957090968856952
+    ],
+    "val_roc_auc_max_and_round": [
+      0.9957726477903452,
+      21
+    ]
+  },
+  "resources": {
+    "config": "configs/phase6a_ciciot_no_dp.yaml",
+    "config_sha256": "b1048d1fd94d3634aa1f4f93e86c8d0a7208f90780d24326bc4a17db947b0a32",
+    "git_commit": "b82285bff2f4dd3e3f1c84c5c78d9f016eda6c92",
+    "seed": 2,
+    "wall_seconds": 205.4,
+    "cpu_seconds": 866.8,
+    "peak_working_set_mb": 2550.2,
+    "device": "cpu"
+  }
+}

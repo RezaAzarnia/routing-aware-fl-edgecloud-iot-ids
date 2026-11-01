@@ -1,0 +1,10 @@
+{
+  "config": "configs/phase6a_ciciot_no_dp.yaml",
+  "config_sha256": "b1048d1fd94d3634aa1f4f93e86c8d0a7208f90780d24326bc4a17db947b0a32",
+  "git_commit": "b82285bff2f4dd3e3f1c84c5c78d9f016eda6c92",
+  "seed": 2,
+  "wall_seconds": 205.4,
+  "cpu_seconds": 866.8,
+  "peak_working_set_mb": 2550.2,
+  "device": "cpu"
+}

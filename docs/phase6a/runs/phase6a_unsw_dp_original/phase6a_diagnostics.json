@@ -1,0 +1,94 @@
+{
+  "rounds_executed": 30,
+  "participation": {
+    "clients_ever_selected": 26,
+    "clients_total": 50,
+    "clients_ever_received": 25,
+    "sample_coverage_of_ever_selected": 0.4904420032869129,
+    "selection_counts_min_max_mean": [
+      0.0,
+      30.0,
+      6.0
+    ],
+    "longest_exclusion_gap_rounds_selection": {
+      "max": 30,
+      "clients_never_selected": 24
+    },
+    "longest_exclusion_gap_rounds_received": 30,
+    "top5_client_selection_share": 0.43666666666666665
+  },
+  "updates": {
+    "selected_total": 300,
+    "received_total": 217,
+    "failed_total": 83,
+    "imputed_total": 83,
+    "kept_total": 258,
+    "rejected_total": 42,
+    "mean_real_weight_share": 0.6677777777777779,
+    "mean_surrogate_weight_share": 0.33222222222222214,
+    "malicious_received_total": 54,
+    "effective_malicious_updates_kept": 19,
+    "effective_malicious_updates_rejected": 35,
+    "benign_real_rows_rejected": 7
+  },
+  "clipping_and_noise": {
+    "mean_clipped_fraction": 1.0,
+    "mean_noise_std": 0.011705963812934013,
+    "mean_noise_l2_norm": 2.44019984404246,
+    "mean_signal_l2_norm": 0.06644598829249539,
+    "mean_noise_to_signal": 38.88792691426888,
+    "median_noise_to_signal": 35.19651502970757,
+    "mean_max_weight_share": 0.11777777777777779,
+    "mean_server_applied_update_norm": 2.6060304005940753,
+    "final_epsilon_estimate": 9.999307360963746
+  },
+  "network": {
+    "mean_pdr": 0.8423666666666665,
+    "mean_update_delivery_ratio": 0.8033333333333333,
+    "mean_expected_pdr": 0.8419024692668392,
+    "corr_pdr_vs_update_delivered": 0.22041393494840855,
+    "events": 300,
+    "pdr_ge_0.95_but_not_delivered": 4,
+    "pdr_le_0.80_but_delivered": 61,
+    "failure_reasons": {
+      "none": 217,
+      "network_update_not_delivered": 55,
+      "explicit_client_failure": 24,
+      "explicit_and_network": 4
+    },
+    "explicit_failure_rate": 0.09333333333333334,
+    "mean_end_to_end_delay_ms": 84.61289205716608,
+    "mean_path_stability": 0.919284567966753,
+    "communication_bytes_attempted": 52264800,
+    "communication_bytes_delivered_to_server": 37804872
+  },
+  "learning": {
+    "best_round": 30,
+    "final_round_val": {
+      "val_f1": 0.9192215409224208,
+      "val_roc_auc": 0.9543653177792116,
+      "val_precision": 0.9284902160253724,
+      "val_recall_adr": 0.9101360863444392,
+      "val_fpr": 0.1493749999999999,
+      "mean_train_loss": 0.4271039760228711
+    },
+    "val_roc_auc_first_last": [
+      0.5025170364558892,
+      0.9543653177792116
+    ],
+    "val_roc_auc_max_and_round": [
+      0.9543653177792116,
+      30
+    ]
+  },
+  "resources": {
+    "config": "configs/phase6a_unsw_dp_original.yaml",
+    "config_sha256": "a4bc5454daed6028643bda784a95320c509dad236d953fe29d7ea99c3d5b3135",
+    "git_commit": "b82285bff2f4dd3e3f1c84c5c78d9f016eda6c92",
+    "seed": 2,
+    "wall_seconds": 52.6,
+    "cpu_seconds": 123.8,
+    "peak_working_set_mb": 1028.7,
+    "device": "cpu"
+  }
+}
