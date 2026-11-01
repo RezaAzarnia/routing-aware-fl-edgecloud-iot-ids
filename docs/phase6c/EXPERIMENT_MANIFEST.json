@@ -1,0 +1,2719 @@
+{
+ "schema": 1,
+ "created_utc": "2026-11-01T15:51:53Z",
+ "purpose": "Phase 6C confirmatory five-seed experiments (training stage; final test locked)",
+ "git_commit_at_build": "5cdeca6edd9aa12fc0c2e10b274c8438b8a7c9e2",
+ "code_fingerprint": "536354bd6c886ea6b970dd849ff92d08c90e0a6e77436f5448bcbdc8514138ea",
+ "seeds": [
+  12,
+  13,
+  14,
+  15,
+  16
+ ],
+ "rounds": 30,
+ "datasets": {
+  "unsw": {
+   "training_csv": "data/UNSW_NB15_training-set.csv",
+   "training_sha256": "bec7dd5ec88dc2a0ccc7a07879d338395ed7421750f675fd0339e07dfe0648fa",
+   "validation_protocol": "group_disjoint train/validation, then three-way calibration/selection/report"
+  },
+  "ciciot": {
+   "prepared_dir": "data/CICIoT2023/prepared_verified_v2_filegroup",
+   "content_sha256": {
+    "train": "a1f372de870a836928eb202014ee07fcad14a1485da209a3c7c7eb00c1629384",
+    "validation": "8636b82217da15584df218c122074a2ff3ad2c8d2dcdd6ab6a00b52ef739408f"
+   },
+   "metadata_sha256": "8071eab678b8adaaef6986a61a79be889a6697e578c3187b2653eb5d47890529",
+   "feature_count": 39,
+   "provenance": "byte-equivalent to a third-party release; official UNB provenance unverified"
+  }
+ },
+ "locked_test": {
+  "unsw": {
+   "path": "data/UNSW_NB15_testing-set.csv",
+   "kind": "csv",
+   "sha256": "734fe6642edf758f7c94d7d9149426b49d202fe8e7bf0bef47392489c3c0a559",
+   "bytes": 15380800,
+   "rows": 82332,
+   "duplicate_mask_reference": "data/UNSW_NB15_training-set.csv"
+  },
+  "ciciot": {
+   "path": "data/CICIoT2023/prepared_verified_v2_filegroup/test.csv.gz",
+   "kind": "gzip_csv",
+   "content_sha256": "1ae0ecc42eb73c1ca752f94a93292202e9444fb850921f66d615ac4a8d45c8ce",
+   "rows": 300000
+  }
+ },
+ "arms": [
+  {
+   "arm": "clean_centralized",
+   "group": "baseline",
+   "description": "single client, clean data (upper reference)",
+   "algorithm_version": "reference_v1_historical",
+   "uses_gaussian": false,
+   "natural_attacker_assignment": false,
+   "compare_with": null
+  },
+  {
+   "arm": "clean_fedavg",
+   "group": "baseline",
+   "description": "FedAvg, no attack/failure/routing",
+   "algorithm_version": "reference_v1_historical",
+   "uses_gaussian": false,
+   "natural_attacker_assignment": false,
+   "compare_with": null
+  },
+  {
+   "arm": "scenario_fedavg_random",
+   "group": "baseline",
+   "description": "FedAvg under attack+failure, uniform random selection, no imputation",
+   "algorithm_version": "reference_v1_historical",
+   "uses_gaussian": false,
+   "natural_attacker_assignment": false,
+   "compare_with": null
+  },
+  {
+   "arm": "scenario_fedavg_topk",
+   "group": "baseline",
+   "description": "FedAvg under attack+failure, deterministic top-k routing, no imputation",
+   "algorithm_version": "reference_v1_historical",
+   "uses_gaussian": false,
+   "natural_attacker_assignment": false,
+   "compare_with": null
+  },
+  {
+   "arm": "robust_random_no_imputation",
+   "group": "baseline",
+   "description": "distance filter, uniform random selection, no imputation",
+   "algorithm_version": "reference_v1_historical",
+   "uses_gaussian": false,
+   "natural_attacker_assignment": false,
+   "compare_with": null
+  },
+  {
+   "arm": "reference",
+   "group": "main",
+   "description": "original method (top-k, filter, pre-filter median imputation), no Gaussian",
+   "algorithm_version": "reference_v1_historical",
+   "uses_gaussian": false,
+   "natural_attacker_assignment": false,
+   "compare_with": null
+  },
+  {
+   "arm": "reference_gaussian",
+   "group": "main",
+   "description": "reference + Gaussian perturbation (diagnostic epsilon only)",
+   "algorithm_version": "reference_v1_historical",
+   "uses_gaussian": true,
+   "natural_attacker_assignment": false,
+   "compare_with": "reference"
+  },
+  {
+   "arm": "corrected",
+   "group": "main",
+   "description": "coverage-aware + packet-coupled delivery + real-only filter + post-filter surrogates capped at 0.10",
+   "algorithm_version": "corrected_v2_phase6c",
+   "uses_gaussian": false,
+   "natural_attacker_assignment": false,
+   "compare_with": "reference"
+  },
+  {
+   "arm": "corrected_gaussian",
+   "group": "main",
+   "description": "corrected + Gaussian perturbation (diagnostic epsilon only)",
+   "algorithm_version": "corrected_v2_phase6c",
+   "uses_gaussian": true,
+   "natural_attacker_assignment": false,
+   "compare_with": "corrected"
+  },
+  {
+   "arm": "ctl_selection_uniform",
+   "group": "control",
+   "description": "reference with uniform random selection",
+   "algorithm_version": "reference_v1_historical",
+   "uses_gaussian": false,
+   "natural_attacker_assignment": false,
+   "compare_with": "reference"
+  },
+  {
+   "arm": "ctl_selection_coverage",
+   "group": "control",
+   "description": "reference with coverage-aware selection",
+   "algorithm_version": "reference_v1_historical",
+   "uses_gaussian": false,
+   "natural_attacker_assignment": false,
+   "compare_with": "reference"
+  },
+  {
+   "arm": "ctl_imputation_none",
+   "group": "control",
+   "description": "reference without imputation",
+   "algorithm_version": "reference_v1_historical",
+   "uses_gaussian": false,
+   "natural_attacker_assignment": false,
+   "compare_with": "reference"
+  },
+  {
+   "arm": "ctl_imputation_cap010",
+   "group": "control",
+   "description": "reference with surrogate share capped at 0.10",
+   "algorithm_version": "reference_v1_historical",
+   "uses_gaussian": false,
+   "natural_attacker_assignment": false,
+   "compare_with": "reference"
+  },
+  {
+   "arm": "ctl_imputation_postfilter",
+   "group": "control",
+   "description": "reference with real-only filter and post-filter surrogates",
+   "algorithm_version": "reference_v1_historical",
+   "uses_gaussian": false,
+   "natural_attacker_assignment": false,
+   "compare_with": "reference"
+  },
+  {
+   "arm": "ctl_delivery_coupled",
+   "group": "control",
+   "description": "reference with packet-coupled delivery",
+   "algorithm_version": "reference_v1_historical",
+   "uses_gaussian": false,
+   "natural_attacker_assignment": false,
+   "compare_with": "reference"
+  },
+  {
+   "arm": "ctl_momentum0_lr0p5",
+   "group": "control",
+   "description": "reference with server momentum 0 (lr 0.5)",
+   "algorithm_version": "reference_v1_historical",
+   "uses_gaussian": false,
+   "natural_attacker_assignment": false,
+   "compare_with": "reference"
+  },
+  {
+   "arm": "ctl_momentum0_lr5p0",
+   "group": "control",
+   "description": "reference with momentum 0 and gain-matched lr 5.0",
+   "algorithm_version": "reference_v1_historical",
+   "uses_gaussian": false,
+   "natural_attacker_assignment": false,
+   "compare_with": "reference"
+  },
+  {
+   "arm": "ctl_weighting_uniform",
+   "group": "control",
+   "description": "reference with uniform client weights",
+   "algorithm_version": "reference_v1_historical",
+   "uses_gaussian": false,
+   "natural_attacker_assignment": false,
+   "compare_with": "reference"
+  },
+  {
+   "arm": "nat_reference",
+   "group": "natural_assignment",
+   "description": "reference, naturally assigned fixed malicious clients",
+   "algorithm_version": "reference_v1_historical",
+   "uses_gaussian": false,
+   "natural_attacker_assignment": true,
+   "compare_with": null
+  },
+  {
+   "arm": "nat_selection_uniform",
+   "group": "natural_assignment",
+   "description": "uniform random selection, natural attackers",
+   "algorithm_version": "reference_v1_historical",
+   "uses_gaussian": false,
+   "natural_attacker_assignment": true,
+   "compare_with": "nat_reference"
+  },
+  {
+   "arm": "nat_corrected",
+   "group": "natural_assignment",
+   "description": "corrected method, natural attackers",
+   "algorithm_version": "corrected_v2_phase6c",
+   "uses_gaussian": false,
+   "natural_attacker_assignment": true,
+   "compare_with": "nat_reference"
+  },
+  {
+   "arm": "fail0p0_reference",
+   "group": "failure_sensitivity",
+   "description": "reference, explicit failure probability 0.0",
+   "algorithm_version": "reference_v1_historical",
+   "uses_gaussian": false,
+   "natural_attacker_assignment": false,
+   "compare_with": "reference"
+  },
+  {
+   "arm": "fail0p3_reference",
+   "group": "failure_sensitivity",
+   "description": "reference, explicit failure probability 0.3",
+   "algorithm_version": "reference_v1_historical",
+   "uses_gaussian": false,
+   "natural_attacker_assignment": false,
+   "compare_with": "reference"
+  },
+  {
+   "arm": "fail0p3_corrected",
+   "group": "failure_sensitivity",
+   "description": "corrected, explicit failure probability 0.3",
+   "algorithm_version": "corrected_v2_phase6c",
+   "uses_gaussian": false,
+   "natural_attacker_assignment": false,
+   "compare_with": "fail0p3_reference"
+  }
+ ],
+ "primary_contrasts": [
+  [
+   "corrected",
+   "reference"
+  ],
+  [
+   "reference",
+   "scenario_fedavg_topk"
+  ],
+  [
+   "reference",
+   "scenario_fedavg_random"
+  ],
+  [
+   "reference_gaussian",
+   "reference"
+  ],
+  [
+   "corrected_gaussian",
+   "corrected"
+  ]
+ ],
+ "n_runs": 240,
+ "runs": [
+  {
+   "run_id": "unsw__clean_centralized__seed12",
+   "order": 1,
+   "dataset": "unsw",
+   "arm": "clean_centralized",
+   "seed": 12,
+   "config": "configs/phase6c/unsw_clean_centralized.yaml",
+   "config_sha256": "8e9676941b43b32262957e5e697241744c98506477257cc507abf082de899973",
+   "out_dir": "results_phase6c/unsw/clean_centralized/seed_12"
+  },
+  {
+   "run_id": "unsw__clean_fedavg__seed12",
+   "order": 2,
+   "dataset": "unsw",
+   "arm": "clean_fedavg",
+   "seed": 12,
+   "config": "configs/phase6c/unsw_clean_fedavg.yaml",
+   "config_sha256": "ff38721691234e007559c43dfa082a5986393c0cfa76110a9f44e2e693f53f4d",
+   "out_dir": "results_phase6c/unsw/clean_fedavg/seed_12"
+  },
+  {
+   "run_id": "unsw__scenario_fedavg_random__seed12",
+   "order": 3,
+   "dataset": "unsw",
+   "arm": "scenario_fedavg_random",
+   "seed": 12,
+   "config": "configs/phase6c/unsw_scenario_fedavg_random.yaml",
+   "config_sha256": "46c9d55012b6ef0fba2ba756404e8150861d7c6fba6f2e47a75a4797d2340413",
+   "out_dir": "results_phase6c/unsw/scenario_fedavg_random/seed_12"
+  },
+  {
+   "run_id": "unsw__scenario_fedavg_topk__seed12",
+   "order": 4,
+   "dataset": "unsw",
+   "arm": "scenario_fedavg_topk",
+   "seed": 12,
+   "config": "configs/phase6c/unsw_scenario_fedavg_topk.yaml",
+   "config_sha256": "856312973bd6a37ed87988cc53cad069be12051c7a7a83ebc76733c0337e2074",
+   "out_dir": "results_phase6c/unsw/scenario_fedavg_topk/seed_12"
+  },
+  {
+   "run_id": "unsw__robust_random_no_imputation__seed12",
+   "order": 5,
+   "dataset": "unsw",
+   "arm": "robust_random_no_imputation",
+   "seed": 12,
+   "config": "configs/phase6c/unsw_robust_random_no_imputation.yaml",
+   "config_sha256": "d72f802cca7a42c92eb0bcf56260a0c60648b12cc14cf34b495c3f19081e9e14",
+   "out_dir": "results_phase6c/unsw/robust_random_no_imputation/seed_12"
+  },
+  {
+   "run_id": "unsw__reference__seed12",
+   "order": 6,
+   "dataset": "unsw",
+   "arm": "reference",
+   "seed": 12,
+   "config": "configs/phase6c/unsw_reference.yaml",
+   "config_sha256": "0b510f2b63ae975f34ec682ea76e524928522b497c1cd0b07377c5f933a907c0",
+   "out_dir": "results_phase6c/unsw/reference/seed_12"
+  },
+  {
+   "run_id": "unsw__reference_gaussian__seed12",
+   "order": 7,
+   "dataset": "unsw",
+   "arm": "reference_gaussian",
+   "seed": 12,
+   "config": "configs/phase6c/unsw_reference_gaussian.yaml",
+   "config_sha256": "a464dc0a6ba302db29d020630571c7bd5c097f5179fac5fd7aeef1542c4e5948",
+   "out_dir": "results_phase6c/unsw/reference_gaussian/seed_12"
+  },
+  {
+   "run_id": "unsw__corrected__seed12",
+   "order": 8,
+   "dataset": "unsw",
+   "arm": "corrected",
+   "seed": 12,
+   "config": "configs/phase6c/unsw_corrected.yaml",
+   "config_sha256": "9205a1cd0caed176e7e730713e440cf00be86d0eef9768407ec6365540b7c352",
+   "out_dir": "results_phase6c/unsw/corrected/seed_12"
+  },
+  {
+   "run_id": "unsw__corrected_gaussian__seed12",
+   "order": 9,
+   "dataset": "unsw",
+   "arm": "corrected_gaussian",
+   "seed": 12,
+   "config": "configs/phase6c/unsw_corrected_gaussian.yaml",
+   "config_sha256": "630d798618ed5b50601427f6c6d4088b7c160a61005efc0a28752e9105a98a24",
+   "out_dir": "results_phase6c/unsw/corrected_gaussian/seed_12"
+  },
+  {
+   "run_id": "unsw__ctl_selection_uniform__seed12",
+   "order": 10,
+   "dataset": "unsw",
+   "arm": "ctl_selection_uniform",
+   "seed": 12,
+   "config": "configs/phase6c/unsw_ctl_selection_uniform.yaml",
+   "config_sha256": "d13702c7bc6b33b7abf9c7aa6b4ce8b629dd7b0ace8040a5a094dbe3905864b0",
+   "out_dir": "results_phase6c/unsw/ctl_selection_uniform/seed_12"
+  },
+  {
+   "run_id": "unsw__ctl_selection_coverage__seed12",
+   "order": 11,
+   "dataset": "unsw",
+   "arm": "ctl_selection_coverage",
+   "seed": 12,
+   "config": "configs/phase6c/unsw_ctl_selection_coverage.yaml",
+   "config_sha256": "34b0ce9b78d0be6aceb013249a00ebbcad99053e1747e9295b70c5822b7b02b0",
+   "out_dir": "results_phase6c/unsw/ctl_selection_coverage/seed_12"
+  },
+  {
+   "run_id": "unsw__ctl_imputation_none__seed12",
+   "order": 12,
+   "dataset": "unsw",
+   "arm": "ctl_imputation_none",
+   "seed": 12,
+   "config": "configs/phase6c/unsw_ctl_imputation_none.yaml",
+   "config_sha256": "25ea1fabb7eb29308d592792433db553ac34f17ec69e0b104b9c28ee374fadbb",
+   "out_dir": "results_phase6c/unsw/ctl_imputation_none/seed_12"
+  },
+  {
+   "run_id": "unsw__ctl_imputation_cap010__seed12",
+   "order": 13,
+   "dataset": "unsw",
+   "arm": "ctl_imputation_cap010",
+   "seed": 12,
+   "config": "configs/phase6c/unsw_ctl_imputation_cap010.yaml",
+   "config_sha256": "1ff05d2ff9bf2ce29688ac7080097f1c56021a0f40707105c1b964ec2b3521fe",
+   "out_dir": "results_phase6c/unsw/ctl_imputation_cap010/seed_12"
+  },
+  {
+   "run_id": "unsw__ctl_imputation_postfilter__seed12",
+   "order": 14,
+   "dataset": "unsw",
+   "arm": "ctl_imputation_postfilter",
+   "seed": 12,
+   "config": "configs/phase6c/unsw_ctl_imputation_postfilter.yaml",
+   "config_sha256": "aa3f713609d31a9bef55ffac81f6c1c0104eabf6ed20c885ea86106ca4515070",
+   "out_dir": "results_phase6c/unsw/ctl_imputation_postfilter/seed_12"
+  },
+  {
+   "run_id": "unsw__ctl_delivery_coupled__seed12",
+   "order": 15,
+   "dataset": "unsw",
+   "arm": "ctl_delivery_coupled",
+   "seed": 12,
+   "config": "configs/phase6c/unsw_ctl_delivery_coupled.yaml",
+   "config_sha256": "35a237cac186e67af0633a5b0e782253985b34bd46209c518c2be9ab401f1841",
+   "out_dir": "results_phase6c/unsw/ctl_delivery_coupled/seed_12"
+  },
+  {
+   "run_id": "unsw__ctl_momentum0_lr0p5__seed12",
+   "order": 16,
+   "dataset": "unsw",
+   "arm": "ctl_momentum0_lr0p5",
+   "seed": 12,
+   "config": "configs/phase6c/unsw_ctl_momentum0_lr0p5.yaml",
+   "config_sha256": "a223b19d8dc580e396e30d542f909198b9604bdf6723a5b752b238a91d7436fa",
+   "out_dir": "results_phase6c/unsw/ctl_momentum0_lr0p5/seed_12"
+  },
+  {
+   "run_id": "unsw__ctl_momentum0_lr5p0__seed12",
+   "order": 17,
+   "dataset": "unsw",
+   "arm": "ctl_momentum0_lr5p0",
+   "seed": 12,
+   "config": "configs/phase6c/unsw_ctl_momentum0_lr5p0.yaml",
+   "config_sha256": "1156e06faff3bcc0c6cce01046b740ff508076487b63ab4e7c4ed7bbf7caf2c0",
+   "out_dir": "results_phase6c/unsw/ctl_momentum0_lr5p0/seed_12"
+  },
+  {
+   "run_id": "unsw__ctl_weighting_uniform__seed12",
+   "order": 18,
+   "dataset": "unsw",
+   "arm": "ctl_weighting_uniform",
+   "seed": 12,
+   "config": "configs/phase6c/unsw_ctl_weighting_uniform.yaml",
+   "config_sha256": "dc589cd5279e5e69383212a73b81d25b1a7a34956054d9643098e631a3b94d04",
+   "out_dir": "results_phase6c/unsw/ctl_weighting_uniform/seed_12"
+  },
+  {
+   "run_id": "unsw__nat_reference__seed12",
+   "order": 19,
+   "dataset": "unsw",
+   "arm": "nat_reference",
+   "seed": 12,
+   "config": "configs/phase6c/unsw_nat_reference.yaml",
+   "config_sha256": "f06423c499a4f23888d23a9702092f7bb862cbfd562d904e405b298cf92b7910",
+   "out_dir": "results_phase6c/unsw/nat_reference/seed_12"
+  },
+  {
+   "run_id": "unsw__nat_selection_uniform__seed12",
+   "order": 20,
+   "dataset": "unsw",
+   "arm": "nat_selection_uniform",
+   "seed": 12,
+   "config": "configs/phase6c/unsw_nat_selection_uniform.yaml",
+   "config_sha256": "21d99cf79fe369050cbe14d6cebb6d73bbc38b0dc5071c30b58ee1c0355af60b",
+   "out_dir": "results_phase6c/unsw/nat_selection_uniform/seed_12"
+  },
+  {
+   "run_id": "unsw__nat_corrected__seed12",
+   "order": 21,
+   "dataset": "unsw",
+   "arm": "nat_corrected",
+   "seed": 12,
+   "config": "configs/phase6c/unsw_nat_corrected.yaml",
+   "config_sha256": "43ce38a9612a8b16f8ef9c4b58f22e1112952c11cd63d42ec5a5df89967f6e20",
+   "out_dir": "results_phase6c/unsw/nat_corrected/seed_12"
+  },
+  {
+   "run_id": "unsw__fail0p0_reference__seed12",
+   "order": 22,
+   "dataset": "unsw",
+   "arm": "fail0p0_reference",
+   "seed": 12,
+   "config": "configs/phase6c/unsw_fail0p0_reference.yaml",
+   "config_sha256": "2186533f42fa3ed7984c5de75f7e5f22e06d1121f1e98f857ad349c24cfebc19",
+   "out_dir": "results_phase6c/unsw/fail0p0_reference/seed_12"
+  },
+  {
+   "run_id": "unsw__fail0p3_reference__seed12",
+   "order": 23,
+   "dataset": "unsw",
+   "arm": "fail0p3_reference",
+   "seed": 12,
+   "config": "configs/phase6c/unsw_fail0p3_reference.yaml",
+   "config_sha256": "d1f933c1371102e19fd08d7cc2451d174c6126cf0dfbace7ba76748c0db037ec",
+   "out_dir": "results_phase6c/unsw/fail0p3_reference/seed_12"
+  },
+  {
+   "run_id": "unsw__fail0p3_corrected__seed12",
+   "order": 24,
+   "dataset": "unsw",
+   "arm": "fail0p3_corrected",
+   "seed": 12,
+   "config": "configs/phase6c/unsw_fail0p3_corrected.yaml",
+   "config_sha256": "5a74c66c6305242f9b25349d861bc708269b132a5a223b54fdfb5a28498c8d12",
+   "out_dir": "results_phase6c/unsw/fail0p3_corrected/seed_12"
+  },
+  {
+   "run_id": "unsw__clean_centralized__seed13",
+   "order": 25,
+   "dataset": "unsw",
+   "arm": "clean_centralized",
+   "seed": 13,
+   "config": "configs/phase6c/unsw_clean_centralized.yaml",
+   "config_sha256": "8e9676941b43b32262957e5e697241744c98506477257cc507abf082de899973",
+   "out_dir": "results_phase6c/unsw/clean_centralized/seed_13"
+  },
+  {
+   "run_id": "unsw__clean_fedavg__seed13",
+   "order": 26,
+   "dataset": "unsw",
+   "arm": "clean_fedavg",
+   "seed": 13,
+   "config": "configs/phase6c/unsw_clean_fedavg.yaml",
+   "config_sha256": "ff38721691234e007559c43dfa082a5986393c0cfa76110a9f44e2e693f53f4d",
+   "out_dir": "results_phase6c/unsw/clean_fedavg/seed_13"
+  },
+  {
+   "run_id": "unsw__scenario_fedavg_random__seed13",
+   "order": 27,
+   "dataset": "unsw",
+   "arm": "scenario_fedavg_random",
+   "seed": 13,
+   "config": "configs/phase6c/unsw_scenario_fedavg_random.yaml",
+   "config_sha256": "46c9d55012b6ef0fba2ba756404e8150861d7c6fba6f2e47a75a4797d2340413",
+   "out_dir": "results_phase6c/unsw/scenario_fedavg_random/seed_13"
+  },
+  {
+   "run_id": "unsw__scenario_fedavg_topk__seed13",
+   "order": 28,
+   "dataset": "unsw",
+   "arm": "scenario_fedavg_topk",
+   "seed": 13,
+   "config": "configs/phase6c/unsw_scenario_fedavg_topk.yaml",
+   "config_sha256": "856312973bd6a37ed87988cc53cad069be12051c7a7a83ebc76733c0337e2074",
+   "out_dir": "results_phase6c/unsw/scenario_fedavg_topk/seed_13"
+  },
+  {
+   "run_id": "unsw__robust_random_no_imputation__seed13",
+   "order": 29,
+   "dataset": "unsw",
+   "arm": "robust_random_no_imputation",
+   "seed": 13,
+   "config": "configs/phase6c/unsw_robust_random_no_imputation.yaml",
+   "config_sha256": "d72f802cca7a42c92eb0bcf56260a0c60648b12cc14cf34b495c3f19081e9e14",
+   "out_dir": "results_phase6c/unsw/robust_random_no_imputation/seed_13"
+  },
+  {
+   "run_id": "unsw__reference__seed13",
+   "order": 30,
+   "dataset": "unsw",
+   "arm": "reference",
+   "seed": 13,
+   "config": "configs/phase6c/unsw_reference.yaml",
+   "config_sha256": "0b510f2b63ae975f34ec682ea76e524928522b497c1cd0b07377c5f933a907c0",
+   "out_dir": "results_phase6c/unsw/reference/seed_13"
+  },
+  {
+   "run_id": "unsw__reference_gaussian__seed13",
+   "order": 31,
+   "dataset": "unsw",
+   "arm": "reference_gaussian",
+   "seed": 13,
+   "config": "configs/phase6c/unsw_reference_gaussian.yaml",
+   "config_sha256": "a464dc0a6ba302db29d020630571c7bd5c097f5179fac5fd7aeef1542c4e5948",
+   "out_dir": "results_phase6c/unsw/reference_gaussian/seed_13"
+  },
+  {
+   "run_id": "unsw__corrected__seed13",
+   "order": 32,
+   "dataset": "unsw",
+   "arm": "corrected",
+   "seed": 13,
+   "config": "configs/phase6c/unsw_corrected.yaml",
+   "config_sha256": "9205a1cd0caed176e7e730713e440cf00be86d0eef9768407ec6365540b7c352",
+   "out_dir": "results_phase6c/unsw/corrected/seed_13"
+  },
+  {
+   "run_id": "unsw__corrected_gaussian__seed13",
+   "order": 33,
+   "dataset": "unsw",
+   "arm": "corrected_gaussian",
+   "seed": 13,
+   "config": "configs/phase6c/unsw_corrected_gaussian.yaml",
+   "config_sha256": "630d798618ed5b50601427f6c6d4088b7c160a61005efc0a28752e9105a98a24",
+   "out_dir": "results_phase6c/unsw/corrected_gaussian/seed_13"
+  },
+  {
+   "run_id": "unsw__ctl_selection_uniform__seed13",
+   "order": 34,
+   "dataset": "unsw",
+   "arm": "ctl_selection_uniform",
+   "seed": 13,
+   "config": "configs/phase6c/unsw_ctl_selection_uniform.yaml",
+   "config_sha256": "d13702c7bc6b33b7abf9c7aa6b4ce8b629dd7b0ace8040a5a094dbe3905864b0",
+   "out_dir": "results_phase6c/unsw/ctl_selection_uniform/seed_13"
+  },
+  {
+   "run_id": "unsw__ctl_selection_coverage__seed13",
+   "order": 35,
+   "dataset": "unsw",
+   "arm": "ctl_selection_coverage",
+   "seed": 13,
+   "config": "configs/phase6c/unsw_ctl_selection_coverage.yaml",
+   "config_sha256": "34b0ce9b78d0be6aceb013249a00ebbcad99053e1747e9295b70c5822b7b02b0",
+   "out_dir": "results_phase6c/unsw/ctl_selection_coverage/seed_13"
+  },
+  {
+   "run_id": "unsw__ctl_imputation_none__seed13",
+   "order": 36,
+   "dataset": "unsw",
+   "arm": "ctl_imputation_none",
+   "seed": 13,
+   "config": "configs/phase6c/unsw_ctl_imputation_none.yaml",
+   "config_sha256": "25ea1fabb7eb29308d592792433db553ac34f17ec69e0b104b9c28ee374fadbb",
+   "out_dir": "results_phase6c/unsw/ctl_imputation_none/seed_13"
+  },
+  {
+   "run_id": "unsw__ctl_imputation_cap010__seed13",
+   "order": 37,
+   "dataset": "unsw",
+   "arm": "ctl_imputation_cap010",
+   "seed": 13,
+   "config": "configs/phase6c/unsw_ctl_imputation_cap010.yaml",
+   "config_sha256": "1ff05d2ff9bf2ce29688ac7080097f1c56021a0f40707105c1b964ec2b3521fe",
+   "out_dir": "results_phase6c/unsw/ctl_imputation_cap010/seed_13"
+  },
+  {
+   "run_id": "unsw__ctl_imputation_postfilter__seed13",
+   "order": 38,
+   "dataset": "unsw",
+   "arm": "ctl_imputation_postfilter",
+   "seed": 13,
+   "config": "configs/phase6c/unsw_ctl_imputation_postfilter.yaml",
+   "config_sha256": "aa3f713609d31a9bef55ffac81f6c1c0104eabf6ed20c885ea86106ca4515070",
+   "out_dir": "results_phase6c/unsw/ctl_imputation_postfilter/seed_13"
+  },
+  {
+   "run_id": "unsw__ctl_delivery_coupled__seed13",
+   "order": 39,
+   "dataset": "unsw",
+   "arm": "ctl_delivery_coupled",
+   "seed": 13,
+   "config": "configs/phase6c/unsw_ctl_delivery_coupled.yaml",
+   "config_sha256": "35a237cac186e67af0633a5b0e782253985b34bd46209c518c2be9ab401f1841",
+   "out_dir": "results_phase6c/unsw/ctl_delivery_coupled/seed_13"
+  },
+  {
+   "run_id": "unsw__ctl_momentum0_lr0p5__seed13",
+   "order": 40,
+   "dataset": "unsw",
+   "arm": "ctl_momentum0_lr0p5",
+   "seed": 13,
+   "config": "configs/phase6c/unsw_ctl_momentum0_lr0p5.yaml",
+   "config_sha256": "a223b19d8dc580e396e30d542f909198b9604bdf6723a5b752b238a91d7436fa",
+   "out_dir": "results_phase6c/unsw/ctl_momentum0_lr0p5/seed_13"
+  },
+  {
+   "run_id": "unsw__ctl_momentum0_lr5p0__seed13",
+   "order": 41,
+   "dataset": "unsw",
+   "arm": "ctl_momentum0_lr5p0",
+   "seed": 13,
+   "config": "configs/phase6c/unsw_ctl_momentum0_lr5p0.yaml",
+   "config_sha256": "1156e06faff3bcc0c6cce01046b740ff508076487b63ab4e7c4ed7bbf7caf2c0",
+   "out_dir": "results_phase6c/unsw/ctl_momentum0_lr5p0/seed_13"
+  },
+  {
+   "run_id": "unsw__ctl_weighting_uniform__seed13",
+   "order": 42,
+   "dataset": "unsw",
+   "arm": "ctl_weighting_uniform",
+   "seed": 13,
+   "config": "configs/phase6c/unsw_ctl_weighting_uniform.yaml",
+   "config_sha256": "dc589cd5279e5e69383212a73b81d25b1a7a34956054d9643098e631a3b94d04",
+   "out_dir": "results_phase6c/unsw/ctl_weighting_uniform/seed_13"
+  },
+  {
+   "run_id": "unsw__nat_reference__seed13",
+   "order": 43,
+   "dataset": "unsw",
+   "arm": "nat_reference",
+   "seed": 13,
+   "config": "configs/phase6c/unsw_nat_reference.yaml",
+   "config_sha256": "f06423c499a4f23888d23a9702092f7bb862cbfd562d904e405b298cf92b7910",
+   "out_dir": "results_phase6c/unsw/nat_reference/seed_13"
+  },
+  {
+   "run_id": "unsw__nat_selection_uniform__seed13",
+   "order": 44,
+   "dataset": "unsw",
+   "arm": "nat_selection_uniform",
+   "seed": 13,
+   "config": "configs/phase6c/unsw_nat_selection_uniform.yaml",
+   "config_sha256": "21d99cf79fe369050cbe14d6cebb6d73bbc38b0dc5071c30b58ee1c0355af60b",
+   "out_dir": "results_phase6c/unsw/nat_selection_uniform/seed_13"
+  },
+  {
+   "run_id": "unsw__nat_corrected__seed13",
+   "order": 45,
+   "dataset": "unsw",
+   "arm": "nat_corrected",
+   "seed": 13,
+   "config": "configs/phase6c/unsw_nat_corrected.yaml",
+   "config_sha256": "43ce38a9612a8b16f8ef9c4b58f22e1112952c11cd63d42ec5a5df89967f6e20",
+   "out_dir": "results_phase6c/unsw/nat_corrected/seed_13"
+  },
+  {
+   "run_id": "unsw__fail0p0_reference__seed13",
+   "order": 46,
+   "dataset": "unsw",
+   "arm": "fail0p0_reference",
+   "seed": 13,
+   "config": "configs/phase6c/unsw_fail0p0_reference.yaml",
+   "config_sha256": "2186533f42fa3ed7984c5de75f7e5f22e06d1121f1e98f857ad349c24cfebc19",
+   "out_dir": "results_phase6c/unsw/fail0p0_reference/seed_13"
+  },
+  {
+   "run_id": "unsw__fail0p3_reference__seed13",
+   "order": 47,
+   "dataset": "unsw",
+   "arm": "fail0p3_reference",
+   "seed": 13,
+   "config": "configs/phase6c/unsw_fail0p3_reference.yaml",
+   "config_sha256": "d1f933c1371102e19fd08d7cc2451d174c6126cf0dfbace7ba76748c0db037ec",
+   "out_dir": "results_phase6c/unsw/fail0p3_reference/seed_13"
+  },
+  {
+   "run_id": "unsw__fail0p3_corrected__seed13",
+   "order": 48,
+   "dataset": "unsw",
+   "arm": "fail0p3_corrected",
+   "seed": 13,
+   "config": "configs/phase6c/unsw_fail0p3_corrected.yaml",
+   "config_sha256": "5a74c66c6305242f9b25349d861bc708269b132a5a223b54fdfb5a28498c8d12",
+   "out_dir": "results_phase6c/unsw/fail0p3_corrected/seed_13"
+  },
+  {
+   "run_id": "unsw__clean_centralized__seed14",
+   "order": 49,
+   "dataset": "unsw",
+   "arm": "clean_centralized",
+   "seed": 14,
+   "config": "configs/phase6c/unsw_clean_centralized.yaml",
+   "config_sha256": "8e9676941b43b32262957e5e697241744c98506477257cc507abf082de899973",
+   "out_dir": "results_phase6c/unsw/clean_centralized/seed_14"
+  },
+  {
+   "run_id": "unsw__clean_fedavg__seed14",
+   "order": 50,
+   "dataset": "unsw",
+   "arm": "clean_fedavg",
+   "seed": 14,
+   "config": "configs/phase6c/unsw_clean_fedavg.yaml",
+   "config_sha256": "ff38721691234e007559c43dfa082a5986393c0cfa76110a9f44e2e693f53f4d",
+   "out_dir": "results_phase6c/unsw/clean_fedavg/seed_14"
+  },
+  {
+   "run_id": "unsw__scenario_fedavg_random__seed14",
+   "order": 51,
+   "dataset": "unsw",
+   "arm": "scenario_fedavg_random",
+   "seed": 14,
+   "config": "configs/phase6c/unsw_scenario_fedavg_random.yaml",
+   "config_sha256": "46c9d55012b6ef0fba2ba756404e8150861d7c6fba6f2e47a75a4797d2340413",
+   "out_dir": "results_phase6c/unsw/scenario_fedavg_random/seed_14"
+  },
+  {
+   "run_id": "unsw__scenario_fedavg_topk__seed14",
+   "order": 52,
+   "dataset": "unsw",
+   "arm": "scenario_fedavg_topk",
+   "seed": 14,
+   "config": "configs/phase6c/unsw_scenario_fedavg_topk.yaml",
+   "config_sha256": "856312973bd6a37ed87988cc53cad069be12051c7a7a83ebc76733c0337e2074",
+   "out_dir": "results_phase6c/unsw/scenario_fedavg_topk/seed_14"
+  },
+  {
+   "run_id": "unsw__robust_random_no_imputation__seed14",
+   "order": 53,
+   "dataset": "unsw",
+   "arm": "robust_random_no_imputation",
+   "seed": 14,
+   "config": "configs/phase6c/unsw_robust_random_no_imputation.yaml",
+   "config_sha256": "d72f802cca7a42c92eb0bcf56260a0c60648b12cc14cf34b495c3f19081e9e14",
+   "out_dir": "results_phase6c/unsw/robust_random_no_imputation/seed_14"
+  },
+  {
+   "run_id": "unsw__reference__seed14",
+   "order": 54,
+   "dataset": "unsw",
+   "arm": "reference",
+   "seed": 14,
+   "config": "configs/phase6c/unsw_reference.yaml",
+   "config_sha256": "0b510f2b63ae975f34ec682ea76e524928522b497c1cd0b07377c5f933a907c0",
+   "out_dir": "results_phase6c/unsw/reference/seed_14"
+  },
+  {
+   "run_id": "unsw__reference_gaussian__seed14",
+   "order": 55,
+   "dataset": "unsw",
+   "arm": "reference_gaussian",
+   "seed": 14,
+   "config": "configs/phase6c/unsw_reference_gaussian.yaml",
+   "config_sha256": "a464dc0a6ba302db29d020630571c7bd5c097f5179fac5fd7aeef1542c4e5948",
+   "out_dir": "results_phase6c/unsw/reference_gaussian/seed_14"
+  },
+  {
+   "run_id": "unsw__corrected__seed14",
+   "order": 56,
+   "dataset": "unsw",
+   "arm": "corrected",
+   "seed": 14,
+   "config": "configs/phase6c/unsw_corrected.yaml",
+   "config_sha256": "9205a1cd0caed176e7e730713e440cf00be86d0eef9768407ec6365540b7c352",
+   "out_dir": "results_phase6c/unsw/corrected/seed_14"
+  },
+  {
+   "run_id": "unsw__corrected_gaussian__seed14",
+   "order": 57,
+   "dataset": "unsw",
+   "arm": "corrected_gaussian",
+   "seed": 14,
+   "config": "configs/phase6c/unsw_corrected_gaussian.yaml",
+   "config_sha256": "630d798618ed5b50601427f6c6d4088b7c160a61005efc0a28752e9105a98a24",
+   "out_dir": "results_phase6c/unsw/corrected_gaussian/seed_14"
+  },
+  {
+   "run_id": "unsw__ctl_selection_uniform__seed14",
+   "order": 58,
+   "dataset": "unsw",
+   "arm": "ctl_selection_uniform",
+   "seed": 14,
+   "config": "configs/phase6c/unsw_ctl_selection_uniform.yaml",
+   "config_sha256": "d13702c7bc6b33b7abf9c7aa6b4ce8b629dd7b0ace8040a5a094dbe3905864b0",
+   "out_dir": "results_phase6c/unsw/ctl_selection_uniform/seed_14"
+  },
+  {
+   "run_id": "unsw__ctl_selection_coverage__seed14",
+   "order": 59,
+   "dataset": "unsw",
+   "arm": "ctl_selection_coverage",
+   "seed": 14,
+   "config": "configs/phase6c/unsw_ctl_selection_coverage.yaml",
+   "config_sha256": "34b0ce9b78d0be6aceb013249a00ebbcad99053e1747e9295b70c5822b7b02b0",
+   "out_dir": "results_phase6c/unsw/ctl_selection_coverage/seed_14"
+  },
+  {
+   "run_id": "unsw__ctl_imputation_none__seed14",
+   "order": 60,
+   "dataset": "unsw",
+   "arm": "ctl_imputation_none",
+   "seed": 14,
+   "config": "configs/phase6c/unsw_ctl_imputation_none.yaml",
+   "config_sha256": "25ea1fabb7eb29308d592792433db553ac34f17ec69e0b104b9c28ee374fadbb",
+   "out_dir": "results_phase6c/unsw/ctl_imputation_none/seed_14"
+  },
+  {
+   "run_id": "unsw__ctl_imputation_cap010__seed14",
+   "order": 61,
+   "dataset": "unsw",
+   "arm": "ctl_imputation_cap010",
+   "seed": 14,
+   "config": "configs/phase6c/unsw_ctl_imputation_cap010.yaml",
+   "config_sha256": "1ff05d2ff9bf2ce29688ac7080097f1c56021a0f40707105c1b964ec2b3521fe",
+   "out_dir": "results_phase6c/unsw/ctl_imputation_cap010/seed_14"
+  },
+  {
+   "run_id": "unsw__ctl_imputation_postfilter__seed14",
+   "order": 62,
+   "dataset": "unsw",
+   "arm": "ctl_imputation_postfilter",
+   "seed": 14,
+   "config": "configs/phase6c/unsw_ctl_imputation_postfilter.yaml",
+   "config_sha256": "aa3f713609d31a9bef55ffac81f6c1c0104eabf6ed20c885ea86106ca4515070",
+   "out_dir": "results_phase6c/unsw/ctl_imputation_postfilter/seed_14"
+  },
+  {
+   "run_id": "unsw__ctl_delivery_coupled__seed14",
+   "order": 63,
+   "dataset": "unsw",
+   "arm": "ctl_delivery_coupled",
+   "seed": 14,
+   "config": "configs/phase6c/unsw_ctl_delivery_coupled.yaml",
+   "config_sha256": "35a237cac186e67af0633a5b0e782253985b34bd46209c518c2be9ab401f1841",
+   "out_dir": "results_phase6c/unsw/ctl_delivery_coupled/seed_14"
+  },
+  {
+   "run_id": "unsw__ctl_momentum0_lr0p5__seed14",
+   "order": 64,
+   "dataset": "unsw",
+   "arm": "ctl_momentum0_lr0p5",
+   "seed": 14,
+   "config": "configs/phase6c/unsw_ctl_momentum0_lr0p5.yaml",
+   "config_sha256": "a223b19d8dc580e396e30d542f909198b9604bdf6723a5b752b238a91d7436fa",
+   "out_dir": "results_phase6c/unsw/ctl_momentum0_lr0p5/seed_14"
+  },
+  {
+   "run_id": "unsw__ctl_momentum0_lr5p0__seed14",
+   "order": 65,
+   "dataset": "unsw",
+   "arm": "ctl_momentum0_lr5p0",
+   "seed": 14,
+   "config": "configs/phase6c/unsw_ctl_momentum0_lr5p0.yaml",
+   "config_sha256": "1156e06faff3bcc0c6cce01046b740ff508076487b63ab4e7c4ed7bbf7caf2c0",
+   "out_dir": "results_phase6c/unsw/ctl_momentum0_lr5p0/seed_14"
+  },
+  {
+   "run_id": "unsw__ctl_weighting_uniform__seed14",
+   "order": 66,
+   "dataset": "unsw",
+   "arm": "ctl_weighting_uniform",
+   "seed": 14,
+   "config": "configs/phase6c/unsw_ctl_weighting_uniform.yaml",
+   "config_sha256": "dc589cd5279e5e69383212a73b81d25b1a7a34956054d9643098e631a3b94d04",
+   "out_dir": "results_phase6c/unsw/ctl_weighting_uniform/seed_14"
+  },
+  {
+   "run_id": "unsw__nat_reference__seed14",
+   "order": 67,
+   "dataset": "unsw",
+   "arm": "nat_reference",
+   "seed": 14,
+   "config": "configs/phase6c/unsw_nat_reference.yaml",
+   "config_sha256": "f06423c499a4f23888d23a9702092f7bb862cbfd562d904e405b298cf92b7910",
+   "out_dir": "results_phase6c/unsw/nat_reference/seed_14"
+  },
+  {
+   "run_id": "unsw__nat_selection_uniform__seed14",
+   "order": 68,
+   "dataset": "unsw",
+   "arm": "nat_selection_uniform",
+   "seed": 14,
+   "config": "configs/phase6c/unsw_nat_selection_uniform.yaml",
+   "config_sha256": "21d99cf79fe369050cbe14d6cebb6d73bbc38b0dc5071c30b58ee1c0355af60b",
+   "out_dir": "results_phase6c/unsw/nat_selection_uniform/seed_14"
+  },
+  {
+   "run_id": "unsw__nat_corrected__seed14",
+   "order": 69,
+   "dataset": "unsw",
+   "arm": "nat_corrected",
+   "seed": 14,
+   "config": "configs/phase6c/unsw_nat_corrected.yaml",
+   "config_sha256": "43ce38a9612a8b16f8ef9c4b58f22e1112952c11cd63d42ec5a5df89967f6e20",
+   "out_dir": "results_phase6c/unsw/nat_corrected/seed_14"
+  },
+  {
+   "run_id": "unsw__fail0p0_reference__seed14",
+   "order": 70,
+   "dataset": "unsw",
+   "arm": "fail0p0_reference",
+   "seed": 14,
+   "config": "configs/phase6c/unsw_fail0p0_reference.yaml",
+   "config_sha256": "2186533f42fa3ed7984c5de75f7e5f22e06d1121f1e98f857ad349c24cfebc19",
+   "out_dir": "results_phase6c/unsw/fail0p0_reference/seed_14"
+  },
+  {
+   "run_id": "unsw__fail0p3_reference__seed14",
+   "order": 71,
+   "dataset": "unsw",
+   "arm": "fail0p3_reference",
+   "seed": 14,
+   "config": "configs/phase6c/unsw_fail0p3_reference.yaml",
+   "config_sha256": "d1f933c1371102e19fd08d7cc2451d174c6126cf0dfbace7ba76748c0db037ec",
+   "out_dir": "results_phase6c/unsw/fail0p3_reference/seed_14"
+  },
+  {
+   "run_id": "unsw__fail0p3_corrected__seed14",
+   "order": 72,
+   "dataset": "unsw",
+   "arm": "fail0p3_corrected",
+   "seed": 14,
+   "config": "configs/phase6c/unsw_fail0p3_corrected.yaml",
+   "config_sha256": "5a74c66c6305242f9b25349d861bc708269b132a5a223b54fdfb5a28498c8d12",
+   "out_dir": "results_phase6c/unsw/fail0p3_corrected/seed_14"
+  },
+  {
+   "run_id": "unsw__clean_centralized__seed15",
+   "order": 73,
+   "dataset": "unsw",
+   "arm": "clean_centralized",
+   "seed": 15,
+   "config": "configs/phase6c/unsw_clean_centralized.yaml",
+   "config_sha256": "8e9676941b43b32262957e5e697241744c98506477257cc507abf082de899973",
+   "out_dir": "results_phase6c/unsw/clean_centralized/seed_15"
+  },
+  {
+   "run_id": "unsw__clean_fedavg__seed15",
+   "order": 74,
+   "dataset": "unsw",
+   "arm": "clean_fedavg",
+   "seed": 15,
+   "config": "configs/phase6c/unsw_clean_fedavg.yaml",
+   "config_sha256": "ff38721691234e007559c43dfa082a5986393c0cfa76110a9f44e2e693f53f4d",
+   "out_dir": "results_phase6c/unsw/clean_fedavg/seed_15"
+  },
+  {
+   "run_id": "unsw__scenario_fedavg_random__seed15",
+   "order": 75,
+   "dataset": "unsw",
+   "arm": "scenario_fedavg_random",
+   "seed": 15,
+   "config": "configs/phase6c/unsw_scenario_fedavg_random.yaml",
+   "config_sha256": "46c9d55012b6ef0fba2ba756404e8150861d7c6fba6f2e47a75a4797d2340413",
+   "out_dir": "results_phase6c/unsw/scenario_fedavg_random/seed_15"
+  },
+  {
+   "run_id": "unsw__scenario_fedavg_topk__seed15",
+   "order": 76,
+   "dataset": "unsw",
+   "arm": "scenario_fedavg_topk",
+   "seed": 15,
+   "config": "configs/phase6c/unsw_scenario_fedavg_topk.yaml",
+   "config_sha256": "856312973bd6a37ed87988cc53cad069be12051c7a7a83ebc76733c0337e2074",
+   "out_dir": "results_phase6c/unsw/scenario_fedavg_topk/seed_15"
+  },
+  {
+   "run_id": "unsw__robust_random_no_imputation__seed15",
+   "order": 77,
+   "dataset": "unsw",
+   "arm": "robust_random_no_imputation",
+   "seed": 15,
+   "config": "configs/phase6c/unsw_robust_random_no_imputation.yaml",
+   "config_sha256": "d72f802cca7a42c92eb0bcf56260a0c60648b12cc14cf34b495c3f19081e9e14",
+   "out_dir": "results_phase6c/unsw/robust_random_no_imputation/seed_15"
+  },
+  {
+   "run_id": "unsw__reference__seed15",
+   "order": 78,
+   "dataset": "unsw",
+   "arm": "reference",
+   "seed": 15,
+   "config": "configs/phase6c/unsw_reference.yaml",
+   "config_sha256": "0b510f2b63ae975f34ec682ea76e524928522b497c1cd0b07377c5f933a907c0",
+   "out_dir": "results_phase6c/unsw/reference/seed_15"
+  },
+  {
+   "run_id": "unsw__reference_gaussian__seed15",
+   "order": 79,
+   "dataset": "unsw",
+   "arm": "reference_gaussian",
+   "seed": 15,
+   "config": "configs/phase6c/unsw_reference_gaussian.yaml",
+   "config_sha256": "a464dc0a6ba302db29d020630571c7bd5c097f5179fac5fd7aeef1542c4e5948",
+   "out_dir": "results_phase6c/unsw/reference_gaussian/seed_15"
+  },
+  {
+   "run_id": "unsw__corrected__seed15",
+   "order": 80,
+   "dataset": "unsw",
+   "arm": "corrected",
+   "seed": 15,
+   "config": "configs/phase6c/unsw_corrected.yaml",
+   "config_sha256": "9205a1cd0caed176e7e730713e440cf00be86d0eef9768407ec6365540b7c352",
+   "out_dir": "results_phase6c/unsw/corrected/seed_15"
+  },
+  {
+   "run_id": "unsw__corrected_gaussian__seed15",
+   "order": 81,
+   "dataset": "unsw",
+   "arm": "corrected_gaussian",
+   "seed": 15,
+   "config": "configs/phase6c/unsw_corrected_gaussian.yaml",
+   "config_sha256": "630d798618ed5b50601427f6c6d4088b7c160a61005efc0a28752e9105a98a24",
+   "out_dir": "results_phase6c/unsw/corrected_gaussian/seed_15"
+  },
+  {
+   "run_id": "unsw__ctl_selection_uniform__seed15",
+   "order": 82,
+   "dataset": "unsw",
+   "arm": "ctl_selection_uniform",
+   "seed": 15,
+   "config": "configs/phase6c/unsw_ctl_selection_uniform.yaml",
+   "config_sha256": "d13702c7bc6b33b7abf9c7aa6b4ce8b629dd7b0ace8040a5a094dbe3905864b0",
+   "out_dir": "results_phase6c/unsw/ctl_selection_uniform/seed_15"
+  },
+  {
+   "run_id": "unsw__ctl_selection_coverage__seed15",
+   "order": 83,
+   "dataset": "unsw",
+   "arm": "ctl_selection_coverage",
+   "seed": 15,
+   "config": "configs/phase6c/unsw_ctl_selection_coverage.yaml",
+   "config_sha256": "34b0ce9b78d0be6aceb013249a00ebbcad99053e1747e9295b70c5822b7b02b0",
+   "out_dir": "results_phase6c/unsw/ctl_selection_coverage/seed_15"
+  },
+  {
+   "run_id": "unsw__ctl_imputation_none__seed15",
+   "order": 84,
+   "dataset": "unsw",
+   "arm": "ctl_imputation_none",
+   "seed": 15,
+   "config": "configs/phase6c/unsw_ctl_imputation_none.yaml",
+   "config_sha256": "25ea1fabb7eb29308d592792433db553ac34f17ec69e0b104b9c28ee374fadbb",
+   "out_dir": "results_phase6c/unsw/ctl_imputation_none/seed_15"
+  },
+  {
+   "run_id": "unsw__ctl_imputation_cap010__seed15",
+   "order": 85,
+   "dataset": "unsw",
+   "arm": "ctl_imputation_cap010",
+   "seed": 15,
+   "config": "configs/phase6c/unsw_ctl_imputation_cap010.yaml",
+   "config_sha256": "1ff05d2ff9bf2ce29688ac7080097f1c56021a0f40707105c1b964ec2b3521fe",
+   "out_dir": "results_phase6c/unsw/ctl_imputation_cap010/seed_15"
+  },
+  {
+   "run_id": "unsw__ctl_imputation_postfilter__seed15",
+   "order": 86,
+   "dataset": "unsw",
+   "arm": "ctl_imputation_postfilter",
+   "seed": 15,
+   "config": "configs/phase6c/unsw_ctl_imputation_postfilter.yaml",
+   "config_sha256": "aa3f713609d31a9bef55ffac81f6c1c0104eabf6ed20c885ea86106ca4515070",
+   "out_dir": "results_phase6c/unsw/ctl_imputation_postfilter/seed_15"
+  },
+  {
+   "run_id": "unsw__ctl_delivery_coupled__seed15",
+   "order": 87,
+   "dataset": "unsw",
+   "arm": "ctl_delivery_coupled",
+   "seed": 15,
+   "config": "configs/phase6c/unsw_ctl_delivery_coupled.yaml",
+   "config_sha256": "35a237cac186e67af0633a5b0e782253985b34bd46209c518c2be9ab401f1841",
+   "out_dir": "results_phase6c/unsw/ctl_delivery_coupled/seed_15"
+  },
+  {
+   "run_id": "unsw__ctl_momentum0_lr0p5__seed15",
+   "order": 88,
+   "dataset": "unsw",
+   "arm": "ctl_momentum0_lr0p5",
+   "seed": 15,
+   "config": "configs/phase6c/unsw_ctl_momentum0_lr0p5.yaml",
+   "config_sha256": "a223b19d8dc580e396e30d542f909198b9604bdf6723a5b752b238a91d7436fa",
+   "out_dir": "results_phase6c/unsw/ctl_momentum0_lr0p5/seed_15"
+  },
+  {
+   "run_id": "unsw__ctl_momentum0_lr5p0__seed15",
+   "order": 89,
+   "dataset": "unsw",
+   "arm": "ctl_momentum0_lr5p0",
+   "seed": 15,
+   "config": "configs/phase6c/unsw_ctl_momentum0_lr5p0.yaml",
+   "config_sha256": "1156e06faff3bcc0c6cce01046b740ff508076487b63ab4e7c4ed7bbf7caf2c0",
+   "out_dir": "results_phase6c/unsw/ctl_momentum0_lr5p0/seed_15"
+  },
+  {
+   "run_id": "unsw__ctl_weighting_uniform__seed15",
+   "order": 90,
+   "dataset": "unsw",
+   "arm": "ctl_weighting_uniform",
+   "seed": 15,
+   "config": "configs/phase6c/unsw_ctl_weighting_uniform.yaml",
+   "config_sha256": "dc589cd5279e5e69383212a73b81d25b1a7a34956054d9643098e631a3b94d04",
+   "out_dir": "results_phase6c/unsw/ctl_weighting_uniform/seed_15"
+  },
+  {
+   "run_id": "unsw__nat_reference__seed15",
+   "order": 91,
+   "dataset": "unsw",
+   "arm": "nat_reference",
+   "seed": 15,
+   "config": "configs/phase6c/unsw_nat_reference.yaml",
+   "config_sha256": "f06423c499a4f23888d23a9702092f7bb862cbfd562d904e405b298cf92b7910",
+   "out_dir": "results_phase6c/unsw/nat_reference/seed_15"
+  },
+  {
+   "run_id": "unsw__nat_selection_uniform__seed15",
+   "order": 92,
+   "dataset": "unsw",
+   "arm": "nat_selection_uniform",
+   "seed": 15,
+   "config": "configs/phase6c/unsw_nat_selection_uniform.yaml",
+   "config_sha256": "21d99cf79fe369050cbe14d6cebb6d73bbc38b0dc5071c30b58ee1c0355af60b",
+   "out_dir": "results_phase6c/unsw/nat_selection_uniform/seed_15"
+  },
+  {
+   "run_id": "unsw__nat_corrected__seed15",
+   "order": 93,
+   "dataset": "unsw",
+   "arm": "nat_corrected",
+   "seed": 15,
+   "config": "configs/phase6c/unsw_nat_corrected.yaml",
+   "config_sha256": "43ce38a9612a8b16f8ef9c4b58f22e1112952c11cd63d42ec5a5df89967f6e20",
+   "out_dir": "results_phase6c/unsw/nat_corrected/seed_15"
+  },
+  {
+   "run_id": "unsw__fail0p0_reference__seed15",
+   "order": 94,
+   "dataset": "unsw",
+   "arm": "fail0p0_reference",
+   "seed": 15,
+   "config": "configs/phase6c/unsw_fail0p0_reference.yaml",
+   "config_sha256": "2186533f42fa3ed7984c5de75f7e5f22e06d1121f1e98f857ad349c24cfebc19",
+   "out_dir": "results_phase6c/unsw/fail0p0_reference/seed_15"
+  },
+  {
+   "run_id": "unsw__fail0p3_reference__seed15",
+   "order": 95,
+   "dataset": "unsw",
+   "arm": "fail0p3_reference",
+   "seed": 15,
+   "config": "configs/phase6c/unsw_fail0p3_reference.yaml",
+   "config_sha256": "d1f933c1371102e19fd08d7cc2451d174c6126cf0dfbace7ba76748c0db037ec",
+   "out_dir": "results_phase6c/unsw/fail0p3_reference/seed_15"
+  },
+  {
+   "run_id": "unsw__fail0p3_corrected__seed15",
+   "order": 96,
+   "dataset": "unsw",
+   "arm": "fail0p3_corrected",
+   "seed": 15,
+   "config": "configs/phase6c/unsw_fail0p3_corrected.yaml",
+   "config_sha256": "5a74c66c6305242f9b25349d861bc708269b132a5a223b54fdfb5a28498c8d12",
+   "out_dir": "results_phase6c/unsw/fail0p3_corrected/seed_15"
+  },
+  {
+   "run_id": "unsw__clean_centralized__seed16",
+   "order": 97,
+   "dataset": "unsw",
+   "arm": "clean_centralized",
+   "seed": 16,
+   "config": "configs/phase6c/unsw_clean_centralized.yaml",
+   "config_sha256": "8e9676941b43b32262957e5e697241744c98506477257cc507abf082de899973",
+   "out_dir": "results_phase6c/unsw/clean_centralized/seed_16"
+  },
+  {
+   "run_id": "unsw__clean_fedavg__seed16",
+   "order": 98,
+   "dataset": "unsw",
+   "arm": "clean_fedavg",
+   "seed": 16,
+   "config": "configs/phase6c/unsw_clean_fedavg.yaml",
+   "config_sha256": "ff38721691234e007559c43dfa082a5986393c0cfa76110a9f44e2e693f53f4d",
+   "out_dir": "results_phase6c/unsw/clean_fedavg/seed_16"
+  },
+  {
+   "run_id": "unsw__scenario_fedavg_random__seed16",
+   "order": 99,
+   "dataset": "unsw",
+   "arm": "scenario_fedavg_random",
+   "seed": 16,
+   "config": "configs/phase6c/unsw_scenario_fedavg_random.yaml",
+   "config_sha256": "46c9d55012b6ef0fba2ba756404e8150861d7c6fba6f2e47a75a4797d2340413",
+   "out_dir": "results_phase6c/unsw/scenario_fedavg_random/seed_16"
+  },
+  {
+   "run_id": "unsw__scenario_fedavg_topk__seed16",
+   "order": 100,
+   "dataset": "unsw",
+   "arm": "scenario_fedavg_topk",
+   "seed": 16,
+   "config": "configs/phase6c/unsw_scenario_fedavg_topk.yaml",
+   "config_sha256": "856312973bd6a37ed87988cc53cad069be12051c7a7a83ebc76733c0337e2074",
+   "out_dir": "results_phase6c/unsw/scenario_fedavg_topk/seed_16"
+  },
+  {
+   "run_id": "unsw__robust_random_no_imputation__seed16",
+   "order": 101,
+   "dataset": "unsw",
+   "arm": "robust_random_no_imputation",
+   "seed": 16,
+   "config": "configs/phase6c/unsw_robust_random_no_imputation.yaml",
+   "config_sha256": "d72f802cca7a42c92eb0bcf56260a0c60648b12cc14cf34b495c3f19081e9e14",
+   "out_dir": "results_phase6c/unsw/robust_random_no_imputation/seed_16"
+  },
+  {
+   "run_id": "unsw__reference__seed16",
+   "order": 102,
+   "dataset": "unsw",
+   "arm": "reference",
+   "seed": 16,
+   "config": "configs/phase6c/unsw_reference.yaml",
+   "config_sha256": "0b510f2b63ae975f34ec682ea76e524928522b497c1cd0b07377c5f933a907c0",
+   "out_dir": "results_phase6c/unsw/reference/seed_16"
+  },
+  {
+   "run_id": "unsw__reference_gaussian__seed16",
+   "order": 103,
+   "dataset": "unsw",
+   "arm": "reference_gaussian",
+   "seed": 16,
+   "config": "configs/phase6c/unsw_reference_gaussian.yaml",
+   "config_sha256": "a464dc0a6ba302db29d020630571c7bd5c097f5179fac5fd7aeef1542c4e5948",
+   "out_dir": "results_phase6c/unsw/reference_gaussian/seed_16"
+  },
+  {
+   "run_id": "unsw__corrected__seed16",
+   "order": 104,
+   "dataset": "unsw",
+   "arm": "corrected",
+   "seed": 16,
+   "config": "configs/phase6c/unsw_corrected.yaml",
+   "config_sha256": "9205a1cd0caed176e7e730713e440cf00be86d0eef9768407ec6365540b7c352",
+   "out_dir": "results_phase6c/unsw/corrected/seed_16"
+  },
+  {
+   "run_id": "unsw__corrected_gaussian__seed16",
+   "order": 105,
+   "dataset": "unsw",
+   "arm": "corrected_gaussian",
+   "seed": 16,
+   "config": "configs/phase6c/unsw_corrected_gaussian.yaml",
+   "config_sha256": "630d798618ed5b50601427f6c6d4088b7c160a61005efc0a28752e9105a98a24",
+   "out_dir": "results_phase6c/unsw/corrected_gaussian/seed_16"
+  },
+  {
+   "run_id": "unsw__ctl_selection_uniform__seed16",
+   "order": 106,
+   "dataset": "unsw",
+   "arm": "ctl_selection_uniform",
+   "seed": 16,
+   "config": "configs/phase6c/unsw_ctl_selection_uniform.yaml",
+   "config_sha256": "d13702c7bc6b33b7abf9c7aa6b4ce8b629dd7b0ace8040a5a094dbe3905864b0",
+   "out_dir": "results_phase6c/unsw/ctl_selection_uniform/seed_16"
+  },
+  {
+   "run_id": "unsw__ctl_selection_coverage__seed16",
+   "order": 107,
+   "dataset": "unsw",
+   "arm": "ctl_selection_coverage",
+   "seed": 16,
+   "config": "configs/phase6c/unsw_ctl_selection_coverage.yaml",
+   "config_sha256": "34b0ce9b78d0be6aceb013249a00ebbcad99053e1747e9295b70c5822b7b02b0",
+   "out_dir": "results_phase6c/unsw/ctl_selection_coverage/seed_16"
+  },
+  {
+   "run_id": "unsw__ctl_imputation_none__seed16",
+   "order": 108,
+   "dataset": "unsw",
+   "arm": "ctl_imputation_none",
+   "seed": 16,
+   "config": "configs/phase6c/unsw_ctl_imputation_none.yaml",
+   "config_sha256": "25ea1fabb7eb29308d592792433db553ac34f17ec69e0b104b9c28ee374fadbb",
+   "out_dir": "results_phase6c/unsw/ctl_imputation_none/seed_16"
+  },
+  {
+   "run_id": "unsw__ctl_imputation_cap010__seed16",
+   "order": 109,
+   "dataset": "unsw",
+   "arm": "ctl_imputation_cap010",
+   "seed": 16,
+   "config": "configs/phase6c/unsw_ctl_imputation_cap010.yaml",
+   "config_sha256": "1ff05d2ff9bf2ce29688ac7080097f1c56021a0f40707105c1b964ec2b3521fe",
+   "out_dir": "results_phase6c/unsw/ctl_imputation_cap010/seed_16"
+  },
+  {
+   "run_id": "unsw__ctl_imputation_postfilter__seed16",
+   "order": 110,
+   "dataset": "unsw",
+   "arm": "ctl_imputation_postfilter",
+   "seed": 16,
+   "config": "configs/phase6c/unsw_ctl_imputation_postfilter.yaml",
+   "config_sha256": "aa3f713609d31a9bef55ffac81f6c1c0104eabf6ed20c885ea86106ca4515070",
+   "out_dir": "results_phase6c/unsw/ctl_imputation_postfilter/seed_16"
+  },
+  {
+   "run_id": "unsw__ctl_delivery_coupled__seed16",
+   "order": 111,
+   "dataset": "unsw",
+   "arm": "ctl_delivery_coupled",
+   "seed": 16,
+   "config": "configs/phase6c/unsw_ctl_delivery_coupled.yaml",
+   "config_sha256": "35a237cac186e67af0633a5b0e782253985b34bd46209c518c2be9ab401f1841",
+   "out_dir": "results_phase6c/unsw/ctl_delivery_coupled/seed_16"
+  },
+  {
+   "run_id": "unsw__ctl_momentum0_lr0p5__seed16",
+   "order": 112,
+   "dataset": "unsw",
+   "arm": "ctl_momentum0_lr0p5",
+   "seed": 16,
+   "config": "configs/phase6c/unsw_ctl_momentum0_lr0p5.yaml",
+   "config_sha256": "a223b19d8dc580e396e30d542f909198b9604bdf6723a5b752b238a91d7436fa",
+   "out_dir": "results_phase6c/unsw/ctl_momentum0_lr0p5/seed_16"
+  },
+  {
+   "run_id": "unsw__ctl_momentum0_lr5p0__seed16",
+   "order": 113,
+   "dataset": "unsw",
+   "arm": "ctl_momentum0_lr5p0",
+   "seed": 16,
+   "config": "configs/phase6c/unsw_ctl_momentum0_lr5p0.yaml",
+   "config_sha256": "1156e06faff3bcc0c6cce01046b740ff508076487b63ab4e7c4ed7bbf7caf2c0",
+   "out_dir": "results_phase6c/unsw/ctl_momentum0_lr5p0/seed_16"
+  },
+  {
+   "run_id": "unsw__ctl_weighting_uniform__seed16",
+   "order": 114,
+   "dataset": "unsw",
+   "arm": "ctl_weighting_uniform",
+   "seed": 16,
+   "config": "configs/phase6c/unsw_ctl_weighting_uniform.yaml",
+   "config_sha256": "dc589cd5279e5e69383212a73b81d25b1a7a34956054d9643098e631a3b94d04",
+   "out_dir": "results_phase6c/unsw/ctl_weighting_uniform/seed_16"
+  },
+  {
+   "run_id": "unsw__nat_reference__seed16",
+   "order": 115,
+   "dataset": "unsw",
+   "arm": "nat_reference",
+   "seed": 16,
+   "config": "configs/phase6c/unsw_nat_reference.yaml",
+   "config_sha256": "f06423c499a4f23888d23a9702092f7bb862cbfd562d904e405b298cf92b7910",
+   "out_dir": "results_phase6c/unsw/nat_reference/seed_16"
+  },
+  {
+   "run_id": "unsw__nat_selection_uniform__seed16",
+   "order": 116,
+   "dataset": "unsw",
+   "arm": "nat_selection_uniform",
+   "seed": 16,
+   "config": "configs/phase6c/unsw_nat_selection_uniform.yaml",
+   "config_sha256": "21d99cf79fe369050cbe14d6cebb6d73bbc38b0dc5071c30b58ee1c0355af60b",
+   "out_dir": "results_phase6c/unsw/nat_selection_uniform/seed_16"
+  },
+  {
+   "run_id": "unsw__nat_corrected__seed16",
+   "order": 117,
+   "dataset": "unsw",
+   "arm": "nat_corrected",
+   "seed": 16,
+   "config": "configs/phase6c/unsw_nat_corrected.yaml",
+   "config_sha256": "43ce38a9612a8b16f8ef9c4b58f22e1112952c11cd63d42ec5a5df89967f6e20",
+   "out_dir": "results_phase6c/unsw/nat_corrected/seed_16"
+  },
+  {
+   "run_id": "unsw__fail0p0_reference__seed16",
+   "order": 118,
+   "dataset": "unsw",
+   "arm": "fail0p0_reference",
+   "seed": 16,
+   "config": "configs/phase6c/unsw_fail0p0_reference.yaml",
+   "config_sha256": "2186533f42fa3ed7984c5de75f7e5f22e06d1121f1e98f857ad349c24cfebc19",
+   "out_dir": "results_phase6c/unsw/fail0p0_reference/seed_16"
+  },
+  {
+   "run_id": "unsw__fail0p3_reference__seed16",
+   "order": 119,
+   "dataset": "unsw",
+   "arm": "fail0p3_reference",
+   "seed": 16,
+   "config": "configs/phase6c/unsw_fail0p3_reference.yaml",
+   "config_sha256": "d1f933c1371102e19fd08d7cc2451d174c6126cf0dfbace7ba76748c0db037ec",
+   "out_dir": "results_phase6c/unsw/fail0p3_reference/seed_16"
+  },
+  {
+   "run_id": "unsw__fail0p3_corrected__seed16",
+   "order": 120,
+   "dataset": "unsw",
+   "arm": "fail0p3_corrected",
+   "seed": 16,
+   "config": "configs/phase6c/unsw_fail0p3_corrected.yaml",
+   "config_sha256": "5a74c66c6305242f9b25349d861bc708269b132a5a223b54fdfb5a28498c8d12",
+   "out_dir": "results_phase6c/unsw/fail0p3_corrected/seed_16"
+  },
+  {
+   "run_id": "ciciot__clean_centralized__seed12",
+   "order": 121,
+   "dataset": "ciciot",
+   "arm": "clean_centralized",
+   "seed": 12,
+   "config": "configs/phase6c/ciciot_clean_centralized.yaml",
+   "config_sha256": "d1e96b5fb3c882d4070ba26879c17a97ebe94ae6fdbf79e54df218d975c4817e",
+   "out_dir": "results_phase6c/ciciot/clean_centralized/seed_12"
+  },
+  {
+   "run_id": "ciciot__clean_fedavg__seed12",
+   "order": 122,
+   "dataset": "ciciot",
+   "arm": "clean_fedavg",
+   "seed": 12,
+   "config": "configs/phase6c/ciciot_clean_fedavg.yaml",
+   "config_sha256": "7ea3d683782d278e5f600b9e3f7750e9e051a3de4e1f56239de6fab48091d65f",
+   "out_dir": "results_phase6c/ciciot/clean_fedavg/seed_12"
+  },
+  {
+   "run_id": "ciciot__scenario_fedavg_random__seed12",
+   "order": 123,
+   "dataset": "ciciot",
+   "arm": "scenario_fedavg_random",
+   "seed": 12,
+   "config": "configs/phase6c/ciciot_scenario_fedavg_random.yaml",
+   "config_sha256": "855bd712b4318a91681c33787608ec7032e14d854e63d0ff61fb6128fa83e183",
+   "out_dir": "results_phase6c/ciciot/scenario_fedavg_random/seed_12"
+  },
+  {
+   "run_id": "ciciot__scenario_fedavg_topk__seed12",
+   "order": 124,
+   "dataset": "ciciot",
+   "arm": "scenario_fedavg_topk",
+   "seed": 12,
+   "config": "configs/phase6c/ciciot_scenario_fedavg_topk.yaml",
+   "config_sha256": "6f58dc144fc5ad51bf35af4f81198592e276e47ea58c63b9a6e3cc62976fffb2",
+   "out_dir": "results_phase6c/ciciot/scenario_fedavg_topk/seed_12"
+  },
+  {
+   "run_id": "ciciot__robust_random_no_imputation__seed12",
+   "order": 125,
+   "dataset": "ciciot",
+   "arm": "robust_random_no_imputation",
+   "seed": 12,
+   "config": "configs/phase6c/ciciot_robust_random_no_imputation.yaml",
+   "config_sha256": "198bbf00227b5635ba73b5b14ef98387c5db45f71293b3cc6ccf04149bebc141",
+   "out_dir": "results_phase6c/ciciot/robust_random_no_imputation/seed_12"
+  },
+  {
+   "run_id": "ciciot__reference__seed12",
+   "order": 126,
+   "dataset": "ciciot",
+   "arm": "reference",
+   "seed": 12,
+   "config": "configs/phase6c/ciciot_reference.yaml",
+   "config_sha256": "3f3da9c5f3480106f85522bd0e96b846aa4bdb9ea194cd6f9b1bc05e8b39d634",
+   "out_dir": "results_phase6c/ciciot/reference/seed_12"
+  },
+  {
+   "run_id": "ciciot__reference_gaussian__seed12",
+   "order": 127,
+   "dataset": "ciciot",
+   "arm": "reference_gaussian",
+   "seed": 12,
+   "config": "configs/phase6c/ciciot_reference_gaussian.yaml",
+   "config_sha256": "eba5ceae55d669e4c4e9cd59fc347b4b7fb7f1073eb24aaaf50fe7fed813b2c6",
+   "out_dir": "results_phase6c/ciciot/reference_gaussian/seed_12"
+  },
+  {
+   "run_id": "ciciot__corrected__seed12",
+   "order": 128,
+   "dataset": "ciciot",
+   "arm": "corrected",
+   "seed": 12,
+   "config": "configs/phase6c/ciciot_corrected.yaml",
+   "config_sha256": "930c1f05c91983d2ec6de9d717289c67b1fd641fc5c3e4e2b73c084f45f3faf0",
+   "out_dir": "results_phase6c/ciciot/corrected/seed_12"
+  },
+  {
+   "run_id": "ciciot__corrected_gaussian__seed12",
+   "order": 129,
+   "dataset": "ciciot",
+   "arm": "corrected_gaussian",
+   "seed": 12,
+   "config": "configs/phase6c/ciciot_corrected_gaussian.yaml",
+   "config_sha256": "c5a2ce8b837e624b73f06f443f0538e91c3803b0569747882a0a9a007ea577b9",
+   "out_dir": "results_phase6c/ciciot/corrected_gaussian/seed_12"
+  },
+  {
+   "run_id": "ciciot__ctl_selection_uniform__seed12",
+   "order": 130,
+   "dataset": "ciciot",
+   "arm": "ctl_selection_uniform",
+   "seed": 12,
+   "config": "configs/phase6c/ciciot_ctl_selection_uniform.yaml",
+   "config_sha256": "3e5796e16e23a2e73c44fa968bb9d0cee190c267961451c9ecdd36b02cd94f04",
+   "out_dir": "results_phase6c/ciciot/ctl_selection_uniform/seed_12"
+  },
+  {
+   "run_id": "ciciot__ctl_selection_coverage__seed12",
+   "order": 131,
+   "dataset": "ciciot",
+   "arm": "ctl_selection_coverage",
+   "seed": 12,
+   "config": "configs/phase6c/ciciot_ctl_selection_coverage.yaml",
+   "config_sha256": "1227274c66166bf8aa7985de5e19be0bd541fb89ebe2b4242e83baadb2d1df82",
+   "out_dir": "results_phase6c/ciciot/ctl_selection_coverage/seed_12"
+  },
+  {
+   "run_id": "ciciot__ctl_imputation_none__seed12",
+   "order": 132,
+   "dataset": "ciciot",
+   "arm": "ctl_imputation_none",
+   "seed": 12,
+   "config": "configs/phase6c/ciciot_ctl_imputation_none.yaml",
+   "config_sha256": "a12aebaa7be8691039827afe5dcc4b13ac5e061ef18c8d91e2b9d839b12aaf73",
+   "out_dir": "results_phase6c/ciciot/ctl_imputation_none/seed_12"
+  },
+  {
+   "run_id": "ciciot__ctl_imputation_cap010__seed12",
+   "order": 133,
+   "dataset": "ciciot",
+   "arm": "ctl_imputation_cap010",
+   "seed": 12,
+   "config": "configs/phase6c/ciciot_ctl_imputation_cap010.yaml",
+   "config_sha256": "5ce09c242a59804ec44255fd1f387cff572518ec90870d481c8c6ef28ce43d22",
+   "out_dir": "results_phase6c/ciciot/ctl_imputation_cap010/seed_12"
+  },
+  {
+   "run_id": "ciciot__ctl_imputation_postfilter__seed12",
+   "order": 134,
+   "dataset": "ciciot",
+   "arm": "ctl_imputation_postfilter",
+   "seed": 12,
+   "config": "configs/phase6c/ciciot_ctl_imputation_postfilter.yaml",
+   "config_sha256": "c97f1bd3c5f14b4ee463f82eeefd2d4b036ecb0d8179ef99f8baeb32a325202e",
+   "out_dir": "results_phase6c/ciciot/ctl_imputation_postfilter/seed_12"
+  },
+  {
+   "run_id": "ciciot__ctl_delivery_coupled__seed12",
+   "order": 135,
+   "dataset": "ciciot",
+   "arm": "ctl_delivery_coupled",
+   "seed": 12,
+   "config": "configs/phase6c/ciciot_ctl_delivery_coupled.yaml",
+   "config_sha256": "2dc11b598ed4290fb3bcf0b9cc0963719c5a2fc3617c73a68f339221104345d0",
+   "out_dir": "results_phase6c/ciciot/ctl_delivery_coupled/seed_12"
+  },
+  {
+   "run_id": "ciciot__ctl_momentum0_lr0p5__seed12",
+   "order": 136,
+   "dataset": "ciciot",
+   "arm": "ctl_momentum0_lr0p5",
+   "seed": 12,
+   "config": "configs/phase6c/ciciot_ctl_momentum0_lr0p5.yaml",
+   "config_sha256": "21ec83d8fed799f15cbfa7ec7ccc5ed796b6ecddcb816dd2a175936119351949",
+   "out_dir": "results_phase6c/ciciot/ctl_momentum0_lr0p5/seed_12"
+  },
+  {
+   "run_id": "ciciot__ctl_momentum0_lr5p0__seed12",
+   "order": 137,
+   "dataset": "ciciot",
+   "arm": "ctl_momentum0_lr5p0",
+   "seed": 12,
+   "config": "configs/phase6c/ciciot_ctl_momentum0_lr5p0.yaml",
+   "config_sha256": "9a30f07d08768d1818010841ed235c8ae06696a312277a51b2fff08742a84be0",
+   "out_dir": "results_phase6c/ciciot/ctl_momentum0_lr5p0/seed_12"
+  },
+  {
+   "run_id": "ciciot__ctl_weighting_uniform__seed12",
+   "order": 138,
+   "dataset": "ciciot",
+   "arm": "ctl_weighting_uniform",
+   "seed": 12,
+   "config": "configs/phase6c/ciciot_ctl_weighting_uniform.yaml",
+   "config_sha256": "41065210ce4d5961f8d95ed66196c3c9adb6d8368c0ca32015bc7e40012b4033",
+   "out_dir": "results_phase6c/ciciot/ctl_weighting_uniform/seed_12"
+  },
+  {
+   "run_id": "ciciot__nat_reference__seed12",
+   "order": 139,
+   "dataset": "ciciot",
+   "arm": "nat_reference",
+   "seed": 12,
+   "config": "configs/phase6c/ciciot_nat_reference.yaml",
+   "config_sha256": "017d32074c89ea05adc3a959b68af7d23750a39e12009e731a8d93223be75de8",
+   "out_dir": "results_phase6c/ciciot/nat_reference/seed_12"
+  },
+  {
+   "run_id": "ciciot__nat_selection_uniform__seed12",
+   "order": 140,
+   "dataset": "ciciot",
+   "arm": "nat_selection_uniform",
+   "seed": 12,
+   "config": "configs/phase6c/ciciot_nat_selection_uniform.yaml",
+   "config_sha256": "3fb5fcbb71c6846ee01467be5396224781aff078d5b4fd3d0e4b9323e8770137",
+   "out_dir": "results_phase6c/ciciot/nat_selection_uniform/seed_12"
+  },
+  {
+   "run_id": "ciciot__nat_corrected__seed12",
+   "order": 141,
+   "dataset": "ciciot",
+   "arm": "nat_corrected",
+   "seed": 12,
+   "config": "configs/phase6c/ciciot_nat_corrected.yaml",
+   "config_sha256": "6957d3b7ef1df440495e40f29f2a526e60f74d12d6c86b670bdb9a604fca9459",
+   "out_dir": "results_phase6c/ciciot/nat_corrected/seed_12"
+  },
+  {
+   "run_id": "ciciot__fail0p0_reference__seed12",
+   "order": 142,
+   "dataset": "ciciot",
+   "arm": "fail0p0_reference",
+   "seed": 12,
+   "config": "configs/phase6c/ciciot_fail0p0_reference.yaml",
+   "config_sha256": "fc652b2cdd718aafedccb853d0af308f785d776d484ff020391ecb96aa780407",
+   "out_dir": "results_phase6c/ciciot/fail0p0_reference/seed_12"
+  },
+  {
+   "run_id": "ciciot__fail0p3_reference__seed12",
+   "order": 143,
+   "dataset": "ciciot",
+   "arm": "fail0p3_reference",
+   "seed": 12,
+   "config": "configs/phase6c/ciciot_fail0p3_reference.yaml",
+   "config_sha256": "07da320340e8771e1852210fc4b56c9af56d773c90f9bcefbc5e3b8f59076d4b",
+   "out_dir": "results_phase6c/ciciot/fail0p3_reference/seed_12"
+  },
+  {
+   "run_id": "ciciot__fail0p3_corrected__seed12",
+   "order": 144,
+   "dataset": "ciciot",
+   "arm": "fail0p3_corrected",
+   "seed": 12,
+   "config": "configs/phase6c/ciciot_fail0p3_corrected.yaml",
+   "config_sha256": "1847414d7c12480680e96dcb62e08b44c3dbc3813eaa2835874fcd1caabe3584",
+   "out_dir": "results_phase6c/ciciot/fail0p3_corrected/seed_12"
+  },
+  {
+   "run_id": "ciciot__clean_centralized__seed13",
+   "order": 145,
+   "dataset": "ciciot",
+   "arm": "clean_centralized",
+   "seed": 13,
+   "config": "configs/phase6c/ciciot_clean_centralized.yaml",
+   "config_sha256": "d1e96b5fb3c882d4070ba26879c17a97ebe94ae6fdbf79e54df218d975c4817e",
+   "out_dir": "results_phase6c/ciciot/clean_centralized/seed_13"
+  },
+  {
+   "run_id": "ciciot__clean_fedavg__seed13",
+   "order": 146,
+   "dataset": "ciciot",
+   "arm": "clean_fedavg",
+   "seed": 13,
+   "config": "configs/phase6c/ciciot_clean_fedavg.yaml",
+   "config_sha256": "7ea3d683782d278e5f600b9e3f7750e9e051a3de4e1f56239de6fab48091d65f",
+   "out_dir": "results_phase6c/ciciot/clean_fedavg/seed_13"
+  },
+  {
+   "run_id": "ciciot__scenario_fedavg_random__seed13",
+   "order": 147,
+   "dataset": "ciciot",
+   "arm": "scenario_fedavg_random",
+   "seed": 13,
+   "config": "configs/phase6c/ciciot_scenario_fedavg_random.yaml",
+   "config_sha256": "855bd712b4318a91681c33787608ec7032e14d854e63d0ff61fb6128fa83e183",
+   "out_dir": "results_phase6c/ciciot/scenario_fedavg_random/seed_13"
+  },
+  {
+   "run_id": "ciciot__scenario_fedavg_topk__seed13",
+   "order": 148,
+   "dataset": "ciciot",
+   "arm": "scenario_fedavg_topk",
+   "seed": 13,
+   "config": "configs/phase6c/ciciot_scenario_fedavg_topk.yaml",
+   "config_sha256": "6f58dc144fc5ad51bf35af4f81198592e276e47ea58c63b9a6e3cc62976fffb2",
+   "out_dir": "results_phase6c/ciciot/scenario_fedavg_topk/seed_13"
+  },
+  {
+   "run_id": "ciciot__robust_random_no_imputation__seed13",
+   "order": 149,
+   "dataset": "ciciot",
+   "arm": "robust_random_no_imputation",
+   "seed": 13,
+   "config": "configs/phase6c/ciciot_robust_random_no_imputation.yaml",
+   "config_sha256": "198bbf00227b5635ba73b5b14ef98387c5db45f71293b3cc6ccf04149bebc141",
+   "out_dir": "results_phase6c/ciciot/robust_random_no_imputation/seed_13"
+  },
+  {
+   "run_id": "ciciot__reference__seed13",
+   "order": 150,
+   "dataset": "ciciot",
+   "arm": "reference",
+   "seed": 13,
+   "config": "configs/phase6c/ciciot_reference.yaml",
+   "config_sha256": "3f3da9c5f3480106f85522bd0e96b846aa4bdb9ea194cd6f9b1bc05e8b39d634",
+   "out_dir": "results_phase6c/ciciot/reference/seed_13"
+  },
+  {
+   "run_id": "ciciot__reference_gaussian__seed13",
+   "order": 151,
+   "dataset": "ciciot",
+   "arm": "reference_gaussian",
+   "seed": 13,
+   "config": "configs/phase6c/ciciot_reference_gaussian.yaml",
+   "config_sha256": "eba5ceae55d669e4c4e9cd59fc347b4b7fb7f1073eb24aaaf50fe7fed813b2c6",
+   "out_dir": "results_phase6c/ciciot/reference_gaussian/seed_13"
+  },
+  {
+   "run_id": "ciciot__corrected__seed13",
+   "order": 152,
+   "dataset": "ciciot",
+   "arm": "corrected",
+   "seed": 13,
+   "config": "configs/phase6c/ciciot_corrected.yaml",
+   "config_sha256": "930c1f05c91983d2ec6de9d717289c67b1fd641fc5c3e4e2b73c084f45f3faf0",
+   "out_dir": "results_phase6c/ciciot/corrected/seed_13"
+  },
+  {
+   "run_id": "ciciot__corrected_gaussian__seed13",
+   "order": 153,
+   "dataset": "ciciot",
+   "arm": "corrected_gaussian",
+   "seed": 13,
+   "config": "configs/phase6c/ciciot_corrected_gaussian.yaml",
+   "config_sha256": "c5a2ce8b837e624b73f06f443f0538e91c3803b0569747882a0a9a007ea577b9",
+   "out_dir": "results_phase6c/ciciot/corrected_gaussian/seed_13"
+  },
+  {
+   "run_id": "ciciot__ctl_selection_uniform__seed13",
+   "order": 154,
+   "dataset": "ciciot",
+   "arm": "ctl_selection_uniform",
+   "seed": 13,
+   "config": "configs/phase6c/ciciot_ctl_selection_uniform.yaml",
+   "config_sha256": "3e5796e16e23a2e73c44fa968bb9d0cee190c267961451c9ecdd36b02cd94f04",
+   "out_dir": "results_phase6c/ciciot/ctl_selection_uniform/seed_13"
+  },
+  {
+   "run_id": "ciciot__ctl_selection_coverage__seed13",
+   "order": 155,
+   "dataset": "ciciot",
+   "arm": "ctl_selection_coverage",
+   "seed": 13,
+   "config": "configs/phase6c/ciciot_ctl_selection_coverage.yaml",
+   "config_sha256": "1227274c66166bf8aa7985de5e19be0bd541fb89ebe2b4242e83baadb2d1df82",
+   "out_dir": "results_phase6c/ciciot/ctl_selection_coverage/seed_13"
+  },
+  {
+   "run_id": "ciciot__ctl_imputation_none__seed13",
+   "order": 156,
+   "dataset": "ciciot",
+   "arm": "ctl_imputation_none",
+   "seed": 13,
+   "config": "configs/phase6c/ciciot_ctl_imputation_none.yaml",
+   "config_sha256": "a12aebaa7be8691039827afe5dcc4b13ac5e061ef18c8d91e2b9d839b12aaf73",
+   "out_dir": "results_phase6c/ciciot/ctl_imputation_none/seed_13"
+  },
+  {
+   "run_id": "ciciot__ctl_imputation_cap010__seed13",
+   "order": 157,
+   "dataset": "ciciot",
+   "arm": "ctl_imputation_cap010",
+   "seed": 13,
+   "config": "configs/phase6c/ciciot_ctl_imputation_cap010.yaml",
+   "config_sha256": "5ce09c242a59804ec44255fd1f387cff572518ec90870d481c8c6ef28ce43d22",
+   "out_dir": "results_phase6c/ciciot/ctl_imputation_cap010/seed_13"
+  },
+  {
+   "run_id": "ciciot__ctl_imputation_postfilter__seed13",
+   "order": 158,
+   "dataset": "ciciot",
+   "arm": "ctl_imputation_postfilter",
+   "seed": 13,
+   "config": "configs/phase6c/ciciot_ctl_imputation_postfilter.yaml",
+   "config_sha256": "c97f1bd3c5f14b4ee463f82eeefd2d4b036ecb0d8179ef99f8baeb32a325202e",
+   "out_dir": "results_phase6c/ciciot/ctl_imputation_postfilter/seed_13"
+  },
+  {
+   "run_id": "ciciot__ctl_delivery_coupled__seed13",
+   "order": 159,
+   "dataset": "ciciot",
+   "arm": "ctl_delivery_coupled",
+   "seed": 13,
+   "config": "configs/phase6c/ciciot_ctl_delivery_coupled.yaml",
+   "config_sha256": "2dc11b598ed4290fb3bcf0b9cc0963719c5a2fc3617c73a68f339221104345d0",
+   "out_dir": "results_phase6c/ciciot/ctl_delivery_coupled/seed_13"
+  },
+  {
+   "run_id": "ciciot__ctl_momentum0_lr0p5__seed13",
+   "order": 160,
+   "dataset": "ciciot",
+   "arm": "ctl_momentum0_lr0p5",
+   "seed": 13,
+   "config": "configs/phase6c/ciciot_ctl_momentum0_lr0p5.yaml",
+   "config_sha256": "21ec83d8fed799f15cbfa7ec7ccc5ed796b6ecddcb816dd2a175936119351949",
+   "out_dir": "results_phase6c/ciciot/ctl_momentum0_lr0p5/seed_13"
+  },
+  {
+   "run_id": "ciciot__ctl_momentum0_lr5p0__seed13",
+   "order": 161,
+   "dataset": "ciciot",
+   "arm": "ctl_momentum0_lr5p0",
+   "seed": 13,
+   "config": "configs/phase6c/ciciot_ctl_momentum0_lr5p0.yaml",
+   "config_sha256": "9a30f07d08768d1818010841ed235c8ae06696a312277a51b2fff08742a84be0",
+   "out_dir": "results_phase6c/ciciot/ctl_momentum0_lr5p0/seed_13"
+  },
+  {
+   "run_id": "ciciot__ctl_weighting_uniform__seed13",
+   "order": 162,
+   "dataset": "ciciot",
+   "arm": "ctl_weighting_uniform",
+   "seed": 13,
+   "config": "configs/phase6c/ciciot_ctl_weighting_uniform.yaml",
+   "config_sha256": "41065210ce4d5961f8d95ed66196c3c9adb6d8368c0ca32015bc7e40012b4033",
+   "out_dir": "results_phase6c/ciciot/ctl_weighting_uniform/seed_13"
+  },
+  {
+   "run_id": "ciciot__nat_reference__seed13",
+   "order": 163,
+   "dataset": "ciciot",
+   "arm": "nat_reference",
+   "seed": 13,
+   "config": "configs/phase6c/ciciot_nat_reference.yaml",
+   "config_sha256": "017d32074c89ea05adc3a959b68af7d23750a39e12009e731a8d93223be75de8",
+   "out_dir": "results_phase6c/ciciot/nat_reference/seed_13"
+  },
+  {
+   "run_id": "ciciot__nat_selection_uniform__seed13",
+   "order": 164,
+   "dataset": "ciciot",
+   "arm": "nat_selection_uniform",
+   "seed": 13,
+   "config": "configs/phase6c/ciciot_nat_selection_uniform.yaml",
+   "config_sha256": "3fb5fcbb71c6846ee01467be5396224781aff078d5b4fd3d0e4b9323e8770137",
+   "out_dir": "results_phase6c/ciciot/nat_selection_uniform/seed_13"
+  },
+  {
+   "run_id": "ciciot__nat_corrected__seed13",
+   "order": 165,
+   "dataset": "ciciot",
+   "arm": "nat_corrected",
+   "seed": 13,
+   "config": "configs/phase6c/ciciot_nat_corrected.yaml",
+   "config_sha256": "6957d3b7ef1df440495e40f29f2a526e60f74d12d6c86b670bdb9a604fca9459",
+   "out_dir": "results_phase6c/ciciot/nat_corrected/seed_13"
+  },
+  {
+   "run_id": "ciciot__fail0p0_reference__seed13",
+   "order": 166,
+   "dataset": "ciciot",
+   "arm": "fail0p0_reference",
+   "seed": 13,
+   "config": "configs/phase6c/ciciot_fail0p0_reference.yaml",
+   "config_sha256": "fc652b2cdd718aafedccb853d0af308f785d776d484ff020391ecb96aa780407",
+   "out_dir": "results_phase6c/ciciot/fail0p0_reference/seed_13"
+  },
+  {
+   "run_id": "ciciot__fail0p3_reference__seed13",
+   "order": 167,
+   "dataset": "ciciot",
+   "arm": "fail0p3_reference",
+   "seed": 13,
+   "config": "configs/phase6c/ciciot_fail0p3_reference.yaml",
+   "config_sha256": "07da320340e8771e1852210fc4b56c9af56d773c90f9bcefbc5e3b8f59076d4b",
+   "out_dir": "results_phase6c/ciciot/fail0p3_reference/seed_13"
+  },
+  {
+   "run_id": "ciciot__fail0p3_corrected__seed13",
+   "order": 168,
+   "dataset": "ciciot",
+   "arm": "fail0p3_corrected",
+   "seed": 13,
+   "config": "configs/phase6c/ciciot_fail0p3_corrected.yaml",
+   "config_sha256": "1847414d7c12480680e96dcb62e08b44c3dbc3813eaa2835874fcd1caabe3584",
+   "out_dir": "results_phase6c/ciciot/fail0p3_corrected/seed_13"
+  },
+  {
+   "run_id": "ciciot__clean_centralized__seed14",
+   "order": 169,
+   "dataset": "ciciot",
+   "arm": "clean_centralized",
+   "seed": 14,
+   "config": "configs/phase6c/ciciot_clean_centralized.yaml",
+   "config_sha256": "d1e96b5fb3c882d4070ba26879c17a97ebe94ae6fdbf79e54df218d975c4817e",
+   "out_dir": "results_phase6c/ciciot/clean_centralized/seed_14"
+  },
+  {
+   "run_id": "ciciot__clean_fedavg__seed14",
+   "order": 170,
+   "dataset": "ciciot",
+   "arm": "clean_fedavg",
+   "seed": 14,
+   "config": "configs/phase6c/ciciot_clean_fedavg.yaml",
+   "config_sha256": "7ea3d683782d278e5f600b9e3f7750e9e051a3de4e1f56239de6fab48091d65f",
+   "out_dir": "results_phase6c/ciciot/clean_fedavg/seed_14"
+  },
+  {
+   "run_id": "ciciot__scenario_fedavg_random__seed14",
+   "order": 171,
+   "dataset": "ciciot",
+   "arm": "scenario_fedavg_random",
+   "seed": 14,
+   "config": "configs/phase6c/ciciot_scenario_fedavg_random.yaml",
+   "config_sha256": "855bd712b4318a91681c33787608ec7032e14d854e63d0ff61fb6128fa83e183",
+   "out_dir": "results_phase6c/ciciot/scenario_fedavg_random/seed_14"
+  },
+  {
+   "run_id": "ciciot__scenario_fedavg_topk__seed14",
+   "order": 172,
+   "dataset": "ciciot",
+   "arm": "scenario_fedavg_topk",
+   "seed": 14,
+   "config": "configs/phase6c/ciciot_scenario_fedavg_topk.yaml",
+   "config_sha256": "6f58dc144fc5ad51bf35af4f81198592e276e47ea58c63b9a6e3cc62976fffb2",
+   "out_dir": "results_phase6c/ciciot/scenario_fedavg_topk/seed_14"
+  },
+  {
+   "run_id": "ciciot__robust_random_no_imputation__seed14",
+   "order": 173,
+   "dataset": "ciciot",
+   "arm": "robust_random_no_imputation",
+   "seed": 14,
+   "config": "configs/phase6c/ciciot_robust_random_no_imputation.yaml",
+   "config_sha256": "198bbf00227b5635ba73b5b14ef98387c5db45f71293b3cc6ccf04149bebc141",
+   "out_dir": "results_phase6c/ciciot/robust_random_no_imputation/seed_14"
+  },
+  {
+   "run_id": "ciciot__reference__seed14",
+   "order": 174,
+   "dataset": "ciciot",
+   "arm": "reference",
+   "seed": 14,
+   "config": "configs/phase6c/ciciot_reference.yaml",
+   "config_sha256": "3f3da9c5f3480106f85522bd0e96b846aa4bdb9ea194cd6f9b1bc05e8b39d634",
+   "out_dir": "results_phase6c/ciciot/reference/seed_14"
+  },
+  {
+   "run_id": "ciciot__reference_gaussian__seed14",
+   "order": 175,
+   "dataset": "ciciot",
+   "arm": "reference_gaussian",
+   "seed": 14,
+   "config": "configs/phase6c/ciciot_reference_gaussian.yaml",
+   "config_sha256": "eba5ceae55d669e4c4e9cd59fc347b4b7fb7f1073eb24aaaf50fe7fed813b2c6",
+   "out_dir": "results_phase6c/ciciot/reference_gaussian/seed_14"
+  },
+  {
+   "run_id": "ciciot__corrected__seed14",
+   "order": 176,
+   "dataset": "ciciot",
+   "arm": "corrected",
+   "seed": 14,
+   "config": "configs/phase6c/ciciot_corrected.yaml",
+   "config_sha256": "930c1f05c91983d2ec6de9d717289c67b1fd641fc5c3e4e2b73c084f45f3faf0",
+   "out_dir": "results_phase6c/ciciot/corrected/seed_14"
+  },
+  {
+   "run_id": "ciciot__corrected_gaussian__seed14",
+   "order": 177,
+   "dataset": "ciciot",
+   "arm": "corrected_gaussian",
+   "seed": 14,
+   "config": "configs/phase6c/ciciot_corrected_gaussian.yaml",
+   "config_sha256": "c5a2ce8b837e624b73f06f443f0538e91c3803b0569747882a0a9a007ea577b9",
+   "out_dir": "results_phase6c/ciciot/corrected_gaussian/seed_14"
+  },
+  {
+   "run_id": "ciciot__ctl_selection_uniform__seed14",
+   "order": 178,
+   "dataset": "ciciot",
+   "arm": "ctl_selection_uniform",
+   "seed": 14,
+   "config": "configs/phase6c/ciciot_ctl_selection_uniform.yaml",
+   "config_sha256": "3e5796e16e23a2e73c44fa968bb9d0cee190c267961451c9ecdd36b02cd94f04",
+   "out_dir": "results_phase6c/ciciot/ctl_selection_uniform/seed_14"
+  },
+  {
+   "run_id": "ciciot__ctl_selection_coverage__seed14",
+   "order": 179,
+   "dataset": "ciciot",
+   "arm": "ctl_selection_coverage",
+   "seed": 14,
+   "config": "configs/phase6c/ciciot_ctl_selection_coverage.yaml",
+   "config_sha256": "1227274c66166bf8aa7985de5e19be0bd541fb89ebe2b4242e83baadb2d1df82",
+   "out_dir": "results_phase6c/ciciot/ctl_selection_coverage/seed_14"
+  },
+  {
+   "run_id": "ciciot__ctl_imputation_none__seed14",
+   "order": 180,
+   "dataset": "ciciot",
+   "arm": "ctl_imputation_none",
+   "seed": 14,
+   "config": "configs/phase6c/ciciot_ctl_imputation_none.yaml",
+   "config_sha256": "a12aebaa7be8691039827afe5dcc4b13ac5e061ef18c8d91e2b9d839b12aaf73",
+   "out_dir": "results_phase6c/ciciot/ctl_imputation_none/seed_14"
+  },
+  {
+   "run_id": "ciciot__ctl_imputation_cap010__seed14",
+   "order": 181,
+   "dataset": "ciciot",
+   "arm": "ctl_imputation_cap010",
+   "seed": 14,
+   "config": "configs/phase6c/ciciot_ctl_imputation_cap010.yaml",
+   "config_sha256": "5ce09c242a59804ec44255fd1f387cff572518ec90870d481c8c6ef28ce43d22",
+   "out_dir": "results_phase6c/ciciot/ctl_imputation_cap010/seed_14"
+  },
+  {
+   "run_id": "ciciot__ctl_imputation_postfilter__seed14",
+   "order": 182,
+   "dataset": "ciciot",
+   "arm": "ctl_imputation_postfilter",
+   "seed": 14,
+   "config": "configs/phase6c/ciciot_ctl_imputation_postfilter.yaml",
+   "config_sha256": "c97f1bd3c5f14b4ee463f82eeefd2d4b036ecb0d8179ef99f8baeb32a325202e",
+   "out_dir": "results_phase6c/ciciot/ctl_imputation_postfilter/seed_14"
+  },
+  {
+   "run_id": "ciciot__ctl_delivery_coupled__seed14",
+   "order": 183,
+   "dataset": "ciciot",
+   "arm": "ctl_delivery_coupled",
+   "seed": 14,
+   "config": "configs/phase6c/ciciot_ctl_delivery_coupled.yaml",
+   "config_sha256": "2dc11b598ed4290fb3bcf0b9cc0963719c5a2fc3617c73a68f339221104345d0",
+   "out_dir": "results_phase6c/ciciot/ctl_delivery_coupled/seed_14"
+  },
+  {
+   "run_id": "ciciot__ctl_momentum0_lr0p5__seed14",
+   "order": 184,
+   "dataset": "ciciot",
+   "arm": "ctl_momentum0_lr0p5",
+   "seed": 14,
+   "config": "configs/phase6c/ciciot_ctl_momentum0_lr0p5.yaml",
+   "config_sha256": "21ec83d8fed799f15cbfa7ec7ccc5ed796b6ecddcb816dd2a175936119351949",
+   "out_dir": "results_phase6c/ciciot/ctl_momentum0_lr0p5/seed_14"
+  },
+  {
+   "run_id": "ciciot__ctl_momentum0_lr5p0__seed14",
+   "order": 185,
+   "dataset": "ciciot",
+   "arm": "ctl_momentum0_lr5p0",
+   "seed": 14,
+   "config": "configs/phase6c/ciciot_ctl_momentum0_lr5p0.yaml",
+   "config_sha256": "9a30f07d08768d1818010841ed235c8ae06696a312277a51b2fff08742a84be0",
+   "out_dir": "results_phase6c/ciciot/ctl_momentum0_lr5p0/seed_14"
+  },
+  {
+   "run_id": "ciciot__ctl_weighting_uniform__seed14",
+   "order": 186,
+   "dataset": "ciciot",
+   "arm": "ctl_weighting_uniform",
+   "seed": 14,
+   "config": "configs/phase6c/ciciot_ctl_weighting_uniform.yaml",
+   "config_sha256": "41065210ce4d5961f8d95ed66196c3c9adb6d8368c0ca32015bc7e40012b4033",
+   "out_dir": "results_phase6c/ciciot/ctl_weighting_uniform/seed_14"
+  },
+  {
+   "run_id": "ciciot__nat_reference__seed14",
+   "order": 187,
+   "dataset": "ciciot",
+   "arm": "nat_reference",
+   "seed": 14,
+   "config": "configs/phase6c/ciciot_nat_reference.yaml",
+   "config_sha256": "017d32074c89ea05adc3a959b68af7d23750a39e12009e731a8d93223be75de8",
+   "out_dir": "results_phase6c/ciciot/nat_reference/seed_14"
+  },
+  {
+   "run_id": "ciciot__nat_selection_uniform__seed14",
+   "order": 188,
+   "dataset": "ciciot",
+   "arm": "nat_selection_uniform",
+   "seed": 14,
+   "config": "configs/phase6c/ciciot_nat_selection_uniform.yaml",
+   "config_sha256": "3fb5fcbb71c6846ee01467be5396224781aff078d5b4fd3d0e4b9323e8770137",
+   "out_dir": "results_phase6c/ciciot/nat_selection_uniform/seed_14"
+  },
+  {
+   "run_id": "ciciot__nat_corrected__seed14",
+   "order": 189,
+   "dataset": "ciciot",
+   "arm": "nat_corrected",
+   "seed": 14,
+   "config": "configs/phase6c/ciciot_nat_corrected.yaml",
+   "config_sha256": "6957d3b7ef1df440495e40f29f2a526e60f74d12d6c86b670bdb9a604fca9459",
+   "out_dir": "results_phase6c/ciciot/nat_corrected/seed_14"
+  },
+  {
+   "run_id": "ciciot__fail0p0_reference__seed14",
+   "order": 190,
+   "dataset": "ciciot",
+   "arm": "fail0p0_reference",
+   "seed": 14,
+   "config": "configs/phase6c/ciciot_fail0p0_reference.yaml",
+   "config_sha256": "fc652b2cdd718aafedccb853d0af308f785d776d484ff020391ecb96aa780407",
+   "out_dir": "results_phase6c/ciciot/fail0p0_reference/seed_14"
+  },
+  {
+   "run_id": "ciciot__fail0p3_reference__seed14",
+   "order": 191,
+   "dataset": "ciciot",
+   "arm": "fail0p3_reference",
+   "seed": 14,
+   "config": "configs/phase6c/ciciot_fail0p3_reference.yaml",
+   "config_sha256": "07da320340e8771e1852210fc4b56c9af56d773c90f9bcefbc5e3b8f59076d4b",
+   "out_dir": "results_phase6c/ciciot/fail0p3_reference/seed_14"
+  },
+  {
+   "run_id": "ciciot__fail0p3_corrected__seed14",
+   "order": 192,
+   "dataset": "ciciot",
+   "arm": "fail0p3_corrected",
+   "seed": 14,
+   "config": "configs/phase6c/ciciot_fail0p3_corrected.yaml",
+   "config_sha256": "1847414d7c12480680e96dcb62e08b44c3dbc3813eaa2835874fcd1caabe3584",
+   "out_dir": "results_phase6c/ciciot/fail0p3_corrected/seed_14"
+  },
+  {
+   "run_id": "ciciot__clean_centralized__seed15",
+   "order": 193,
+   "dataset": "ciciot",
+   "arm": "clean_centralized",
+   "seed": 15,
+   "config": "configs/phase6c/ciciot_clean_centralized.yaml",
+   "config_sha256": "d1e96b5fb3c882d4070ba26879c17a97ebe94ae6fdbf79e54df218d975c4817e",
+   "out_dir": "results_phase6c/ciciot/clean_centralized/seed_15"
+  },
+  {
+   "run_id": "ciciot__clean_fedavg__seed15",
+   "order": 194,
+   "dataset": "ciciot",
+   "arm": "clean_fedavg",
+   "seed": 15,
+   "config": "configs/phase6c/ciciot_clean_fedavg.yaml",
+   "config_sha256": "7ea3d683782d278e5f600b9e3f7750e9e051a3de4e1f56239de6fab48091d65f",
+   "out_dir": "results_phase6c/ciciot/clean_fedavg/seed_15"
+  },
+  {
+   "run_id": "ciciot__scenario_fedavg_random__seed15",
+   "order": 195,
+   "dataset": "ciciot",
+   "arm": "scenario_fedavg_random",
+   "seed": 15,
+   "config": "configs/phase6c/ciciot_scenario_fedavg_random.yaml",
+   "config_sha256": "855bd712b4318a91681c33787608ec7032e14d854e63d0ff61fb6128fa83e183",
+   "out_dir": "results_phase6c/ciciot/scenario_fedavg_random/seed_15"
+  },
+  {
+   "run_id": "ciciot__scenario_fedavg_topk__seed15",
+   "order": 196,
+   "dataset": "ciciot",
+   "arm": "scenario_fedavg_topk",
+   "seed": 15,
+   "config": "configs/phase6c/ciciot_scenario_fedavg_topk.yaml",
+   "config_sha256": "6f58dc144fc5ad51bf35af4f81198592e276e47ea58c63b9a6e3cc62976fffb2",
+   "out_dir": "results_phase6c/ciciot/scenario_fedavg_topk/seed_15"
+  },
+  {
+   "run_id": "ciciot__robust_random_no_imputation__seed15",
+   "order": 197,
+   "dataset": "ciciot",
+   "arm": "robust_random_no_imputation",
+   "seed": 15,
+   "config": "configs/phase6c/ciciot_robust_random_no_imputation.yaml",
+   "config_sha256": "198bbf00227b5635ba73b5b14ef98387c5db45f71293b3cc6ccf04149bebc141",
+   "out_dir": "results_phase6c/ciciot/robust_random_no_imputation/seed_15"
+  },
+  {
+   "run_id": "ciciot__reference__seed15",
+   "order": 198,
+   "dataset": "ciciot",
+   "arm": "reference",
+   "seed": 15,
+   "config": "configs/phase6c/ciciot_reference.yaml",
+   "config_sha256": "3f3da9c5f3480106f85522bd0e96b846aa4bdb9ea194cd6f9b1bc05e8b39d634",
+   "out_dir": "results_phase6c/ciciot/reference/seed_15"
+  },
+  {
+   "run_id": "ciciot__reference_gaussian__seed15",
+   "order": 199,
+   "dataset": "ciciot",
+   "arm": "reference_gaussian",
+   "seed": 15,
+   "config": "configs/phase6c/ciciot_reference_gaussian.yaml",
+   "config_sha256": "eba5ceae55d669e4c4e9cd59fc347b4b7fb7f1073eb24aaaf50fe7fed813b2c6",
+   "out_dir": "results_phase6c/ciciot/reference_gaussian/seed_15"
+  },
+  {
+   "run_id": "ciciot__corrected__seed15",
+   "order": 200,
+   "dataset": "ciciot",
+   "arm": "corrected",
+   "seed": 15,
+   "config": "configs/phase6c/ciciot_corrected.yaml",
+   "config_sha256": "930c1f05c91983d2ec6de9d717289c67b1fd641fc5c3e4e2b73c084f45f3faf0",
+   "out_dir": "results_phase6c/ciciot/corrected/seed_15"
+  },
+  {
+   "run_id": "ciciot__corrected_gaussian__seed15",
+   "order": 201,
+   "dataset": "ciciot",
+   "arm": "corrected_gaussian",
+   "seed": 15,
+   "config": "configs/phase6c/ciciot_corrected_gaussian.yaml",
+   "config_sha256": "c5a2ce8b837e624b73f06f443f0538e91c3803b0569747882a0a9a007ea577b9",
+   "out_dir": "results_phase6c/ciciot/corrected_gaussian/seed_15"
+  },
+  {
+   "run_id": "ciciot__ctl_selection_uniform__seed15",
+   "order": 202,
+   "dataset": "ciciot",
+   "arm": "ctl_selection_uniform",
+   "seed": 15,
+   "config": "configs/phase6c/ciciot_ctl_selection_uniform.yaml",
+   "config_sha256": "3e5796e16e23a2e73c44fa968bb9d0cee190c267961451c9ecdd36b02cd94f04",
+   "out_dir": "results_phase6c/ciciot/ctl_selection_uniform/seed_15"
+  },
+  {
+   "run_id": "ciciot__ctl_selection_coverage__seed15",
+   "order": 203,
+   "dataset": "ciciot",
+   "arm": "ctl_selection_coverage",
+   "seed": 15,
+   "config": "configs/phase6c/ciciot_ctl_selection_coverage.yaml",
+   "config_sha256": "1227274c66166bf8aa7985de5e19be0bd541fb89ebe2b4242e83baadb2d1df82",
+   "out_dir": "results_phase6c/ciciot/ctl_selection_coverage/seed_15"
+  },
+  {
+   "run_id": "ciciot__ctl_imputation_none__seed15",
+   "order": 204,
+   "dataset": "ciciot",
+   "arm": "ctl_imputation_none",
+   "seed": 15,
+   "config": "configs/phase6c/ciciot_ctl_imputation_none.yaml",
+   "config_sha256": "a12aebaa7be8691039827afe5dcc4b13ac5e061ef18c8d91e2b9d839b12aaf73",
+   "out_dir": "results_phase6c/ciciot/ctl_imputation_none/seed_15"
+  },
+  {
+   "run_id": "ciciot__ctl_imputation_cap010__seed15",
+   "order": 205,
+   "dataset": "ciciot",
+   "arm": "ctl_imputation_cap010",
+   "seed": 15,
+   "config": "configs/phase6c/ciciot_ctl_imputation_cap010.yaml",
+   "config_sha256": "5ce09c242a59804ec44255fd1f387cff572518ec90870d481c8c6ef28ce43d22",
+   "out_dir": "results_phase6c/ciciot/ctl_imputation_cap010/seed_15"
+  },
+  {
+   "run_id": "ciciot__ctl_imputation_postfilter__seed15",
+   "order": 206,
+   "dataset": "ciciot",
+   "arm": "ctl_imputation_postfilter",
+   "seed": 15,
+   "config": "configs/phase6c/ciciot_ctl_imputation_postfilter.yaml",
+   "config_sha256": "c97f1bd3c5f14b4ee463f82eeefd2d4b036ecb0d8179ef99f8baeb32a325202e",
+   "out_dir": "results_phase6c/ciciot/ctl_imputation_postfilter/seed_15"
+  },
+  {
+   "run_id": "ciciot__ctl_delivery_coupled__seed15",
+   "order": 207,
+   "dataset": "ciciot",
+   "arm": "ctl_delivery_coupled",
+   "seed": 15,
+   "config": "configs/phase6c/ciciot_ctl_delivery_coupled.yaml",
+   "config_sha256": "2dc11b598ed4290fb3bcf0b9cc0963719c5a2fc3617c73a68f339221104345d0",
+   "out_dir": "results_phase6c/ciciot/ctl_delivery_coupled/seed_15"
+  },
+  {
+   "run_id": "ciciot__ctl_momentum0_lr0p5__seed15",
+   "order": 208,
+   "dataset": "ciciot",
+   "arm": "ctl_momentum0_lr0p5",
+   "seed": 15,
+   "config": "configs/phase6c/ciciot_ctl_momentum0_lr0p5.yaml",
+   "config_sha256": "21ec83d8fed799f15cbfa7ec7ccc5ed796b6ecddcb816dd2a175936119351949",
+   "out_dir": "results_phase6c/ciciot/ctl_momentum0_lr0p5/seed_15"
+  },
+  {
+   "run_id": "ciciot__ctl_momentum0_lr5p0__seed15",
+   "order": 209,
+   "dataset": "ciciot",
+   "arm": "ctl_momentum0_lr5p0",
+   "seed": 15,
+   "config": "configs/phase6c/ciciot_ctl_momentum0_lr5p0.yaml",
+   "config_sha256": "9a30f07d08768d1818010841ed235c8ae06696a312277a51b2fff08742a84be0",
+   "out_dir": "results_phase6c/ciciot/ctl_momentum0_lr5p0/seed_15"
+  },
+  {
+   "run_id": "ciciot__ctl_weighting_uniform__seed15",
+   "order": 210,
+   "dataset": "ciciot",
+   "arm": "ctl_weighting_uniform",
+   "seed": 15,
+   "config": "configs/phase6c/ciciot_ctl_weighting_uniform.yaml",
+   "config_sha256": "41065210ce4d5961f8d95ed66196c3c9adb6d8368c0ca32015bc7e40012b4033",
+   "out_dir": "results_phase6c/ciciot/ctl_weighting_uniform/seed_15"
+  },
+  {
+   "run_id": "ciciot__nat_reference__seed15",
+   "order": 211,
+   "dataset": "ciciot",
+   "arm": "nat_reference",
+   "seed": 15,
+   "config": "configs/phase6c/ciciot_nat_reference.yaml",
+   "config_sha256": "017d32074c89ea05adc3a959b68af7d23750a39e12009e731a8d93223be75de8",
+   "out_dir": "results_phase6c/ciciot/nat_reference/seed_15"
+  },
+  {
+   "run_id": "ciciot__nat_selection_uniform__seed15",
+   "order": 212,
+   "dataset": "ciciot",
+   "arm": "nat_selection_uniform",
+   "seed": 15,
+   "config": "configs/phase6c/ciciot_nat_selection_uniform.yaml",
+   "config_sha256": "3fb5fcbb71c6846ee01467be5396224781aff078d5b4fd3d0e4b9323e8770137",
+   "out_dir": "results_phase6c/ciciot/nat_selection_uniform/seed_15"
+  },
+  {
+   "run_id": "ciciot__nat_corrected__seed15",
+   "order": 213,
+   "dataset": "ciciot",
+   "arm": "nat_corrected",
+   "seed": 15,
+   "config": "configs/phase6c/ciciot_nat_corrected.yaml",
+   "config_sha256": "6957d3b7ef1df440495e40f29f2a526e60f74d12d6c86b670bdb9a604fca9459",
+   "out_dir": "results_phase6c/ciciot/nat_corrected/seed_15"
+  },
+  {
+   "run_id": "ciciot__fail0p0_reference__seed15",
+   "order": 214,
+   "dataset": "ciciot",
+   "arm": "fail0p0_reference",
+   "seed": 15,
+   "config": "configs/phase6c/ciciot_fail0p0_reference.yaml",
+   "config_sha256": "fc652b2cdd718aafedccb853d0af308f785d776d484ff020391ecb96aa780407",
+   "out_dir": "results_phase6c/ciciot/fail0p0_reference/seed_15"
+  },
+  {
+   "run_id": "ciciot__fail0p3_reference__seed15",
+   "order": 215,
+   "dataset": "ciciot",
+   "arm": "fail0p3_reference",
+   "seed": 15,
+   "config": "configs/phase6c/ciciot_fail0p3_reference.yaml",
+   "config_sha256": "07da320340e8771e1852210fc4b56c9af56d773c90f9bcefbc5e3b8f59076d4b",
+   "out_dir": "results_phase6c/ciciot/fail0p3_reference/seed_15"
+  },
+  {
+   "run_id": "ciciot__fail0p3_corrected__seed15",
+   "order": 216,
+   "dataset": "ciciot",
+   "arm": "fail0p3_corrected",
+   "seed": 15,
+   "config": "configs/phase6c/ciciot_fail0p3_corrected.yaml",
+   "config_sha256": "1847414d7c12480680e96dcb62e08b44c3dbc3813eaa2835874fcd1caabe3584",
+   "out_dir": "results_phase6c/ciciot/fail0p3_corrected/seed_15"
+  },
+  {
+   "run_id": "ciciot__clean_centralized__seed16",
+   "order": 217,
+   "dataset": "ciciot",
+   "arm": "clean_centralized",
+   "seed": 16,
+   "config": "configs/phase6c/ciciot_clean_centralized.yaml",
+   "config_sha256": "d1e96b5fb3c882d4070ba26879c17a97ebe94ae6fdbf79e54df218d975c4817e",
+   "out_dir": "results_phase6c/ciciot/clean_centralized/seed_16"
+  },
+  {
+   "run_id": "ciciot__clean_fedavg__seed16",
+   "order": 218,
+   "dataset": "ciciot",
+   "arm": "clean_fedavg",
+   "seed": 16,
+   "config": "configs/phase6c/ciciot_clean_fedavg.yaml",
+   "config_sha256": "7ea3d683782d278e5f600b9e3f7750e9e051a3de4e1f56239de6fab48091d65f",
+   "out_dir": "results_phase6c/ciciot/clean_fedavg/seed_16"
+  },
+  {
+   "run_id": "ciciot__scenario_fedavg_random__seed16",
+   "order": 219,
+   "dataset": "ciciot",
+   "arm": "scenario_fedavg_random",
+   "seed": 16,
+   "config": "configs/phase6c/ciciot_scenario_fedavg_random.yaml",
+   "config_sha256": "855bd712b4318a91681c33787608ec7032e14d854e63d0ff61fb6128fa83e183",
+   "out_dir": "results_phase6c/ciciot/scenario_fedavg_random/seed_16"
+  },
+  {
+   "run_id": "ciciot__scenario_fedavg_topk__seed16",
+   "order": 220,
+   "dataset": "ciciot",
+   "arm": "scenario_fedavg_topk",
+   "seed": 16,
+   "config": "configs/phase6c/ciciot_scenario_fedavg_topk.yaml",
+   "config_sha256": "6f58dc144fc5ad51bf35af4f81198592e276e47ea58c63b9a6e3cc62976fffb2",
+   "out_dir": "results_phase6c/ciciot/scenario_fedavg_topk/seed_16"
+  },
+  {
+   "run_id": "ciciot__robust_random_no_imputation__seed16",
+   "order": 221,
+   "dataset": "ciciot",
+   "arm": "robust_random_no_imputation",
+   "seed": 16,
+   "config": "configs/phase6c/ciciot_robust_random_no_imputation.yaml",
+   "config_sha256": "198bbf00227b5635ba73b5b14ef98387c5db45f71293b3cc6ccf04149bebc141",
+   "out_dir": "results_phase6c/ciciot/robust_random_no_imputation/seed_16"
+  },
+  {
+   "run_id": "ciciot__reference__seed16",
+   "order": 222,
+   "dataset": "ciciot",
+   "arm": "reference",
+   "seed": 16,
+   "config": "configs/phase6c/ciciot_reference.yaml",
+   "config_sha256": "3f3da9c5f3480106f85522bd0e96b846aa4bdb9ea194cd6f9b1bc05e8b39d634",
+   "out_dir": "results_phase6c/ciciot/reference/seed_16"
+  },
+  {
+   "run_id": "ciciot__reference_gaussian__seed16",
+   "order": 223,
+   "dataset": "ciciot",
+   "arm": "reference_gaussian",
+   "seed": 16,
+   "config": "configs/phase6c/ciciot_reference_gaussian.yaml",
+   "config_sha256": "eba5ceae55d669e4c4e9cd59fc347b4b7fb7f1073eb24aaaf50fe7fed813b2c6",
+   "out_dir": "results_phase6c/ciciot/reference_gaussian/seed_16"
+  },
+  {
+   "run_id": "ciciot__corrected__seed16",
+   "order": 224,
+   "dataset": "ciciot",
+   "arm": "corrected",
+   "seed": 16,
+   "config": "configs/phase6c/ciciot_corrected.yaml",
+   "config_sha256": "930c1f05c91983d2ec6de9d717289c67b1fd641fc5c3e4e2b73c084f45f3faf0",
+   "out_dir": "results_phase6c/ciciot/corrected/seed_16"
+  },
+  {
+   "run_id": "ciciot__corrected_gaussian__seed16",
+   "order": 225,
+   "dataset": "ciciot",
+   "arm": "corrected_gaussian",
+   "seed": 16,
+   "config": "configs/phase6c/ciciot_corrected_gaussian.yaml",
+   "config_sha256": "c5a2ce8b837e624b73f06f443f0538e91c3803b0569747882a0a9a007ea577b9",
+   "out_dir": "results_phase6c/ciciot/corrected_gaussian/seed_16"
+  },
+  {
+   "run_id": "ciciot__ctl_selection_uniform__seed16",
+   "order": 226,
+   "dataset": "ciciot",
+   "arm": "ctl_selection_uniform",
+   "seed": 16,
+   "config": "configs/phase6c/ciciot_ctl_selection_uniform.yaml",
+   "config_sha256": "3e5796e16e23a2e73c44fa968bb9d0cee190c267961451c9ecdd36b02cd94f04",
+   "out_dir": "results_phase6c/ciciot/ctl_selection_uniform/seed_16"
+  },
+  {
+   "run_id": "ciciot__ctl_selection_coverage__seed16",
+   "order": 227,
+   "dataset": "ciciot",
+   "arm": "ctl_selection_coverage",
+   "seed": 16,
+   "config": "configs/phase6c/ciciot_ctl_selection_coverage.yaml",
+   "config_sha256": "1227274c66166bf8aa7985de5e19be0bd541fb89ebe2b4242e83baadb2d1df82",
+   "out_dir": "results_phase6c/ciciot/ctl_selection_coverage/seed_16"
+  },
+  {
+   "run_id": "ciciot__ctl_imputation_none__seed16",
+   "order": 228,
+   "dataset": "ciciot",
+   "arm": "ctl_imputation_none",
+   "seed": 16,
+   "config": "configs/phase6c/ciciot_ctl_imputation_none.yaml",
+   "config_sha256": "a12aebaa7be8691039827afe5dcc4b13ac5e061ef18c8d91e2b9d839b12aaf73",
+   "out_dir": "results_phase6c/ciciot/ctl_imputation_none/seed_16"
+  },
+  {
+   "run_id": "ciciot__ctl_imputation_cap010__seed16",
+   "order": 229,
+   "dataset": "ciciot",
+   "arm": "ctl_imputation_cap010",
+   "seed": 16,
+   "config": "configs/phase6c/ciciot_ctl_imputation_cap010.yaml",
+   "config_sha256": "5ce09c242a59804ec44255fd1f387cff572518ec90870d481c8c6ef28ce43d22",
+   "out_dir": "results_phase6c/ciciot/ctl_imputation_cap010/seed_16"
+  },
+  {
+   "run_id": "ciciot__ctl_imputation_postfilter__seed16",
+   "order": 230,
+   "dataset": "ciciot",
+   "arm": "ctl_imputation_postfilter",
+   "seed": 16,
+   "config": "configs/phase6c/ciciot_ctl_imputation_postfilter.yaml",
+   "config_sha256": "c97f1bd3c5f14b4ee463f82eeefd2d4b036ecb0d8179ef99f8baeb32a325202e",
+   "out_dir": "results_phase6c/ciciot/ctl_imputation_postfilter/seed_16"
+  },
+  {
+   "run_id": "ciciot__ctl_delivery_coupled__seed16",
+   "order": 231,
+   "dataset": "ciciot",
+   "arm": "ctl_delivery_coupled",
+   "seed": 16,
+   "config": "configs/phase6c/ciciot_ctl_delivery_coupled.yaml",
+   "config_sha256": "2dc11b598ed4290fb3bcf0b9cc0963719c5a2fc3617c73a68f339221104345d0",
+   "out_dir": "results_phase6c/ciciot/ctl_delivery_coupled/seed_16"
+  },
+  {
+   "run_id": "ciciot__ctl_momentum0_lr0p5__seed16",
+   "order": 232,
+   "dataset": "ciciot",
+   "arm": "ctl_momentum0_lr0p5",
+   "seed": 16,
+   "config": "configs/phase6c/ciciot_ctl_momentum0_lr0p5.yaml",
+   "config_sha256": "21ec83d8fed799f15cbfa7ec7ccc5ed796b6ecddcb816dd2a175936119351949",
+   "out_dir": "results_phase6c/ciciot/ctl_momentum0_lr0p5/seed_16"
+  },
+  {
+   "run_id": "ciciot__ctl_momentum0_lr5p0__seed16",
+   "order": 233,
+   "dataset": "ciciot",
+   "arm": "ctl_momentum0_lr5p0",
+   "seed": 16,
+   "config": "configs/phase6c/ciciot_ctl_momentum0_lr5p0.yaml",
+   "config_sha256": "9a30f07d08768d1818010841ed235c8ae06696a312277a51b2fff08742a84be0",
+   "out_dir": "results_phase6c/ciciot/ctl_momentum0_lr5p0/seed_16"
+  },
+  {
+   "run_id": "ciciot__ctl_weighting_uniform__seed16",
+   "order": 234,
+   "dataset": "ciciot",
+   "arm": "ctl_weighting_uniform",
+   "seed": 16,
+   "config": "configs/phase6c/ciciot_ctl_weighting_uniform.yaml",
+   "config_sha256": "41065210ce4d5961f8d95ed66196c3c9adb6d8368c0ca32015bc7e40012b4033",
+   "out_dir": "results_phase6c/ciciot/ctl_weighting_uniform/seed_16"
+  },
+  {
+   "run_id": "ciciot__nat_reference__seed16",
+   "order": 235,
+   "dataset": "ciciot",
+   "arm": "nat_reference",
+   "seed": 16,
+   "config": "configs/phase6c/ciciot_nat_reference.yaml",
+   "config_sha256": "017d32074c89ea05adc3a959b68af7d23750a39e12009e731a8d93223be75de8",
+   "out_dir": "results_phase6c/ciciot/nat_reference/seed_16"
+  },
+  {
+   "run_id": "ciciot__nat_selection_uniform__seed16",
+   "order": 236,
+   "dataset": "ciciot",
+   "arm": "nat_selection_uniform",
+   "seed": 16,
+   "config": "configs/phase6c/ciciot_nat_selection_uniform.yaml",
+   "config_sha256": "3fb5fcbb71c6846ee01467be5396224781aff078d5b4fd3d0e4b9323e8770137",
+   "out_dir": "results_phase6c/ciciot/nat_selection_uniform/seed_16"
+  },
+  {
+   "run_id": "ciciot__nat_corrected__seed16",
+   "order": 237,
+   "dataset": "ciciot",
+   "arm": "nat_corrected",
+   "seed": 16,
+   "config": "configs/phase6c/ciciot_nat_corrected.yaml",
+   "config_sha256": "6957d3b7ef1df440495e40f29f2a526e60f74d12d6c86b670bdb9a604fca9459",
+   "out_dir": "results_phase6c/ciciot/nat_corrected/seed_16"
+  },
+  {
+   "run_id": "ciciot__fail0p0_reference__seed16",
+   "order": 238,
+   "dataset": "ciciot",
+   "arm": "fail0p0_reference",
+   "seed": 16,
+   "config": "configs/phase6c/ciciot_fail0p0_reference.yaml",
+   "config_sha256": "fc652b2cdd718aafedccb853d0af308f785d776d484ff020391ecb96aa780407",
+   "out_dir": "results_phase6c/ciciot/fail0p0_reference/seed_16"
+  },
+  {
+   "run_id": "ciciot__fail0p3_reference__seed16",
+   "order": 239,
+   "dataset": "ciciot",
+   "arm": "fail0p3_reference",
+   "seed": 16,
+   "config": "configs/phase6c/ciciot_fail0p3_reference.yaml",
+   "config_sha256": "07da320340e8771e1852210fc4b56c9af56d773c90f9bcefbc5e3b8f59076d4b",
+   "out_dir": "results_phase6c/ciciot/fail0p3_reference/seed_16"
+  },
+  {
+   "run_id": "ciciot__fail0p3_corrected__seed16",
+   "order": 240,
+   "dataset": "ciciot",
+   "arm": "fail0p3_corrected",
+   "seed": 16,
+   "config": "configs/phase6c/ciciot_fail0p3_corrected.yaml",
+   "config_sha256": "1847414d7c12480680e96dcb62e08b44c3dbc3813eaa2835874fcd1caabe3584",
+   "out_dir": "results_phase6c/ciciot/fail0p3_corrected/seed_16"
+  }
+ ],
+ "required_artifacts": [
+  "run_record.json",
+  "resolved_config.yaml",
+  "round_metrics.csv",
+  "network_metrics.csv",
+  "aggregation_diagnostics.csv",
+  "final_validation_metrics.json",
+  "threshold_diagnostics.json",
+  "run_metadata.json",
+  "metric_accounting.json",
+  "best_model_state.pt",
+  "last_model_state.pt",
+  "privacy_plan.json",
+  "validation_split_info.json",
+  "phase6c_diagnostics.json"
+ ],
+ "command": [
+  "{python}",
+  "scripts/phase6c/run_one.py",
+  "--config",
+  "{config}",
+  "--seed",
+  "{seed}",
+  "--out",
+  "{out_dir}"
+ ],
+ "verify_training_semantics": true,
+ "manifest_sha256": "891a53f411004fffd45721b3de2531772ac8842d4d98ef44969855acff69f395"
+}

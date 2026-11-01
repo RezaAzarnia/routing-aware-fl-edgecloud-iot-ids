@@ -1,0 +1,116 @@
+# PHASE 6C confirmatory arm 'corrected_gaussian' (unsw) - corrected + Gaussian perturbation (diagnostic epsilon only)
+# algorithm_version=corrected_v2_phase6c group=main. Locked by docs/phase6c/EXPERIMENT_MANIFEST.json; do not edit.
+aggregation:
+  byzantine_assumption: 2
+  distance_k: 2.5
+  method: distance_filter
+  trim_ratio: 0.2
+  surrogate_handling: post_filter_real_only
+attack:
+  attack_scale: 5.0
+  attack_type: sign_flip
+  label_flip_probability: 1.0
+  malicious_fraction: 0.2
+  assignment: exposure_controlled
+data:
+  attack_category_col: attack_cat
+  calibration_fraction_of_test: 0.2
+  calibration_stratify_attack_category: true
+  categorical_cols:
+  - proto
+  - service
+  - state
+  drop_cols:
+  - id
+  - attack_cat
+  enable_calibrated_evaluation: false
+  label_col: label
+  max_test_samples: null
+  max_train_samples: null
+  max_val_samples: null
+  test_csv: ''
+  train_csv: data/UNSW_NB15_training-set.csv
+  validation_fraction: 0.15
+  validation_split: group_disjoint
+  threshold_calibration_fraction: 0.0
+  validation_three_way: true
+experiment:
+  create_plots: false
+  deterministic: true
+  device: cpu
+  early_stopping_min_delta: 0.0001
+  early_stopping_min_rounds: 18
+  early_stopping_patience: null
+  method_name: corrected_gaussian
+  name: phase6c_unsw_corrected_gaussian
+  output_dir: results_phase6c
+  save_probabilities: true
+  seed: 2
+  validation_only: true
+  variant_name: corrected_gaussian
+  algorithm_version: corrected_v2_phase6c
+failure:
+  accuracy_recovery_target_ratio: 0.95
+  client_failure_probability: 0.1
+  detection_delay_ms: 20.0
+  enabled: true
+  reconstruction_time_ms: 35.0
+  recovery_enabled: true
+  recovery_metric: f1
+  recovery_min_future_rounds: 1
+  recovery_smoothing_window: 3
+  recovery_weight_factor: 0.5
+  surrogate_total_weight_cap: 0.1
+fl:
+  batch_size: 256
+  clients_per_round: 10
+  dirichlet_alpha: 0.5
+  learning_rate: 0.0003
+  local_epochs: 2
+  min_client_samples: 100
+  num_clients: 50
+  partition: dirichlet
+  rounds: 30
+  server_learning_rate: 0.5
+  server_momentum: 0.9
+  weight_decay: 0.0
+model:
+  dropout: 0.2
+  hidden_dims:
+  - 128
+  - 96
+  - 64
+privacy:
+  mode: central_client
+  clip_norm: 0.1
+  noise_multiplier: 1.0
+  delta: 1.0e-05
+  target_epsilon: 10.0
+  auto_calibrate_noise: true
+  accountant_sample_rate: null
+  max_client_weight_share: 0.1
+  adjacency_factor: 1.0
+routing:
+  alpha_latency: 0.4
+  beta_stability: 0.3
+  dynamic_sigma: 0.025
+  enabled: true
+  gamma_security: 0.3
+  link_outage_probability: 0.01
+  num_edges: 3
+  packets_per_update: 100
+  trace_mode: matched
+  selection_policy: coverage_aware
+  delivery_model: packet_coupled
+threshold:
+  enabled: true
+  grid_size: 1001
+  max_fpr: 0.15
+  min_recall: 0.6
+  model_selection_metric: roc_auc
+  objective: fpr_cap
+  operating_fpr_caps:
+  - 0.05
+  - 0.1
+  - 0.15
+  - 0.2

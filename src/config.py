@@ -54,6 +54,9 @@ class DataConfig:
     # part only; all reported validation metrics and model selection use the
     # evaluation part. 0 reproduces the historical same-observation behaviour.
     threshold_calibration_fraction: float = 0.0
+    # Three-way, predictor-group-disjoint split of the validation pool into
+    # calibration (thresholds) / selection (checkpoint choice) / report (never used for a choice).
+    validation_three_way: bool = False
 
 
 @dataclass
@@ -125,6 +128,11 @@ class AggregationConfig:
     trim_ratio: float = 0.2
     distance_k: float = 2.5
     byzantine_assumption: int = 2
+    # reference (historical): surrogate (imputed) updates take part in the robust filter's
+    #   centre/scale estimation, so identical surrogates can dominate the MAD.
+    # post_filter_real_only (corrected): the filter statistics use REAL updates only; surrogates
+    #   are generated afterwards from the retained real updates.
+    surrogate_handling: str = "reference"
 
 
 @dataclass
@@ -133,6 +141,12 @@ class AttackConfig:
     malicious_fraction: float = 0.0
     attack_scale: float = 5.0
     label_flip_probability: float = 1.0
+    # natural_fixed_clients (historical): a fixed random set of clients is malicious in every
+    #   round, so exposure depends on which clients the selection policy prefers.
+    # exposure_controlled: in each round exactly round(fraction * selected) of the SELECTED
+    #   clients (chosen from a per-(seed, round) stream) are attackers, so every selection
+    #   policy faces the same attacker exposure.
+    assignment: str = "natural_fixed_clients"
 
 
 @dataclass
@@ -201,6 +215,11 @@ class ExperimentConfig:
     # Per-round forensic diagnostics (aggregate/applied/velocity norms and cosines, saved
     # global states). Logging only; no effect on training.
     save_round_diagnostics: bool = False
+    # Version tag written into every run (reference_v1_historical | corrected_v2_phase6c).
+    algorithm_version: str = "reference_v1_historical"
+    # When set, all artefacts are written directly into this directory (one immutable
+    # directory per arm/seed) instead of output_dir/name/method_name/seed_N.
+    exact_output_dir: str | None = None
 
 
 @dataclass
@@ -299,6 +318,14 @@ class Config:
             raise ValueError("data.validation_split must be random_stratified or group_disjoint")
         if not 0.0 <= self.data.threshold_calibration_fraction <= 0.9:
             raise ValueError("data.threshold_calibration_fraction must be in [0, 0.9]")
+        if self.aggregation.surrogate_handling not in {"reference", "post_filter_real_only"}:
+            raise ValueError("aggregation.surrogate_handling must be reference or post_filter_real_only")
+        if self.aggregation.surrogate_handling == "post_filter_real_only" and self.aggregation.method in {"median", "trimmed_mean"}:
+            raise ValueError("post_filter_real_only needs a filtering/weighting aggregator (distance_filter, multi_krum, fedavg)")
+        if self.attack.assignment not in {"natural_fixed_clients", "exposure_controlled"}:
+            raise ValueError("attack.assignment must be natural_fixed_clients or exposure_controlled")
+        if self.data.validation_three_way and self.data.threshold_calibration_fraction > 0:
+            raise ValueError("validation_three_way and threshold_calibration_fraction are mutually exclusive")
         if self.fl.weighting not in {"sample_proportional", "uniform"}:
             raise ValueError("fl.weighting must be sample_proportional or uniform")
         if self.failure.surrogate_total_weight_cap is not None and not 0.0 < self.failure.surrogate_total_weight_cap < 1.0:

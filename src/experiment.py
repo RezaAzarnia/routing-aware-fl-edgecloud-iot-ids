@@ -271,6 +271,11 @@ def _evaluate_protocol(cfg: Config, bundle: DatasetBundle, server: Server):
         "calibration_f1": float(calibration["f1"]),
         "calibration_rows": int(len(bundle.y_thr)),
     })
+    if bundle.X_rep is not None and bundle.y_rep is not None and len(bundle.y_rep):
+        # logged for transparency only; never used for any selection decision
+        rep = binary_classification_metrics(bundle.y_rep, server.predict_probabilities(bundle.X_rep), threshold)
+        for key in ("roc_auc", "pr_auc", "f1", "fpr", "recall_adr", "precision"):
+            selected[f"rep_{key}"] = float(rep.get(key, float("nan")))
     return default, selected, p_val
 
 
@@ -389,6 +394,19 @@ def _write_run_metadata(
             },
             "routing_enabled": cfg.routing.enabled,
             "variant_name": cfg.experiment.variant_name,
+            "algorithm_version": cfg.experiment.algorithm_version,
+            "attack_assignment": cfg.attack.assignment,
+            "surrogate_handling": cfg.aggregation.surrogate_handling,
+            "weight_cap_statement": (
+                "A strict per-client weight cap c is mathematically infeasible whenever fewer than 1/c "
+                "updates are retained (the maximum weight is at least 1/n); the effective cap is max(c, 1/n). "
+                "Per-round requested/min-feasible/effective/actual values are logged."
+            ),
+            "privacy_claim_statement": (
+                "The Gaussian step is an empirical noise-injection defence. The reported epsilon is a "
+                "diagnostic RDP estimate that assumes Poisson client sampling, which is not satisfied; it is "
+                "NOT a certified differential-privacy guarantee."
+            ),
             "algorithm_spec": {
                 "selection_policy": cfg.routing.selection_policy,
                 "coverage_penalty": cfg.routing.coverage_penalty,
@@ -432,8 +450,21 @@ def _finalize_validation_only(
     early_stopped: bool,
 ) -> Path:
     """Final reporting for validation-only runs: no test data exists in `bundle`."""
+    three_way = bundle.X_rep is not None and bundle.y_rep is not None and len(bundle.y_rep) > 0
+    report_y = bundle.y_rep if three_way else bundle.y_val
+    # last-round model (reported next to the best checkpoint to expose selection optimism)
+    last_state = server.get_global_state()
+    torch.save(last_state, run_dir / "last_model_state.pt")
+    _, last_selected, _ = _evaluate_protocol(cfg, bundle, server)
+    last_report = None
+    if three_way:
+        last_report = binary_classification_metrics(
+            report_y, server.predict_probabilities(bundle.X_rep), float(last_selected["threshold"])
+        )
     server.load_global_state(best_state, reset_optimizer_state=True)
     default_metrics, selected, probabilities = _evaluate_protocol(cfg, bundle, server)
+    p_report = server.predict_probabilities(bundle.X_rep) if three_way else probabilities
+    report_at_selected = binary_classification_metrics(report_y, p_report, float(selected["threshold"]))
 
     def plain(mapping):
         out = {}
@@ -457,7 +488,7 @@ def _finalize_validation_only(
     for target in (0.01, 0.05, 0.15):
         entry = {"target_fpr": target}
         same = select_decision_threshold(
-            bundle.y_val, probabilities, objective="fpr_cap", max_fpr=target, min_recall=0.0,
+            report_y, p_report, objective="fpr_cap", max_fpr=target, min_recall=0.0,
             grid_size=cfg.threshold.grid_size,
         )
         entry["same_observation_optimistic"] = plain({
@@ -467,7 +498,7 @@ def _finalize_validation_only(
                 bundle.y_thr, p_calibration, objective="fpr_cap", max_fpr=target, min_recall=0.0,
                 grid_size=cfg.threshold.grid_size,
             )
-            held = binary_classification_metrics(bundle.y_val, probabilities, threshold=float(cal["threshold"]))
+            held = binary_classification_metrics(report_y, p_report, threshold=float(cal["threshold"]))
             entry["calibration_partition"] = plain({
                 k: cal[k] for k in ("threshold", "fpr", "recall_adr", "precision", "f1", "constraint_feasible")})
             entry["independent_evaluation"] = plain({
@@ -485,10 +516,19 @@ def _finalize_validation_only(
         "selected_operating_point": plain(selected),
         "default_threshold_0_5": plain(default_metrics),
         "threshold_diagnostics": threshold_diagnostics,
+        "partitions": {
+            "calibration_rows": int(len(bundle.y_thr)) if bundle.y_thr is not None else 0,
+            "selection_rows": int(len(bundle.y_val)),
+            "report_rows": int(len(report_y)),
+            "three_way": bool(three_way),
+        },
+        "report_partition_at_selected_threshold": plain(report_at_selected),
+        "last_round_selection_partition": plain(last_selected),
+        "last_round_report_partition": plain(last_report) if last_report is not None else None,
     }
     save_json(final, run_dir / "final_validation_metrics.json")
     pd.DataFrame(
-        [[selected["tn"], selected["fp"]], [selected["fn"], selected["tp"]]],
+        [[report_at_selected["tn"], report_at_selected["fp"]], [report_at_selected["fn"], report_at_selected["tp"]]],
         index=["true_normal", "true_attack"],
         columns=["pred_normal", "pred_attack"],
     ).to_csv(run_dir / "confusion_matrix_validation.csv")
@@ -506,7 +546,9 @@ def run_experiment(cfg: Config) -> Path:
     device = resolve_device(cfg.experiment.device)
 
     run_dir = (
-        Path(cfg.experiment.output_dir)
+        Path(cfg.experiment.exact_output_dir)
+        if cfg.experiment.exact_output_dir
+        else Path(cfg.experiment.output_dir)
         / cfg.experiment.name
         / cfg.experiment.method_name
         / f"seed_{cfg.experiment.seed}"
@@ -575,6 +617,7 @@ def run_experiment(cfg: Config) -> Path:
     save_json(
         {
             "attack_type": cfg.attack.attack_type,
+            "assignment": cfg.attack.assignment,
             "malicious_clients": sorted(malicious_clients),
         },
         run_dir / "malicious_clients.json",
@@ -647,6 +690,7 @@ def run_experiment(cfg: Config) -> Path:
     privacy_steps = 0
     early_stopped = False
     selection_counts = np.zeros(cfg.fl.num_clients)
+    assignment_rows: List[Dict] = []
     diag_rows: List[Dict] = []
     diag_prev: Dict[str, torch.Tensor] = {}
     if cfg.experiment.save_round_diagnostics:
@@ -678,6 +722,15 @@ def run_experiment(cfg: Config) -> Path:
             ).tolist()
         for chosen in selected_clients:
             selection_counts[chosen] += 1
+        if cfg.attack.assignment == "exposure_controlled":
+            attackers_this_round = int(round(cfg.attack.malicious_fraction * len(selected_clients)))
+            ordering = np.random.default_rng([cfg.experiment.seed, 6000, round_number]).permutation(
+                sorted(int(c) for c in selected_clients)
+            )
+            round_malicious = {int(c) for c in ordering[:attackers_this_round]}
+            assignment_rows.extend({"round": round_number, "client_id": c} for c in sorted(round_malicious))
+        else:
+            round_malicious = malicious_clients
 
         global_snapshot = server.get_global_state()
         updates: List[State] = []
@@ -710,7 +763,7 @@ def run_experiment(cfg: Config) -> Path:
             transfer["explicit_client_failure"] = explicit_failure
             transfer["explicit_failure_draw"] = failure_draw
             transfer["selected"] = True
-            transfer["malicious"] = client_id in malicious_clients
+            transfer["malicious"] = client_id in round_malicious
 
             network_failure = cfg.failure.enabled and not bool(transfer["update_delivered"])
             if explicit_failure and network_failure:
@@ -730,7 +783,7 @@ def run_experiment(cfg: Config) -> Path:
                 continue
 
             is_label_flip = (
-                client_id in malicious_clients
+                client_id in round_malicious
                 and cfg.attack.attack_type == "label_flip"
             )
             local_result = clients[client_id].train_local(
@@ -749,7 +802,7 @@ def run_experiment(cfg: Config) -> Path:
                 ),
             )
             update = local_result.update
-            if client_id in malicious_clients and cfg.attack.attack_type != "label_flip":
+            if client_id in round_malicious and cfg.attack.attack_type != "label_flip":
                 attack_generator = torch.Generator(device="cpu")
                 attack_generator.manual_seed(
                     cfg.experiment.seed * 200_000 + round_number * 1000 + client_id
@@ -783,10 +836,18 @@ def run_experiment(cfg: Config) -> Path:
         recovered_count = 0
         recovery_times: List[float] = []
         recovered_by_client: Dict[int, float] = {}
+        real_filter_result = None
+        real_filter_label = ""
+        post_filter_mode = cfg.aggregation.surrogate_handling == "post_filter_real_only"
         if cfg.failure.recovery_enabled and failed_clients and len(updates) >= 2:
             average_delay = float(np.mean(transfer_delays)) if transfer_delays else 0.0
             healthy_updates = list(updates)
-            for failed_client in failed_clients:
+            if post_filter_mode:
+                # corrected variant: robust statistics from REAL updates only; surrogates are then
+                # built from the retained real updates (never from, nor into, the filter statistics)
+                real_filter_result, real_filter_label = _safe_aggregate(updates, weights, cfg)
+                healthy_updates = [updates[i] for i in real_filter_result.kept_indices]
+            for failed_client in (failed_clients if len(healthy_updates) >= 2 else []):
                 recovery = recover_failed_update(
                     healthy_updates,
                     cfg.failure.detection_delay_ms,
@@ -857,9 +918,19 @@ def run_experiment(cfg: Config) -> Path:
             # client-level DP, only the surviving updates are then clipped,
             # weight-capped, averaged, and noised. This restores attack
             # separability that was lost when every update was clipped first.
-            detection_result, actual_aggregation_method = _safe_aggregate(
-                updates, weights, cfg
-            )
+            if post_filter_mode and real_filter_result is not None and recovered_count > 0:
+                n_real = len(updates) - recovered_count
+                detection_result = AggregationResult(
+                    update=real_filter_result.update,
+                    kept_indices=list(real_filter_result.kept_indices) + list(range(n_real, len(updates))),
+                    rejected_indices=list(real_filter_result.rejected_indices),
+                    distances=list(real_filter_result.distances),
+                )
+                actual_aggregation_method = f"{real_filter_label}[real_only_filter+post_filter_surrogates]"
+            else:
+                detection_result, actual_aggregation_method = _safe_aggregate(
+                    updates, weights, cfg
+                )
             kept_indices = detection_result.kept_indices
             kept_count = len(kept_indices)
             rejected_count = len(detection_result.rejected_indices)
@@ -922,7 +993,7 @@ def run_experiment(cfg: Config) -> Path:
                 actual_aggregation_method += "+clipped_capped_fedavg+central_noise"
             else:
                 aggregate = detection_result.update
-                if surrogate_cap_applied and cfg.aggregation.method not in {"median", "trimmed_mean"}:
+                if (surrogate_cap_applied or (post_filter_mode and recovered_count > 0)) and cfg.aggregation.method not in {"median", "trimmed_mean"}:
                     aggregate = fedavg(
                         [updates[i] for i in kept_indices],
                         [effective_weights[i] for i in kept_indices],
@@ -975,9 +1046,9 @@ def run_experiment(cfg: Config) -> Path:
                         "update_index": update_index,
                         "client_id": client_id,
                         "is_recovered_update": update_recovered_flags[update_index],
-                        "is_malicious_client": client_id in malicious_clients,
+                        "is_malicious_client": client_id in round_malicious,
                         "effective_malicious_update": (
-                            client_id in malicious_clients
+                            client_id in round_malicious
                             and not update_recovered_flags[update_index]
                         ),
                         "kept": update_index in kept_set,
@@ -1115,7 +1186,7 @@ def run_experiment(cfg: Config) -> Path:
                 "mean_expected_pdr": float(
                     np.mean([r["expected_pdr"] for r in round_network])
                 ) if round_network else np.nan,
-                "malicious_selected": len(set(selected_clients) & malicious_clients),
+                "malicious_selected": len(set(selected_clients) & round_malicious),
                 "malicious_received": malicious_received,
                 "mean_train_loss": float(np.mean(local_losses)) if local_losses else np.nan,
                 "mean_local_train_seconds": float(np.mean(local_times)) if local_times else np.nan,
@@ -1203,6 +1274,8 @@ def run_experiment(cfg: Config) -> Path:
         )
     if diag_rows:
         pd.DataFrame(diag_rows).to_csv(run_dir / "round_diagnostics.csv", index=False)
+    if assignment_rows:
+        pd.DataFrame(assignment_rows).to_csv(run_dir / "attacker_assignment.csv", index=False)
 
     if cfg.experiment.validation_only:
         return _finalize_validation_only(
