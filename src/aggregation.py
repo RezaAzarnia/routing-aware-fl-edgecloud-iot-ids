@@ -23,6 +23,22 @@ def _stack(updates: Sequence[State]) -> torch.Tensor:
     return torch.stack([state_to_vector(update) for update in updates], dim=0)
 
 
+def true_median(values: torch.Tensor, dim: int = 0) -> torch.Tensor:
+    """Median that averages the two middle order statistics for even counts.
+
+    The built-in torch median returns the *lower* middle element for even
+    sample sizes, which biases coordinate-wise reconstruction and MAD
+    statistics downward.
+    """
+    n = values.shape[dim]
+    if n == 0:
+        raise ValueError("median of an empty tensor is undefined")
+    ordered = torch.sort(values, dim=dim).values
+    lower = ordered.select(dim, (n - 1) // 2)
+    upper = ordered.select(dim, n // 2)
+    return (lower + upper) / 2
+
+
 def fedavg(updates: Sequence[State], weights: Sequence[float]) -> State:
     if len(updates) != len(weights) or not updates:
         raise ValueError("updates and weights must have equal non-zero length")
@@ -35,7 +51,7 @@ def fedavg(updates: Sequence[State], weights: Sequence[float]) -> State:
 
 def coordinate_median(updates: Sequence[State]) -> State:
     vectors = _stack(updates)
-    vector = torch.median(vectors, dim=0).values
+    vector = true_median(vectors, dim=0)
     return vector_to_state(vector, updates[0])
 
 
@@ -55,10 +71,10 @@ def trimmed_mean(updates: Sequence[State], trim_ratio: float) -> State:
 
 def distance_filter_indices(updates: Sequence[State], k: float) -> tuple[List[int], List[float]]:
     vectors = _stack(updates)
-    center = torch.median(vectors, dim=0).values
+    center = true_median(vectors, dim=0)
     distances = torch.linalg.vector_norm(vectors - center, dim=1)
-    median_distance = torch.median(distances)
-    mad = torch.median(torch.abs(distances - median_distance))
+    median_distance = true_median(distances, dim=0)
+    mad = true_median(torch.abs(distances - median_distance), dim=0)
     robust_sigma = 1.4826 * mad + 1e-12
     threshold = median_distance + k * robust_sigma
     keep = torch.where(distances <= threshold)[0].tolist()
