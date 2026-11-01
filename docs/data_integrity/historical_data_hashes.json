@@ -1,0 +1,76 @@
+{
+  "note": "Forensic hashes of ORIGINAL inputs and the historical prepared_paper outputs; recorded before any v2 work. Never modify these files.",
+  "unsw": {
+    "UNSW_NB15_training-set.csv": {
+      "sha256": "bec7dd5ec88dc2a0ccc7a07879d338395ed7421750f675fd0339e07dfe0648fa",
+      "bytes": 32293018
+    },
+    "UNSW_NB15_testing-set.csv": {
+      "sha256": "734fe6642edf758f7c94d7d9149426b49d202fe8e7bf0bef47392489c3c0a559",
+      "bytes": 15380800
+    }
+  },
+  "ciciot2023_prepared_paper_historical": {
+    "preparation_metadata.json": {
+      "sha256": "1fdb76ef79557ff77ac5d265bfed8733201ea5d46ed94879db4d0fa6b410a9cb",
+      "bytes": 3629
+    },
+    "prepared_label_counts.csv": {
+      "sha256": "31b972830f836b27078d85449b7ee889ef8e618ade481c9b844e5bbff7f869d1",
+      "bytes": 3070
+    },
+    "raw_label_counts.csv": {
+      "sha256": "fdd0eb31701abfca78c4accade99ef65ee3e511153b7bab4c6ee24f045aa208d",
+      "bytes": 1227
+    },
+    "split_manifest.csv": {
+      "sha256": "aa3bf003acea09d9461c40ebc1825cd80c476eb643232a61b6f1aac750baeca2",
+      "bytes": 58715
+    },
+    "test.csv.gz": {
+      "sha256": "88651f0770c43566c799a0de37530826ca55072ce32ed7cccc9383299a8ddfe1",
+      "bytes": 10922896
+    },
+    "train.csv.gz": {
+      "sha256": "8e7364ab6af009a1276726e948cffeae158a66406710f5e576116a97f5a91571",
+      "bytes": 54740110
+    },
+    "validation.csv.gz": {
+      "sha256": "afbf68620e729707df51881002a4b830b5d4278fee7ca5dcb32b304c97ff45c7",
+      "bytes": 5969479
+    }
+  },
+  "ciciot2023_prepared_pilot_historical": {
+    "preparation_metadata.json": {
+      "sha256": "58274a35e5d34692ccb8cd1fde1fffd0daedb6a6bb42608e206e6ad217aa29bf",
+      "bytes": 3614
+    },
+    "prepared_label_counts.csv": {
+      "sha256": "02091526237b64f6104f327162012fe9c78e133dd3bfbca9f610c06c050f67c3",
+      "bytes": 2979
+    },
+    "raw_label_counts.csv": {
+      "sha256": "fdd0eb31701abfca78c4accade99ef65ee3e511153b7bab4c6ee24f045aa208d",
+      "bytes": 1227
+    },
+    "split_manifest.csv": {
+      "sha256": "aa3bf003acea09d9461c40ebc1825cd80c476eb643232a61b6f1aac750baeca2",
+      "bytes": 58715
+    },
+    "test.csv.gz": {
+      "sha256": "d6fd466ae06ef678f98f39358ffac758c6940c2f2bb735023da318a440fe8d1f",
+      "bytes": 1091221
+    },
+    "train.csv.gz": {
+      "sha256": "fb50950791693e0ffd0510df75c3e09ef988600ddffa011becd12980301487d5",
+      "bytes": 5702650
+    },
+    "validation.csv.gz": {
+      "sha256": "3dc2227ea24c44820c1b62ac7a9ce54f8100a0bd481c655bbbe9e0b68a04a4c3",
+      "bytes": 705484
+    }
+  },
+  "raw_source_pdf_README_CSV": {
+    "sha256": "76d79460e416b88a28e9db3573255ea5fb5fca836fc2e3d3f794a4df2b9e7e98"
+  }
+}

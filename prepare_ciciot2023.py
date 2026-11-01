@@ -1,9 +1,12 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import math
+import platform
 import sys
+import zlib
 from collections import Counter, defaultdict
 from pathlib import Path
 from typing import Iterable
@@ -11,6 +14,8 @@ from typing import Iterable
 import numpy as np
 import pandas as pd
 
+SCRIPT_VERSION = "2.0-verified"
+PROVENANCE_COLUMNS = ("_src_file_idx", "_src_row")
 LABEL_CANDIDATES = ("label", "Label", "traffic_type", "Traffic_Type", "class", "Class")
 DEFAULT_BENIGN_LABELS = (
     "BenignTraffic", "Benign_Final", "Benign", "BENIGN", "Normal", "normal", "0"
@@ -57,8 +62,153 @@ def parse_args() -> argparse.Namespace:
         default=None,
         help="May be repeated. Defaults cover Benign_Final/BenignTraffic/Benign/Normal/0.",
     )
+    parser.add_argument(
+        "--cross-split-key",
+        choices=("features", "category_features"),
+        default="features",
+        help=(
+            "Key used to remove feature-identical rows from lower-priority splits "
+            "(test > validation > train). 'features' is label-blind and also removes "
+            "identical vectors that carry different attack categories; "
+            "'category_features' reproduces the historical (v1) behaviour."
+        ),
+    )
+    parser.add_argument(
+        "--split-mode",
+        choices=("row_stratified", "file_group"),
+        default="row_stratified",
+        help=(
+            "row_stratified: historical protocol (rows of every capture file may land in any split). "
+            "file_group: for classes with >=3 source files whole files are assigned to a single "
+            "split (capture-group aware); classes with <3 files stay row-stratified and are "
+            "reported as ungrouped."
+        ),
+    )
     parser.add_argument("--force", action="store_true")
     return parser.parse_args()
+
+
+SPLITS = ("train", "validation", "test")
+
+
+def assign_class_files_to_splits(
+    rows_by_file: dict[Path, int],
+    target_by_split: dict[str, int],
+    seed: int,
+) -> dict[Path, str]:
+    """Deterministically assign whole files of ONE class to splits.
+
+    Largest files first (ties broken by a seeded permutation); each file goes to the
+    split with the largest remaining deficit relative to the requested target mix,
+    while guaranteeing every split receives at least one file.
+    """
+    files = sorted(rows_by_file, key=str)
+    rng = np.random.default_rng(seed)
+    rank = {f: int(r) for f, r in zip(files, rng.permutation(len(files)))}
+    ordered = sorted(files, key=lambda f: (-rows_by_file[f], rank[f]))
+    total_rows = sum(rows_by_file.values())
+    total_target = max(sum(target_by_split.values()), 1)
+    desired = {s: total_rows * target_by_split[s] / total_target for s in SPLITS}
+    assigned = {s: 0 for s in SPLITS}
+    has_file = {s: False for s in SPLITS}
+    out: dict[Path, str] = {}
+    for position, path in enumerate(ordered):
+        remaining = len(ordered) - position
+        missing = [s for s in SPLITS if not has_file[s]]
+        pool = missing if remaining <= len(missing) else list(SPLITS)
+        choice = max(pool, key=lambda s: (desired[s] - assigned[s], -SPLITS.index(s)))
+        out[path] = choice
+        assigned[choice] += rows_by_file[path]
+        has_file[choice] = True
+    return out
+
+
+def stable_label_seed(label: str, modulus: int = 1_000_000) -> int:
+    """Process-independent replacement for ``abs(hash(label)) % modulus``.
+
+    The built-in ``hash`` of a ``str`` is salted per interpreter process
+    (PYTHONHASHSEED), so using it to seed sampling made every run different.
+    """
+    return zlib.crc32(label.encode("utf-8")) % modulus
+
+
+def sha256_file(path: Path, block: int = 1 << 24) -> str:
+    digest = hashlib.sha256()
+    with open(path, "rb") as handle:
+        for chunk in iter(lambda: handle.read(block), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def canonical_row_hashes(frame: pd.DataFrame, columns: list[str]) -> pd.Series:
+    """dtype-independent 64-bit row hashes used for cross-split de-duplication.
+
+    Numeric columns are cast to float64 (``-0.0`` -> ``0.0``) before hashing, so the
+    integer 5 and the float 5.0 are the same value; the legacy implementation hashed
+    the in-memory dtype and therefore missed identical vectors whose columns happened
+    to be int64 in one split and float64 in another.
+    """
+    numeric = [c for c in columns if c != "attack_category"]
+    canonical = pd.DataFrame(
+        frame[numeric].to_numpy(dtype=np.float64) + 0.0, columns=numeric, index=frame.index
+    )
+    if "attack_category" in columns:
+        canonical["attack_category"] = frame["attack_category"].astype(str).to_numpy()
+    return pd.util.hash_pandas_object(canonical, index=False).astype("uint64")
+
+
+def sha256_gzip_content(path: Path, block: int = 1 << 24) -> str:
+    """SHA-256 of the *decompressed* bytes (gzip headers embed timestamps)."""
+    import gzip
+
+    digest = hashlib.sha256()
+    with gzip.open(path, "rb") as handle:
+        for chunk in iter(lambda: handle.read(block), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def discover_source_files(
+    raw_dir: Path, pattern: str
+) -> tuple[list[Path], list[dict], dict[Path, str]]:
+    """Return (unique_files, excluded_records, sha256_by_path).
+
+    Files with byte-identical content are processed once. When copies exist the
+    one located inside a class folder (deeper path) is kept, because the class
+    label is inferred from the first path component; ties are broken by sorted
+    path. Excluded copies are *not* deleted, only skipped and recorded.
+    """
+    candidates = sorted(p for p in raw_dir.glob(pattern) if p.is_file())
+    by_size: dict[int, list[Path]] = defaultdict(list)
+    for path in candidates:
+        by_size[path.stat().st_size].append(path)
+    digests: dict[Path, str] = {}
+    for size_group in by_size.values():
+        for path in size_group:
+            digests[path] = sha256_file(path)
+    groups: dict[str, list[Path]] = defaultdict(list)
+    for path in candidates:
+        groups[digests[path]].append(path)
+    keep: set[Path] = set()
+    excluded: list[dict] = []
+    for digest, members in groups.items():
+        def rank(p: Path) -> tuple[int, str]:
+            try:
+                depth = len(p.resolve().relative_to(raw_dir.resolve()).parts)
+            except ValueError:
+                depth = len(p.parts)
+            return (-depth, str(p))
+        ordered = sorted(members, key=rank)
+        keep.add(ordered[0])
+        for dup in ordered[1:]:
+            excluded.append({
+                "file": str(dup.relative_to(raw_dir)),
+                "sha256": digest,
+                "reason": "byte-identical duplicate",
+                "duplicate_of": str(ordered[0].relative_to(raw_dir)),
+            })
+    unique_files = [p for p in candidates if p in keep]
+    return unique_files, sorted(excluded, key=lambda r: r["file"]), digests
 
 
 def normalized_label(value: object) -> str:
@@ -329,6 +479,32 @@ def prepare_with_path_labels(
     for path in files:
         label_to_files[infer_label_from_path(path, raw_dir)].append(path)
 
+    file_split: dict[Path, str] = {}
+    grouped_caps: dict[tuple[str, str], int] = {}
+    grouped_labels: set[str] = set()
+    ungrouped_labels: list[str] = []
+    if args.split_mode == "file_group":
+        for label, lfiles in sorted(label_to_files.items()):
+            if len(lfiles) < 3:
+                ungrouped_labels.append(label)
+                continue
+            rows_by_file = {p: int(sum(file_counts[p].values())) for p in lfiles}
+            assignment = assign_class_files_to_splits(
+                rows_by_file,
+                {s: targets[s].get(label, 0) for s in SPLITS},
+                args.seed + stable_label_seed(label),
+            )
+            file_split.update(assignment)
+            for s in SPLITS:
+                capacity = sum(rows_by_file[p] for p in lfiles if assignment[p] == s)
+                grouped_caps[(label, s)] = capacity
+                targets[s][label] = min(targets[s].get(label, 0), capacity)
+            grouped_labels.add(label)
+        print(f"file_group mode: {len(grouped_labels)} classes grouped by source file; "
+              f"{len(ungrouped_labels)} classes (<3 files) remain row-stratified.")
+    args._file_split = {str(p.relative_to(raw_dir)).replace("\\", "/"): s for p, s in file_split.items()}
+    args._ungrouped_labels = ungrouped_labels
+
     # For very small labels, or labels where the target consumes most available rows,
     # use exact deterministic allocation instead of probabilistic oversampling.
     # This avoids failures like requesting 1,254 rows from a 1,252-row class.
@@ -337,18 +513,22 @@ def prepare_with_path_labels(
         if available <= 50_000 or (
             sum(targets[split].get(label, 0) for split in ("train", "validation", "test")) / max(available, 1)
         ) > 0.50
-    }
+    } - grouped_labels
 
     for label in sorted(exact_labels):
         pieces = []
         for path in label_to_files[label]:
             for chunk in pd.read_csv(path, chunksize=args.chunk_size):
+                chunk = chunk.assign(
+                    _src_file_idx=np.int32(file_index[path]),
+                    _src_row=chunk.index.to_numpy(dtype=np.int64),
+                )
                 pieces.append(chunk)
         if not pieces:
             continue
         label_frame = pd.concat(pieces, ignore_index=True)
         pieces.clear()
-        label_frame = label_frame.sample(frac=1.0, random_state=args.seed + abs(hash(label)) % 1_000_000).reset_index(drop=True)
+        label_frame = label_frame.sample(frac=1.0, random_state=args.seed + stable_label_seed(label)).reset_index(drop=True)
         start = 0
         for split in ("validation", "test", "train"):
             take = targets[split].get(label, 0)
@@ -367,17 +547,28 @@ def prepare_with_path_labels(
         if inferred in exact_labels:
             continue
         available = max(global_counts[inferred], 1)
-        p_train = min(1.0, oversample * targets["train"].get(inferred, 0) / available)
-        p_val = min(1.0, oversample * targets["validation"].get(inferred, 0) / available)
-        p_test = min(1.0, oversample * targets["test"].get(inferred, 0) / available)
+        if inferred in grouped_labels:
+            owner = file_split[path]
+            capacity = max(grouped_caps[(inferred, owner)], 1)
+            p_by = {s: 0.0 for s in SPLITS}
+            p_by[owner] = min(1.0, oversample * targets[owner].get(inferred, 0) / capacity)
+            p_train, p_val, p_test = p_by["train"], p_by["validation"], p_by["test"]
+        else:
+            p_train = min(1.0, oversample * targets["train"].get(inferred, 0) / available)
+            p_val = min(1.0, oversample * targets["validation"].get(inferred, 0) / available)
+            p_test = min(1.0, oversample * targets["test"].get(inferred, 0) / available)
         total_p = p_train + p_val + p_test
-        if total_p > 0.98:
+        if inferred not in grouped_labels and total_p > 0.98:
             scale = 0.98 / total_p
             p_train *= scale
             p_val *= scale
             p_test *= scale
         for chunk_index, chunk in enumerate(pd.read_csv(path, chunksize=args.chunk_size)):
             rng = np.random.default_rng(args.seed + file_index[path] * 1_000_003 + chunk_index)
+            chunk = chunk.assign(
+                _src_file_idx=np.int32(file_index[path]),
+                _src_row=chunk.index.to_numpy(dtype=np.int64),
+            )
             u = rng.random(len(chunk))
             masks = {
                 "train": u < p_train,
@@ -400,7 +591,7 @@ def prepare_with_path_labels(
         collected[split].clear()
         candidate = candidate.replace([np.inf, -np.inf], np.nan)
         for column in candidate.columns:
-            if column in {"attack_category", "label"}:
+            if column in {"attack_category", "label", *PROVENANCE_COLUMNS}:
                 continue
             if not pd.api.types.is_numeric_dtype(candidate[column]):
                 candidate[column] = pd.to_numeric(candidate[column], errors="coerce")
@@ -418,10 +609,13 @@ def prepare_with_path_labels(
     # If an identical feature+attack_category row appears in train and test, it is
     # not necessarily the same packet, but for a conservative paper protocol we
     # remove cross-split duplicates. Priority is: test > validation > train.
-    hash_cols = [c for c in prepared["train"].columns if c != "label"]
+    excluded_from_key = {"label", *PROVENANCE_COLUMNS}
+    if args.cross_split_key == "features":
+        excluded_from_key.add("attack_category")
+    hash_cols = [c for c in prepared["train"].columns if c not in excluded_from_key]
 
     def _hash_series(frame: pd.DataFrame) -> pd.Series:
-        return pd.util.hash_pandas_object(frame[hash_cols], index=False).astype("uint64")
+        return canonical_row_hashes(frame, hash_cols)
 
     hashes_before = {split: set(_hash_series(frame)) for split, frame in prepared.items()}
     overlaps_before = {
@@ -462,9 +656,35 @@ def prepare_with_path_labels(
             )
 
     for split, path in outputs.items():
+        frame = prepared[split]
+        sidecar = frame[list(PROVENANCE_COLUMNS)].copy()
+        sidecar["_src_file"] = sidecar["_src_file_idx"].map(
+            lambda i: str(files[int(i)].relative_to(raw_dir)).replace("\\", "/")
+        )
+        sidecar[["_src_file", "_src_row"]].to_csv(
+            output_dir / f"{split}_provenance.csv.gz", index=False, compression="gzip"
+        )
+        prepared[split] = frame.drop(columns=list(PROVENANCE_COLUMNS))
         prepared[split].to_csv(path, index=False, compression="gzip")
 
     pd.DataFrame(manifest_rows).to_csv(output_dir / "split_manifest.csv", index=False)
+    pd.DataFrame(
+        [
+            {
+                "file": str(p.relative_to(raw_dir)).replace("\\", "/"),
+                "sha256": getattr(args, "_file_sha256", {}).get(p, ""),
+                "rows": int(sum(file_counts[p].values())),
+                "inferred_label": infer_label_from_path(p, raw_dir),
+                "status": "processed",
+            }
+            for p in files
+        ]
+        + [
+            {"file": r["file"], "sha256": r["sha256"], "rows": 0, "inferred_label": "",
+             "status": f"excluded: {r['reason']} of {r['duplicate_of']}"}
+            for r in getattr(args, "_excluded_sources", [])
+        ]
+    ).to_csv(output_dir / "source_files_manifest.csv", index=False)
     raw_count_rows = []
     prepared_count_rows = []
     for label, count in sorted(global_counts.items()):
@@ -494,12 +714,37 @@ def prepare_with_path_labels(
         "sampled_row_hash_overlap_before_dedup": overlaps_before,
         "sampled_row_hash_overlap": overlaps,
         "dedup_removed_rows": dedup_removed_rows,
+        "cross_split_key": args.cross_split_key,
+        "split_mode": args.split_mode,
+        "file_group_assignment": getattr(args, "_file_split", {}),
+        "ungrouped_classes_row_stratified": getattr(args, "_ungrouped_labels", []),
+        "script_version": SCRIPT_VERSION,
+        "script_sha256": sha256_file(Path(__file__)),
+        "excluded_duplicate_source_files": getattr(args, "_excluded_sources", []),
+        "split_file_sha256": {split: sha256_file(path) for split, path in outputs.items()},
+        "split_content_sha256": {split: sha256_gzip_content(path) for split, path in outputs.items()},
+        "split_class_counts": {
+            split: {k: int(v) for k, v in sorted(prepared[split]["attack_category"].value_counts().items())}
+            for split in ("train", "validation", "test")
+        },
+        "split_binary_counts": {
+            split: {"benign": int((prepared[split]["label"] == 0).sum()),
+                    "attack": int((prepared[split]["label"] == 1).sum())}
+            for split in ("train", "validation", "test")
+        },
+        "environment": {
+            "python": platform.python_version(),
+            "numpy": np.__version__,
+            "pandas": pd.__version__,
+            "platform": platform.platform(),
+        },
         "feature_columns": [c for c in prepared["train"].columns if c not in {"label", "attack_category"}],
         "important_limitations": [
             "Official class-folder CSV.zip files do not contain a row-level label column; labels are inferred from folder names.",
             "Because several official class folders are single large files, strict file-held-out splitting would omit some classes from some splits.",
             "This preparation therefore uses deterministic class-stratified row sampling; exact split protocol and sample sizes must be reported.",
-            "Exact duplicate feature rows are removed across prepared splits with priority test > validation > train.",
+            "Feature-identical rows are removed from lower-priority splits (test > validation > train) using the key given in cross_split_key; within-split repeats are kept.",
+            "Byte-identical duplicate source files are processed once (see source_files_manifest.csv and excluded_duplicate_source_files).",
             "The official CSV files do not expose a device identifier; this is not a device-held-out split.",
         ],
     }
@@ -526,7 +771,11 @@ def main() -> None:
 
     raw_dir = Path(args.raw_dir)
     output_dir = Path(args.output_dir)
-    files = sorted(path for path in raw_dir.glob(args.glob) if path.is_file())
+    files, excluded_sources, file_digests = discover_source_files(raw_dir, args.glob)
+    args._excluded_sources = excluded_sources
+    args._file_sha256 = file_digests
+    for record in excluded_sources:
+        print(f"EXCLUDED duplicate source file: {record['file']} (identical to {record['duplicate_of']})")
     if not files:
         raise FileNotFoundError(
             f"No CSV files found under {raw_dir} with pattern {args.glob}. "
@@ -633,7 +882,7 @@ def main() -> None:
         collected[split].clear()
         candidate = candidate.replace([np.inf, -np.inf], np.nan)
         for column in candidate.columns:
-            if column in {"attack_category", "label"}:
+            if column in {"attack_category", "label", *PROVENANCE_COLUMNS}:
                 continue
             if not pd.api.types.is_numeric_dtype(candidate[column]):
                 candidate[column] = pd.to_numeric(candidate[column], errors="coerce")
@@ -654,7 +903,7 @@ def main() -> None:
     hash_cols = [c for c in prepared["train"].columns if c != "label"]
 
     def _hash_series(frame: pd.DataFrame) -> pd.Series:
-        return pd.util.hash_pandas_object(frame[hash_cols], index=False).astype("uint64")
+        return canonical_row_hashes(frame, hash_cols)
 
     hashes_before = {split: set(_hash_series(frame)) for split, frame in prepared.items()}
     overlaps_before = {

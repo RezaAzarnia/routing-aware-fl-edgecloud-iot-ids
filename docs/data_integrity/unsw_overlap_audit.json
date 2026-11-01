@@ -1,0 +1,111 @@
+{
+  "rows": {
+    "train": 175341,
+    "test": 82332
+  },
+  "identities": {
+    "full_row_all_columns": {
+      "train_internal_duplicate_rows": 0,
+      "test_internal_duplicate_rows": 0,
+      "test_rows_also_in_train": 0,
+      "distinct_shared_vectors": 0
+    },
+    "full_row_without_id": {
+      "train_internal_duplicate_rows": 67601,
+      "test_internal_duplicate_rows": 26387,
+      "test_rows_also_in_train": 4247,
+      "distinct_shared_vectors": 940
+    },
+    "predictor_only": {
+      "train_internal_duplicate_rows": 74301,
+      "test_internal_duplicate_rows": 28386,
+      "test_rows_also_in_train": 8541,
+      "distinct_shared_vectors": 1302
+    },
+    "predictor_and_label": {
+      "train_internal_duplicate_rows": 74072,
+      "test_internal_duplicate_rows": 28380,
+      "test_rows_also_in_train": 8245,
+      "distinct_shared_vectors": 1123
+    }
+  },
+  "predictor_identical_cross_partition": {
+    "test_rows": 8541,
+    "same_binary_label_in_train": 8017,
+    "conflicting_or_ambiguous_label": 524,
+    "by_test_attack_cat": {
+      "DoS": 2004,
+      "Exploits": 1802,
+      "Generic": 1722,
+      "Normal": 1472,
+      "Reconnaissance": 1138,
+      "Fuzzers": 261,
+      "Analysis": 125,
+      "Shellcode": 13,
+      "Backdoor": 4
+    },
+    "fraction_of_test": 0.1037
+  },
+  "conflicting_label_groups_within_train": {
+    "groups": 229,
+    "rows": 940
+  },
+  "conflicting_label_groups_within_test": {
+    "groups": 6,
+    "rows": 14
+  },
+  "duplicate_controlled_test_subset": {
+    "rule": "test rows whose predictor vector does NOT occur in the official training file",
+    "rows": 73791,
+    "benign": 35528,
+    "attack": 38263,
+    "attack_cat_counts": {
+      "Normal": 35528,
+      "Generic": 17149,
+      "Exploits": 9330,
+      "Fuzzers": 5801,
+      "Reconnaissance": 2358,
+      "DoS": 2085,
+      "Backdoor": 579,
+      "Analysis": 552,
+      "Shellcode": 365,
+      "Worms": 44
+    },
+    "note": "Evaluation-time mask only; standard benchmark on the full 82,332-row test file remains primary."
+  },
+  "loader_validation_split_leakage_by_seed": {
+    "2": {
+      "validation_rows": 26302,
+      "validation_rows_with_predictor_vector_in_fit_train": 12419,
+      "fraction": 0.4722
+    },
+    "3": {
+      "validation_rows": 26302,
+      "validation_rows_with_predictor_vector_in_fit_train": 12422,
+      "fraction": 0.4723
+    },
+    "4": {
+      "validation_rows": 26302,
+      "validation_rows_with_predictor_vector_in_fit_train": 12309,
+      "fraction": 0.468
+    },
+    "5": {
+      "validation_rows": 26302,
+      "validation_rows_with_predictor_vector_in_fit_train": 12421,
+      "fraction": 0.4722
+    },
+    "6": {
+      "validation_rows": 26302,
+      "validation_rows_with_predictor_vector_in_fit_train": 12415,
+      "fraction": 0.472
+    }
+  },
+  "categorical_levels_unseen_in_train": {
+    "proto": [],
+    "service": [],
+    "state": [
+      "ACC",
+      "CLO"
+    ]
+  }
+}
