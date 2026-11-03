@@ -123,41 +123,72 @@ def test_config_rejects_unknown_validation_split():
         cfg.validate()
 
 
-@pytest.mark.skipif(not (ROOT / "data" / "UNSW_NB15_testing-set.csv").exists(), reason="UNSW data not present")
-def test_real_unsw_group_disjoint_split_and_official_test_untouched():
-    import hashlib
-
+@pytest.mark.skipif(not (ROOT / "data" / "UNSW_NB15_training-set.csv").exists(), reason="UNSW data not present")
+def test_real_unsw_group_disjoint_split_validation_only():
+    """Default path: validation-only load; the locked official test file is never opened."""
     cfg = Config.from_yaml(ROOT / "configs" / "unsw_nb15_groupdisjoint_v2.yaml")
-    bundle = load_dataset(cfg.data, seed=2)
+    cfg.data.test_csv = ""
+    bundle = load_dataset(cfg.data, seed=2, load_test=False)
     info = bundle.validation_split_info
     assert info["validation_rows_sharing_predictor_vector_with_train"] == 0
     assert info["train_rows"] + info["validation_rows"] == 175_341
-    assert len(bundle.y_test) == 82_332
-    digest = hashlib.sha256((ROOT / "data" / "UNSW_NB15_testing-set.csv").read_bytes()).hexdigest()
-    assert digest == "734fe6642edf758f7c94d7d9149426b49d202fe8e7bf0bef47392489c3c0a559"
+
+
+@pytest.mark.authorized_integrity
+@pytest.mark.skipif(not (ROOT / "data" / "UNSW_NB15_testing-set.csv").exists(), reason="UNSW data not present")
+def test_AUTHORIZED_real_unsw_official_test_untouched_by_the_split():
+    """Opens the LOCKED UNSW test file; only in the separately authorised integrity workflow."""
+    import hashlib
+    import sys
+    sys.path.insert(0, str(ROOT / "scripts" / "final_test"))
+    from protected_access_guard import authorized
+
+    test_path = ROOT / "data" / "UNSW_NB15_testing-set.csv"
+    with authorized(test_path):
+        cfg = Config.from_yaml(ROOT / "configs" / "unsw_nb15_groupdisjoint_v2.yaml")
+        bundle = load_dataset(cfg.data, seed=2)
+        assert len(bundle.y_test) == 82_332
+        assert hashlib.sha256(test_path.read_bytes()).hexdigest() == "734fe6642edf758f7c94d7d9149426b49d202fe8e7bf0bef47392489c3c0a559"
 
 
 FG = ROOT / "data" / "CICIoT2023" / "prepared_verified_v2_filegroup"
 
 
-@pytest.mark.skipif(not FG.exists(), reason="file-group dataset not present")
-def test_filegroup_dataset_protocol_invariants():
+def _filegroup_invariants(splits):
     meta = json.loads((FG / "preparation_metadata.json").read_text(encoding="utf-8"))
     assert meta["split_mode"] == "file_group" and meta["cross_split_key"] == "features"
     assert len(meta["ungrouped_classes_row_stratified"]) == 17
     assignment = meta["file_group_assignment"]
     assert len(assignment) == 290
-    # whole files only in a single split for grouped classes
     sources = {}
-    for split in ("train", "validation", "test"):
+    for split in splits:
         prov = pd.read_csv(FG / f"{split}_provenance.csv.gz")
         sources[split] = set(prov["_src_file"].str.replace("\\", "/", regex=False))
     grouped = set(assignment)
-    for a, b in (("train", "validation"), ("train", "test"), ("validation", "test")):
-        assert not (sources[a] & sources[b] & grouped)
-    for split in ("train", "validation", "test"):
+    for i, a in enumerate(splits):
+        for b in splits[i + 1:]:
+            assert not (sources[a] & sources[b] & grouped)
+    for split in splits:
         for f in sources[split] & grouped:
             assert assignment[f] == split
-    for split, digest in meta["split_content_sha256"].items():
+    for split in splits:
         from prepare_ciciot2023 import sha256_gzip_content
-        assert sha256_gzip_content(FG / f"{split}.csv.gz") == digest
+        assert sha256_gzip_content(FG / f"{split}.csv.gz") == meta["split_content_sha256"][split]
+
+
+@pytest.mark.skipif(not FG.exists(), reason="file-group dataset not present")
+def test_filegroup_dataset_protocol_invariants_train_validation_only():
+    """Default path: train/validation provenance and content hashes only; the locked test split is never opened."""
+    _filegroup_invariants(["train", "validation"])
+
+
+@pytest.mark.authorized_integrity
+@pytest.mark.skipif(not FG.exists(), reason="file-group dataset not present")
+def test_AUTHORIZED_filegroup_dataset_protocol_invariants_including_locked_test():
+    """Opens the LOCKED CICIoT2023 test split and its provenance file; only in the separately authorised integrity workflow."""
+    import sys
+    sys.path.insert(0, str(ROOT / "scripts" / "final_test"))
+    from protected_access_guard import authorized
+
+    with authorized(FG / "test.csv.gz", FG / "test_provenance.csv.gz"):
+        _filegroup_invariants(["train", "validation", "test"])

@@ -1,0 +1,33 @@
+{
+  "created_utc": "2026-11-03T11:44:41Z",
+  "manifest_sha256": "737b901f26ae66cccb8971da41a8537c9e803f1933e1c442a63e38ad0a28d556",
+  "checks": [
+    {
+      "name": "manifest hash verifies",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "phase6c: git tag tree fingerprint equals the locked training-code fingerprint",
+      "ok": true,
+      "detail": "phase6c-final-results"
+    },
+    {
+      "name": "phase7b: git tag tree fingerprint equals the locked training-code fingerprint",
+      "ok": true,
+      "detail": "phase7b-final-results"
+    },
+    {
+      "name": "all 280 runs: checkpoint/preprocessor hashes, strict state_dict load, dimensions, thresholds",
+      "ok": true,
+      "detail": "280 ok"
+    },
+    {
+      "name": "no locked final-test file was opened during readiness checks",
+      "ok": true,
+      "detail": "[]"
+    }
+  ],
+  "failures": [],
+  "pass": true
+}

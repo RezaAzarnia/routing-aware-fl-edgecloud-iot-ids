@@ -1,0 +1,104 @@
+{
+  "created_utc": "2026-11-03T11:48:15Z",
+  "pairs_checked": 12,
+  "all_identical": true,
+  "rows": [
+    {
+      "dataset": "unsw",
+      "seed": 12,
+      "run_id": "unsw__clean_centralized__seed12",
+      "n_features_out": 194,
+      "identical": true,
+      "differing_keys": []
+    },
+    {
+      "dataset": "unsw",
+      "seed": 13,
+      "run_id": "unsw__clean_centralized__seed13",
+      "n_features_out": 194,
+      "identical": true,
+      "differing_keys": []
+    },
+    {
+      "dataset": "unsw",
+      "seed": 14,
+      "run_id": "unsw__clean_centralized__seed14",
+      "n_features_out": 193,
+      "identical": true,
+      "differing_keys": []
+    },
+    {
+      "dataset": "unsw",
+      "seed": 15,
+      "run_id": "unsw__clean_centralized__seed15",
+      "n_features_out": 193,
+      "identical": true,
+      "differing_keys": []
+    },
+    {
+      "dataset": "unsw",
+      "seed": 16,
+      "run_id": "unsw__clean_centralized__seed16",
+      "n_features_out": 194,
+      "identical": true,
+      "differing_keys": []
+    },
+    {
+      "dataset": "ciciot",
+      "seed": 12,
+      "run_id": "ciciot__clean_centralized__seed12",
+      "n_features_out": 39,
+      "identical": true,
+      "differing_keys": []
+    },
+    {
+      "dataset": "ciciot",
+      "seed": 16,
+      "run_id": "ciciot__clean_centralized__seed16",
+      "n_features_out": 39,
+      "identical": true,
+      "differing_keys": []
+    },
+    {
+      "dataset": "unsw",
+      "seed": 17,
+      "run_id": "unsw__reference__seed17",
+      "n_features_out": 192,
+      "identical": true,
+      "differing_keys": []
+    },
+    {
+      "dataset": "unsw",
+      "seed": 18,
+      "run_id": "unsw__reference__seed18",
+      "n_features_out": 194,
+      "identical": true,
+      "differing_keys": []
+    },
+    {
+      "dataset": "unsw",
+      "seed": 19,
+      "run_id": "unsw__reference__seed19",
+      "n_features_out": 193,
+      "identical": true,
+      "differing_keys": []
+    },
+    {
+      "dataset": "unsw",
+      "seed": 20,
+      "run_id": "unsw__reference__seed20",
+      "n_features_out": 194,
+      "identical": true,
+      "differing_keys": []
+    },
+    {
+      "dataset": "unsw",
+      "seed": 21,
+      "run_id": "unsw__reference__seed21",
+      "n_features_out": 194,
+      "identical": true,
+      "differing_keys": []
+    }
+  ],
+  "locked_test_opened": []
+}

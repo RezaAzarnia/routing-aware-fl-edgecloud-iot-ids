@@ -202,26 +202,44 @@ def test_unsw_preprocessors_fit_on_train_only_and_test_is_preserved(tmp_path):
     assert abs(float(bundle.X_test[:, -2:].mean())) > 1.0
 
 
-@pytest.mark.skipif(not (ROOT / "data" / "UNSW_NB15_testing-set.csv").exists(),
-                    reason="UNSW data not present")
-def test_official_unsw_files_are_unmodified_and_test_partition_preserved():
+@pytest.mark.skipif(not (ROOT / "data" / "UNSW_NB15_training-set.csv").exists(), reason="UNSW data not present")
+def test_official_unsw_training_file_unmodified_and_validation_only_load():
+    """Default path: touches ONLY the training file (hash + validation-only load). The locked testing file is never opened here."""
     import hashlib
     from src.config import Config
     from src.data import load_dataset
 
-    expected = {
-        "UNSW_NB15_training-set.csv": "bec7dd5ec88dc2a0ccc7a07879d338395ed7421750f675fd0339e07dfe0648fa",
-        "UNSW_NB15_testing-set.csv": "734fe6642edf758f7c94d7d9149426b49d202fe8e7bf0bef47392489c3c0a559",
-    }
-    for name, digest in expected.items():
-        assert hashlib.sha256((ROOT / "data" / name).read_bytes()).hexdigest() == digest
+    assert hashlib.sha256((ROOT / "data" / "UNSW_NB15_training-set.csv").read_bytes()).hexdigest() == \
+        "bec7dd5ec88dc2a0ccc7a07879d338395ed7421750f675fd0339e07dfe0648fa"
     cfg = Config.from_yaml(ROOT / "configs" / "full.yaml")
     cfg.data.train_csv = str(ROOT / "data" / "UNSW_NB15_training-set.csv")
-    cfg.data.test_csv = str(ROOT / "data" / "UNSW_NB15_testing-set.csv")
-    bundle = load_dataset(cfg.data, seed=2)
-    assert (len(bundle.y_train), len(bundle.y_val), len(bundle.y_test)) == (149_039, 26_302, 82_332)
-    raw_test = pd.read_csv(cfg.data.test_csv)
-    assert np.array_equal(bundle.y_test, raw_test["label"].to_numpy())
+    cfg.data.test_csv = ""
+    bundle = load_dataset(cfg.data, seed=2, load_test=False)
+    assert (len(bundle.y_train), len(bundle.y_val)) == (149_039, 26_302)
+
+
+@pytest.mark.authorized_integrity
+@pytest.mark.skipif(not (ROOT / "data" / "UNSW_NB15_testing-set.csv").exists(), reason="UNSW data not present")
+def test_AUTHORIZED_official_unsw_test_file_unmodified_and_test_partition_preserved():
+    """Opens the LOCKED UNSW test file (hash, row count, label equality). Runs only in the separately authorised integrity workflow:
+    IOTFL_AUTHORIZED_FINAL_TEST_INTEGRITY=1 pytest -m authorized_integrity"""
+    import hashlib
+    import sys
+    sys.path.insert(0, str(ROOT / "scripts" / "final_test"))
+    from protected_access_guard import authorized
+    from src.config import Config
+    from src.data import load_dataset
+
+    test_path = ROOT / "data" / "UNSW_NB15_testing-set.csv"
+    with authorized(test_path):
+        assert hashlib.sha256(test_path.read_bytes()).hexdigest() == "734fe6642edf758f7c94d7d9149426b49d202fe8e7bf0bef47392489c3c0a559"
+        cfg = Config.from_yaml(ROOT / "configs" / "full.yaml")
+        cfg.data.train_csv = str(ROOT / "data" / "UNSW_NB15_training-set.csv")
+        cfg.data.test_csv = str(test_path)
+        bundle = load_dataset(cfg.data, seed=2)
+        assert (len(bundle.y_train), len(bundle.y_val), len(bundle.y_test)) == (149_039, 26_302, 82_332)
+        raw_test = pd.read_csv(cfg.data.test_csv)
+        assert np.array_equal(bundle.y_test, raw_test["label"].to_numpy())
 
 
 MANIFEST = ROOT / "docs" / "data_integrity" / "ciciot2023_raw_manifest.csv"

@@ -27,3 +27,30 @@ def phase6c_tree(tmp_path_factory):
     subprocess.run(["git", "archive", "--format=tar", "-o", str(archive), "phase6c-final-results"], check=True, cwd=ROOT)
     shutil.unpack_archive(str(archive), str(dest / "tree"))
     return dest / "tree"
+
+
+# ---------------------------------------------------------------------------------------------------------------------
+# Final-test protection (Phase 9C): ordinary test runs can NEVER open the locked final-test files. Tests that must read them
+# are marked `authorized_integrity`, are deselected by default (pytest.ini) and, when selected, additionally require
+# IOTFL_AUTHORIZED_FINAL_TEST_INTEGRITY=1 and an explicit `authorized(...)` block around the read.
+import os
+
+sys.path.insert(0, str(ROOT / "scripts" / "final_test"))
+import protected_access_guard as _guard  # noqa: E402
+
+
+@pytest.fixture(scope="session", autouse=True)
+def _protect_locked_final_test_files():
+    _guard.install()
+    yield
+    assert not _guard.violations, f"locked final-test file access attempted: {_guard.violations}"
+    _guard.uninstall()
+
+
+def pytest_collection_modifyitems(config, items):
+    if os.environ.get("IOTFL_AUTHORIZED_FINAL_TEST_INTEGRITY") == "1":
+        return
+    skip = pytest.mark.skip(reason="authorised integrity workflow only (set IOTFL_AUTHORIZED_FINAL_TEST_INTEGRITY=1 and run -m authorized_integrity)")
+    for item in items:
+        if "authorized_integrity" in item.keywords:
+            item.add_marker(skip)
