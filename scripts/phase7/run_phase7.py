@@ -196,7 +196,15 @@ def main():
     ap.add_argument("--include-optional", action="store_true", help="also run the optional CICIoT2023 tier")
     ap.add_argument("--only-run-ids", default=None)
     ap.add_argument("--stop-after-minutes", type=float, default=None)
+    ap.add_argument("--manifest", default=None, help="manifest to use (default: Phase 7); Phase 7b: docs/phase7b/EXPERIMENT_MANIFEST.json")
+    ap.add_argument("--results", default=None, help="results folder (default: results_phase7); Phase 7b: results_phase7b")
     args = ap.parse_args()
+    global MANIFEST, RES, STATE
+    if args.manifest:
+        MANIFEST = (ROOT / args.manifest) if not Path(args.manifest).is_absolute() else Path(args.manifest)
+    if args.results:
+        RES = ROOT / args.results
+        STATE = RES / "_state"
     manifest = load_manifest(MANIFEST)
     return {"plan": cmd_plan, "status": cmd_status, "run": cmd_run}[args.command](manifest, args)
 

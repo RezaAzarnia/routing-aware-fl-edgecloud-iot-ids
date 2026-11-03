@@ -22,9 +22,14 @@ def binary_classification_metrics(
     threshold: float = 0.5,
 ) -> Dict[str, float]:
     y_true = np.asarray(y_true).astype(int)
-    probabilities = np.asarray(probabilities, dtype=float)
-    probabilities = np.clip(probabilities, 1e-7, 1 - 1e-7)
+    # Phase 7b: ONE decision rule. Scores are used as given (only clipped to [0, 1], a no-op for valid
+    # probabilities) so that ``score >= threshold`` here is exactly the rule used by select_decision_threshold.
+    # Clipping to (1e-7, 1-1e-7) before the comparison made a selected threshold of exactly 1.0 predict nothing
+    # (false F1=precision=recall=FPR=0) and created artificial ROC ties; numerical clipping is now applied
+    # only inside the logarithmic loss, where it is mathematically needed.
+    probabilities = np.clip(np.asarray(probabilities, dtype=float), 0.0, 1.0)
     predictions = (probabilities >= float(threshold)).astype(int)
+    loss_probabilities = np.clip(probabilities, 1e-7, 1 - 1e-7)
     matrix = confusion_matrix(y_true, predictions, labels=[0, 1])
     tn, fp, fn, tp = matrix.ravel()
     specificity = tn / (tn + fp + 1e-12)
@@ -42,7 +47,7 @@ def binary_classification_metrics(
         "loss": float(
             log_loss(
                 y_true,
-                np.column_stack([1 - probabilities, probabilities]),
+                np.column_stack([1 - loss_probabilities, loss_probabilities]),
                 labels=[0, 1],
             )
         ),
