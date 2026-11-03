@@ -1,0 +1,31 @@
+# Claim-to-evidence matrix of the revised manuscript (`latex/main.tex`)
+
+Every numeric statement is traced to a generated artifact. Protocol labels: **P6C** = Phase 6C, 240 runs, seeds 12-16, validation-only, report partition, audited metrics; **P7b** = Phase 7b follow-up, UNSW-NB15 only, seeds 17-21, audited code; all n=5, so exact two-sided p ≥ 0.0625 and every inference is exploratory. "Best" = checkpoint chosen on the selection partition; "last" = round 30. Paths relative to the repository root. L = `Phase9_Manuscript_Revision/ledger/`, T = `docs/phase8/tables/`.
+
+| # | Manuscript claim | Value in manuscript | Dataset / protocol / metric | Artifact | Limitation |
+|---|---|---|---|---|---|
+| 1 | Undefended FedAvg collapses under 20% sign-flip | UNSW last AUC 0.604±0.143 (top-k), 0.649±0.175 (random); 5/5 and 4/5 runs <0.80; CIC last 0.31-0.76, best 0.945-0.996 | UNSW, CIC; P6C; last vs best AUC | `L/ledger_arm_summary_phase6c.csv`, `L/ledger_per_run_phase6c.csv` | One attack family; best checkpoint hides collapse |
+| 2 | MAD+momentum matches clean FedAvg | UNSW best 0.9838 vs 0.9843 (Δ −0.0005, CI [−0.0032, 0.0022], 2/5 seeds for Reference); CIC 0.9962 | P6C; best AUC | `L/ledger_paired_contrasts_phase6c_audited.csv` | Equivalence not tested; n=5 |
+| 3 | Reference − undefended top-k FedAvg | best +0.097, last +0.378, 5/5 seeds, p=0.0625 | UNSW; P6C | same | min attainable p |
+| 4 | MAD filter has no power with 1-2 genuine updates; poor at 3; keeps 14.1% malicious at ≥6 | 12/12; 39.0%/30.6%; 14.1% (n=6,938) | pooled distance-filter arms, P6C | `T/T5b_mad_filter_by_number_of_real_updates.csv`, `L` | Pooled across arms; descriptive |
+| 5 | Pooled acceptance 15.0%, honest rejection 5.3% | 1192/7930; 1768/33356 | same | T5b (sums) | same |
+| 6 | Top-k vs uniform: PDR 0.851 vs 0.782 (+8.8%), delay 76.6 vs 81.5 ms (−6.0%), path stability 0.923 vs 0.855, transfer 17.2 vs 14.9 Mbit/s (+15.5%) | UNSW trace; CIC delay −7.5%, transfer +16.6% | P6C, `ctl_selection_uniform` vs `reference` | `L/ledger_network_fairness_per_run_phase6c.csv`, `tables/tab_network.tex` | One simulated trace (identical for both datasets); oracle delivery probability |
+| 7 | Participation: Gini 0.731 / 27.2 never selected (top-k); 0.486 / 8.0 (coverage); 0.205 / 0 (uniform) | UNSW | P6C | `T/T4_selection_fairness_and_attacker_exposure_phase6c.csv` | same |
+| 8 | Policy has no measurable AUC effect | uniform −0.0023, coverage −0.0009 (UNSW); ≤0.0001 CIC; never-selected recall 0.975 vs selected 0.976 | P6C | `L/...paired...`, T4 | Correlated route/label scenario not simulated |
+| 9 | Security input does not steer away from attackers | malicious share of selected 0.195 (top-k) vs 0.188 (uniform), natural attackers | UNSW P6C | T4 | exposure-controlled arms fixed at 0.200 by design |
+| 10 | Packet-coupled delivery: delivered 0.848→0.681, delay 76.6→262.6 ms, transfer 17.2→4.4, PDR 0.851→0.850 | UNSW | P6C `reference` vs `ctl_delivery_coupled` | `T/T3_communication_and_delivery_phase6c.csv`, tab_network | ARQ ≤2 retransmissions, one trace |
+| 11 | Corrected not better than Reference | UNSW best −0.0082 [−0.0147, −0.0017], 0/5 better; last −0.0152; CIC best −0.0003 | P6C | `L/...paired...` | bundle of mechanisms; exploratory |
+| 12 | Single-factor ablations within ~0.005 AUC of Reference | Table 6 | P6C | `tables/tab_ablation.tex` | no interactions; no leave-one-out from Corrected |
+| 13 | Corrected: 4.63 vs 5.93 genuine kept updates, surrogate share 0.096 vs 0.221 | UNSW | P6C (original values) | `Phase6C_Final_Handoff/reports/Scientific_Results_EN.md` §3, T5a | correlational; handoff values are original-metric tables (training-side quantities unaffected) |
+| 14 | 30% failures: Reference last 0.9817±0.0035, Corrected 0.893±0.086 (1/5 collapse), paired last −0.088 [−0.198, +0.022], 5/5 worse | UNSW | P6C | `L/ledger_arm_summary...`, paired | exploratory |
+| 15 | Guard did not meet pre-registered criterion | collapses 2→1; last 0.840→0.926; better in 3/5 (needs 4/5); excluding seed 17 mean −0.007; skipped rounds 2 and 17 | UNSW P7b | `L/ledger_per_run_phase7b.csv`, `tables/tab_phase7b.tex`, `docs/phase7b/PHASE7B_CHANGELOG.md`, `docs/phase7/PHASE7_EXPERIMENT_PLAN.md` | seed 17 (and part of 18) seen before completion; n=5 |
+| 16 | Reference stable at 30% failures | last 0.976±0.006 | UNSW P7b | same | - |
+| 17 | Gaussian cost | −0.0419 (Reference UNSW, 5/5), −0.0032 CIC; Corrected −0.0350 / −0.0021 | P6C | `L/...paired...` | defective surrogate-cap path; ε diagnostic only |
+| 18 | Surrogate share 0.476/0.480 (Corrected+Gaussian) vs 0.096/0.097 | strict cap infeasible 71%/79% of rounds | P6C | `T/T5a_surrogate_weight_share.csv`, `docs/phase8/SCIENTIFIC_EVIDENCE_AUDIT.md` §B | variant fix not run |
+| 19 | Audit: best AUC change ≤0.0037, F1 ≤0.001; 12 runs change at last round; best-round selection may differ in some of 182/240 runs with gap <0.001 | P6C | `posthoc_threshold_fix/phase6c_posthoc_with_deltas.csv`, `docs/phase7b/PHASE7B_CHANGELOG.md` | selection re-run impossible (states not stored) |
+| 20 | Dataset facts (UNSW 175,341 → 150,293 + 3×≈8,350; CIC 926,133 / 146,626, 39 features, benign 53.9% vs 3.2%) | - | `results_phase6c/*/reference/seed_12/dataset_summary.json`, `validation_split_info.json`; `docs/data_integrity/filegroup_protocol_verification.json` | CIC provenance unverified |
+| 21 | Payload 174,728 B (UNSW) / 95,368 B (CIC) per update | - | `results_phase6c/*/reference/seed_12/network_metrics.csv` | uplink only |
+| 22 | Threshold rule and FPR ≈0.15 for all arms | - | `src/metrics.py` (`select_decision_threshold`), tests `tests/test_phase7b_threshold.py` | FPR transfer untested |
+| 23 | Gaussian ε≈10 diagnostic only | - | `results_phase6c/*/*/seed_*/privacy_plan.json` (`subsampling_amplification_valid=false`) | not certified DP |
+
+Removed from the old manuscript (not reproducible or protocol-obsolete): CIC delay −26.6%, PDR +13.4%, path stability +62.8%, transfer efficiency +46.0%; UNSW F1 +8.3% / AUC +6.6% over FedAvg; NSR −69.7%; "Proposed ε≈20"; official-test-set FPR statements; "complementary benefits"; "balanced trade-off"; "recovery of failed-client contributions"; "secure" in the title.

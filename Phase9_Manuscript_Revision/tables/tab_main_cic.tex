@@ -1,0 +1,17 @@
+\begin{tabular}{@{}lcccccc@{}}\toprule
+Arm & AUC best & AUC last & F1 best & Recall best & FPR best & Collapsed\\
+\midrule
+Centralized (no FL, clean) & 0.9974$\pm$0.0002 & 0.9973$\pm$0.0002 & 0.995 & 0.994 & 0.144 & 0/5 \\
+FedAvg, clean & 0.9962$\pm$0.0004 & 0.9960$\pm$0.0006 & 0.993 & 0.991 & 0.146 & 0/5 \\
+FedAvg, random selection, attack & 0.9930$\pm$0.0015 & 0.5516$\pm$0.1154 & 0.990 & 0.986 & 0.140 & 5/5 \\
+FedAvg, top-k selection, attack & 0.9813$\pm$0.0211 & 0.4625$\pm$0.0843 & 0.979 & 0.965 & 0.151 & 5/5 \\
+MAD filter, random selection, no imputation & 0.9962$\pm$0.0003 & 0.9958$\pm$0.0007 & 0.993 & 0.992 & 0.147 & 0/5 \\
+Reference & 0.9962$\pm$0.0003 & 0.9960$\pm$0.0006 & 0.993 & 0.992 & 0.144 & 0/5 \\
+Corrected & 0.9960$\pm$0.0003 & 0.9949$\pm$0.0014 & 0.993 & 0.991 & 0.147 & 0/5 \\
+Reference + Gaussian & 0.9930$\pm$0.0014 & 0.9931$\pm$0.0016 & 0.991 & 0.987 & 0.141 & 0/5 \\
+Corrected + Gaussian & 0.9939$\pm$0.0010 & 0.9939$\pm$0.0010 & 0.991 & 0.987 & 0.142 & 0/5 \\
+Reference, 30\% failures & 0.9960$\pm$0.0005 & 0.9959$\pm$0.0005 & 0.993 & 0.991 & 0.144 & 0/5 \\
+Corrected, 30\% failures & 0.9957$\pm$0.0008 & 0.9767$\pm$0.0385 & 0.993 & 0.991 & 0.147 & 0/5 \\
+Reference, natural attackers & 0.9961$\pm$0.0004 & 0.9960$\pm$0.0005 & 0.993 & 0.991 & 0.141 & 0/5 \\
+Corrected, natural attackers & 0.9959$\pm$0.0006 & 0.9921$\pm$0.0073 & 0.993 & 0.991 & 0.143 & 0/5 \\
+\bottomrule\end{tabular}

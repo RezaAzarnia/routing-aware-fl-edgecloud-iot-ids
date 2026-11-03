@@ -1,0 +1,13 @@
+\begin{tabular}{@{}llccccccc@{}}\toprule
+Dataset & Policy & PDR & Delay (ms) & Path stab. & Transfer (Mbit/s) & Received/sel. & Gini & Never sel.\\\midrule
+UNSW-NB15 & Uniform random & 0.782 & 81.5 & 0.855 & 14.9 & 0.706 & 0.205 & 0.0 \\
+UNSW-NB15 & Coverage-aware & 0.833 & 76.3 & 0.904 & 17.1 & 0.743 & 0.486 & 8.0 \\
+UNSW-NB15 & Top-k, independent draws (Reference) & 0.851 & 76.6 & 0.923 & 17.2 & 0.750 & 0.731 & 27.2 \\
+UNSW-NB15 & Top-k, packet-coupled & 0.850 & 262.6 & 0.923 & 4.4 & 0.601 & 0.731 & 27.2 \\
+UNSW-NB15 & Coverage-aware, packet-coupled (Corrected) & 0.834 & 267.6 & 0.904 & 3.9 & 0.557 & 0.486 & 8.0 \\
+CICIoT2023 & Uniform random & 0.782 & 71.3 & 0.855 & 9.4 & 0.706 & 0.205 & 0.0 \\
+CICIoT2023 & Coverage-aware & 0.833 & 65.8 & 0.904 & 10.8 & 0.743 & 0.486 & 8.0 \\
+CICIoT2023 & Top-k, independent draws (Reference) & 0.851 & 65.9 & 0.923 & 10.9 & 0.750 & 0.731 & 27.2 \\
+CICIoT2023 & Top-k, packet-coupled & 0.850 & 249.9 & 0.923 & 2.6 & 0.601 & 0.731 & 27.2 \\
+CICIoT2023 & Coverage-aware, packet-coupled (Corrected) & 0.834 & 255.0 & 0.904 & 2.3 & 0.557 & 0.486 & 8.0 \\
+\bottomrule\end{tabular}

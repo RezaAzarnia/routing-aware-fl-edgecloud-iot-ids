@@ -1,0 +1,16 @@
+\begin{tabular}{@{}lllllllllc@{}}\toprule
+Arm & Aggregation & Selection & Delivery & Impute & Surrogates & Sur.\ cap & Weights & Momentum & DP\\\midrule
+corrected & distance\_filter & coverage\_aware & packet-coupled & yes & post-filter & 0.1 & samples & 0.9 & none \\
+corrected\_gaussian & distance\_filter & coverage\_aware & packet-coupled & yes & post-filter & 0.1 & samples & 0.9 & central\_client \\
+ctl\_delivery\_coupled & distance\_filter & top\_k & packet-coupled & yes & pre-filter & -- & samples & 0.9 & none \\
+ctl\_imputation\_none & distance\_filter & top\_k & independent & no & pre-filter & -- & samples & 0.9 & none \\
+ctl\_momentum0\_lr0p5 & distance\_filter & top\_k & independent & yes & pre-filter & -- & samples & 0.0 & none \\
+ctl\_selection\_coverage & distance\_filter & coverage\_aware & independent & yes & pre-filter & -- & samples & 0.9 & none \\
+ctl\_selection\_uniform & distance\_filter & uniform\_random & independent & yes & pre-filter & -- & samples & 0.9 & none \\
+ctl\_weighting\_uniform & distance\_filter & top\_k & independent & yes & pre-filter & -- & uniform & 0.9 & none \\
+reference & distance\_filter & top\_k & independent & yes & pre-filter & -- & samples & 0.9 & none \\
+reference\_gaussian & distance\_filter & top\_k & independent & yes & pre-filter & -- & samples & 0.9 & central\_client \\
+robust\_random\_no\_imputation & distance\_filter & uniform\_random & independent & no & pre-filter & -- & samples & 0.9 & none \\
+scenario\_fedavg\_random & fedavg & uniform\_random & independent & no & pre-filter & -- & samples & 0.9 & none \\
+scenario\_fedavg\_topk & fedavg & top\_k & independent & no & pre-filter & -- & samples & 0.9 & none \\
+\bottomrule\end{tabular}

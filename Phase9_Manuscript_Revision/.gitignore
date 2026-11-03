@@ -1,0 +1,10 @@
+latex/*.aux
+latex/*.log
+latex/*.out
+latex/*.blg
+latex/*.bbl
+latex/*.toc
+latex/*.fls
+latex/*.fdb_latexmk
+latex/*.synctex.gz
+latex/main.pdf

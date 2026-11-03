@@ -1,0 +1,13 @@
+\begin{tabular}{@{}lcccc@{}}\toprule
+ & \multicolumn{2}{c}{UNSW-NB15} & \multicolumn{2}{c}{CICIoT2023}\\\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+Single change to Reference & best & last & best & last\\\midrule
+Uniform selection & -0.0023 (1/5) & -0.0091 (1/5) & -0.0001 (2/5) & -0.0001 (2/5) \\
+Coverage-aware selection & -0.0009 (2/5) & -0.0024 (3/5) & -0.0001 (1/5) & +0.0001 (2/5) \\
+Packet-coupled delivery (ARQ) & -0.0050 (1/5) & -0.0056 (2/5) & -0.0003 (0/5) & -0.0006 (0/5) \\
+No surrogate imputation & -0.0016 (2/5) & -0.0004 (2/5) & -0.0001 (0/5) & -0.0000 (3/5) \\
+Real-only filter, post-filter surrogates & -0.0017 (3/5) & -0.0001 (2/5) & -0.0001 (1/5) & -0.0000 (2/5) \\
+Surrogate cap 0.10 & -0.0003 (1/5) & -0.0009 (1/5) & -0.0000 (2/5) & -0.0001 (1/5) \\
+Uniform client weights & -0.0038 (1/5) & -0.0004 (1/5) & -0.0003 (1/5) & -0.0001 (1/5) \\
+No server momentum ($\mu{=}0$, $\eta_s{=}0.5$) & -0.0010 (2/5) & +0.0001 (3/5) & -0.0000 (2/5) & +0.0002 (2/5) \\
+No server momentum ($\mu{=}0$, $\eta_s{=}5$) & -0.0041 & -0.0402 & -0.0036 & -0.2653 \\
+\bottomrule\end{tabular}
