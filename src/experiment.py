@@ -23,7 +23,8 @@ from .metrics import (
 )
 from .model import ANN
 from .network import DynamicEdgeCloudNetwork
-from .partitioning import make_partitions
+from .history_selector import HistorySelector
+from .partitioning import make_partitions, split_client_holdout
 from .plotting import create_run_plots
 from .privacy import (
     add_gaussian_noise,
@@ -592,6 +593,8 @@ def run_experiment(cfg: Config) -> Path:
         dirichlet_alpha=cfg.fl.dirichlet_alpha,
         min_client_samples=cfg.fl.min_client_samples,
     )
+    full_partitions = partitions
+    partitions, _holdout = split_client_holdout(full_partitions, cfg.fl.client_holdout_fraction, cfg.experiment.seed)
     clients: List[Client] = []
     distribution_rows = []
     for client_id, indices in enumerate(partitions):
@@ -631,6 +634,12 @@ def run_experiment(cfg: Config) -> Path:
         cfg.routing,
         cfg.experiment.seed + 3000,
     )
+    if cfg.routing.network_data_coupling > 0:
+        _minority = 0 if (bundle.y_train == 0).sum() <= (bundle.y_train == 1).sum() else 1
+        _driver = np.array([float((bundle.y_train[idx] == _minority).mean()) for idx in full_partitions])
+        network.couple_links_to_scores(_driver, cfg.routing.network_data_coupling, cfg.experiment.seed)
+    history_selector = (HistorySelector(cfg.fl.num_clients, cfg.routing.alpha_latency, cfg.routing.beta_stability, cfg.routing.ucb_c, seed=cfg.experiment.seed)
+                        if cfg.routing.selection_policy == "history_ucb" else None)
 
     initial_default, initial_selected, initial_probabilities = _evaluate_protocol(cfg, bundle, server)
     round_rows = [
@@ -709,6 +718,8 @@ def run_experiment(cfg: Config) -> Path:
                 selected_clients = selection_rng.choice(
                     cfg.fl.num_clients, size=cfg.fl.clients_per_round, replace=False
                 ).tolist()
+            elif policy == "history_ucb":
+                selected_clients = history_selector.select(cfg.fl.clients_per_round, round_number)
             elif policy == "coverage_aware":
                 selected_clients = network.select_clients_coverage_aware(
                     cfg.fl.clients_per_round, selection_counts, round_number, cfg.routing.coverage_penalty
@@ -1162,6 +1173,10 @@ def run_experiment(cfg: Config) -> Path:
             stale_rounds += 1
 
         round_network = [row for row in network_rows if row["round"] == round_number]
+        if history_selector is not None:
+            for row in round_network:
+                _got = bool(row.get("received_by_server", False))
+                history_selector.observe(int(row["client_id"]), _got, float(row["end_to_end_delay_ms"]) if _got else None)
         epsilon = (
             approximate_rdp_epsilon(
                 effective_noise_multiplier,

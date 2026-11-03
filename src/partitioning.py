@@ -5,6 +5,22 @@ from typing import List
 import numpy as np
 
 
+def split_client_holdout(partitions, fraction: float, seed: int):
+    """Phase 10: deterministic per-client split into (train_indices, holdout_indices). fraction 0 returns the partitions unchanged and empty holdouts.
+    Each client keeps at least one training sample; the holdout is never used for training, selection or thresholds."""
+    if fraction <= 0:
+        return [np.asarray(p, dtype=np.int64) for p in partitions], [np.zeros(0, dtype=np.int64) for _ in partitions]
+    rng = np.random.default_rng([seed, 8000])
+    train, hold = [], []
+    for p in partitions:
+        p = np.asarray(p, dtype=np.int64)
+        order = rng.permutation(len(p))
+        k = min(int(round(fraction * len(p))), len(p) - 1)
+        hold.append(p[order[:k]])
+        train.append(p[order[k:]])
+    return train, hold
+
+
 def partition_iid(y: np.ndarray, num_clients: int, seed: int) -> List[np.ndarray]:
     rng = np.random.default_rng(seed)
     indices = rng.permutation(len(y))

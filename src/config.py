@@ -85,6 +85,8 @@ class FLConfig:
     # sample_proportional (historical) | uniform (every retained real update has weight 1;
     # a surrogate update has weight recovery_weight_factor)
     weighting: str = "sample_proportional"
+    # Phase 10 (default 0.0 = historical): fraction of EACH client's samples held out of training, used only for client-level evaluation.
+    client_holdout_fraction: float = 0.0
 
 
 @dataclass
@@ -198,6 +200,10 @@ class RoutingConfig:
     # sequential (historical shared generators) | matched (every random draw is derived from
     # (seed, round, client), so exogenous traces do not depend on who else was selected)
     trace_mode: str = "sequential"
+    # Phase 10 (defaults = historical behaviour). network_data_coupling in [0,1]: correlation between a client's MINORITY-CLASS SHARE and the
+    # badness of its links (0 = independent, historical). ucb_c: exploration constant of selection_policy = history_ucb.
+    network_data_coupling: float = 0.0
+    ucb_c: float = 1.4142135623730951
 
 
 @dataclass
@@ -339,8 +345,12 @@ class Config:
             raise ValueError("fl.weighting must be sample_proportional or uniform")
         if self.failure.surrogate_total_weight_cap is not None and not 0.0 < self.failure.surrogate_total_weight_cap < 1.0:
             raise ValueError("failure.surrogate_total_weight_cap must be in (0, 1) or null")
-        if self.routing.selection_policy not in {"top_k", "uniform_random", "coverage_aware"}:
-            raise ValueError("routing.selection_policy must be top_k, uniform_random or coverage_aware")
+        if self.routing.selection_policy not in {"top_k", "uniform_random", "coverage_aware", "history_ucb"}:
+            raise ValueError("routing.selection_policy must be top_k, uniform_random, coverage_aware or history_ucb")
+        if not 0.0 <= self.routing.network_data_coupling <= 1.0 or self.routing.ucb_c < 0:
+            raise ValueError("routing.network_data_coupling must be in [0,1] and routing.ucb_c >= 0")
+        if not 0.0 <= self.fl.client_holdout_fraction < 0.5:
+            raise ValueError("fl.client_holdout_fraction must be in [0, 0.5)")
         if self.routing.delivery_model not in {"independent_draws", "packet_coupled"}:
             raise ValueError("routing.delivery_model must be independent_draws or packet_coupled")
         if self.routing.trace_mode not in {"sequential", "matched"}:

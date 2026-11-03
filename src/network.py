@@ -43,6 +43,26 @@ class DynamicEdgeCloudNetwork:
         self.trace_mode = cfg.trace_mode
         self.delivery_model = cfg.delivery_model
 
+    def couple_links_to_scores(self, driver, strength: float, seed: int) -> None:
+        """Phase 10 scenario: RELABEL which client owns which (already generated) link set so that clients with a larger ``driver`` (minority-class share)
+        tend to get worse links. Pure permutation of the client axis of the initial link arrays: the marginal network and all later RNG consumption are
+        unchanged, so strength = 0 is bit-identical to the independent network and the coupled network is a matched relabeling. Routing policies never see
+        the driver; the simulator uses it once, at construction."""
+        n = self.num_clients
+        driver = np.asarray(driver, dtype=float)
+        if strength <= 0 or n < 2:
+            return
+        rng = np.random.default_rng([seed, 9000])
+        z = (driver - driver.mean()) / (driver.std() + 1e-12)
+        mix = strength * z + float(np.sqrt(max(0.0, 1.0 - strength ** 2))) * rng.standard_normal(n)
+        quality = self.client_edge_stability.mean(axis=1) - (self.client_edge_latency.mean(axis=1) - 5.0) / 75.0 * 0.25
+        slots_worst_first = np.argsort(quality)
+        clients_high_first = np.argsort(-mix)
+        perm = np.empty(n, dtype=np.int64)
+        perm[clients_high_first] = slots_worst_first        # highest driver -> worst links
+        for name in ("client_edge_latency", "client_edge_stability", "client_edge_security", "client_edge_bandwidth"):
+            setattr(self, name, getattr(self, name)[perm])
+
     def _event_rng(self, client_id: int, stream: int):
         """Generator for one transfer event.
 
