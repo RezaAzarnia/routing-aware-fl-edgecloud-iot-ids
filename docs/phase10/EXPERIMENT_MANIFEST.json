@@ -1,9 +1,9 @@
 {
-  "schema": "iot-fl/phase10-manifest/1",
-  "created_utc": "2026-11-03T13:30:28Z",
-  "git_commit_at_build": "3fff14c3c1bdb98294b4c1b4f7811693ec0bf65a",
+  "schema": "iot-fl/phase10-manifest/2",
+  "created_utc": "2026-11-03T14:47:50Z",
+  "git_commit_at_build": "cb1f90332a01ce4e3112dfdffe55542f0926098d",
   "purpose": "Phase 10: cost of the oracle-delivery assumption and a correlated network/data scenario (4 policies x 2 scenarios x seeds 22-26)",
-  "code_fingerprint": "1ec6296e648e29e79837e6ce65f748426ed9ee1c87e002d2add1826664c452ce",
+  "code_fingerprint": "b31dd989f80898b5e5e3e4f595f22cdb7b9ad7fea455a2b50cc5be7a0bb8b934",
   "code_fingerprint_globs": [
     "src/*.py",
     "scripts/phase6c/p6c_common.py",
@@ -635,10 +635,19 @@
     "{out_dir}"
   ],
   "verify_training_semantics": true,
+  "amendment": {
+    "version": 2,
+    "supersedes_manifest_sha256": "692630219a758854ad497c724df6e0b7385edb7d22c61dff312f92d8ad9db669",
+    "supersedes_file": "docs/phase10/EXPERIMENT_MANIFEST_v1_SUPERSEDED.json",
+    "approved_by_owner_before_any_full_run": true,
+    "full_phase10_runs_existing_before_amendment": 0,
+    "reason": "preprocessing leakage: the global preprocessor was fitted on ALL training rows, including each client's held-out rows. Fixed (default-off): held-out rows are chosen group-wise before fitting, the preprocessor is fitted on non-holdout rows only, holdout rows are only transformed; closure on predictor groups and on encoded vectors makes holdout rows disjoint from every training row. Hypotheses H1-H4, policies, scenarios, rho and seeds are unchanged.",
+    "also": "eligible held-out client set is asserted identical across policies/scenarios per seed in the analysis"
+  },
   "separation": {
     "phase6c_manifest_sha256": "c648b93590494fcf260d5f143fe30eabbec28ee61c6b782dbe5f8550e0c1f267",
     "phase9e_frozen_tag": "phase9e-frozen",
     "note": "independent protocol; not added to the Phase 9E final-test hypotheses; no final-test data"
   },
-  "manifest_sha256": "692630219a758854ad497c724df6e0b7385edb7d22c61dff312f92d8ad9db669"
+  "manifest_sha256": "98ee98319055a83591ad26f7051a366fe5b4c1a05a185ca7316244ffbddb6eaa"
 }

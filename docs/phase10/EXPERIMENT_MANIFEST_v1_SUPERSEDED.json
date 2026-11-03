@@ -1,0 +1,644 @@
+{
+  "schema": "iot-fl/phase10-manifest/1",
+  "created_utc": "2026-11-03T13:30:28Z",
+  "git_commit_at_build": "3fff14c3c1bdb98294b4c1b4f7811693ec0bf65a",
+  "purpose": "Phase 10: cost of the oracle-delivery assumption and a correlated network/data scenario (4 policies x 2 scenarios x seeds 22-26)",
+  "code_fingerprint": "1ec6296e648e29e79837e6ce65f748426ed9ee1c87e002d2add1826664c452ce",
+  "code_fingerprint_globs": [
+    "src/*.py",
+    "scripts/phase6c/p6c_common.py",
+    "scripts/phase6c/run_one.py",
+    "scripts/phase10/phase10_metrics.py",
+    "configs/phase10/*.yaml"
+  ],
+  "seeds": [
+    22,
+    23,
+    24,
+    25,
+    26
+  ],
+  "rounds": 30,
+  "datasets": {
+    "unsw": {
+      "training_csv": "data/UNSW_NB15_training-set.csv",
+      "training_sha256": "bec7dd5ec88dc2a0ccc7a07879d338395ed7421750f675fd0339e07dfe0648fa",
+      "validation_protocol": "group_disjoint train/validation, then three-way calibration/selection/report"
+    }
+  },
+  "arms": [
+    {
+      "arm": "oracle_topk__independent",
+      "policy": "oracle_topk",
+      "selection_policy": "top_k",
+      "scenario": "independent",
+      "network_data_coupling": 0.0
+    },
+    {
+      "arm": "oracle_coverage__independent",
+      "policy": "oracle_coverage",
+      "selection_policy": "coverage_aware",
+      "scenario": "independent",
+      "network_data_coupling": 0.0
+    },
+    {
+      "arm": "uniform__independent",
+      "policy": "uniform",
+      "selection_policy": "uniform_random",
+      "scenario": "independent",
+      "network_data_coupling": 0.0
+    },
+    {
+      "arm": "history_ucb__independent",
+      "policy": "history_ucb",
+      "selection_policy": "history_ucb",
+      "scenario": "independent",
+      "network_data_coupling": 0.0
+    },
+    {
+      "arm": "oracle_topk__coupled",
+      "policy": "oracle_topk",
+      "selection_policy": "top_k",
+      "scenario": "coupled",
+      "network_data_coupling": 0.8
+    },
+    {
+      "arm": "oracle_coverage__coupled",
+      "policy": "oracle_coverage",
+      "selection_policy": "coverage_aware",
+      "scenario": "coupled",
+      "network_data_coupling": 0.8
+    },
+    {
+      "arm": "uniform__coupled",
+      "policy": "uniform",
+      "selection_policy": "uniform_random",
+      "scenario": "coupled",
+      "network_data_coupling": 0.8
+    },
+    {
+      "arm": "history_ucb__coupled",
+      "policy": "history_ucb",
+      "selection_policy": "history_ucb",
+      "scenario": "coupled",
+      "network_data_coupling": 0.8
+    }
+  ],
+  "preregistration": {
+    "status": "FROZEN BEFORE ANY RUN. Independent protocol: NOT part of the Phase 9E final-test hypotheses; touches no Phase 6C/7b/9E artifact.",
+    "novelty_claim": "none. history_ucb is a standard UCB1-style historical-feedback baseline; the study measures the cost of the oracle-delivery assumption.",
+    "primary_hypotheses": [
+      {
+        "id": "H1",
+        "contrast": "history_ucb - oracle_topk",
+        "scenario": "independent",
+        "metric": "update_delivery_ratio",
+        "expected": "negative (non-oracle ranking delivers fewer updates)"
+      },
+      {
+        "id": "H2",
+        "contrast": "history_ucb - oracle_topk",
+        "scenario": "independent",
+        "metric": "gini",
+        "expected": "negative (history_ucb explores every client; participation is more equal)"
+      },
+      {
+        "id": "H3",
+        "contrast": "oracle_topk - uniform",
+        "scenario": "coupled",
+        "metric": "p10_client_recall",
+        "expected": "negative (starving unreliable clients hurts their held-out recall when connectivity correlates with minority-class share)"
+      },
+      {
+        "id": "H4",
+        "contrast": "history_ucb - oracle_topk",
+        "scenario": "coupled",
+        "metric": "p10_client_recall",
+        "expected": "positive"
+      }
+    ],
+    "secondary": "all other pairwise policy contrasts per scenario for update_delivery_ratio, pdr, delay, gini, never_selected, max_selection_gap, malicious_share_of_selected, worst/mean client holdout recall, best/last AUC and F1; policy x scenario interactions (difference of paired differences)",
+    "statistics": "paired by seed (n=5): mean difference, SD, d_z, t-based 95% CI (df=4), seeds favouring each arm, exact sign-flip p (min 0.0625). No multiplicity correction; with n=5 no contrast can be significant under any correction: ALL statements are exploratory; effect sizes and consistency (5/5 seeds) are the evidence.",
+    "interpretation_limits": "single simulated network family; one coupling strength (0.8) and one coupling mechanism; UNSW-NB15 only; held-out client recall is measured on each client's own holdout (same distribution), not on independent devices; simulation, not deployment. A null or opposite result is reported as such. The oracle-gap result would quantify the manuscript's largest simulator limitation; it does not establish a new routing algorithm.",
+    "validity_notes": "client-level recall without a holdout is not validly measurable (Phase 6C client_level_recall scores training data); the holdout fixes this only for Phase 10 runs",
+    "validation_only": true,
+    "final_test": "never used"
+  },
+  "n_runs": 40,
+  "n_runs_mandatory": 40,
+  "runs": [
+    {
+      "run_id": "unsw__oracle_topk__independent__seed22",
+      "order": 1,
+      "dataset": "unsw",
+      "arm": "oracle_topk__independent",
+      "seed": 22,
+      "tier": "mandatory",
+      "config": "configs/phase10/unsw_oracle_topk__independent.yaml",
+      "config_sha256": "7a2a3d5657d578c0b7c5a58b8f062347599f6ec86fc84dcf33777403ab4a90bf",
+      "phase6c_config_sha256": null,
+      "out_dir": "results_phase10/unsw/oracle_topk__independent/seed_22"
+    },
+    {
+      "run_id": "unsw__oracle_topk__independent__seed23",
+      "order": 2,
+      "dataset": "unsw",
+      "arm": "oracle_topk__independent",
+      "seed": 23,
+      "tier": "mandatory",
+      "config": "configs/phase10/unsw_oracle_topk__independent.yaml",
+      "config_sha256": "7a2a3d5657d578c0b7c5a58b8f062347599f6ec86fc84dcf33777403ab4a90bf",
+      "phase6c_config_sha256": null,
+      "out_dir": "results_phase10/unsw/oracle_topk__independent/seed_23"
+    },
+    {
+      "run_id": "unsw__oracle_topk__independent__seed24",
+      "order": 3,
+      "dataset": "unsw",
+      "arm": "oracle_topk__independent",
+      "seed": 24,
+      "tier": "mandatory",
+      "config": "configs/phase10/unsw_oracle_topk__independent.yaml",
+      "config_sha256": "7a2a3d5657d578c0b7c5a58b8f062347599f6ec86fc84dcf33777403ab4a90bf",
+      "phase6c_config_sha256": null,
+      "out_dir": "results_phase10/unsw/oracle_topk__independent/seed_24"
+    },
+    {
+      "run_id": "unsw__oracle_topk__independent__seed25",
+      "order": 4,
+      "dataset": "unsw",
+      "arm": "oracle_topk__independent",
+      "seed": 25,
+      "tier": "mandatory",
+      "config": "configs/phase10/unsw_oracle_topk__independent.yaml",
+      "config_sha256": "7a2a3d5657d578c0b7c5a58b8f062347599f6ec86fc84dcf33777403ab4a90bf",
+      "phase6c_config_sha256": null,
+      "out_dir": "results_phase10/unsw/oracle_topk__independent/seed_25"
+    },
+    {
+      "run_id": "unsw__oracle_topk__independent__seed26",
+      "order": 5,
+      "dataset": "unsw",
+      "arm": "oracle_topk__independent",
+      "seed": 26,
+      "tier": "mandatory",
+      "config": "configs/phase10/unsw_oracle_topk__independent.yaml",
+      "config_sha256": "7a2a3d5657d578c0b7c5a58b8f062347599f6ec86fc84dcf33777403ab4a90bf",
+      "phase6c_config_sha256": null,
+      "out_dir": "results_phase10/unsw/oracle_topk__independent/seed_26"
+    },
+    {
+      "run_id": "unsw__oracle_coverage__independent__seed22",
+      "order": 6,
+      "dataset": "unsw",
+      "arm": "oracle_coverage__independent",
+      "seed": 22,
+      "tier": "mandatory",
+      "config": "configs/phase10/unsw_oracle_coverage__independent.yaml",
+      "config_sha256": "cb09fe5d068cb93b225819868b3646a06747a2177adb0150016ca5685e75cdf7",
+      "phase6c_config_sha256": null,
+      "out_dir": "results_phase10/unsw/oracle_coverage__independent/seed_22"
+    },
+    {
+      "run_id": "unsw__oracle_coverage__independent__seed23",
+      "order": 7,
+      "dataset": "unsw",
+      "arm": "oracle_coverage__independent",
+      "seed": 23,
+      "tier": "mandatory",
+      "config": "configs/phase10/unsw_oracle_coverage__independent.yaml",
+      "config_sha256": "cb09fe5d068cb93b225819868b3646a06747a2177adb0150016ca5685e75cdf7",
+      "phase6c_config_sha256": null,
+      "out_dir": "results_phase10/unsw/oracle_coverage__independent/seed_23"
+    },
+    {
+      "run_id": "unsw__oracle_coverage__independent__seed24",
+      "order": 8,
+      "dataset": "unsw",
+      "arm": "oracle_coverage__independent",
+      "seed": 24,
+      "tier": "mandatory",
+      "config": "configs/phase10/unsw_oracle_coverage__independent.yaml",
+      "config_sha256": "cb09fe5d068cb93b225819868b3646a06747a2177adb0150016ca5685e75cdf7",
+      "phase6c_config_sha256": null,
+      "out_dir": "results_phase10/unsw/oracle_coverage__independent/seed_24"
+    },
+    {
+      "run_id": "unsw__oracle_coverage__independent__seed25",
+      "order": 9,
+      "dataset": "unsw",
+      "arm": "oracle_coverage__independent",
+      "seed": 25,
+      "tier": "mandatory",
+      "config": "configs/phase10/unsw_oracle_coverage__independent.yaml",
+      "config_sha256": "cb09fe5d068cb93b225819868b3646a06747a2177adb0150016ca5685e75cdf7",
+      "phase6c_config_sha256": null,
+      "out_dir": "results_phase10/unsw/oracle_coverage__independent/seed_25"
+    },
+    {
+      "run_id": "unsw__oracle_coverage__independent__seed26",
+      "order": 10,
+      "dataset": "unsw",
+      "arm": "oracle_coverage__independent",
+      "seed": 26,
+      "tier": "mandatory",
+      "config": "configs/phase10/unsw_oracle_coverage__independent.yaml",
+      "config_sha256": "cb09fe5d068cb93b225819868b3646a06747a2177adb0150016ca5685e75cdf7",
+      "phase6c_config_sha256": null,
+      "out_dir": "results_phase10/unsw/oracle_coverage__independent/seed_26"
+    },
+    {
+      "run_id": "unsw__uniform__independent__seed22",
+      "order": 11,
+      "dataset": "unsw",
+      "arm": "uniform__independent",
+      "seed": 22,
+      "tier": "mandatory",
+      "config": "configs/phase10/unsw_uniform__independent.yaml",
+      "config_sha256": "5d81ac0518037faf7b1d2a0192389f9134d37c09401ce241de73990656cf957e",
+      "phase6c_config_sha256": null,
+      "out_dir": "results_phase10/unsw/uniform__independent/seed_22"
+    },
+    {
+      "run_id": "unsw__uniform__independent__seed23",
+      "order": 12,
+      "dataset": "unsw",
+      "arm": "uniform__independent",
+      "seed": 23,
+      "tier": "mandatory",
+      "config": "configs/phase10/unsw_uniform__independent.yaml",
+      "config_sha256": "5d81ac0518037faf7b1d2a0192389f9134d37c09401ce241de73990656cf957e",
+      "phase6c_config_sha256": null,
+      "out_dir": "results_phase10/unsw/uniform__independent/seed_23"
+    },
+    {
+      "run_id": "unsw__uniform__independent__seed24",
+      "order": 13,
+      "dataset": "unsw",
+      "arm": "uniform__independent",
+      "seed": 24,
+      "tier": "mandatory",
+      "config": "configs/phase10/unsw_uniform__independent.yaml",
+      "config_sha256": "5d81ac0518037faf7b1d2a0192389f9134d37c09401ce241de73990656cf957e",
+      "phase6c_config_sha256": null,
+      "out_dir": "results_phase10/unsw/uniform__independent/seed_24"
+    },
+    {
+      "run_id": "unsw__uniform__independent__seed25",
+      "order": 14,
+      "dataset": "unsw",
+      "arm": "uniform__independent",
+      "seed": 25,
+      "tier": "mandatory",
+      "config": "configs/phase10/unsw_uniform__independent.yaml",
+      "config_sha256": "5d81ac0518037faf7b1d2a0192389f9134d37c09401ce241de73990656cf957e",
+      "phase6c_config_sha256": null,
+      "out_dir": "results_phase10/unsw/uniform__independent/seed_25"
+    },
+    {
+      "run_id": "unsw__uniform__independent__seed26",
+      "order": 15,
+      "dataset": "unsw",
+      "arm": "uniform__independent",
+      "seed": 26,
+      "tier": "mandatory",
+      "config": "configs/phase10/unsw_uniform__independent.yaml",
+      "config_sha256": "5d81ac0518037faf7b1d2a0192389f9134d37c09401ce241de73990656cf957e",
+      "phase6c_config_sha256": null,
+      "out_dir": "results_phase10/unsw/uniform__independent/seed_26"
+    },
+    {
+      "run_id": "unsw__history_ucb__independent__seed22",
+      "order": 16,
+      "dataset": "unsw",
+      "arm": "history_ucb__independent",
+      "seed": 22,
+      "tier": "mandatory",
+      "config": "configs/phase10/unsw_history_ucb__independent.yaml",
+      "config_sha256": "4aaa81e4126a7f6fa9165fe87a6a8339d387baefb9a25a3a779dafde2dcb5681",
+      "phase6c_config_sha256": null,
+      "out_dir": "results_phase10/unsw/history_ucb__independent/seed_22"
+    },
+    {
+      "run_id": "unsw__history_ucb__independent__seed23",
+      "order": 17,
+      "dataset": "unsw",
+      "arm": "history_ucb__independent",
+      "seed": 23,
+      "tier": "mandatory",
+      "config": "configs/phase10/unsw_history_ucb__independent.yaml",
+      "config_sha256": "4aaa81e4126a7f6fa9165fe87a6a8339d387baefb9a25a3a779dafde2dcb5681",
+      "phase6c_config_sha256": null,
+      "out_dir": "results_phase10/unsw/history_ucb__independent/seed_23"
+    },
+    {
+      "run_id": "unsw__history_ucb__independent__seed24",
+      "order": 18,
+      "dataset": "unsw",
+      "arm": "history_ucb__independent",
+      "seed": 24,
+      "tier": "mandatory",
+      "config": "configs/phase10/unsw_history_ucb__independent.yaml",
+      "config_sha256": "4aaa81e4126a7f6fa9165fe87a6a8339d387baefb9a25a3a779dafde2dcb5681",
+      "phase6c_config_sha256": null,
+      "out_dir": "results_phase10/unsw/history_ucb__independent/seed_24"
+    },
+    {
+      "run_id": "unsw__history_ucb__independent__seed25",
+      "order": 19,
+      "dataset": "unsw",
+      "arm": "history_ucb__independent",
+      "seed": 25,
+      "tier": "mandatory",
+      "config": "configs/phase10/unsw_history_ucb__independent.yaml",
+      "config_sha256": "4aaa81e4126a7f6fa9165fe87a6a8339d387baefb9a25a3a779dafde2dcb5681",
+      "phase6c_config_sha256": null,
+      "out_dir": "results_phase10/unsw/history_ucb__independent/seed_25"
+    },
+    {
+      "run_id": "unsw__history_ucb__independent__seed26",
+      "order": 20,
+      "dataset": "unsw",
+      "arm": "history_ucb__independent",
+      "seed": 26,
+      "tier": "mandatory",
+      "config": "configs/phase10/unsw_history_ucb__independent.yaml",
+      "config_sha256": "4aaa81e4126a7f6fa9165fe87a6a8339d387baefb9a25a3a779dafde2dcb5681",
+      "phase6c_config_sha256": null,
+      "out_dir": "results_phase10/unsw/history_ucb__independent/seed_26"
+    },
+    {
+      "run_id": "unsw__oracle_topk__coupled__seed22",
+      "order": 21,
+      "dataset": "unsw",
+      "arm": "oracle_topk__coupled",
+      "seed": 22,
+      "tier": "mandatory",
+      "config": "configs/phase10/unsw_oracle_topk__coupled.yaml",
+      "config_sha256": "bd9bf8c704994dbbb97d18424832edb63ffa480fdacd64aea743de8715e59a79",
+      "phase6c_config_sha256": null,
+      "out_dir": "results_phase10/unsw/oracle_topk__coupled/seed_22"
+    },
+    {
+      "run_id": "unsw__oracle_topk__coupled__seed23",
+      "order": 22,
+      "dataset": "unsw",
+      "arm": "oracle_topk__coupled",
+      "seed": 23,
+      "tier": "mandatory",
+      "config": "configs/phase10/unsw_oracle_topk__coupled.yaml",
+      "config_sha256": "bd9bf8c704994dbbb97d18424832edb63ffa480fdacd64aea743de8715e59a79",
+      "phase6c_config_sha256": null,
+      "out_dir": "results_phase10/unsw/oracle_topk__coupled/seed_23"
+    },
+    {
+      "run_id": "unsw__oracle_topk__coupled__seed24",
+      "order": 23,
+      "dataset": "unsw",
+      "arm": "oracle_topk__coupled",
+      "seed": 24,
+      "tier": "mandatory",
+      "config": "configs/phase10/unsw_oracle_topk__coupled.yaml",
+      "config_sha256": "bd9bf8c704994dbbb97d18424832edb63ffa480fdacd64aea743de8715e59a79",
+      "phase6c_config_sha256": null,
+      "out_dir": "results_phase10/unsw/oracle_topk__coupled/seed_24"
+    },
+    {
+      "run_id": "unsw__oracle_topk__coupled__seed25",
+      "order": 24,
+      "dataset": "unsw",
+      "arm": "oracle_topk__coupled",
+      "seed": 25,
+      "tier": "mandatory",
+      "config": "configs/phase10/unsw_oracle_topk__coupled.yaml",
+      "config_sha256": "bd9bf8c704994dbbb97d18424832edb63ffa480fdacd64aea743de8715e59a79",
+      "phase6c_config_sha256": null,
+      "out_dir": "results_phase10/unsw/oracle_topk__coupled/seed_25"
+    },
+    {
+      "run_id": "unsw__oracle_topk__coupled__seed26",
+      "order": 25,
+      "dataset": "unsw",
+      "arm": "oracle_topk__coupled",
+      "seed": 26,
+      "tier": "mandatory",
+      "config": "configs/phase10/unsw_oracle_topk__coupled.yaml",
+      "config_sha256": "bd9bf8c704994dbbb97d18424832edb63ffa480fdacd64aea743de8715e59a79",
+      "phase6c_config_sha256": null,
+      "out_dir": "results_phase10/unsw/oracle_topk__coupled/seed_26"
+    },
+    {
+      "run_id": "unsw__oracle_coverage__coupled__seed22",
+      "order": 26,
+      "dataset": "unsw",
+      "arm": "oracle_coverage__coupled",
+      "seed": 22,
+      "tier": "mandatory",
+      "config": "configs/phase10/unsw_oracle_coverage__coupled.yaml",
+      "config_sha256": "83973cae37748aaa1914a33608046b7d4f09d366474e4b062d9b81779c122300",
+      "phase6c_config_sha256": null,
+      "out_dir": "results_phase10/unsw/oracle_coverage__coupled/seed_22"
+    },
+    {
+      "run_id": "unsw__oracle_coverage__coupled__seed23",
+      "order": 27,
+      "dataset": "unsw",
+      "arm": "oracle_coverage__coupled",
+      "seed": 23,
+      "tier": "mandatory",
+      "config": "configs/phase10/unsw_oracle_coverage__coupled.yaml",
+      "config_sha256": "83973cae37748aaa1914a33608046b7d4f09d366474e4b062d9b81779c122300",
+      "phase6c_config_sha256": null,
+      "out_dir": "results_phase10/unsw/oracle_coverage__coupled/seed_23"
+    },
+    {
+      "run_id": "unsw__oracle_coverage__coupled__seed24",
+      "order": 28,
+      "dataset": "unsw",
+      "arm": "oracle_coverage__coupled",
+      "seed": 24,
+      "tier": "mandatory",
+      "config": "configs/phase10/unsw_oracle_coverage__coupled.yaml",
+      "config_sha256": "83973cae37748aaa1914a33608046b7d4f09d366474e4b062d9b81779c122300",
+      "phase6c_config_sha256": null,
+      "out_dir": "results_phase10/unsw/oracle_coverage__coupled/seed_24"
+    },
+    {
+      "run_id": "unsw__oracle_coverage__coupled__seed25",
+      "order": 29,
+      "dataset": "unsw",
+      "arm": "oracle_coverage__coupled",
+      "seed": 25,
+      "tier": "mandatory",
+      "config": "configs/phase10/unsw_oracle_coverage__coupled.yaml",
+      "config_sha256": "83973cae37748aaa1914a33608046b7d4f09d366474e4b062d9b81779c122300",
+      "phase6c_config_sha256": null,
+      "out_dir": "results_phase10/unsw/oracle_coverage__coupled/seed_25"
+    },
+    {
+      "run_id": "unsw__oracle_coverage__coupled__seed26",
+      "order": 30,
+      "dataset": "unsw",
+      "arm": "oracle_coverage__coupled",
+      "seed": 26,
+      "tier": "mandatory",
+      "config": "configs/phase10/unsw_oracle_coverage__coupled.yaml",
+      "config_sha256": "83973cae37748aaa1914a33608046b7d4f09d366474e4b062d9b81779c122300",
+      "phase6c_config_sha256": null,
+      "out_dir": "results_phase10/unsw/oracle_coverage__coupled/seed_26"
+    },
+    {
+      "run_id": "unsw__uniform__coupled__seed22",
+      "order": 31,
+      "dataset": "unsw",
+      "arm": "uniform__coupled",
+      "seed": 22,
+      "tier": "mandatory",
+      "config": "configs/phase10/unsw_uniform__coupled.yaml",
+      "config_sha256": "0388d13b51e714c51d78d25eac1cf9a3cf8014a855bdd5520a475e0d2c1338ed",
+      "phase6c_config_sha256": null,
+      "out_dir": "results_phase10/unsw/uniform__coupled/seed_22"
+    },
+    {
+      "run_id": "unsw__uniform__coupled__seed23",
+      "order": 32,
+      "dataset": "unsw",
+      "arm": "uniform__coupled",
+      "seed": 23,
+      "tier": "mandatory",
+      "config": "configs/phase10/unsw_uniform__coupled.yaml",
+      "config_sha256": "0388d13b51e714c51d78d25eac1cf9a3cf8014a855bdd5520a475e0d2c1338ed",
+      "phase6c_config_sha256": null,
+      "out_dir": "results_phase10/unsw/uniform__coupled/seed_23"
+    },
+    {
+      "run_id": "unsw__uniform__coupled__seed24",
+      "order": 33,
+      "dataset": "unsw",
+      "arm": "uniform__coupled",
+      "seed": 24,
+      "tier": "mandatory",
+      "config": "configs/phase10/unsw_uniform__coupled.yaml",
+      "config_sha256": "0388d13b51e714c51d78d25eac1cf9a3cf8014a855bdd5520a475e0d2c1338ed",
+      "phase6c_config_sha256": null,
+      "out_dir": "results_phase10/unsw/uniform__coupled/seed_24"
+    },
+    {
+      "run_id": "unsw__uniform__coupled__seed25",
+      "order": 34,
+      "dataset": "unsw",
+      "arm": "uniform__coupled",
+      "seed": 25,
+      "tier": "mandatory",
+      "config": "configs/phase10/unsw_uniform__coupled.yaml",
+      "config_sha256": "0388d13b51e714c51d78d25eac1cf9a3cf8014a855bdd5520a475e0d2c1338ed",
+      "phase6c_config_sha256": null,
+      "out_dir": "results_phase10/unsw/uniform__coupled/seed_25"
+    },
+    {
+      "run_id": "unsw__uniform__coupled__seed26",
+      "order": 35,
+      "dataset": "unsw",
+      "arm": "uniform__coupled",
+      "seed": 26,
+      "tier": "mandatory",
+      "config": "configs/phase10/unsw_uniform__coupled.yaml",
+      "config_sha256": "0388d13b51e714c51d78d25eac1cf9a3cf8014a855bdd5520a475e0d2c1338ed",
+      "phase6c_config_sha256": null,
+      "out_dir": "results_phase10/unsw/uniform__coupled/seed_26"
+    },
+    {
+      "run_id": "unsw__history_ucb__coupled__seed22",
+      "order": 36,
+      "dataset": "unsw",
+      "arm": "history_ucb__coupled",
+      "seed": 22,
+      "tier": "mandatory",
+      "config": "configs/phase10/unsw_history_ucb__coupled.yaml",
+      "config_sha256": "78722ed08315811324bc4634e157b8c1b1b2c87963696da5093bd82fcbbe2e0f",
+      "phase6c_config_sha256": null,
+      "out_dir": "results_phase10/unsw/history_ucb__coupled/seed_22"
+    },
+    {
+      "run_id": "unsw__history_ucb__coupled__seed23",
+      "order": 37,
+      "dataset": "unsw",
+      "arm": "history_ucb__coupled",
+      "seed": 23,
+      "tier": "mandatory",
+      "config": "configs/phase10/unsw_history_ucb__coupled.yaml",
+      "config_sha256": "78722ed08315811324bc4634e157b8c1b1b2c87963696da5093bd82fcbbe2e0f",
+      "phase6c_config_sha256": null,
+      "out_dir": "results_phase10/unsw/history_ucb__coupled/seed_23"
+    },
+    {
+      "run_id": "unsw__history_ucb__coupled__seed24",
+      "order": 38,
+      "dataset": "unsw",
+      "arm": "history_ucb__coupled",
+      "seed": 24,
+      "tier": "mandatory",
+      "config": "configs/phase10/unsw_history_ucb__coupled.yaml",
+      "config_sha256": "78722ed08315811324bc4634e157b8c1b1b2c87963696da5093bd82fcbbe2e0f",
+      "phase6c_config_sha256": null,
+      "out_dir": "results_phase10/unsw/history_ucb__coupled/seed_24"
+    },
+    {
+      "run_id": "unsw__history_ucb__coupled__seed25",
+      "order": 39,
+      "dataset": "unsw",
+      "arm": "history_ucb__coupled",
+      "seed": 25,
+      "tier": "mandatory",
+      "config": "configs/phase10/unsw_history_ucb__coupled.yaml",
+      "config_sha256": "78722ed08315811324bc4634e157b8c1b1b2c87963696da5093bd82fcbbe2e0f",
+      "phase6c_config_sha256": null,
+      "out_dir": "results_phase10/unsw/history_ucb__coupled/seed_25"
+    },
+    {
+      "run_id": "unsw__history_ucb__coupled__seed26",
+      "order": 40,
+      "dataset": "unsw",
+      "arm": "history_ucb__coupled",
+      "seed": 26,
+      "tier": "mandatory",
+      "config": "configs/phase10/unsw_history_ucb__coupled.yaml",
+      "config_sha256": "78722ed08315811324bc4634e157b8c1b1b2c87963696da5093bd82fcbbe2e0f",
+      "phase6c_config_sha256": null,
+      "out_dir": "results_phase10/unsw/history_ucb__coupled/seed_26"
+    }
+  ],
+  "required_artifacts": [
+    "run_record.json",
+    "resolved_config.yaml",
+    "round_metrics.csv",
+    "network_metrics.csv",
+    "aggregation_diagnostics.csv",
+    "final_validation_metrics.json",
+    "threshold_diagnostics.json",
+    "run_metadata.json",
+    "metric_accounting.json",
+    "best_model_state.pt",
+    "last_model_state.pt",
+    "privacy_plan.json",
+    "validation_split_info.json",
+    "phase6c_diagnostics.json"
+  ],
+  "command": [
+    "{python}",
+    "scripts/phase6c/run_one.py",
+    "--config",
+    "{config}",
+    "--seed",
+    "{seed}",
+    "--out",
+    "{out_dir}"
+  ],
+  "verify_training_semantics": true,
+  "separation": {
+    "phase6c_manifest_sha256": "c648b93590494fcf260d5f143fe30eabbec28ee61c6b782dbe5f8550e0c1f267",
+    "phase9e_frozen_tag": "phase9e-frozen",
+    "note": "independent protocol; not added to the Phase 9E final-test hypotheses; no final-test data"
+  },
+  "manifest_sha256": "692630219a758854ad497c724df6e0b7385edb7d22c61dff312f92d8ad9db669"
+}

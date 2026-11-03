@@ -24,7 +24,7 @@ from .metrics import (
 from .model import ANN
 from .network import DynamicEdgeCloudNetwork
 from .history_selector import HistorySelector
-from .partitioning import make_partitions, split_client_holdout
+from .partitioning import make_partitions, split_client_holdout_by_mask
 from .plotting import create_run_plots
 from .privacy import (
     add_gaussian_noise,
@@ -568,6 +568,7 @@ def run_experiment(cfg: Config) -> Path:
         seed=cfg.experiment.seed,
         preprocessor_output=run_dir / "preprocessor.joblib",
         load_test=not cfg.experiment.validation_only,
+        holdout_fraction=cfg.fl.client_holdout_fraction,
     )
     dataset_summary = _dataset_summary(bundle)
     save_json(dataset_summary, run_dir / "dataset_summary.json")
@@ -594,7 +595,10 @@ def run_experiment(cfg: Config) -> Path:
         min_client_samples=cfg.fl.min_client_samples,
     )
     full_partitions = partitions
-    partitions, _holdout = split_client_holdout(full_partitions, cfg.fl.client_holdout_fraction, cfg.experiment.seed)
+    if cfg.fl.client_holdout_fraction > 0:
+        partitions, _holdout = split_client_holdout_by_mask(full_partitions, bundle.holdout_mask)
+    else:
+        partitions = full_partitions
     clients: List[Client] = []
     distribution_rows = []
     for client_id, indices in enumerate(partitions):

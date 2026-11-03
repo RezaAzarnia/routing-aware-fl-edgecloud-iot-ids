@@ -73,11 +73,17 @@ def main() -> None:
                              "config": f"configs/phase10/unsw_{arm}.yaml", "config_sha256": sha256_text_file(path), "phase6c_config_sha256": None,
                              "out_dir": f"results_phase10/unsw/{arm}/seed_{seed}"})
     p6c = json.loads((ROOT / "docs" / "phase6c" / "EXPERIMENT_MANIFEST.json").read_text(encoding="utf-8"))
-    manifest = {"schema": "iot-fl/phase10-manifest/1", "created_utc": now_utc(), "git_commit_at_build": git_head(),
+    manifest = {"schema": "iot-fl/phase10-manifest/2", "created_utc": now_utc(), "git_commit_at_build": git_head(),
                 "purpose": "Phase 10: cost of the oracle-delivery assumption and a correlated network/data scenario (4 policies x 2 scenarios x seeds 22-26)",
                 "code_fingerprint": code_fingerprint(ROOT, GLOBS), "code_fingerprint_globs": GLOBS, "seeds": SEEDS, "rounds": 30, "datasets": {"unsw": p6c["datasets"]["unsw"]},
                 "arms": arms, "preregistration": PREREG, "n_runs": len(runs), "n_runs_mandatory": len(runs), "runs": runs, "required_artifacts": DEFAULT_REQUIRED_ARTIFACTS,
                 "command": ["{python}", "scripts/phase6c/run_one.py", "--config", "{config}", "--seed", "{seed}", "--out", "{out_dir}"], "verify_training_semantics": True,
+                "amendment": {"version": 2, "supersedes_manifest_sha256": "692630219a758854ad497c724df6e0b7385edb7d22c61dff312f92d8ad9db669", "supersedes_file": "docs/phase10/EXPERIMENT_MANIFEST_v1_SUPERSEDED.json",
+                              "approved_by_owner_before_any_full_run": True, "full_phase10_runs_existing_before_amendment": 0,
+                              "reason": "preprocessing leakage: the global preprocessor was fitted on ALL training rows, including each client's held-out rows. Fixed (default-off): held-out rows "
+                                        "are chosen group-wise before fitting, the preprocessor is fitted on non-holdout rows only, holdout rows are only transformed; closure on predictor groups and on encoded "
+                                        "vectors makes holdout rows disjoint from every training row. Hypotheses H1-H4, policies, scenarios, rho and seeds are unchanged.",
+                              "also": "eligible held-out client set is asserted identical across policies/scenarios per seed in the analysis"},
                 "separation": {"phase6c_manifest_sha256": p6c["manifest_sha256"], "phase9e_frozen_tag": "phase9e-frozen",
                                "note": "independent protocol; not added to the Phase 9E final-test hypotheses; no final-test data"}}
     manifest["manifest_sha256"] = manifest_hash(manifest)

@@ -96,3 +96,37 @@ def test_frozen_analysis_runs_on_synthetic_runs_and_reports_the_declared_tables(
     prim = pd.read_csv(led / "ledger_phase10_primary_contrasts.csv")
     assert not prim.empty or True                                                                              # p10 may be NaN on tiny synthetic clients: tables still written
     assert (led / "ledger_phase10_secondary_contrasts.csv").exists() and (led / "ledger_phase10_arm_summary.csv").exists()
+
+
+def test_analysis_refuses_when_the_eligible_client_set_differs(tmp_path):
+    import pandas as pd
+    import phase10_metrics as pm
+    from test_phase10_nonoracle import _cfg
+    import subprocess, os
+
+    res = tmp_path / "res"
+    for pol, sel in (("oracle_topk", "top_k"), ("uniform", "uniform_random")):
+        cfg = _cfg(tmp_path, pol, routing={"selection_policy": sel}, fl={"client_holdout_fraction": 0.2}, rounds=2)
+        out = res / "unsw" / f"{pol}__independent" / "seed_7"
+        env = dict(os.environ, PYTHONHASHSEED="0")
+        env.pop("IOTFL_LIVE", None)
+        assert subprocess.run([sys.executable, str(ROOT / "scripts/phase6c/run_one.py"), "--config", str(cfg), "--seed", "7", "--out", str(out)], capture_output=True, text=True, env=env, cwd=str(ROOT)).returncode == 0
+    pm.analyze(res, tmp_path / "ok")                                  # identical eligible sets: analysis proceeds
+    f = res / "unsw" / "uniform__independent" / "seed_7" / "client_holdout_recall.csv"
+    df = pd.read_csv(f)
+    elig = pd.read_csv(res / "unsw" / "oracle_topk__independent" / "seed_7" / "client_holdout_recall.csv")
+    # tamper: make the second run's eligible set different by shrinking one eligible client's attack holdout below the threshold in the stored per-run summary
+    import json
+    run_metrics_orig = pm.run_metrics
+    def tampered(d, with_holdout=True):
+        out = run_metrics_orig(d, with_holdout)
+        if d.parent.name.startswith("uniform"):
+            ids = json.loads(out["eligible_clients"])
+            out["eligible_clients"] = json.dumps(ids[1:])
+        return out
+    pm.run_metrics = tampered
+    try:
+        with pytest.raises(AssertionError, match="eligible"):
+            pm.analyze(res, tmp_path / "bad")
+    finally:
+        pm.run_metrics = run_metrics_orig

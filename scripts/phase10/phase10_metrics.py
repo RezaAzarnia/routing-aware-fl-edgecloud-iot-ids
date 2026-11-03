@@ -39,12 +39,12 @@ def holdout_client_eval(run_dir: Path, cfg) -> pd.DataFrame:
 
     from src.data import load_dataset
     from src.experiment import _model_factory
-    from src.partitioning import make_partitions, split_client_holdout
+    from src.partitioning import make_partitions, split_client_holdout_by_mask
 
-    bundle = load_dataset(cfg.data, seed=cfg.experiment.seed, load_test=False)
+    bundle = load_dataset(cfg.data, seed=cfg.experiment.seed, load_test=False, holdout_fraction=cfg.fl.client_holdout_fraction)
     parts = make_partitions(bundle.y_train, num_clients=cfg.fl.num_clients, strategy=cfg.fl.partition, seed=cfg.experiment.seed,
                             dirichlet_alpha=cfg.fl.dirichlet_alpha, min_client_samples=cfg.fl.min_client_samples)
-    _, hold = split_client_holdout(parts, cfg.fl.client_holdout_fraction, cfg.experiment.seed)
+    _, hold = split_client_holdout_by_mask(parts, bundle.holdout_mask)
     model = _model_factory(cfg, bundle.X_train.shape[1])()
     model.load_state_dict(torch.load(run_dir / "best_model_state.pt", map_location="cpu", weights_only=True))
     model.eval()
@@ -63,7 +63,9 @@ def holdout_client_eval(run_dir: Path, cfg) -> pd.DataFrame:
             rows.append({"client_id": cid, "holdout_samples": int(len(idx)), "holdout_attack": int((y == 1).sum()),
                          "recall": float(pred[y == 1].mean()) if (y == 1).sum() >= MIN_POS else np.nan,
                          "fpr": float(pred[y == 0].mean()) if (y == 0).sum() >= MIN_POS else np.nan, "times_selected": int(times[cid])})
-    return pd.DataFrame(rows)
+    frame = pd.DataFrame(rows)
+    frame["eligible"] = frame["holdout_attack"] >= MIN_POS      # eligibility is defined by holdout size only, never by outcomes or selection
+    return frame
 
 
 def run_metrics(run_dir: Path, with_holdout: bool = True) -> dict:
@@ -91,11 +93,11 @@ def run_metrics(run_dir: Path, with_holdout: bool = True) -> dict:
            "last_auc": fin["last_round_report_partition"]["roc_auc"], "last_f1": fin["last_round_report_partition"]["f1"]}
     if with_holdout and cfg.fl.client_holdout_fraction > 0:
         h = holdout_client_eval(run_dir, cfg)
-        valid = h["recall"].dropna()
-        never = h[(h.times_selected == 0) & h.recall.notna()]
+        valid = h.loc[h["eligible"], "recall"].dropna()
+        never = h[(h.times_selected == 0) & h.eligible & h.recall.notna()]
         out.update(worst_client_recall=float(valid.min()) if len(valid) else np.nan, p10_client_recall=float(valid.quantile(0.10)) if len(valid) else np.nan,
                    mean_client_recall=float(valid.mean()) if len(valid) else np.nan, mean_recall_never_selected=float(never.recall.mean()) if len(never) else np.nan,
-                   clients_with_valid_recall=int(len(valid)), clients_without_valid_recall=int(len(h) - len(valid)))
+                   clients_with_valid_recall=int(len(valid)), clients_without_valid_recall=int(len(h) - len(valid)), eligible_clients=json.dumps([int(c) for c in h.loc[h["eligible"], "client_id"]]))
         h.to_csv(run_dir / "client_holdout_recall.csv", index=False)
     return out
 
@@ -149,10 +151,16 @@ def analyze(results: Path, out: Path, with_holdout: bool = True) -> None:
         policy = policy_scenario.rsplit("__", 1)[0]
         rows.append({"policy": policy, "scenario": scenario, "seed": int(d.name.split("_")[1]), **run_metrics(d, with_holdout)})
     df = pd.DataFrame(rows)
+    if "eligible_clients" in df:
+        for seed, g in df.groupby("seed"):
+            if g["eligible_clients"].nunique() != 1:
+                raise AssertionError(f"eligible held-out client set differs across policies/scenarios for seed {seed}: refusing to compare")
+        if (df["clients_with_valid_recall"] != df.groupby("seed")["clients_with_valid_recall"].transform("first")).any():
+            raise AssertionError("number of clients with a valid recall differs within a seed")
     out.mkdir(parents=True, exist_ok=True)
     df.to_csv(out / "ledger_phase10_per_run.csv", index=False)
     g = df.groupby(["scenario", "policy"])
-    num = [c for c in df.columns if c not in ("policy", "scenario", "seed")]
+    num = [c for c in df.columns if c not in ("policy", "scenario", "seed") and pd.api.types.is_numeric_dtype(df[c])]
     summ = g[num].mean().add_suffix("_mean").join(g[num].std(ddof=1).add_suffix("_sd")).join(g.size().rename("n_seeds"))
     summ.round(5).to_csv(out / "ledger_phase10_arm_summary.csv")
     prim = [paired(df, a, b, m, sc) for a, b, m, sc in PRIMARY]

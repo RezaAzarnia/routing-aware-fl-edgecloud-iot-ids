@@ -53,6 +53,9 @@ class DatasetBundle:
     # Report partition (three-way protocol): never used for thresholds or checkpoint choice.
     X_rep: np.ndarray | None = None
     y_rep: np.ndarray | None = None
+    # Phase 10: global held-out training rows (excluded from preprocessor fitting); None when holdout is disabled (historical).
+    holdout_mask: np.ndarray | None = None
+    holdout_groups: np.ndarray | None = None
 
 
 def _group_disjoint_validation_split(
@@ -242,6 +245,7 @@ def load_and_preprocess_unsw(
     seed: int,
     preprocessor_output: str | Path | None = None,
     load_test: bool = True,
+    holdout_fraction: float = 0.0,
 ) -> DatasetBundle:
     if not load_test:
         # Validation-only mode: the calibrated protocol is derived from the test
@@ -347,7 +351,37 @@ def load_and_preprocess_unsw(
         verbose_feature_names_out=True,
     )
 
-    X_train = preprocessor.fit_transform(X_train_raw).astype(np.float32, copy=False)
+    holdout_mask = holdout_groups = None
+    if holdout_fraction > 0:
+        # Phase 10: choose held-out rows (group-disjoint) BEFORE fitting; the preprocessor never sees them; they are only transformed afterwards.
+        from .partitioning import group_holdout_mask
+
+        # groups at the resolution the model effectively sees: numeric predictors are rounded to 6 significant digits before fingerprinting (stricter than the
+        # dataset's exact float64 policy), so near-identical vectors (e.g. 60000.736 vs 60000.74) are held out together
+        _g = X_train_raw.copy()
+        for _c in _g.columns:
+            if pd.api.types.is_numeric_dtype(_g[_c]):
+                _v = _g[_c].to_numpy(dtype=np.float64)
+                _fin = np.isfinite(_v) & (_v != 0)
+                _mag = np.floor(np.log10(np.where(_fin, np.abs(_v), 1.0)))
+                _scale = 10.0 ** (5 - _mag)
+                _g[_c] = np.where(_fin, np.round(np.where(_fin, _v, 0.0) * _scale) / _scale, _v)
+        holdout_groups = predictor_fingerprint(_g, list(_g.columns))
+        holdout_mask = group_holdout_mask(y_train, holdout_groups, holdout_fraction, seed)
+        for _ in range(12):
+            preprocessor.fit(X_train_raw.iloc[np.where(~holdout_mask)[0]])
+            X_train = preprocessor.transform(X_train_raw).astype(np.float32, copy=False)
+            # closure on the MODEL-INPUT space: a training row whose encoded vector equals a held-out row's moves to the holdout (together), then the preprocessor is refitted
+            _enc = predictor_fingerprint(pd.DataFrame(X_train), list(range(X_train.shape[1])))
+            _straddle = np.intersect1d(_enc[holdout_mask], _enc[~holdout_mask])
+            _gstraddle = np.intersect1d(holdout_groups[holdout_mask], holdout_groups[~holdout_mask])
+            if len(_straddle) == 0 and len(_gstraddle) == 0:
+                break
+            holdout_mask = holdout_mask | np.isin(_enc, _straddle) | np.isin(holdout_groups, _gstraddle)
+        else:
+            raise RuntimeError("holdout closure did not converge")
+    else:
+        X_train = preprocessor.fit_transform(X_train_raw).astype(np.float32, copy=False)
     X_val = preprocessor.transform(X_val_raw).astype(np.float32, copy=False)
     X_thr = None if thr_frame is None else _transform_or_empty(preprocessor, thr_frame, X_train.shape[1])
     X_rep = None if rep_frame is None else _transform_or_empty(preprocessor, rep_frame, X_train.shape[1])
@@ -392,6 +426,8 @@ def load_and_preprocess_unsw(
         y_thr=y_thr,
         X_rep=X_rep,
         y_rep=y_rep,
+        holdout_mask=holdout_mask,
+        holdout_groups=holdout_groups,
     )
 
 
@@ -574,13 +610,16 @@ def load_dataset(
     seed: int,
     preprocessor_output: str | Path | None = None,
     load_test: bool = True,
+    holdout_fraction: float = 0.0,
 ) -> DatasetBundle:
     """Dispatch to the dataset-specific, leakage-safe loader.
 
     ``load_test=False`` guarantees the test CSV is never opened.
     """
     if cfg.dataset_name == "unsw_nb15":
-        return load_and_preprocess_unsw(cfg, seed, preprocessor_output, load_test)
+        return load_and_preprocess_unsw(cfg, seed, preprocessor_output, load_test, holdout_fraction)
     if cfg.dataset_name == "ciciot2023":
+        if holdout_fraction > 0:
+            raise NotImplementedError("client holdout is implemented for UNSW-NB15 only")
         return load_and_preprocess_ciciot2023(cfg, seed, preprocessor_output, load_test)
     raise ValueError(f"Unsupported dataset: {cfg.dataset_name}")

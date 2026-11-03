@@ -5,19 +5,40 @@ from typing import List
 import numpy as np
 
 
-def split_client_holdout(partitions, fraction: float, seed: int):
-    """Phase 10: deterministic per-client split into (train_indices, holdout_indices). fraction 0 returns the partitions unchanged and empty holdouts.
-    Each client keeps at least one training sample; the holdout is never used for training, selection or thresholds."""
+def group_holdout_mask(y, groups, fraction: float, seed: int):
+    """Phase 10 (amendment 1): boolean mask of GLOBAL held-out training rows, chosen at the level of predictor-vector groups.
+
+    Every row of a chosen group is held out, so no held-out row shares its predictor vector with any training row of any client (the same grouping policy as the
+    dataset's train/validation split). Groups are taken in a seeded random order until ``fraction`` of the rows is reached. The mask depends only on
+    (labels-free groups, fraction, seed): it is identical for every routing policy and network scenario of a seed. fraction <= 0 returns an all-False mask."""
+    n = len(y)
+    mask = np.zeros(n, dtype=bool)
     if fraction <= 0:
-        return [np.asarray(p, dtype=np.int64) for p in partitions], [np.zeros(0, dtype=np.int64) for _ in partitions]
-    rng = np.random.default_rng([seed, 8000])
+        return mask
+    groups = np.asarray(groups)
+    uniq, inverse, counts = np.unique(groups, return_inverse=True, return_counts=True)
+    order = np.random.default_rng([seed, 8000]).permutation(len(uniq))
+    target, taken = fraction * n, 0
+    chosen = np.zeros(len(uniq), dtype=bool)
+    for g in order:
+        if taken >= target:
+            break
+        chosen[g] = True
+        taken += counts[g]
+    return chosen[inverse]
+
+
+def split_client_holdout_by_mask(partitions, holdout_mask):
+    """Per client: (training indices, held-out indices) given the global held-out row mask. Every client must keep at least one training row."""
+    holdout_mask = np.asarray(holdout_mask, dtype=bool)
     train, hold = [], []
     for p in partitions:
         p = np.asarray(p, dtype=np.int64)
-        order = rng.permutation(len(p))
-        k = min(int(round(fraction * len(p))), len(p) - 1)
-        hold.append(p[order[:k]])
-        train.append(p[order[k:]])
+        m = holdout_mask[p]
+        train.append(p[~m])
+        hold.append(p[m])
+        if len(train[-1]) == 0:
+            raise ValueError("a client has no training rows after the holdout split")
     return train, hold
 
 

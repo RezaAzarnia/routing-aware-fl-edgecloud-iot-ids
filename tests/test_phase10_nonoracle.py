@@ -19,7 +19,7 @@ from test_phase7_guard import make_config, numeric_equal, run  # noqa: E402
 from src.config import Config, RoutingConfig  # noqa: E402
 from src.history_selector import HistorySelector  # noqa: E402
 from src.network import DynamicEdgeCloudNetwork  # noqa: E402
-from src.partitioning import split_client_holdout  # noqa: E402
+from src.partitioning import group_holdout_mask, split_client_holdout_by_mask  # noqa: E402
 
 
 # ---------------------------------------------------------------- selector: no oracle, causal, deterministic
@@ -114,16 +114,58 @@ def test_coupling_creates_the_declared_negative_correlation(strength):
 
 
 # ---------------------------------------------------------------- per-client holdout
-def test_client_holdout_split_properties():
-    parts = [np.arange(i * 100, i * 100 + n) for i, n in enumerate((100, 150, 3, 1))]
-    t0, h0 = split_client_holdout(parts, 0.0, 1)
-    assert all(np.array_equal(a, b) for a, b in zip(t0, parts)) and all(len(h) == 0 for h in h0)
-    t, h = split_client_holdout(parts, 0.2, 1)
-    t2, h2 = split_client_holdout(parts, 0.2, 1)
-    for p, a, b, c, d in zip(parts, t, h, t2, h2):
-        assert set(a) | set(b) == set(p) and not set(a) & set(b) and len(a) >= 1
-        assert np.array_equal(a, c) and np.array_equal(b, d)
-    assert len(h[0]) == 20 and len(h[3]) == 0
+def test_group_holdout_mask_is_group_disjoint_deterministic_and_off_by_default():
+    rng = np.random.default_rng(0)
+    groups = rng.integers(0, 400, 3000)                       # many duplicate predictor groups
+    y = rng.integers(0, 2, 3000)
+    assert not group_holdout_mask(y, groups, 0.0, 1).any()
+    m = group_holdout_mask(y, groups, 0.2, 1)
+    assert np.array_equal(m, group_holdout_mask(y, groups, 0.2, 1)) and not np.array_equal(m, group_holdout_mask(y, groups, 0.2, 2))
+    assert 0.2 <= m.mean() < 0.3
+    assert not set(groups[m]) & set(groups[~m])               # no held-out row shares its group with ANY training row
+    parts = np.array_split(rng.permutation(3000), 10)
+    tr, ho = split_client_holdout_by_mask(parts, m)
+    for p, a, b in zip(parts, tr, ho):
+        assert set(a) | set(b) == set(p) and not set(a) & set(b) and m[b].all() and not m[a].any()
+
+
+def test_client_without_training_rows_is_rejected():
+    with pytest.raises(ValueError):
+        split_client_holdout_by_mask([np.array([0, 1])], np.array([True, True]))
+
+
+def test_preprocessor_is_fit_without_holdout_rows_and_default_is_unchanged(tmp_path):
+    """Leakage regression: planting extreme values in HOLDOUT-only groups must not change the fitted scaler/imputer/vocabulary; default path unchanged."""
+    import joblib
+
+    from src.data import load_dataset
+
+    cfg = Config()
+    base = make_config(tmp_path, min_real_updates=0)
+    raw = yaml.safe_load(base.read_text(encoding="utf-8"))
+    c = Config.from_yaml(base)
+    df = pd.read_csv(c.data.train_csv)
+    fraction = 0.2
+    # step 1: find which rows would be held out (mask depends on groups only, not on feature VALUES of unique rows)
+    b1 = load_dataset(c.data, seed=7, load_test=False, holdout_fraction=fraction, preprocessor_output=tmp_path / "p1.joblib")
+    assert b1.holdout_mask is not None and b1.holdout_mask.any()
+    # step 2: re-load; the preprocessor fitted on non-holdout rows must have statistics independent of the holdout rows
+    prep1 = joblib.load(tmp_path / "p1.joblib")
+    scaler = prep1.named_transformers_["numeric"].named_steps["scaler"]
+    X_tr_raw_mean = None
+    full = load_dataset(c.data, seed=7, load_test=False, preprocessor_output=tmp_path / "p0.joblib")                       # historical path (no holdout)
+    scaler0 = joblib.load(tmp_path / "p0.joblib").named_transformers_["numeric"].named_steps["scaler"]
+    assert full.holdout_mask is None
+    assert not np.allclose(scaler.mean_, scaler0.mean_)                                                                   # the two fits differ: the holdout matters to the historical fit
+    # the holdout-aware scaler equals the mean of the NON-holdout training rows' raw numeric columns, computed independently
+    from src.data import _drop_conflicting_train_groups, _split_validation, _sanitize_frame
+    rawdf = pd.read_csv(c.data.train_csv)
+    feats = rawdf.drop(columns=[c.data.label_col, *c.data.drop_cols], errors="ignore")
+    X_tr_raw, _, y_tr, _, _ = _split_validation(_sanitize_frame(feats), rawdf[c.data.label_col].astype(int).to_numpy(), c.data, 7)
+    X_tr_raw, y_tr, _ = _drop_conflicting_train_groups(X_tr_raw, y_tr, c.data)
+    num_cols = [col for col in X_tr_raw.columns if col not in c.data.categorical_cols]
+    expected = X_tr_raw.iloc[np.where(~b1.holdout_mask)[0]][num_cols].astype(float).mean().to_numpy()
+    assert np.allclose(scaler.mean_, expected)
 
 
 # ---------------------------------------------------------------- end to end on synthetic data
@@ -195,3 +237,20 @@ def test_phase9e_frozen_artifacts_are_unchanged():
     paths = ["docs/final_test", "scripts/final_test", "Phase9E_PreTest_Signoff", "Phase9C_Submission_Readiness", "scripts/phase6c", "configs/phase6c", "configs/phase7b", "docs/phase6c", "docs/phase7b"]
     diff = subprocess.run(["git", "diff", "--name-only", "phase9e-frozen", "--"] + paths, capture_output=True, text=True, cwd=ROOT).stdout.split()
     assert diff == [], diff
+
+
+def test_bundle_holdout_is_disjoint_from_training_rows_in_group_and_model_input_space(tmp_path):
+    from src.data import load_dataset
+    from src.data_integrity import predictor_fingerprint
+
+    c = Config.from_yaml(make_config(tmp_path, min_real_updates=0))
+    b = load_dataset(c.data, seed=7, load_test=False, holdout_fraction=0.2)
+    m, g = b.holdout_mask, b.holdout_groups
+    assert m is not None and 0.15 < m.mean() < 0.35
+    assert not set(g[m].tolist()) & set(g[~m].tolist())
+    fp = predictor_fingerprint(pd.DataFrame(b.X_train), list(range(b.X_train.shape[1])))
+    assert not set(fp[m].tolist()) & set(fp[~m].tolist())
+    again = load_dataset(c.data, seed=7, load_test=False, holdout_fraction=0.2)
+    assert np.array_equal(m, again.holdout_mask) and np.array_equal(b.X_train, again.X_train)            # deterministic
+    other_seed = load_dataset(c.data, seed=8, load_test=False, holdout_fraction=0.2)
+    assert not np.array_equal(m, other_seed.holdout_mask)
