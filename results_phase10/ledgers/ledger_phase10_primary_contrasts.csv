@@ -1,0 +1,5 @@
+contrast,scenario,metric,n,mean_diff,sd,dz,ci95_lo,ci95_hi,n_first_higher,n_second_higher,p_exact_signflip,per_seed
+history_ucb - oracle_topk,independent,update_delivery_ratio,5,0.02,0.12664,0.15792,-0.13725,0.17725,2,2,0.75,"[-0.15, -0.02, 0.07667, 0.0, 0.19333]"
+history_ucb - oracle_topk,independent,gini,5,-0.09235,0.01297,-7.12101,-0.10845,-0.07624,0,5,0.0625,"[-0.08453, -0.10867, -0.08907, -0.1024, -0.07707]"
+oracle_topk - uniform,coupled,p10_client_recall,5,-0.05896,0.10029,-0.58785,-0.18349,0.06557,2,3,0.3125,"[-0.21109, -0.0998, 0.03628, -0.03817, 0.01799]"
+history_ucb - oracle_topk,coupled,p10_client_recall,5,0.05681,0.13693,0.41486,-0.11322,0.22683,2,3,0.5,"[0.24912, 0.15274, -0.04196, -0.06147, -0.01439]"
