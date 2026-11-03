@@ -50,11 +50,16 @@ def test_comparators_are_verbatim_phase6c_configs_and_guard_arms_differ_only_by_
             assert g == b, f"{guard_arm}/{ds} differs from {base_arm} by more than the guard"
 
 
-def test_phase7b_manifest_is_locked_and_differs_from_phase7_only_by_the_code_fingerprint():
+def test_phase7b_manifest_is_locked_and_differs_from_phase7_only_by_the_code_fingerprint(tmp_path_factory):
     m7 = load_manifest(M7)
     mb = load_manifest(ROOT / "docs" / "phase7b" / "EXPERIMENT_MANIFEST.json")
     assert mb["seeds"] == m7["seeds"] and mb["n_runs"] == m7["n_runs"] and mb["code_fingerprint"] != m7["code_fingerprint"]
-    assert code_fingerprint(ROOT, mb["code_fingerprint_globs"]) == mb["code_fingerprint"]
+    # Phase 7b code is frozen at git tag phase7b-final-results (Phase 8 intentionally changes src/ afterwards)
+    import shutil, subprocess
+    d = tmp_path_factory.mktemp("p7b_locked")
+    subprocess.run(["git", "archive", "--format=tar", "-o", str(d / "t.tar"), "phase7b-final-results"], check=True, cwd=ROOT)
+    shutil.unpack_archive(str(d / "t.tar"), str(d / "tree"))
+    assert code_fingerprint(d / "tree", mb["code_fingerprint_globs"]) == mb["code_fingerprint"]
     assert [r["config_sha256"] for r in mb["runs"]] == [r["config_sha256"] for r in m7["runs"]]      # byte-identical configs
     assert all(r["out_dir"].startswith("results_phase7b/") and "phase7b/" in r["config"] for r in mb["runs"])
     assert mb["supersedes"]["phase7_manifest_sha256"] == m7["manifest_sha256"]

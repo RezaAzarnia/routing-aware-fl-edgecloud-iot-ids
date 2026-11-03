@@ -105,6 +105,9 @@ class PrivacyConfig:
     # survive, the implementation uses the smallest feasible cap 1/n and logs it.
     max_client_weight_share: float = 0.10
     adjacency_factor: float = 1.0  # 1.0 add/remove; 2.0 replace-one
+    # Phase 8 (default False = historical behaviour): keep failure.surrogate_total_weight_cap binding after the
+    # per-client projection in the central-DP path (see privacy.group_capped_normalized_weights).
+    preserve_surrogate_cap: bool = False
 
 
 @dataclass

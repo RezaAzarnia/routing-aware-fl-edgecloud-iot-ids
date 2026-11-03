@@ -30,6 +30,7 @@ from .privacy import (
     approximate_rdp_epsilon,
     calibrate_noise_multiplier,
     capped_normalized_weights,
+    group_capped_normalized_weights,
     clip_update,
 )
 from .recovery import recover_failed_update
@@ -967,10 +968,18 @@ def run_experiment(cfg: Config) -> Path:
                     for index in kept_indices
                 ]
                 private_raw_weights = [effective_weights[index] for index in kept_indices]
-                private_weights, privacy_max_weight_share = capped_normalized_weights(
-                    private_raw_weights,
-                    cfg.privacy.max_client_weight_share,
-                )
+                if cfg.privacy.preserve_surrogate_cap and surrogate_cap is not None:
+                    private_weights, privacy_max_weight_share = group_capped_normalized_weights(
+                        private_raw_weights,
+                        [update_recovered_flags[index] for index in kept_indices],
+                        surrogate_cap,
+                        cfg.privacy.max_client_weight_share,
+                    )
+                else:
+                    private_weights, privacy_max_weight_share = capped_normalized_weights(
+                        private_raw_weights,
+                        cfg.privacy.max_client_weight_share,
+                    )
                 aggregate_before_noise = fedavg(private_updates, private_weights)
                 aggregate_signal_l2_norm = float(
                     state_l2_norm(aggregate_before_noise).item()

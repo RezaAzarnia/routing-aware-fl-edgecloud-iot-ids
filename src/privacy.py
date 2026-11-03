@@ -185,3 +185,42 @@ def capped_normalized_weights(
 
     result /= result.sum()
     return result.tolist(), float(result.max())
+
+
+def group_capped_normalized_weights(
+    weights: Sequence[float],
+    is_surrogate: Sequence[bool],
+    surrogate_group_cap: float,
+    requested_cap: float,
+) -> tuple[list[float], float]:
+    """Phase 8 variant: enforce a COLLECTIVE cap on the surrogate share, then a per-client cap within each group.
+
+    ``capped_normalized_weights`` projects all updates jointly onto the per-client cap. When that cap is
+    infeasible (requested_cap < 1/n, i.e. n < 10 for 0.10) the projection is exactly uniform and silently
+    discards any earlier surrogate scaling (Phase 6C ``corrected_gaussian`` realised surrogate share 0.48 although
+    surrogate_total_weight_cap=0.10). Here the surrogate group receives min(its raw share, surrogate_group_cap) of
+    the mass and the real group the rest; within a group the per-client cap is applied relative to that group's
+    mass. The per-client cap may still be infeasible; the realised maximum share is returned so that the
+    sensitivity used for the (diagnostic) noise scale stays consistent with the weights actually applied.
+    With no surrogates or no real updates this reduces to ``capped_normalized_weights``.
+    """
+    raw = np.asarray(weights, dtype=float)
+    flags = np.asarray(is_surrogate, dtype=bool)
+    if raw.ndim != 1 or len(raw) == 0 or len(raw) != len(flags):
+        raise ValueError("weights and is_surrogate must be non-empty one-dimensional sequences of equal length")
+    if not 0.0 < surrogate_group_cap < 1.0:
+        raise ValueError("surrogate_group_cap must be in (0, 1)")
+    if flags.all() or not flags.any():
+        return capped_normalized_weights(raw, requested_cap)
+    if np.any(raw < 0) or raw.sum() <= 0:
+        raise ValueError("weights must be non-negative with a positive sum")
+    surrogate_mass = min(float(raw[flags].sum() / raw.sum()), float(surrogate_group_cap))
+    real_mass = 1.0 - surrogate_mass
+    result = np.zeros(len(raw), dtype=float)
+    for mask, mass in ((~flags, real_mass), (flags, surrogate_mass)):
+        if mass <= 0:
+            continue
+        group, _ = capped_normalized_weights(raw[mask], min(1.0, float(requested_cap) / mass))
+        result[mask] = np.asarray(group) * mass
+    result /= result.sum()
+    return result.tolist(), float(result.max())
