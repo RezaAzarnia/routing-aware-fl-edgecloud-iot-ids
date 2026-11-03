@@ -1,0 +1,190 @@
+{
+ "manifest_sha256": "737b901f26ae66cccb8971da41a8537c9e803f1933e1c442a63e38ad0a28d556",
+ "distinct_dataset_seed_pairs": 15,
+ "runs_covered": 280,
+ "all_pairs_identical_to_training_only_refit": true,
+ "all_runs_share_their_pair_preprocessor": true,
+ "locked_test_opened": [],
+ "rows": [
+  {
+   "dataset": "unsw",
+   "seed": 12,
+   "sources": [
+    "phase6c"
+   ],
+   "runs": 24,
+   "n_features_out": 194,
+   "saved_equals_training_only_refit": true,
+   "refit_evidence": "refit (Phase 9C evidence)",
+   "runs_with_different_preprocessor": []
+  },
+  {
+   "dataset": "unsw",
+   "seed": 13,
+   "sources": [
+    "phase6c"
+   ],
+   "runs": 24,
+   "n_features_out": 194,
+   "saved_equals_training_only_refit": true,
+   "refit_evidence": "refit (Phase 9C evidence)",
+   "runs_with_different_preprocessor": []
+  },
+  {
+   "dataset": "unsw",
+   "seed": 14,
+   "sources": [
+    "phase6c"
+   ],
+   "runs": 24,
+   "n_features_out": 193,
+   "saved_equals_training_only_refit": true,
+   "refit_evidence": "refit (Phase 9C evidence)",
+   "runs_with_different_preprocessor": []
+  },
+  {
+   "dataset": "unsw",
+   "seed": 15,
+   "sources": [
+    "phase6c"
+   ],
+   "runs": 24,
+   "n_features_out": 193,
+   "saved_equals_training_only_refit": true,
+   "refit_evidence": "refit (Phase 9C evidence)",
+   "runs_with_different_preprocessor": []
+  },
+  {
+   "dataset": "unsw",
+   "seed": 16,
+   "sources": [
+    "phase6c"
+   ],
+   "runs": 24,
+   "n_features_out": 194,
+   "saved_equals_training_only_refit": true,
+   "refit_evidence": "refit (Phase 9C evidence)",
+   "runs_with_different_preprocessor": []
+  },
+  {
+   "dataset": "ciciot",
+   "seed": 12,
+   "sources": [
+    "phase6c"
+   ],
+   "runs": 24,
+   "n_features_out": 39,
+   "saved_equals_training_only_refit": true,
+   "refit_evidence": "refit (Phase 9C evidence)",
+   "runs_with_different_preprocessor": []
+  },
+  {
+   "dataset": "ciciot",
+   "seed": 13,
+   "sources": [
+    "phase6c"
+   ],
+   "runs": 24,
+   "n_features_out": 39,
+   "saved_equals_training_only_refit": true,
+   "refit_evidence": "refit (Phase 9D, training data only)",
+   "runs_with_different_preprocessor": []
+  },
+  {
+   "dataset": "ciciot",
+   "seed": 14,
+   "sources": [
+    "phase6c"
+   ],
+   "runs": 24,
+   "n_features_out": 39,
+   "saved_equals_training_only_refit": true,
+   "refit_evidence": "refit (Phase 9D, training data only)",
+   "runs_with_different_preprocessor": []
+  },
+  {
+   "dataset": "ciciot",
+   "seed": 15,
+   "sources": [
+    "phase6c"
+   ],
+   "runs": 24,
+   "n_features_out": 39,
+   "saved_equals_training_only_refit": true,
+   "refit_evidence": "refit (Phase 9D, training data only)",
+   "runs_with_different_preprocessor": []
+  },
+  {
+   "dataset": "ciciot",
+   "seed": 16,
+   "sources": [
+    "phase6c"
+   ],
+   "runs": 24,
+   "n_features_out": 39,
+   "saved_equals_training_only_refit": true,
+   "refit_evidence": "refit (Phase 9C evidence)",
+   "runs_with_different_preprocessor": []
+  },
+  {
+   "dataset": "unsw",
+   "seed": 17,
+   "sources": [
+    "phase7b"
+   ],
+   "runs": 8,
+   "n_features_out": 192,
+   "saved_equals_training_only_refit": true,
+   "refit_evidence": "refit (Phase 9C evidence)",
+   "runs_with_different_preprocessor": []
+  },
+  {
+   "dataset": "unsw",
+   "seed": 18,
+   "sources": [
+    "phase7b"
+   ],
+   "runs": 8,
+   "n_features_out": 194,
+   "saved_equals_training_only_refit": true,
+   "refit_evidence": "refit (Phase 9C evidence)",
+   "runs_with_different_preprocessor": []
+  },
+  {
+   "dataset": "unsw",
+   "seed": 19,
+   "sources": [
+    "phase7b"
+   ],
+   "runs": 8,
+   "n_features_out": 193,
+   "saved_equals_training_only_refit": true,
+   "refit_evidence": "refit (Phase 9C evidence)",
+   "runs_with_different_preprocessor": []
+  },
+  {
+   "dataset": "unsw",
+   "seed": 20,
+   "sources": [
+    "phase7b"
+   ],
+   "runs": 8,
+   "n_features_out": 194,
+   "saved_equals_training_only_refit": true,
+   "refit_evidence": "refit (Phase 9C evidence)",
+   "runs_with_different_preprocessor": []
+  },
+  {
+   "dataset": "unsw",
+   "seed": 21,
+   "sources": [
+    "phase7b"
+   ],
+   "runs": 8,
+   "n_features_out": 194,
+   "saved_equals_training_only_refit": true,
+   "refit_evidence": "refit (Phase 9C evidence)",
+   "runs_with_different_preprocessor": []
+  }
+ ]
+}

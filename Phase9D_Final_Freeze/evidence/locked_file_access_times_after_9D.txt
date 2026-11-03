@@ -1,0 +1,5 @@
+Metadata-only check (Get-Item; no file opened), taken 2026-11-03 15:35Z after all Phase 9C/9D runs (readiness, preprocessor refits, full and partial pytest runs, final-test preflight):
+data\UNSW_NB15_testing-set.csv                                         LastAccessTimeUtc 2026-11-03 08:45:48Z
+data\CICIoT2023\prepared_verified_v2_filegroup\test.csv.gz              LastAccessTimeUtc 2026-11-03 08:45:51Z
+data\CICIoT2023\prepared_verified_v2_filegroup\test_provenance.csv.gz   LastAccessTimeUtc 2026-11-03 08:45:49Z
+All three are unchanged since before Phase 9C (the earlier readings by integrity tests; see Phase9B_Review/LASTACCESSTIME_FORENSICS.md). Timestamps are evidence, not proof.

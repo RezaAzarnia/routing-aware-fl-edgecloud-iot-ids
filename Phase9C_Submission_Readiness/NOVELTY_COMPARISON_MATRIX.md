@@ -20,7 +20,7 @@ Sources: `literature/group{A,B}_report.md` (Phase 9B) and `literature/group{1,2,
 | liu2024iiot | FT | N* | N* | N* | N* | N* | N* | N* | LOW | edge-FL framework |
 | haripriya2025fault | AB | NS | NS | NS | NS | NS | NS | NS | LOW-MED | fault tolerance + latency via edge servers |
 | chen2025hierarchical | AB | NS | NS | NS | NS ("paralysis ratio" robustness) | NS | NS | NS | LOW-MED | hierarchical multicenter fault tolerance |
-| shah2026trisafe | AB | NS | NS | NS | P (Byzantine attacks on IDS data) | NS | P (DP + secure aggregation) | NS | LOW-MED | overlaps elements (d), (f) in kind, not mechanism |
+| shah2026trisafe | AB | NS | NS | NS | P (Byzantine attacks on IDS data) | NS | P (DP + secure aggregation) | NS | LOW-MED | overlaps elements (d), (f) in kind; mechanism not assessable from the abstract |
 | s2dfl2026 | AB | NS | NS | NS | P (statistical filtering + reputation) | NS | P (local DP; ε=5.0 example; certification not checked) | NS | MEDIUM | new algorithm, not a measurement study |
 | abdallah2026routing | AB (verbatim abstract) | NS | NS | NS | NS | NS | NS | NS | LOW-MED | FL used to learn routing |
 | bhardwaj2024routing | AB | NS | NS | NS | NS | NS | NS | NS | LOW-MED | FL for routing optimisation |

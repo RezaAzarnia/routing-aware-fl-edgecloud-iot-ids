@@ -1,0 +1,30 @@
+{
+  "_status": "DRAFT. Nothing has been uploaded or published. Every value marked AUTHOR_TO_CONFIRM must be confirmed or replaced by the authors; no value below is a verified fact about funding, ORCID, licence or DOI.",
+  "metadata": {
+    "upload_type": "software",
+    "title": "Reproducibility package: routing-aware federated intrusion detection under client failures and sign-flip attackers (simulation measurement study)",
+    "creators": [
+      {"name": "Derakhshanfard, Nahideh", "affiliation": "Department of Computer Engineering, Tabriz Branch, Islamic Azad University, Tabriz, Iran", "orcid": "AUTHOR_TO_CONFIRM"},
+      {"name": "Azarnia, Reza", "affiliation": "Department of Computer Engineering, Tabriz Branch, Islamic Azad University, Tabriz, Iran", "orcid": "AUTHOR_TO_CONFIRM"},
+      {"name": "Mollanejad, Amir", "affiliation": "Department of Computer Engineering, Aras Branch, Islamic Azad University, Jolfa, Iran", "orcid": "AUTHOR_TO_CONFIRM"},
+      {"name": "Pour Haji Kazem, Ali Asghar", "affiliation": "Department of Software Engineering, Faculty of Engineering and Natural Sciences, Istinye University, Istanbul, Turkey", "orcid": "AUTHOR_TO_CONFIRM"},
+      {"name": "Dadashkhani, Neda", "affiliation": "Computer Programming Program, Vocational School, Istinye University, Istanbul, Turkey", "orcid": "AUTHOR_TO_CONFIRM"},
+      {"name": "Khoshvaght, Parisa", "affiliation": "Institute of Research and Development, Duy Tan University, Da Nang, Vietnam", "orcid": "AUTHOR_TO_CONFIRM"},
+      {"name": "Hosseinzadeh, Mehdi", "affiliation": "School of Engineering & Technology, Duy Tan University, Da Nang, Vietnam", "orcid": "AUTHOR_TO_CONFIRM"}
+    ],
+    "description": "Code, hash-locked experiment manifests, audited metric tables, figure source data, manuscript sources and tests for a controlled simulation study of routing-aware federated intrusion detection (UNSW-NB15, CICIoT2023): delivery reliability versus participation fairness, median/MAD filtering under sign-flip attackers, surrogate imputation, a pre-registered negative result for a minimum-genuine-update guard, and an audited threshold/metric evaluation. Validation-only protocol; the locked final-test files are not included and were not used for modelling. Datasets are public and not redistributed. The Gaussian budget is a diagnostic value, not a differential-privacy guarantee. Raw run folders (checkpoints) are not part of this record unless the authors decide otherwise.",
+    "keywords": ["federated learning", "intrusion detection", "IoT", "client selection", "robust aggregation", "fault tolerance", "reproducibility", "simulation"],
+    "version": "AUTHOR_TO_CONFIRM (e.g. submission-v1; must equal the git tag used to regenerate ZENODO_RELEASE_MANIFEST.json)",
+    "language": "eng",
+    "license": "AUTHOR_TO_CONFIRM (code and documents; no LICENSE file exists in the repository yet)",
+    "access_right": "open",
+    "related_identifiers": [
+      {"relation": "isSupplementTo", "identifier": "AUTHOR_TO_CONFIRM (DOI/URL of the paper once available)", "resource_type": "publication-article"},
+      {"relation": "isDerivedFrom", "identifier": "https://www.kaggle.com/datasets/mrwellsdavid/unsw-nb15", "resource_type": "dataset", "note": "taken from the earlier manuscript's data statement; verify"},
+      {"relation": "isDerivedFrom", "identifier": "https://cicresearch.ca/IOTDataset/CIC_IOT_Dataset2023/", "resource_type": "dataset", "note": "taken from the earlier manuscript's data statement; verify. The prepared CICIoT2023 files used are byte-equivalent to a third-party release; official provenance unverified"},
+      {"relation": "obsoletes", "identifier": "10.5281/zenodo.21131047", "resource_type": "software", "note": "earlier deposit that predates the studies reported here; confirm the relation with the authors"}
+    ],
+    "grants": "AUTHOR_TO_CONFIRM (none may be invented)",
+    "notes": "Frozen code states: git tags phase6c-final-results, phase7-guard-v1, phase7b-final-results; file list and SHA-256: Phase9C_Submission_Readiness/ZENODO_RELEASE_MANIFEST.json (regenerate on the final tagged commit). Reproduction commands: Phase9_Manuscript_Revision/REPRODUCIBILITY.md."
+  }
+}

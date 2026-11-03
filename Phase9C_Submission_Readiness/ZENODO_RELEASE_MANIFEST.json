@@ -1,7 +1,7 @@
 {
  "purpose": "Proposed contents of a Zenodo release (NOT created, NOT uploaded)",
- "git_head_at_generation": "a033081d0e31bed583c3186e6433b5a40ec9f902",
- "branch": "research/phase9c-submission-readiness",
+ "git_head_at_generation": "cdd21ea5b62c0779603e3f7986b899c98965bebd",
+ "branch": "research/phase9d-final-freeze",
  "tags": [
   "phase6c-final-results",
   "phase7-guard-v1",
@@ -9,8 +9,8 @@
   "v1.0.0",
   "v1.0.1"
  ],
- "n_files": 735,
- "total_bytes": 8713523,
+ "n_files": 748,
+ "total_bytes": 8948361,
  "n_excluded": 1,
  "excluded_rule": {
   "prefixes": [
@@ -138,8 +138,8 @@
   },
   {
    "path": "Phase9C_Submission_Readiness/NOVELTY_COMPARISON_MATRIX.md",
-   "bytes": 6823,
-   "sha256": "468771df833aa4da62f813a11589840220bfe78c6a87a87629d8b461d1102945"
+   "bytes": 6895,
+   "sha256": "57d1537e2456b0ddd6d5169f8adcedd0fb0a43e0038602dbecf9d9795037464b"
   },
   {
    "path": "Phase9C_Submission_Readiness/PUBLICATION_BLOCKERS_STATUS.md",
@@ -150,6 +150,11 @@
    "path": "Phase9C_Submission_Readiness/ZENODO_RELEASE_CHECKLIST.md",
    "bytes": 3590,
    "sha256": "6376b6bea68faf60de506e64f7157c74b08f16ce4b439b6db79dd0d35d5365d6"
+  },
+  {
+   "path": "Phase9C_Submission_Readiness/ZENODO_RELEASE_MANIFEST.json",
+   "bytes": 133260,
+   "sha256": "2d9c90a51e1db30c439cd6b2c8dd0bbaa256358df638d6bf85726a6f33dfa9aa"
   },
   {
    "path": "Phase9C_Submission_Readiness/evidence/bibliography_inventory.json",
@@ -192,6 +197,66 @@
    "sha256": "20aef8523dd3f5e90b2bfd576afb8ec9570e5a6ae09c81cb010f771dd23cf21c"
   },
   {
+   "path": "Phase9D_Final_Freeze/AUTHOR_INFORMATION_REQUIRED.md",
+   "bytes": 2471,
+   "sha256": "5bb8e3f56ac653ca7e099f2e73ea3570cf16d1845dc87517f1edce96a2df4889"
+  },
+  {
+   "path": "Phase9D_Final_Freeze/FINAL_TEST_DECISION_PACKAGE.md",
+   "bytes": 5578,
+   "sha256": "a2562576a265c2844cd41dc2c871e968e07b3efed0a12377010bf7c301fcdb96"
+  },
+  {
+   "path": "Phase9D_Final_Freeze/JOURNAL_SHORTLIST.md",
+   "bytes": 3578,
+   "sha256": "5a5aabca2bc083b5e6fcf8b9cf3fdc680daa1331735b3ee9770ccf1eea971951"
+  },
+  {
+   "path": "Phase9D_Final_Freeze/LITERATURE_CLAIMS_AUDIT.md",
+   "bytes": 5362,
+   "sha256": "5ce5545ea86778a90676f3c6ca2e41bf3e98667ee3a9adf1037e0a7b843815ac"
+  },
+  {
+   "path": "Phase9D_Final_Freeze/MANIFEST_AND_PREPROCESSING_AUDIT.md",
+   "bytes": 3684,
+   "sha256": "f3d7a5a73fb5130f1cf9a349e16012715951c419df3a1c88cbb67e61f9056f89"
+  },
+  {
+   "path": "Phase9D_Final_Freeze/MANUSCRIPT_EDIT_LOG_9D.md",
+   "bytes": 2168,
+   "sha256": "5a99858f85acdbad7057236c272cc36fafdb0ddd97baa02a6d216a40c7c0c919"
+  },
+  {
+   "path": "Phase9D_Final_Freeze/README.md",
+   "bytes": 824,
+   "sha256": "a6c5526d32c2888cffab122166e04669452f52212aceb25762b19e2d81f326f4"
+  },
+  {
+   "path": "Phase9D_Final_Freeze/ZENODO_METADATA_DRAFT.json",
+   "bytes": 4209,
+   "sha256": "06a04ff76e9d51d6bc8cdd083ce81935f7f9a68755f9167574fd211474bf752e"
+  },
+  {
+   "path": "Phase9D_Final_Freeze/evidence/final_test_run_tiers.csv",
+   "bytes": 63062,
+   "sha256": "2c74df715ebaeb987dedd4e0cf4a3cd1f38c59450d7e6be3e652ccff0d2a242a"
+  },
+  {
+   "path": "Phase9D_Final_Freeze/evidence/locked_file_access_times_after_9D.txt",
+   "bytes": 690,
+   "sha256": "20ef01fb93fd32b9a0fe39d6f2db9cc12fadbf9fe91fadc8457d421cc238f6fe"
+  },
+  {
+   "path": "Phase9D_Final_Freeze/evidence/preprocessor_coverage_15_pairs.json",
+   "bytes": 4413,
+   "sha256": "70a05f5566fba4b46edaadb3c0ad75c089af1a5dad5680d1c563bcef543beffb"
+  },
+  {
+   "path": "Phase9D_Final_Freeze/scripts/preproc_coverage_15_pairs.py",
+   "bytes": 4180,
+   "sha256": "aebb3ddc6fe4ff7344988f4a96c57feeda4fb52b5ad30b5d156008e3b38e740d"
+  },
+  {
    "path": "Phase9_Manuscript_Revision/.gitignore",
    "bytes": 138,
    "sha256": "2f23bbf898d2d99208b2896916a93f1ef876e004b774419b7d136d746a2b5bcf"
@@ -228,8 +293,8 @@
   },
   {
    "path": "Phase9_Manuscript_Revision/Revised_Manuscript.pdf",
-   "bytes": 395522,
-   "sha256": "94ceef9e136d9cecfedf1ab346c628545d21b9564fdcba32c26d78ac7f12e789"
+   "bytes": 396193,
+   "sha256": "0407ffb8d8e563550dad4d248380c08f65dcaf6f9a3100d3209ffb2a33adb292"
   },
   {
    "path": "Phase9_Manuscript_Revision/UNRESOLVED_ISSUES.md",
@@ -348,8 +413,8 @@
   },
   {
    "path": "Phase9_Manuscript_Revision/latex/main.tex",
-   "bytes": 37085,
-   "sha256": "5cc004e5f74cf7842ffc51f82c941b9bf626d8810d4441314c8bca944810560a"
+   "bytes": 37490,
+   "sha256": "ac3a2c7cee502f409a0e70efbc790780add49bdf1bb93a04c4648b891ca1c5d7"
   },
   {
    "path": "Phase9_Manuscript_Revision/ledger/ledger_arm_summary_phase6c.csv",
@@ -393,8 +458,8 @@
   },
   {
    "path": "Phase9_Manuscript_Revision/sections/related_work.tex",
-   "bytes": 7555,
-   "sha256": "972642b2256679248f6dc669483eb713ced2bfb2e3aaa0577adf3a14fdd23f15"
+   "bytes": 7766,
+   "sha256": "2b83077be8f85b5125b514b102782f961b0eadbce39d03bbf4a84cc9c7f0e056"
   },
   {
    "path": "Phase9_Manuscript_Revision/tables/tab_ablation.tex",
