@@ -1,0 +1,71 @@
+{
+ "purpose": "Reproducibility record for the one-time final-test evaluation (plan final-test-eval-v2). Prepared, NOT executed.",
+ "base_commit_when_prepared": "f2a35234a3d4f9efbe06d2bf9baacdb83e309a58",
+ "branch": "research/phase9e-pretest-signoff",
+ "note_on_tag": "tag the commit that contains this record: git tag -a final-test-eval-v1 -m '...' <that commit>; the tag is NOT created yet",
+ "manifest": {
+  "path": "docs/final_test/FINAL_TEST_MANIFEST.json",
+  "canonical_sha256": "737b901f26ae66cccb8971da41a8537c9e803f1933e1c442a63e38ad0a28d556",
+  "file_sha256": "c0f3b3d75b22a271157c0fe96d3b905997d166d166a2098586be11162ef534c8",
+  "n_runs": 280,
+  "evaluation_code_fingerprint": "8ed4a8fe8e8fc835893051eb872a9290231b7a086a30d1ec48b77892638a02df",
+  "training_code_lineage": {
+   "phase6c": {
+    "tag": "phase6c-final-results",
+    "tag_commit": "3029c6c0407fa4b0d2936ba1cc72330d8b2fbe33",
+    "fingerprint": "1273afef07015ca873f658b4087e1b5b25124ce08d8422dfb16e0c92f686b524",
+    "matches": true
+   },
+   "phase7b": {
+    "tag": "phase7b-final-results",
+    "tag_commit": "7e718890adc1c35e0bfcae367ead2ad0b46a9380",
+    "fingerprint": "e93182e49a12baf6ca1964185d9d642228272c9ac5e0375e11f531f7a435967d",
+    "matches": true
+   }
+  }
+ },
+ "locked_test_descriptors_from_manifest": {
+  "unsw": {
+   "path": "data/UNSW_NB15_testing-set.csv",
+   "kind": "csv",
+   "sha256": "734fe6642edf758f7c94d7d9149426b49d202fe8e7bf0bef47392489c3c0a559",
+   "bytes": 15380800,
+   "rows": 82332,
+   "duplicate_mask_reference": "data/UNSW_NB15_training-set.csv"
+  },
+  "ciciot": {
+   "path": "data/CICIoT2023/prepared_verified_v2_filegroup/test.csv.gz",
+   "kind": "gzip_csv",
+   "content_sha256": "1ae0ecc42eb73c1ca752f94a93292202e9444fb850921f66d615ac4a8d45c8ce",
+   "rows": 300000
+  }
+ },
+ "frozen_files_sha256": {
+  "scripts/final_test/final_test_v2.py": "641bebab1a25b5091bf24681d7818c35d1f6d1036dba83e96a6f02c438fe5357",
+  "scripts/final_test/analyze_final_test.py": "a16d5e9188f774213fb21109c3d6edb4d4555cfb83349ceb53a51ed4d3eb7e72",
+  "scripts/final_test/protected_access_guard.py": "cea7f76ca6408c467b0668b59e076e5e28a44a4d5a2f008ed35766fc94999bde",
+  "scripts/phase6c/p6c_common.py": "19489444cc49d55b4cf8aed739c4647d16cc407881d58136f1202b421a74bfee",
+  "tests/conftest.py": "c7d24e844d52a5fd64fe81e22966f9dafaebf0325d16474d0f4c7ecc41d1bd7e",
+  "pytest.ini": "49fb2652467471751c10b41b55658e5807a7016ae5747bd137f99f70d0766a0e",
+  "Phase9E_PreTest_Signoff/PRETEST_SIGNOFF.md": "6eeadf5144f8f369342a1683146c7bd86f58b508c3b9171087c2b93396ba158a",
+  "Phase9E_PreTest_Signoff/PRETEST_RUN_TABLE.csv": "d4b74d70dcb54fd7ce409612711d26c82ea3fc91ebda6df20167af025feb18a9",
+  "Phase9E_PreTest_Signoff/FINAL_TEST_AUTHORIZATION_FA.md": "ebdf4bbc3f6d5f339ea230d9d3e1a571f0d4c654509977e74268e24beecef9b3",
+  "Phase9D_Final_Freeze/evidence/preprocessor_coverage_15_pairs.json": "70a05f5566fba4b46edaadb3c0ad75c089af1a5dad5680d1c563bcef543beffb"
+ },
+ "environment": {
+  "python": "3.11.9",
+  "platform": "Windows-10-10.0.22631-SP0",
+  "numpy": "2.4.6",
+  "pandas": "2.3.3",
+  "scipy": "1.17.1",
+  "scikit_learn": "1.9.1",
+  "torch": "2.15.0+cpu",
+  "pip_freeze_file": "Phase9E_PreTest_Signoff/evidence/pip_freeze_venv.txt",
+  "pip_freeze_sha256": "5203ebc0205d47219a03ed0ed3269bccfe2ec5e7dd0da1efe4c6f189c99652a0"
+ },
+ "authorization": {
+  "file_exists_in_repository": false,
+  "status": "OPEN (R7): to be created and signed by the owner outside the repository"
+ },
+ "results_dir_exists": false
+}

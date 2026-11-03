@@ -1,0 +1,1 @@
+PREFLIGHT OK: every non-authorization precondition holds (manifest, evaluation-code fingerprint, training-code lineage, run integrity, output directory). Authorization: NOT SIGNED/INVALID (no authorization file). No test data was 

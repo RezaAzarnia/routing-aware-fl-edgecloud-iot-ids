@@ -1,0 +1,5 @@
+Metadata-only check (no file opened) at 2026-11-03 15:53Z, after the Phase 9E rehearsal, readiness, preflight, analysis dry run and tests:
+UNSW_NB15_testing-set.csv            LastAccessTimeUtc 2026-11-03 08:45:48Z
+test.csv.gz (CICIoT2023 prepared)    LastAccessTimeUtc 2026-11-03 08:45:51Z
+test_provenance.csv.gz               LastAccessTimeUtc 2026-11-03 08:45:49Z
+Unchanged since before Phase 9C. results_final_test/ does not exist. Timestamps are evidence, not proof.

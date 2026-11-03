@@ -1,0 +1,272 @@
+{
+ "purpose": "validation-based dry run of the frozen analysis pipeline (pseudo results built from audited VALIDATION metrics; no test data)",
+ "pseudo_result_files": 50,
+ "comparisons": 24,
+ "mismatches": 0,
+ "rows": [
+  {
+   "contrast": "reference - clean_fedavg",
+   "dataset": "unsw",
+   "checkpoint": "best",
+   "metric": "roc_auc",
+   "analysis_mean_diff": -0.00051,
+   "ledger_mean_diff": -0.00051,
+   "wins": 2,
+   "p_exact": 0.625,
+   "match": true
+  },
+  {
+   "contrast": "reference - clean_fedavg",
+   "dataset": "unsw",
+   "checkpoint": "last",
+   "metric": "roc_auc",
+   "analysis_mean_diff": 3e-05,
+   "ledger_mean_diff": 3e-05,
+   "wins": 2,
+   "p_exact": 0.9375,
+   "match": true
+  },
+  {
+   "contrast": "reference - clean_fedavg",
+   "dataset": "unsw",
+   "checkpoint": "best",
+   "metric": "f1",
+   "analysis_mean_diff": 0.00013,
+   "ledger_mean_diff": 0.00013,
+   "wins": 3,
+   "p_exact": 0.875,
+   "match": true
+  },
+  {
+   "contrast": "reference - clean_fedavg",
+   "dataset": "ciciot",
+   "checkpoint": "best",
+   "metric": "roc_auc",
+   "analysis_mean_diff": 8e-05,
+   "ledger_mean_diff": 8e-05,
+   "wins": 3,
+   "p_exact": 0.625,
+   "match": true
+  },
+  {
+   "contrast": "reference - clean_fedavg",
+   "dataset": "ciciot",
+   "checkpoint": "last",
+   "metric": "roc_auc",
+   "analysis_mean_diff": -3e-05,
+   "ledger_mean_diff": -3e-05,
+   "wins": 3,
+   "p_exact": 0.875,
+   "match": true
+  },
+  {
+   "contrast": "reference - clean_fedavg",
+   "dataset": "ciciot",
+   "checkpoint": "best",
+   "metric": "f1",
+   "analysis_mean_diff": 0.00013,
+   "ledger_mean_diff": 0.00013,
+   "wins": 2,
+   "p_exact": 0.75,
+   "match": true
+  },
+  {
+   "contrast": "reference - scenario_fedavg_topk",
+   "dataset": "unsw",
+   "checkpoint": "best",
+   "metric": "roc_auc",
+   "analysis_mean_diff": 0.09679,
+   "ledger_mean_diff": 0.09679,
+   "wins": 5,
+   "p_exact": 0.0625,
+   "match": true
+  },
+  {
+   "contrast": "reference - scenario_fedavg_topk",
+   "dataset": "unsw",
+   "checkpoint": "last",
+   "metric": "roc_auc",
+   "analysis_mean_diff": 0.37825,
+   "ledger_mean_diff": 0.37825,
+   "wins": 5,
+   "p_exact": 0.0625,
+   "match": true
+  },
+  {
+   "contrast": "reference - scenario_fedavg_topk",
+   "dataset": "unsw",
+   "checkpoint": "best",
+   "metric": "f1",
+   "analysis_mean_diff": 0.18412,
+   "ledger_mean_diff": 0.18412,
+   "wins": 5,
+   "p_exact": 0.0625,
+   "match": true
+  },
+  {
+   "contrast": "reference - scenario_fedavg_topk",
+   "dataset": "ciciot",
+   "checkpoint": "best",
+   "metric": "roc_auc",
+   "analysis_mean_diff": 0.01495,
+   "ledger_mean_diff": 0.01495,
+   "wins": 5,
+   "p_exact": 0.0625,
+   "match": true
+  },
+  {
+   "contrast": "reference - scenario_fedavg_topk",
+   "dataset": "ciciot",
+   "checkpoint": "last",
+   "metric": "roc_auc",
+   "analysis_mean_diff": 0.53345,
+   "ledger_mean_diff": 0.53345,
+   "wins": 5,
+   "p_exact": 0.0625,
+   "match": true
+  },
+  {
+   "contrast": "reference - scenario_fedavg_topk",
+   "dataset": "ciciot",
+   "checkpoint": "best",
+   "metric": "f1",
+   "analysis_mean_diff": 0.01404,
+   "ledger_mean_diff": 0.01404,
+   "wins": 5,
+   "p_exact": 0.0625,
+   "match": true
+  },
+  {
+   "contrast": "corrected - reference",
+   "dataset": "unsw",
+   "checkpoint": "best",
+   "metric": "roc_auc",
+   "analysis_mean_diff": -0.00821,
+   "ledger_mean_diff": -0.00821,
+   "wins": 0,
+   "p_exact": 0.0625,
+   "match": true
+  },
+  {
+   "contrast": "corrected - reference",
+   "dataset": "unsw",
+   "checkpoint": "last",
+   "metric": "roc_auc",
+   "analysis_mean_diff": -0.01516,
+   "ledger_mean_diff": -0.01516,
+   "wins": 0,
+   "p_exact": 0.0625,
+   "match": true
+  },
+  {
+   "contrast": "corrected - reference",
+   "dataset": "unsw",
+   "checkpoint": "best",
+   "metric": "f1",
+   "analysis_mean_diff": -0.00607,
+   "ledger_mean_diff": -0.00607,
+   "wins": 0,
+   "p_exact": 0.0625,
+   "match": true
+  },
+  {
+   "contrast": "corrected - reference",
+   "dataset": "ciciot",
+   "checkpoint": "best",
+   "metric": "roc_auc",
+   "analysis_mean_diff": -0.00029,
+   "ledger_mean_diff": -0.00029,
+   "wins": 1,
+   "p_exact": 0.1875,
+   "match": true
+  },
+  {
+   "contrast": "corrected - reference",
+   "dataset": "ciciot",
+   "checkpoint": "last",
+   "metric": "roc_auc",
+   "analysis_mean_diff": -0.00106,
+   "ledger_mean_diff": -0.00106,
+   "wins": 1,
+   "p_exact": 0.1875,
+   "match": true
+  },
+  {
+   "contrast": "corrected - reference",
+   "dataset": "ciciot",
+   "checkpoint": "best",
+   "metric": "f1",
+   "analysis_mean_diff": -0.00024,
+   "ledger_mean_diff": -0.00024,
+   "wins": 2,
+   "p_exact": 0.4375,
+   "match": true
+  },
+  {
+   "contrast": "reference_gaussian - reference",
+   "dataset": "unsw",
+   "checkpoint": "best",
+   "metric": "roc_auc",
+   "analysis_mean_diff": -0.04193,
+   "ledger_mean_diff": -0.04193,
+   "wins": 0,
+   "p_exact": 0.0625,
+   "match": true
+  },
+  {
+   "contrast": "reference_gaussian - reference",
+   "dataset": "unsw",
+   "checkpoint": "last",
+   "metric": "roc_auc",
+   "analysis_mean_diff": -0.05411,
+   "ledger_mean_diff": -0.05411,
+   "wins": 0,
+   "p_exact": 0.0625,
+   "match": true
+  },
+  {
+   "contrast": "reference_gaussian - reference",
+   "dataset": "unsw",
+   "checkpoint": "best",
+   "metric": "f1",
+   "analysis_mean_diff": -0.05394,
+   "ledger_mean_diff": -0.05394,
+   "wins": 0,
+   "p_exact": 0.0625,
+   "match": true
+  },
+  {
+   "contrast": "reference_gaussian - reference",
+   "dataset": "ciciot",
+   "checkpoint": "best",
+   "metric": "roc_auc",
+   "analysis_mean_diff": -0.00325,
+   "ledger_mean_diff": -0.00325,
+   "wins": 0,
+   "p_exact": 0.0625,
+   "match": true
+  },
+  {
+   "contrast": "reference_gaussian - reference",
+   "dataset": "ciciot",
+   "checkpoint": "last",
+   "metric": "roc_auc",
+   "analysis_mean_diff": -0.00287,
+   "ledger_mean_diff": -0.00287,
+   "wins": 0,
+   "p_exact": 0.0625,
+   "match": true
+  },
+  {
+   "contrast": "reference_gaussian - reference",
+   "dataset": "ciciot",
+   "checkpoint": "best",
+   "metric": "f1",
+   "analysis_mean_diff": -0.00236,
+   "ledger_mean_diff": -0.00236,
+   "wins": 0,
+   "p_exact": 0.0625,
+   "match": true
+  }
+ ]
+}
