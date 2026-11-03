@@ -124,9 +124,9 @@ def test_monitor_is_read_only_and_reports_progress(tmp_path):
     assert before == sorted(str(p) for p in tmp_path.rglob("*"))        # nothing created or changed
 
 
-def test_locked_manifest_fingerprint_is_unaffected_by_the_live_tooling():
+def test_locked_manifest_fingerprint_is_unaffected_by_the_live_tooling(phase6c_tree):
     sys.path.insert(0, str(ROOT / "scripts" / "phase6c"))
     from p6c_common import code_fingerprint, load_manifest
 
     manifest = load_manifest(ROOT / "docs" / "phase6c" / "EXPERIMENT_MANIFEST.json")
-    assert code_fingerprint(ROOT) == manifest["code_fingerprint"]
+    assert code_fingerprint(phase6c_tree) == manifest["code_fingerprint"]

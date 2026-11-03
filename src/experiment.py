@@ -833,13 +833,18 @@ def run_experiment(cfg: Config) -> Path:
             network_rows.append(transfer)
 
         received_count = len(updates)
+        # Phase 7 guard (inactive when min_real_updates == 0, the historical behaviour): with fewer than
+        # min_real_updates delivered real updates the round abstains.
+        aggregation_skipped = bool(
+            cfg.aggregation.min_real_updates > 0 and 0 < received_count < cfg.aggregation.min_real_updates
+        )
         recovered_count = 0
         recovery_times: List[float] = []
         recovered_by_client: Dict[int, float] = {}
         real_filter_result = None
         real_filter_label = ""
         post_filter_mode = cfg.aggregation.surrogate_handling == "post_filter_real_only"
-        if cfg.failure.recovery_enabled and failed_clients and len(updates) >= 2:
+        if cfg.failure.recovery_enabled and failed_clients and len(updates) >= 2 and not aggregation_skipped:
             average_delay = float(np.mean(transfer_delays)) if transfer_delays else 0.0
             healthy_updates = list(updates)
             if post_filter_mode:
@@ -913,7 +918,7 @@ def run_experiment(cfg: Config) -> Path:
         privacy_noise_l2_norm = 0.0
         privacy_noise_to_signal_ratio = 0.0
         server_applied_update_l2_norm = 0.0
-        if updates:
+        if updates and not aggregation_skipped:
             # Robust filtering is performed on un-clipped updates. For central
             # client-level DP, only the surviving updates are then clipped,
             # weight-capped, averaged, and noised. This restores attack
@@ -1163,6 +1168,7 @@ def run_experiment(cfg: Config) -> Path:
                 "round": round_number,
                 "selected_clients": len(selected_clients),
                 "received_updates": received_count,
+                "aggregation_skipped": int(aggregation_skipped),
                 "kept_updates": kept_count,
                 "rejected_updates": rejected_count,
                 "failed_clients": len(failed_clients),

@@ -133,6 +133,10 @@ class AggregationConfig:
     # post_filter_real_only (corrected): the filter statistics use REAL updates only; surrogates
     #   are generated afterwards from the retained real updates.
     surrogate_handling: str = "reference"
+    # Phase 7 (default 0 = historical behaviour, no guard): minimum number of REAL (delivered) updates
+    # needed for the server to aggregate. With fewer, the round abstains (no aggregate, no server step,
+    # no surrogates). Median/MAD filtering has no outlier-discrimination power below 3 samples.
+    min_real_updates: int = 0
 
 
 @dataclass
@@ -322,6 +326,8 @@ class Config:
             raise ValueError("aggregation.surrogate_handling must be reference or post_filter_real_only")
         if self.aggregation.surrogate_handling == "post_filter_real_only" and self.aggregation.method in {"median", "trimmed_mean"}:
             raise ValueError("post_filter_real_only needs a filtering/weighting aggregator (distance_filter, multi_krum, fedavg)")
+        if self.aggregation.min_real_updates < 0:
+            raise ValueError("aggregation.min_real_updates must be >= 0 (0 disables the guard)")
         if self.attack.assignment not in {"natural_fixed_clients", "exposure_controlled"}:
             raise ValueError("attack.assignment must be natural_fixed_clients or exposure_controlled")
         if self.data.validation_three_way and self.data.threshold_calibration_fraction > 0:

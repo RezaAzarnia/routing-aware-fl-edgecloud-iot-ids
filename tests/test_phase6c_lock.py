@@ -32,9 +32,9 @@ def test_manifest_is_internally_consistent_and_locked():
         assert a["compare_with"] in (None, *arms)
 
 
-def test_locked_configs_match_their_hashes_and_cannot_read_test_data():
+def test_locked_configs_match_their_hashes_and_cannot_read_test_data(phase6c_tree):
     m = load_manifest(MANIFEST)
-    assert code_fingerprint(ROOT) == m["code_fingerprint"], "training code/configs changed after locking: rebuild the manifest deliberately"
+    assert code_fingerprint(phase6c_tree) == m["code_fingerprint"], "training code/configs changed after locking: rebuild the manifest deliberately"
     for run in m["runs"]:
         path = ROOT / run["config"]
         assert sha256_text_file(path) == run["config_sha256"]
