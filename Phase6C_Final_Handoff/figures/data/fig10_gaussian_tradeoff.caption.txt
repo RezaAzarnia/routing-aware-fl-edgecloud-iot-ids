@@ -1,0 +1,1 @@
+Accuracy cost of the Gaussian perturbation. The epsilon recorded for these runs (~10.0 after 30 rounds) is only a diagnostic RDP estimate under assumptions (e.g. Poisson subsampling) that the deterministic top-k / coverage-aware selection does NOT satisfy; it is not a certified differential-privacy guarantee. AUC drops by 0.042 (UNSW) and 0.003 (CIC) for Reference.

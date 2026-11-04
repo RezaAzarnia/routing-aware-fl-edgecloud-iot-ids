@@ -1,0 +1,11 @@
+python: Python 3.11.9
+joblib==1.6.0
+matplotlib==3.11.2
+numpy==2.4.6
+pandas==2.3.3
+PyYAML==6.0.3
+scikit-learn==1.9.1
+scipy==1.17.1
+torch==2.15.0
+os: Windows 11 Pro 10.0.22631
+generated_utc: 2026-11-02T17:10:07Z

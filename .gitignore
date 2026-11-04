@@ -48,3 +48,8 @@ logs_phase6b/
 cloud_transfer/
 cloud_transfer.tar
 results_cloud_compat/
+
+# Local portable/handoff archives and CICIoT2023 raw/prepared data (kept locally only)
+/*.zip
+data/CICIoT2023/
+posthoc_threshold_fix/_tmp_*

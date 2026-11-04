@@ -1,0 +1,1 @@
+Left/centre: last-round AUC with and without the distance filter (20% sign-flip attackers). Right: malicious updates received vs accepted, mean over the 10 runs (5 seeds x 2 datasets) of each arm over 30 rounds (max 120 selected per run). Filter blocks ~90% of received malicious updates (Reference) vs 100% accepted for undefended FedAvg.

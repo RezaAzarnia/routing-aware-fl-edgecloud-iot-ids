@@ -1,0 +1,1 @@
+Aggregation diagnostics, UNSW, 5 seeds. Corrected retains fewer real updates per round (4.6 vs 5.9) and has a smaller surrogate share (0.10 vs 0.22) than Reference. Accepted-malicious counts are small (about 4-12 per run) and their seed variance is large; their differences are not statistically distinguishable at n=5.

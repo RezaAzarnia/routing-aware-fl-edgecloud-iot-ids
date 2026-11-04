@@ -1,0 +1,1 @@
+F1, recall_adr and FPR on the report partition at the threshold chosen on a separate calibration partition (best checkpoint). Dots = seeds, diamond = mean +/- SD. FPR is ~0.14-0.15 for nearly all arms because the threshold rule targets a similar operating point; it is not an independent quality measure.

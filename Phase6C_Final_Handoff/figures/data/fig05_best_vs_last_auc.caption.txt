@@ -1,0 +1,1 @@
+Each point is one run: report-partition AUC at the selected best checkpoint (x) vs the last round (y). Points below the diagonal lose performance after the best round; clusters near AUC 0.5 are collapsed (constant-prediction) final models, hidden if only the best checkpoint is reported.

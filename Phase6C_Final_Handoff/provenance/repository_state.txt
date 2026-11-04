@@ -1,0 +1,15 @@
+branch: feature/gpu-live-logging
+HEAD: 3029c6c0407fa4b0d2936ba1cc72330d8b2fbe33
+manifest_sha256: c648b93590494fcf260d5f143fe30eabbec28ee61c6b782dbe5f8550e0c1f267
+code_fingerprint: 1273afef07015ca873f658b4087e1b5b25124ce08d8422dfb16e0c92f686b524
+--- git status --short ---
+?? Phase6C_Final_Handoff/
+?? data/CICIoT2023/
+--- recent commits ---
+3029c6c Live per-round logging, read-only monitor, CPU/GPU benchmark (no change to results or locked manifest)
+ed882a7 Merge release/phase6c into master (unrelated histories: GitHub initial commit + project history)
+a774399 Phase 6C: GitHub-Actions shard tooling (planner, packager, verifier, encrypted-data helpers) and orchestrator shard/time-budget options
+7d9eb5e Cloud tooling: LF hash list/lock for Linux, fix Windows RAM probe, --mark-only marker; README
+fefb59f Cloud migration tooling: cloud-mode preflight (test files must be absent), transfer bundle builder, probe, compat test, resumable launcher/sync, migration marker; tests
+d126e2d Phase 6C: locked five-seed manifest (240 runs), runner/monitor/validator, locked final-test operation, final protocol, tests (119 passing), readiness record
+note: Phase6C_Final_Handoff/ and data/CICIoT2023/ are untracked; results_phase6c/ is gitignored (original outputs untouched).

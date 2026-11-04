@@ -1,0 +1,25 @@
+arm,group,description,algorithm_version,uses_gaussian,natural_attacker_assignment,compare_with
+clean_centralized,baseline,"single client, clean data (upper reference)",reference_v1_historical,False,False,
+clean_fedavg,baseline,"FedAvg, no attack/failure/routing",reference_v1_historical,False,False,
+scenario_fedavg_random,baseline,"FedAvg under attack+failure, uniform random selection, no imputation",reference_v1_historical,False,False,
+scenario_fedavg_topk,baseline,"FedAvg under attack+failure, deterministic top-k routing, no imputation",reference_v1_historical,False,False,
+robust_random_no_imputation,baseline,"distance filter, uniform random selection, no imputation",reference_v1_historical,False,False,
+reference,main,"original method (top-k, filter, pre-filter median imputation), no Gaussian",reference_v1_historical,False,False,
+reference_gaussian,main,reference + Gaussian perturbation (diagnostic epsilon only),reference_v1_historical,True,False,reference
+corrected,main,coverage-aware + packet-coupled delivery + real-only filter + post-filter surrogates capped at 0.10,corrected_v2_phase6c,False,False,reference
+corrected_gaussian,main,corrected + Gaussian perturbation (diagnostic epsilon only),corrected_v2_phase6c,True,False,corrected
+ctl_selection_uniform,control,reference with uniform random selection,reference_v1_historical,False,False,reference
+ctl_selection_coverage,control,reference with coverage-aware selection,reference_v1_historical,False,False,reference
+ctl_imputation_none,control,reference without imputation,reference_v1_historical,False,False,reference
+ctl_imputation_cap010,control,reference with surrogate share capped at 0.10,reference_v1_historical,False,False,reference
+ctl_imputation_postfilter,control,reference with real-only filter and post-filter surrogates,reference_v1_historical,False,False,reference
+ctl_delivery_coupled,control,reference with packet-coupled delivery,reference_v1_historical,False,False,reference
+ctl_momentum0_lr0p5,control,reference with server momentum 0 (lr 0.5),reference_v1_historical,False,False,reference
+ctl_momentum0_lr5p0,control,reference with momentum 0 and gain-matched lr 5.0,reference_v1_historical,False,False,reference
+ctl_weighting_uniform,control,reference with uniform client weights,reference_v1_historical,False,False,reference
+nat_reference,natural_assignment,"reference, naturally assigned fixed malicious clients",reference_v1_historical,False,True,
+nat_selection_uniform,natural_assignment,"uniform random selection, natural attackers",reference_v1_historical,False,True,nat_reference
+nat_corrected,natural_assignment,"corrected method, natural attackers",corrected_v2_phase6c,False,True,nat_reference
+fail0p0_reference,failure_sensitivity,"reference, explicit failure probability 0.0",reference_v1_historical,False,False,reference
+fail0p3_reference,failure_sensitivity,"reference, explicit failure probability 0.3",reference_v1_historical,False,False,reference
+fail0p3_corrected,failure_sensitivity,"corrected, explicit failure probability 0.3",corrected_v2_phase6c,False,False,fail0p3_reference

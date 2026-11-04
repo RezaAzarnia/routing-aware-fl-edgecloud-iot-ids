@@ -1,0 +1,18 @@
+{
+  "manifest_sha256": "c648b93590494fcf260d5f143fe30eabbec28ee61c6b782dbe5f8550e0c1f267",
+  "code_fingerprint": "1273afef07015ca873f658b4087e1b5b25124ce08d8422dfb16e0c92f686b524",
+  "n_manifest_runs": 240,
+  "verified_complete": 240,
+  "by_dataset": {
+    "ciciot": 120,
+    "unsw": 120
+  },
+  "failed_or_corrupt_problems": [],
+  "unexpected_dirs": [],
+  "final_test_results_dir_exists": false,
+  "any_run_test_data_loaded": false,
+  "protocols": [
+    "validation_only"
+  ],
+  "complete": true
+}

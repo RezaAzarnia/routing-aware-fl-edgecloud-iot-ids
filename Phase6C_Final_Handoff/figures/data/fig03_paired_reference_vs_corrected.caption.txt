@@ -1,0 +1,1 @@
+Paired per-seed ROC-AUC, Reference vs Corrected (same seed = same data partition and training seed; attacker/selection schedules differ by design). Grey = seeds 12-16, black = mean. Corrected is lower in 5/5 seeds on UNSW (exact Wilcoxon p=0.0625, the smallest attainable at n=5) and in 4/5 on CIC best-checkpoint.

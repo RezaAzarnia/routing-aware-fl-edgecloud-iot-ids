@@ -1,0 +1,1 @@
+Report-partition ROC-AUC at the best (selection-partition) checkpoint. Dots = individual seeds (12-16), diamond = mean, bars = +/-1 sample SD. Note the different x-axis ranges: UNSW is zoomed from 0.70, CIC from 0.97; CIC differences between the protected methods are <0.001 AUC.

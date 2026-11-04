@@ -1,0 +1,1 @@
+Mean client training loss per round (log y-axis), mean over 5 seeds with min-max band. Loss is a training-side quantity, not an evaluation metric. Undefended FedAvg (black) diverges by orders of magnitude; Corrected under 30% failure shows spikes in individual seeds.

@@ -1,0 +1,1 @@
+Sensitivity to the explicit client-failure probability (default vs 0.0 vs 0.3) and numerical stability. Reference is insensitive to failures; Corrected at f=0.3 has seeds with strongly degraded last-round AUC and loss spikes (log x-axis, right). Note failure-sensitivity arms use the same data partitions per seed, but network/failure draws differ.
