@@ -1,0 +1,40 @@
+
+
+(The same table with all columns, including evidence paths and run-ID status, is in `_table4_row_audit.csv`; per-seed executed values of the analog arms, with run IDs, config hashes and paths, are in `TABLE4_VERIFIED_METRICS.csv`.)
+
+## 5. Are the locked Phase 6C arms equivalents of Table 4's rows?
+| Table 4 row | Closest executed arm | Equivalent? |
+|---|---|---|
+| FedAvg | `scenario_fedavg_random` (routing **enabled**, uniform-random selection, no recovery); `clean_fedavg` (routing disabled but no attack) | **No.** Table 4's baseline network metrics (delay 89–99 ms, PDR 0.72–0.74, path stability 0.54–0.56) are those of a **routing-disabled** network (clean_fedavg: 87.0/97.1 ms, 0.706, 0.539), whereas `scenario_fedavg_random` keeps routed paths (71.3/81.5 ms, 0.782, 0.855). The two baselines differ in path assignment, not only in client selection |
+| DP+FedAvg | none | No arm exists |
+| Robust no-DP | `robust_random_no_imputation` (routing enabled) | **No** (same reason) |
+| Proposed ε≈10 | `reference_gaussian` (top-k routing, recovery, MAD filter, central Gaussian, ε̂ 9.9993) | Closest, but differs in split (CIC file-group split vs row-level), attacker assignment (exposure-controlled), evaluation partition (validation vs test), traces (matched vs sequential), code and seeds |
+| Proposed ε≈20 | none | No arm exists |
+
+Consequence for the headline network gains: the paper attributes the 26.6 % delay reduction, +13.4 % PDR, +62.8 % path stability and +46 % transfer efficiency (CICIoT2023) to the proposed method versus FedAvg. In the executed locked arms the **same-seed paired effect of routing-aware top-k client selection alone** (reference_gaussian vs scenario_fedavg_random, both with routed paths, 5 seeds) is: delay −5.4 ms (−7.5 %), first-transmission PDR +0.069 (+8.9 %), path stability +0.069 (+8.0 %), transfer efficiency +1.55 Mbit/s (+16.5 %) on CICIoT2023 (all 5/5 seeds in the same direction); UNSW-NB15 similar (`TABLE4_LOCKED_ANALOG_PAIRED_DIFFERENCES.csv`). The much larger Table 4 gains therefore **mix client selection with path assignment (routing disabled ⇒ random paths)**; that attribution is unverified because no executed "routing off" arm with the same protocol exists.
+
+Detection-metric context from the locked arms (paired, 5 seeds): CICIoT2023 reference_gaussian vs `robust_random_no_imputation`: ΔAUC −0.0032 (0/5 seeds higher) — i.e. the private proposed arm is slightly *below* the non-private robust arm (Table 4 shows ε≈20 ≈ equal and ε≈10 below); UNSW-NB15: ΔAUC −0.0406, ΔF1 −0.052 (0/5 higher). UNSW FPR in Table 4 (0.24–0.35) is incompatible with any validation-only arm (0.143–0.149, capped by the FPR rule), confirming that Table 4 reports a different (test) evaluation.
+
+## 6. PDR versus update-delivery success
+* In the executed runs PDR (`pdr`) is the packet-level fraction received on the **first** transmission; update delivery (`update_delivered`) is a separate Bernoulli draw with the same probability under the historical `independent_draw` model (correlation between the two per event ≈ 0.03; `phase6c_diagnostics.json`). Their means agree only because both estimate `expected_pdr`: reference PDR 0.8511 vs update-delivery rate 0.8480.
+* Table 4 reports **only PDR**, never the update-delivery rate or the number of updates the server actually received (explicit client failures also remove updates: received ≈ 0.75 of selected in the reference). The text equates higher PDR with "improvement in successful update delivery" (results text near line 2058); that is not what PDR measures in this simulator. Under the packet-coupled model the two diverge strongly (PDR 0.834 vs delivered 0.626 for the revised pipeline).
+* Network comparisons in Table 4 mix routing-disabled baselines with routed proposed arms (§5) and unmatched traces, so the metric definitions agree but the **conditions are not compatible** for attribution to selection.
+
+## 7. Table 3 versus actual configurations
+Table 3 (50/10 clients, T/E = 30/2, B = 256, η = 3e−4, Dirichlet α = 0.5, MLP 128-96-64 dropout 0.2, 3 edges, p_out = 0.01, routing weights 0.4/0.3/0.3, k = 2.5, δ = 1e−5, σ = 0.994/0.672, a_max = 0.1, p_f = 0.1, χ_rec = 0.5, η_s/μ = 0.5/0.9, clip 0.05/0.10, sign-flip 0.2 × 5.0, five seeds, Gaussian server-side DP, coordinate-wise median recovery) **matches** `configs/ciciot2023_eps10.yaml` / `configs/full.yaml` and the current noise calibration. It does **not** state: the evaluation partition (official test files), that baselines disable routing, the delivery model (independent draw), unmatched traces, the old single-validation-set threshold protocol, the attacker assignment, or that the CICIoT2023 split is row-level. It also lists "ablation η_s = 1.0" only in the text (line 2289), while the controlled studies later showed that this changes two factors (momentum and learning rate).
+
+## 8. Abstract, Results and Conclusion numbers
+The Abstract in this file already describes the **locked 240-run validation-only study** (0.9838 reference, 0.9843 clean FedAvg, 0.8752–0.8870 undefended FedAvg, PDR 0.782→0.851, 27.2 of 50 clients never selected): these match the executed Phase 6C data (§5 and `TABLE4_VERIFIED_METRICS.csv`). Table 4 and the Results/Conclusion percentages do not: Table 4 gives FedAvg ROC-AUC 0.8542 (UNSW-NB15) while the Abstract gives 0.8752–0.8870 for undefended FedAvg. The manuscript is therefore internally inconsistent (two different experimental programmes).
+
+Percentages quoted in Results and Conclusion, recomputed from Table 4 itself (`TABLE4_CLAIM_ARITHMETIC.csv`): 26.6 %, 13.4 %, 62.8 %, 8.3 %, 6.6 %, 24.7 %, 63.5 % **reproduce arithmetically**; transfer efficiency "46.0 %" recomputes to 45.8 % (Proposed ε≈20 vs FedAvg). NSR reduction 69.7 % (57.21→17.34) reproduces arithmetically. Arithmetic reproducibility says nothing about the underlying measurements, which are unsourced (NOT VERIFIED).
+
+## 9. Cross-check with the 20 InsightAI comments (priority 3, 4, 9, 10, 11, 13, 17)
+| # | Status after this audit |
+|---|---|
+| 3 privacy accounting | σ values reproduce under the current accountant; but every run records `subsampling_amplification_valid=false` (deterministic top-k selection, data-dependent filtering). The reported ε is a diagnostic RDP estimate under a Poisson-sampling assumption with q=0.2 and must not be presented as a guarantee. The ε values in the privacy-cost table (9.58, 9.91, 9.18, 8.42, 20.00) are unsourced; the locked ε̂ is 9.9993 |
+| 4 network model | Implemented in `src/network.py`; the router ranks by true link stability, which equals the delivery probability (oracle on success probability); the manuscript table lists parameters only. Table 4's baseline-vs-proposed network contrast conflates routing-disabled paths with selection (§5) |
+| 9 thresholds / false alarms | Original protocol: threshold from the same validation set used for checkpoint selection, applied to test; locked protocol: separate calibration partition. UNSW test FPR 0.24–0.35 cannot be rechecked (test locked) and cannot be compared with validation FPR ≈ 0.145 |
+| 10 baselines | DP+FedAvg, ε≈20 and the routing-disabled baselines have no executed counterpart; Modular Edge FL-inspired and MCHFL-style were never executed |
+| 11 seed uncertainty | Table 4 gives means only, no SD/paired intervals; planned seeds 2–6 are not documented by any run record; sweeps "at least three seeds" |
+| 13 communication accounting | Table 4's transfer efficiency and delay are computed over selected transfers incl. undelivered ones; payload bytes are identical across arms (52.36 MB UNSW, 28.61 MB CIC attempted), so no communication-cost claim can come from payload size; the privacy-cost table's communication numbers (23.08–52.39 MB) match neither attempted nor delivered bytes of the locked runs except 28.61 (CIC) and 52.39≈52.36 (UNSW) |
+| 17 relative changes | All headline percentages are computed against FedAvg baselines whose network conditions differ from the proposed arm; under executed matched arms the selection-only effects are about one third or less (§5); privacy cost is not matched (ε≈20 and DP+FedAvg unsourced) |

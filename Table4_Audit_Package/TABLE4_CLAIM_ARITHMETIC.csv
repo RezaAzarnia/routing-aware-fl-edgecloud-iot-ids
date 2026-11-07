@@ -1,0 +1,9 @@
+claim,location,manuscript_pct,recomputed_from_table4_pct,arithmetic_status,provenance_status
+CICIoT2023 delay reduction vs FedAvg,Results (Proposed eps~20),26.6,26.58,REPRODUCES,NOT VERIFIED (inputs unsourced)
+CICIoT2023 PDR increase vs FedAvg,Results,13.4,13.36,REPRODUCES,NOT VERIFIED (inputs unsourced)
+CICIoT2023 path-stability increase vs FedAvg,Results,62.8,62.81,REPRODUCES,NOT VERIFIED (inputs unsourced)
+CICIoT2023 transfer-efficiency increase vs FedAvg,Results,46.0,45.81,DIFFERS,NOT VERIFIED (inputs unsourced)
+UNSW-NB15 F1 improvement vs FedAvg,Results/Conclusion (eps~20),8.3,8.32,REPRODUCES,NOT VERIFIED (inputs unsourced)
+UNSW-NB15 ROC-AUC improvement vs FedAvg,Results/Conclusion,6.6,6.64,REPRODUCES,NOT VERIFIED (inputs unsourced)
+UNSW-NB15 delay reduction vs FedAvg,Results/Conclusion,24.7,24.68,REPRODUCES,NOT VERIFIED (inputs unsourced)
+UNSW-NB15 path-stability increase vs FedAvg,Results/Conclusion,63.5,63.45,REPRODUCES,NOT VERIFIED (inputs unsourced)
