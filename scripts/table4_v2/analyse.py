@@ -17,10 +17,15 @@ from sklearn.metrics import roc_auc_score
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from t4_common import (MANIFEST, NEW_ARMS, OUT_ROOT, ROOT, SEEDS, DATASETS, load_manifest, sha256_file, sha256_text_file, verify_run_dir)  # noqa: E402
 
-PKG = ROOT / "Table4_V2_Package"
+import os  # noqa: E402
+PKG = Path(os.environ["T4_PKG"]) if os.environ.get("T4_PKG") else ROOT / "Table4_V2_Package"
+TEST_DATASETS = os.environ.get("T4_DATASETS")   # test mode only (partial data); the final run uses both datasets
+if TEST_DATASETS:
+    DATASETS = TEST_DATASETS.split(",")
 LEDGER = pd.read_csv(ROOT / "Phase9_Manuscript_Revision/ledger/ledger_per_run_phase6c.csv").set_index(["dataset", "arm", "seed"])
 P6C = json.loads((ROOT / "docs/phase6c/EXPERIMENT_MANIFEST.json").read_text(encoding="utf-8"))
 T4M = load_manifest(MANIFEST)
+T4M_RUNS = {r["run_id"]: r for r in T4M["runs"]}
 COMPARATORS = ["scenario_fedavg_random", "scenario_fedavg_topk", "robust_random_no_imputation", "reference", "reference_gaussian"]
 ARM_LABEL = {
     "scenario_fedavg_topk": "FedAvg, top-k selection, routed paths",
@@ -143,13 +148,13 @@ def qa_checks(P):
 
     def add(name, ok, detail=""):
         out.append((name, bool(ok), detail))
-    runs = {r["run_id"]: r for r in T4M["runs"]}
+    runs = {r["run_id"]: r for r in T4M["runs"] if r["dataset"] in DATASETS}
     bad = []
     for rid, r in runs.items():
         problems = verify_run_dir(ROOT / r["out_dir"], r, T4M)
         if problems:
             bad.append((rid, problems[:2]))
-    add("all 40 new runs verify against the locked manifest (artifact hashes, config hash, code fingerprint, 30 rounds, test_data_loaded=false, accounting invariants)", not bad, f"{len(runs) - len(bad)}/40 verified {bad[:2]}")
+    add("all 40 new runs verify against the locked manifest (artifact hashes, config hash, code fingerprint, 30 rounds, test_data_loaded=false, accounting invariants)", not bad, f"{len(runs) - len(bad)}/{len(runs)} verified {bad[:2]}")
     new = P[P.arm.isin(NEW)]
     add("test_data_loaded is false for all 40 new runs", (new.test_data_loaded == False).all())  # noqa: E712
     ph = pd.read_csv(ROOT / "results_ablation_controlled_v2/historical_verification.csv")
@@ -169,12 +174,17 @@ def qa_checks(P):
     worst_sel, worst_auc = 0, 0.0
     for _, r in P.iterrows():
         d = rundir(r.dataset, r.arm, r.seed)
-        rm = pd.read_csv(d / "round_metrics.csv"); x = rm[rm["round"] > 0]
-        worst_sel += int(x.loc[x.val_roc_auc.idxmax(), "round"] != r.best_round and abs(x.val_roc_auc.max() - x[x["round"] == r.best_round].val_roc_auc.iloc[0]) > 1e-9)
+        rm = pd.read_csv(d / "round_metrics.csv"); x = rm   # round 0 (initial model) is a legal checkpoint
+        # replay the training rule exactly (src/experiment.py): a round becomes the new best only if its selection AUC exceeds the running best by > early_stopping_min_delta (1e-4)
+        best_s, rep = float(x[x["round"] == 0].val_roc_auc.iloc[0]), 0
+        for rn, sc in zip(x["round"], x.val_roc_auc):
+            if rn > 0 and sc > best_s + 1e-4:
+                best_s, rep = float(sc), int(rn)
+        worst_sel += int(rep != r.best_round)
         if r.arm in NEW:
             vp = pd.read_csv(d / "validation_predictions.csv")
             worst_auc = max(worst_auc, abs(roc_auc_score(vp.y_true, vp.probability_attack) - float(rm[rm["round"] == r.best_round].val_roc_auc.iloc[0])))
-    add("selected checkpoint = round with maximal selection-partition ROC-AUC (all 90... runs)", worst_sel == 0, f"{worst_sel} mismatches")
+    add("selected checkpoint = replay of the training rule on selection-partition ROC-AUC (improvement > 1e-4 over running best; all runs)", worst_sel == 0, f"{worst_sel} mismatches")
     add("selection-partition ROC-AUC recomputed from stored predictions equals the logged value (new runs)", worst_auc < 1e-5, f"max abs error {worst_auc:.2e}")
     acc = (P.bytes_attempted - P.bytes_attempted_roundlog).abs().max()
     add("attempted bytes from network log equals the round log", acc < 1, f"max diff {acc:.1f} B")
@@ -231,7 +241,7 @@ def build_table(S, PE):
          r"\caption{Controlled comparison of the evaluated configurations on the report partition of the locked validation split (five paired seeds, 12--16; mean (SD)). Detection metrics are at the selected checkpoint; AUC$_\mathrm{last}$ is the final-round ROC-AUC. Delay (ms) and TE (transfer efficiency, Mbit/s of delivered payload per delivered update) are means over delivered updates; PDR is the packet delivery ratio on the first transmission, and Deliv. is the fraction of selected updates actually delivered (a separate event from PDR). Path st. is the mean path stability. Attackers (20\% sign-flip, exposure-controlled), failures ($p=0.1$), data partitions and network traces are matched across all rows. Random-path rows replace routed path assignment by random edges with the client-selection sequence unchanged. Epsilon values are diagnostic RDP estimates, not certified guarantees. No test data were used.}",
          r"\label{tab:main-controlled}", r"\resizebox{\textwidth}{!}{%", r"\begin{tabular}{@{}l" + "c" * len(cols) + r"@{}}", r"\toprule",
          "Configuration & " + " & ".join(c[1] for c in cols) + r" \\"]
-    for ds, name in (("ciciot", "CICIoT2023"), ("unsw", "UNSW-NB15")):
+    for ds, name in ((d, {"ciciot": "CICIoT2023", "unsw": "UNSW-NB15"}[d]) for d in ("ciciot", "unsw") if d in DATASETS):
         L.append(r"\midrule")
         L.append(r"\multicolumn{" + str(len(cols) + 1) + r"}{@{}l}{\textit{" + name + r"}} \\")
         for grp, arms in order:
@@ -253,7 +263,7 @@ def build_table(S, PE):
     L += [r"\begin{table*}[t]", r"\centering", r"\scriptsize", r"\setlength{\tabcolsep}{2.4pt}",
           r"\caption{Five-seed paired effects (variant $-$ reference): mean and SD of the per-seed differences, with the number of seeds in which the variant is lower. With five pairs the smallest attainable two-sided exact sign-flip $p$ is 0.0625, so no difference is declared significant and small differences are not evidence of equivalence. Only rows labelled single factor change one configuration field; bundles change several components together and are not attributed to one mechanism.}",
           r"\label{tab:main-paired}", r"\resizebox{\textwidth}{!}{%", r"\begin{tabular}{@{}l" + "c" * len(pm) + r"@{}}", r"\toprule", "Contrast & " + " & ".join(c[1] for c in pm) + r" \\"]
-    for ds, name in (("ciciot", "CICIoT2023"), ("unsw", "UNSW-NB15")):
+    for ds, name in ((d, {"ciciot": "CICIoT2023", "unsw": "UNSW-NB15"}[d]) for d in ("ciciot", "unsw") if d in DATASETS):
         L.append(r"\midrule")
         L.append(r"\multicolumn{" + str(len(pm) + 1) + r"}{@{}l}{\textit{" + name + r"}} \\")
         for v, r_, lab in keep:
@@ -264,6 +274,45 @@ def build_table(S, PE):
             L.append(lab + " & " + " & ".join(cells) + r" \\")
     L += [r"\bottomrule", r"\end{tabular}}", r"\end{table*}", ""]
     return "\n".join(L)
+
+
+def provenance(P):
+    import platform, subprocess
+    import torch
+    git = lambda *a: subprocess.run(["git", *a], capture_output=True, text=True, cwd=ROOT).stdout.strip()   # noqa: E731
+    arms = {}
+    for arm in ALL_ARMS:
+        new = arm in NEW
+        entry = {"label": ARM_LABEL[arm].replace("$", ""), "source": "new runs of this study" if new else "reused locked Phase 6C runs (not re-run)",
+                 "manifest": "docs/table4_v2/EXPERIMENT_MANIFEST.json" if new else "docs/phase6c/EXPERIMENT_MANIFEST.json", "runs": []}
+        for ds in DATASETS:
+            for s_ in SEEDS:
+                d = rundir(ds, arm, s_)
+                rec = json.loads((d / "COMPLETE.json").read_text(encoding="utf-8"))
+                entry["runs"].append({"run_id": rec["run_id"], "dataset": ds, "seed": s_, "out_dir": d.relative_to(ROOT).as_posix(),
+                                      "config": (T4M_RUNS[rec["run_id"]]["config"] if new else f"configs/phase6c/{ds}_{arm}.yaml"),
+                                      "config_sha256": rec["config_sha256"], "code_fingerprint": rec["code_fingerprint"],
+                                      "complete_json_sha256": sha256_file(d / "COMPLETE.json"),
+                                      "final_validation_metrics_sha256": sha256_file(d / "final_validation_metrics.json"),
+                                      "network_metrics_sha256": sha256_file(d / "network_metrics.csv"), "round_metrics_sha256": sha256_file(d / "round_metrics.csv")})
+        arms[arm] = entry
+    return {
+        "study": "Table 4 controlled replacement (version table4_controlled_v2)", "evaluation_partition": "report partition of the locked three-way validation split; reserved test data never loaded",
+        "seeds": SEEDS, "datasets": DATASETS,
+        "git": {"branch": git("branch", "--show-current"), "head_at_analysis": git("rev-parse", "HEAD"), "manifest_built_at_commit": T4M["git_commit_at_build"],
+                "tracked_working_tree_clean": git("status", "--porcelain", "--untracked-files=no") == ""},
+        "manifests": {"table4_v2": {"path": "docs/table4_v2/EXPERIMENT_MANIFEST.json", "manifest_sha256": T4M["manifest_sha256"], "code_fingerprint": T4M["code_fingerprint"]},
+                      "phase6c": {"path": "docs/phase6c/EXPERIMENT_MANIFEST.json", "manifest_sha256": P6C["manifest_sha256"], "code_fingerprint": P6C["code_fingerprint"]}},
+        "datasets_verified_at_manifest_build": T4M["datasets"],
+        "environment": {"python": platform.python_version(), "torch": torch.__version__, "numpy": np.__version__, "pandas": pd.__version__,
+                        "platform": platform.platform()},
+        "metric_rules": {"detection_new_runs": "corrected single decision rule (src/metrics.py), read from final_validation_metrics.json",
+                         "detection_reused_runs": "audited ledger Phase9_Manuscript_Revision/ledger/ledger_per_run_phase6c.csv (original F1/AUC/FPR corrected for the threshold/tie defect); AP from the original run output (not audited)",
+                         "network": "network_metrics.csv over selected transfers (delay and transfer efficiency over delivered updates; PDR, delivery rate, path stability over all selected transfers)",
+                         "bytes": "update_bytes (attempted = all selected; delivered = update_delivered only) and bytes_on_wire from network_metrics.csv"},
+        "table_trace": "every number in TABLE4_V2_FINAL_TABLE.tex is mean (SD) of a column of TABLE4_V2_PER_SEED.csv over the five seeds of one (dataset, arm); every per-seed row carries run_id, out_dir, config_sha256, code_fingerprint and manifest_sha256, and is listed here with the hashes of its source files",
+        "arms": arms,
+    }
 
 
 def main():
@@ -282,6 +331,9 @@ def main():
     PE = paired_rows(P)
     PE.to_csv(PKG / "TABLE4_V2_PAIRED_EFFECTS.csv", index=False)
     (PKG / "TABLE4_V2_FINAL_TABLE.tex").write_text(build_table(S, PE), encoding="utf-8")
+    (PKG / "TABLE4_V2_PROVENANCE.json").write_text(json.dumps(provenance(P), indent=1), encoding="utf-8")
+    import shutil
+    shutil.copy(ROOT / "docs/table4_v2/TABLE4_V2_METHOD_MATRIX.csv", PKG / "TABLE4_V2_METHOD_MATRIX.csv")
     qa = qa_checks(P)
     (PKG / "_qa_auto.md").write_text("| Check | Result | Detail |\n|---|---|---|\n" + "\n".join(f"| {n} | {'PASS' if ok else '**FAIL**'} | {d} |" for n, ok, d in qa) + "\n", encoding="utf-8")
     print(len(P), "per-seed rows;", len(PE), "paired rows;", sum(ok for _, ok, _ in qa), "/", len(qa), "QA checks pass")

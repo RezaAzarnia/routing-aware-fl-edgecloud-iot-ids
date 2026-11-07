@@ -1,0 +1,608 @@
+[
+ {
+  "file": "C:\\Users\\R_Azarnia\\Downloads\\main_Figure_Layout_Refined_Preserved_Text.tex",
+  "lines": 2539,
+  "table4_found_at_line": 1740,
+  "table4_values": {
+   "CICIoT2023|FedAvg": [
+    0.9921,
+    0.9935,
+    0.1453,
+    89.34,
+    0.7364,
+    0.5601,
+    6.81
+   ],
+   "CICIoT2023|DP+FedAvg": [
+    0.9768,
+    0.971,
+    0.1434,
+    88.96,
+    0.7144,
+    0.5393,
+    6.76
+   ],
+   "CICIoT2023|Robust no-DP": [
+    0.9939,
+    0.9961,
+    0.1478,
+    89.63,
+    0.7275,
+    0.5466,
+    6.76
+   ],
+   "CICIoT2023|Proposed eps~10": [
+    0.9919,
+    0.9934,
+    0.1453,
+    65.51,
+    0.8358,
+    0.9124,
+    9.92
+   ],
+   "CICIoT2023|Proposed eps~20": [
+    0.9928,
+    0.9946,
+    0.1439,
+    65.59,
+    0.8348,
+    0.9119,
+    9.93
+   ],
+   "UNSW-NB15|FedAvg": [
+    0.7754,
+    0.8542,
+    0.3456,
+    99.04,
+    0.735,
+    0.5579,
+    11.11
+   ],
+   "UNSW-NB15|DP+FedAvg": [
+    0.643,
+    0.7467,
+    0.2412,
+    98.83,
+    0.7339,
+    0.5592,
+    11.22
+   ],
+   "UNSW-NB15|Robust no-DP": [
+    0.8383,
+    0.9281,
+    0.3463,
+    98.33,
+    0.7183,
+    0.5438,
+    11.13
+   ],
+   "UNSW-NB15|Proposed eps~10": [
+    0.8106,
+    0.8801,
+    0.3145,
+    74.53,
+    0.8348,
+    0.9118,
+    15.94
+   ],
+   "UNSW-NB15|Proposed eps~20": [
+    0.8399,
+    0.9109,
+    0.3333,
+    74.6,
+    0.8348,
+    0.9119,
+    15.97
+   ]
+  },
+  "refs_to_table4": [
+   {
+    "line": 1835,
+    "section": "Intrusion Detection Results on CICIoT2023",
+    "text": "Table~\\ref{tab:overall-results} summarizes the"
+   },
+   {
+    "line": 1838,
+    "section": "Intrusion Detection Results on CICIoT2023",
+    "text": "As summarized in Table~\\ref{tab:overall-results}, the evaluated methods"
+   },
+   {
+    "line": 1883,
+    "section": "Routing and Network Performance Results on CICIoT2023",
+    "text": "Table~\\ref{tab:overall-results} also summarizes the"
+   },
+   {
+    "line": 1890,
+    "section": "Routing and Network Performance Results on CICIoT2023",
+    "text": "Table~\\ref{tab:overall-results}, alongside those of the evaluated"
+   },
+   {
+    "line": 1919,
+    "section": "Routing and Network Performance Results on CICIoT2023",
+    "text": "Table~\\ref{tab:overall-results} highlight the role of coupling"
+   },
+   {
+    "line": 1957,
+    "section": "Intrusion Detection Results on UNSW-NB15",
+    "text": "Table~\\ref{tab:overall-results} compares the intrusion-detection"
+   },
+   {
+    "line": 1962,
+    "section": "Intrusion Detection Results on UNSW-NB15",
+    "text": "As shown in Table~\\ref{tab:overall-results}, UNSW-NB15 is more challenging"
+   },
+   {
+    "line": 2021,
+    "section": "Routing and Network Performance Results on UNSW-NB15",
+    "text": "Table~\\ref{tab:overall-results}, allowing comparison with"
+   },
+   {
+    "line": 2108,
+    "section": "Routing and Network Performance Results on UNSW-NB15",
+    "text": "Table~\\ref{tab:overall-results} summarizes the main intrusion-detection"
+   },
+   {
+    "line": 2112,
+    "section": "Routing and Network Performance Results on UNSW-NB15",
+    "text": "As shown in Table~\\ref{tab:overall-results}, the proposed framework"
+   }
+  ],
+  "quoted_numbers": [
+   {
+    "line": 98,
+    "section": "(front matter)",
+    "kind": "percentage",
+    "value": "26.6",
+    "text": "end-to-end delay by 26.6\\%, increases packet delivery ratio by 13.4\\%,"
+   },
+   {
+    "line": 98,
+    "section": "(front matter)",
+    "kind": "percentage",
+    "value": "13.4",
+    "text": "end-to-end delay by 26.6\\%, increases packet delivery ratio by 13.4\\%,"
+   },
+   {
+    "line": 99,
+    "section": "(front matter)",
+    "kind": "percentage",
+    "value": "62.8",
+    "text": "improves path stability by 62.8\\%, and increases transfer efficiency"
+   },
+   {
+    "line": 100,
+    "section": "(front matter)",
+    "kind": "percentage",
+    "value": "46.0",
+    "text": "by 46.0\\%. On UNSW-NB15, the Proposed"
+   },
+   {
+    "line": 101,
+    "section": "(front matter)",
+    "kind": "percentage",
+    "value": "8.3",
+    "text": "$\\varepsilon\\approx20$ configuration improves F1-score by 8.3\\% and"
+   },
+   {
+    "line": 102,
+    "section": "(front matter)",
+    "kind": "percentage",
+    "value": "6.6",
+    "text": "ROC-AUC by 6.6\\% over FedAvg, while reducing delay by 24.7\\% and"
+   },
+   {
+    "line": 102,
+    "section": "(front matter)",
+    "kind": "percentage",
+    "value": "24.7",
+    "text": "ROC-AUC by 6.6\\% over FedAvg, while reducing delay by 24.7\\% and"
+   },
+   {
+    "line": 103,
+    "section": "(front matter)",
+    "kind": "percentage",
+    "value": "63.5",
+    "text": "improving path stability by 63.5\\%. It also reduces the"
+   },
+   {
+    "line": 104,
+    "section": "(front matter)",
+    "kind": "percentage",
+    "value": "69.7",
+    "text": "noise-to-signal ratio by up to 69.7\\% relative to DP+FedAvg. Overall,"
+   },
+   {
+    "line": 2286,
+    "section": "Ablation Results on UNSW-NB15",
+    "kind": "table4 value",
+    "value": "0.8106",
+    "text": "removed. In this case, F1-score decreases from 0.8106 to 0.7145,"
+   },
+   {
+    "line": 2287,
+    "section": "Ablation Results on UNSW-NB15",
+    "kind": "table4 value",
+    "value": "0.8801",
+    "text": "ROC-AUC decreases from 0.8801 to 0.8048, and end-to-end delay"
+   },
+   {
+    "line": 2324,
+    "section": "Ablation Results on UNSW-NB15",
+    "kind": "table4 value",
+    "value": "0.9919",
+    "text": "& 0.9919 & 0.9934 & 0.1453 & 65.51 \\\\"
+   },
+   {
+    "line": 2324,
+    "section": "Ablation Results on UNSW-NB15",
+    "kind": "table4 value",
+    "value": "0.9934",
+    "text": "& 0.9919 & 0.9934 & 0.1453 & 65.51 \\\\"
+   },
+   {
+    "line": 2324,
+    "section": "Ablation Results on UNSW-NB15",
+    "kind": "table4 value",
+    "value": "0.1453",
+    "text": "& 0.9919 & 0.9934 & 0.1453 & 65.51 \\\\"
+   },
+   {
+    "line": 2333,
+    "section": "Ablation Results on UNSW-NB15",
+    "kind": "table4 value",
+    "value": "0.9919",
+    "text": "& 0.9919 & 0.9932 & 0.1438 & 67.51 \\\\"
+   },
+   {
+    "line": 2336,
+    "section": "Ablation Results on UNSW-NB15",
+    "kind": "table4 value",
+    "value": "0.9939",
+    "text": "& 0.9920 & 0.9939 & 0.1405 & 91.41 \\\\"
+   },
+   {
+    "line": 2345,
+    "section": "Ablation Results on UNSW-NB15",
+    "kind": "table4 value",
+    "value": "0.8106",
+    "text": "& 0.8106 & 0.8801 & 0.3145 & 74.53 \\\\"
+   },
+   {
+    "line": 2345,
+    "section": "Ablation Results on UNSW-NB15",
+    "kind": "table4 value",
+    "value": "0.8801",
+    "text": "& 0.8106 & 0.8801 & 0.3145 & 74.53 \\\\"
+   },
+   {
+    "line": 2345,
+    "section": "Ablation Results on UNSW-NB15",
+    "kind": "table4 value",
+    "value": "0.3145",
+    "text": "& 0.8106 & 0.8801 & 0.3145 & 74.53 \\\\"
+   },
+   {
+    "line": 2469,
+    "section": "Privacy and Communication Cost Analysis",
+    "kind": "percentage",
+    "value": "69.7",
+    "text": "NSR from 57.21 to 17.34, corresponding to an approximately \\(69.7\\%\\)"
+   },
+   {
+    "line": 2494,
+    "section": "Conclusion",
+    "kind": "percentage",
+    "value": "26.6",
+    "text": "reduces end-to-end delay by approximately \\(26.6\\%\\), increases PDR"
+   },
+   {
+    "line": 2495,
+    "section": "Conclusion",
+    "kind": "percentage",
+    "value": "13.4",
+    "text": "by \\(13.4\\%\\), improves path stability by \\(62.8\\%\\), and increases"
+   },
+   {
+    "line": 2495,
+    "section": "Conclusion",
+    "kind": "percentage",
+    "value": "62.8",
+    "text": "by \\(13.4\\%\\), improves path stability by \\(62.8\\%\\), and increases"
+   },
+   {
+    "line": 2496,
+    "section": "Conclusion",
+    "kind": "percentage",
+    "value": "46.0",
+    "text": "transfer efficiency by \\(46.0\\%\\) compared with FedAvg. On"
+   },
+   {
+    "line": 2498,
+    "section": "Conclusion",
+    "kind": "percentage",
+    "value": "8.3",
+    "text": "approximately \\(8.3\\%\\) and ROC-AUC by \\(6.6\\%\\), while reducing"
+   },
+   {
+    "line": 2498,
+    "section": "Conclusion",
+    "kind": "percentage",
+    "value": "6.6",
+    "text": "approximately \\(8.3\\%\\) and ROC-AUC by \\(6.6\\%\\), while reducing"
+   },
+   {
+    "line": 2499,
+    "section": "Conclusion",
+    "kind": "percentage",
+    "value": "24.7",
+    "text": "delay by \\(24.7\\%\\) and improving path stability by \\(63.5\\%\\)."
+   },
+   {
+    "line": 2499,
+    "section": "Conclusion",
+    "kind": "percentage",
+    "value": "63.5",
+    "text": "delay by \\(24.7\\%\\) and improving path stability by \\(63.5\\%\\)."
+   }
+  ],
+  "figures": [
+   {
+    "line": 666,
+    "label": "fig:framework-overview",
+    "file": "fig1.png",
+    "caption": "Overview of the routing-aware federated intrusion-detection framework. Stage 3 illustrates the real-only filtering variant, in which MAD filtering precedes surrogate recovery; the original reference configuration reverses this order. Server-side Gaussian pertu",
+    "referenced_at_lines": [
+     654
+    ],
+    "methods_named_in_caption_or_context": [],
+    "mentions_table4_in_context": false
+   },
+   {
+    "line": 2007,
+    "label": "fig:attack-robustness",
+    "file": "fig2.png",
+    "caption": "Sign-flip attack (20\\%) on UNSW-NB15: (a) selected-checkpoint and final-round ROC-AUC; (b) MAD decisions by the number of genuine received updates.",
+    "referenced_at_lines": [
+     2002
+    ],
+    "methods_named_in_caption_or_context": [],
+    "mentions_table4_in_context": false
+   },
+   {
+    "line": 2029,
+    "label": "fig:routing-fairness",
+    "file": "fig3.png",
+    "caption": "UNSW-NB15 routing, participation fairness, and detection over five seeds: (a) first-transmission PDR, (b) delay, (c) received-update ratio, (d) selection Gini, (e) never-selected clients, and (f) selected-checkpoint ROC-AUC.",
+    "referenced_at_lines": [
+     2023,
+     2044,
+     2161
+    ],
+    "methods_named_in_caption_or_context": [],
+    "mentions_table4_in_context": true
+   },
+   {
+    "line": 2079,
+    "label": "fig:delivery-comparison",
+    "file": "fig4.png",
+    "caption": "Communication outcomes on UNSW-NB15: (a) update delivery ratio, (b) first-transmission PDR, and (c) delay of delivered updates. Markers and error bars summarize five seeds.",
+    "referenced_at_lines": [
+     2073,
+     2092
+    ],
+    "methods_named_in_caption_or_context": [],
+    "mentions_table4_in_context": false
+   },
+   {
+    "line": 2150,
+    "label": "fig:selection-concentration",
+    "file": "fig5.png",
+    "caption": "Cumulative client-selection concentration in independent and coupled networks across four selection policies. Curves represent five-seed means.",
+    "referenced_at_lines": [
+     2145
+    ],
+    "methods_named_in_caption_or_context": [],
+    "mentions_table4_in_context": false
+   },
+   {
+    "line": 2175,
+    "label": "fig:malicious-exposure",
+    "file": "fig6.png",
+    "caption": "Malicious-client exposure versus final validation ROC-AUC under independent and coupled settings. Circle, diamond, square, and triangle denote top-$k$, coverage, uniform, and UCB policies, respectively; hollow markers show policy means ($n=5$).",
+    "referenced_at_lines": [
+     2169,
+     2188
+    ],
+    "methods_named_in_caption_or_context": [],
+    "mentions_table4_in_context": false
+   },
+   {
+    "line": 2230,
+    "label": "fig:ablation-ciciot",
+    "file": "fig9.png",
+    "caption": "Ablation summary on CICIoT2023 in terms of (a) F1-score, (b) ROC-AUC, (c) FPR, and (d) End-to-End Delay.",
+    "referenced_at_lines": [
+     2227
+    ],
+    "methods_named_in_caption_or_context": [],
+    "mentions_table4_in_context": false
+   },
+   {
+    "line": 2267,
+    "label": "fig:ablation-unsw",
+    "file": "fig10.png",
+    "caption": "Ablation summary on UNSW-NB15 in terms of (a) F1-score, (b) ROC-AUC, (c) FPR, and (d) End-to-End Delay.",
+    "referenced_at_lines": [
+     2264,
+     2280
+    ],
+    "methods_named_in_caption_or_context": [],
+    "mentions_table4_in_context": false
+   },
+   {
+    "line": 2396,
+    "label": "fig:failure-resilience",
+    "file": "fig11.png",
+    "caption": "Failure resilience evaluation on UNSW-NB15 in terms of (a) Recovery Success, (b) Recovery Rounds, (c) End-to-End Delay, and (d) Packet Delivery Ratio (PDR).",
+    "referenced_at_lines": [
+     2394,
+     2409
+    ],
+    "methods_named_in_caption_or_context": [],
+    "mentions_table4_in_context": false
+   }
+  ],
+  "method_mentions_by_section": {
+   "FedAvg": [
+    "(front matter)",
+    "Ablation Study",
+    "Complementary Benchmark Evaluation on UNSW-NB15",
+    "Conclusion",
+    "Intrusion Detection Results on UNSW-NB15",
+    "Performance Evaluation of the Proposed Framework on CICIoT2023",
+    "Privacy and Communication Cost Analysis",
+    "Routing and Network Performance Results on CICIoT2023",
+    "Routing and Network Performance Results on UNSW-NB15"
+   ],
+   "DP+FedAvg": [
+    "(front matter)",
+    "Complementary Benchmark Evaluation on UNSW-NB15",
+    "Conclusion",
+    "Intrusion Detection Results on UNSW-NB15",
+    "Performance Evaluation of the Proposed Framework on CICIoT2023",
+    "Privacy and Communication Cost Analysis",
+    "Routing and Network Performance Results on UNSW-NB15"
+   ],
+   "Robust no-DP": [
+    "Complementary Benchmark Evaluation on UNSW-NB15",
+    "Intrusion Detection Results on CICIoT2023",
+    "Performance Evaluation of the Proposed Framework on CICIoT2023",
+    "Routing and Network Performance Results on UNSW-NB15"
+   ],
+   "Proposed eps~10": [
+    "Ablation Results on UNSW-NB15",
+    "Ablation Study",
+    "Complementary Benchmark Evaluation on UNSW-NB15",
+    "Intrusion Detection Results on CICIoT2023",
+    "Intrusion Detection Results on UNSW-NB15",
+    "Performance Evaluation of the Proposed Framework on CICIoT2023",
+    "Privacy and Communication Cost Analysis",
+    "Routing and Network Performance Results on CICIoT2023",
+    "Routing and Network Performance Results on UNSW-NB15"
+   ],
+   "Proposed eps~20": [
+    "(front matter)",
+    "Complementary Benchmark Evaluation on UNSW-NB15",
+    "Conclusion",
+    "Intrusion Detection Results on CICIoT2023",
+    "Intrusion Detection Results on UNSW-NB15",
+    "Performance Evaluation of the Proposed Framework on CICIoT2023",
+    "Privacy and Communication Cost Analysis",
+    "Routing and Network Performance Results on CICIoT2023",
+    "Routing and Network Performance Results on UNSW-NB15"
+   ],
+   "Modular Edge FL-inspired": [
+    "Complementary Benchmark Evaluation on UNSW-NB15"
+   ],
+   "MCHFL-style": [
+    "Complementary Benchmark Evaluation on UNSW-NB15"
+   ]
+  },
+  "table3_found_at_line": 1625,
+  "table3_rows_of_interest": [
+   {
+    "line": 1677,
+    "text": "Target privacy budgets"
+   },
+   {
+    "line": 1681,
+    "text": "DP failure probability"
+   },
+   {
+    "line": 1685,
+    "text": "Calibrated Gaussian noise multiplier"
+   },
+   {
+    "line": 1694,
+    "text": "Client/link failure probability"
+   },
+   {
+    "line": 1706,
+    "text": "Clipping bounds (CIC/UNSW)"
+   },
+   {
+    "line": 1718,
+    "text": "Main comparison seeds"
+   },
+   {
+    "line": 1723,
+    "text": "Privacy mechanism"
+   },
+   {
+    "line": 1726,
+    "text": "Failure recovery"
+   }
+  ],
+  "abstract_sentences_with_numbers": [
+   "Experiments on CICIoT2023 and UNSW-NB15 show competitive intrusion-detection performance together with improved communication reliability.",
+   "On CICIoT2023, the framework reduces end-to-end delay by 26.6\\%, increases packet delivery ratio by 13.4\\%, improves path stability by 62.8\\%, and increases transfer efficiency by 46.0\\%.",
+   "On UNSW-NB15, the Proposed $\\varepsilon\\approx20$ configuration improves F1-score by 8.3\\% and ROC-AUC by 6.6\\% over FedAvg, while reducing delay by 24.7\\% and improving path stability by 63.5\\%.",
+   "It also reduces the noise-to-signal ratio by up to 69.7\\% relative to DP+FedAvg."
+  ],
+  "conclusion_sentences_with_numbers": [
+   "Experiments on CICIoT2023 and UNSW-NB15 show that the proposed framework maintains competitive intrusion-detection performance while substantially improving network-level behavior.",
+   "On CICIoT2023, it reduces end-to-end delay by approximately \\(26.6\\%\\), increases PDR by \\(13.4\\%\\), improves path stability by \\(62.8\\%\\), and increases transfer efficiency by \\(46.0\\%\\) compared with FedAvg.",
+   "On UNSW-NB15, Proposed \\(\\varepsilon\\approx20\\) improves F1-score by approximately \\(8.3\\%\\) and ROC-AUC by \\(6.6\\%\\), while reducing delay by \\(24.7\\%\\) and improving path stability by \\(63.5\\%\\).",
+   "The current study is limited by the trusted or semi-trusted server assumption underlying the server-side Gaussian privacy mechanism, the row-level CICIoT2023 split, and the use of a simulated Edge--Cloud environment."
+  ],
+  "privacy_cost_table_line": 2436,
+  "seed_statements": [
+   {
+    "line": 1304,
+    "text": "ablation comparisons use five paired random seeds (12--16)."
+   },
+   {
+    "line": 1310,
+    "text": "deviation across the five seeds."
+   },
+   {
+    "line": 1718,
+    "text": "Main comparison seeds"
+   },
+   {
+    "line": 2033,
+    "text": "and detection over five seeds:"
+   },
+   {
+    "line": 2086,
+    "text": "Markers and error bars summarize five seeds.}"
+   },
+   {
+    "line": 2093,
+    "text": "latency and individual-seed variation. Because coupling affects"
+   },
+   {
+    "line": 2155,
+    "text": "selection policies. Curves represent five-seed means.}"
+   },
+   {
+    "line": 2172,
+    "text": "variation across network settings and random seeds;"
+   },
+   {
+    "line": 2188,
+    "text": "The individual-seed points in Figure~\\ref{fig:malicious-exposure}"
+   }
+  ],
+  "test_set_statements": [
+   {
+    "line": 1288,
+    "text": "interpreted as a row-level split rather than a held-out-device"
+   },
+   {
+    "line": 1295,
+    "text": "official test file was retained for final evaluation."
+   }
+  ]
+ }
+]
