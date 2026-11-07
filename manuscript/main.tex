@@ -2282,24 +2282,28 @@ protocol, assess operational false-alarm requirements and evaluate
 network realism, adversarial adaptation and privacy calibration.
 
 \section*{Code Availability}
-	
-The original code and the reported controlled experiment provenance
-must be linked to a versioned public repository or archive. The
-currently cited Zenodo identifier
+
+The source code is publicly available at
+\href{https://github.com/RezaAzarnia/routing-aware-fl-edgecloud-iot-ids}{github.com/RezaAzarnia/routing-aware-fl-edgecloud-iot-ids}.
+The Zenodo archive
 \href{https://doi.org/10.5281/zenodo.24027486}{10.5281/zenodo.24027486}
-requires author verification against the experimental code revision,
-run manifests, per-seed metrics and figure source data before submission.
-	
+(version v.1.0.3) is a snapshot of the repository at release tag
+\texttt{v.1.0.3}. That snapshot predates the controlled five-seed study
+reported here; it does not contain the independent path-assignment
+control, the controlled-study configurations, the run manifest or the
+analysis scripts, which are available in the GitHub repository only and
+have not been archived on Zenodo.
+
 \section*{Data Availability}
 
 The public \href{https://cicresearch.ca/IOTDataset/CIC_IOT_Dataset2023/}
 {CICIoT2023} and
 \href{https://www.kaggle.com/datasets/mrwellsdavid/unsw-nb15}
-{UNSW-NB15} datasets were used; no new dataset was generated. The raw datasets are not redistributed. The locked preprocessing
-manifests, split hashes, per-seed ledgers and generated figure source
-data must be made available as a versioned reproducibility package;
-these controlled-study resources have not been verified in the
-currently cited Zenodo record.
+{UNSW-NB15} datasets were used; no new dataset was generated. The raw datasets are not redistributed. The locked experiment manifest, configuration
+hashes and the per-seed, summary and paired-effect tables of the controlled
+study are provided in the GitHub repository. The per-run output
+directories (round logs, predictions, checkpoints) are not published, and
+none of the controlled-study resources are contained in the Zenodo record.
 
 	\FloatBarrier
 	\setlength{\bibsep}{0pt}
