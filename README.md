@@ -95,6 +95,8 @@ python prepare_ciciot2023.py \
   --force
 ```
 
+> **Split protocol.** The command above uses the default `--split-mode row_stratified`, the *legacy* historical protocol in which rows of one capture file can fall into several splits. The controlled studies reported in the current manuscript (Table 4 v2, ablation) use the verified **file-group-disjoint** split, prepared with `--split-mode file_group` (see `docs/data_integrity/README.md`) into `data/CICIoT2023/prepared_verified_v2_filegroup/` (926,133 training and 146,626 validation records; the 300,000-row test partition is reserved and never used by these studies). Do not use the row-stratified split to reproduce the controlled results.
+
 The prepared files are expected at:
 
 ```text
@@ -105,6 +107,8 @@ data/CICIoT2023/prepared_paper/preparation_metadata.json
 ```
 
 ## Reproducing the main experiments
+
+> **Two different protocols.** The commands in the subsections below (`--seeds 2,3,4,5,6` and `--seeds 2,3,4`) are the **legacy** runs from earlier development phases. They are *not* the controlled Table 4 v2 protocol, which uses **seeds 12-16**, the file-group-disjoint split, matched network traces, validation-only evaluation and the locked manifest in `docs/table4_v2/EXPERIMENT_MANIFEST.json`. Reproduce Table 4 v2 with `python scripts/table4_v2/orchestrator.py preflight|run|status|validate` and `python scripts/table4_v2/analyse.py`; see `Table4_V2_Package/TABLE4_V2_REPRODUCTION.md`. Results of the two protocols must not be mixed.
 
 ### CICIoT2023 proposed configurations
 
@@ -200,8 +204,8 @@ The privacy mechanism is implemented as central Gaussian DP applied to the relea
 
 ## Code availability statement
 
-The source code, configuration files, experimental scripts, ablation scripts, and plotting utilities used in this study are publicly available in this GitHub repository. The exact version corresponding to the reported experiments can be archived on Zenodo and cited using the assigned DOI. The raw CICIoT2023 and UNSW-NB15 datasets are not redistributed because of dataset size and licensing restrictions.
+The source code, configuration files, experimental scripts, ablation scripts and plotting utilities are publicly available in this repository. Release `v1.0.4` is archived on Zenodo, DOI [10.5281/zenodo.24031823](https://doi.org/10.5281/zenodo.24031823). The archive contains the code, locked configurations, the Table 4 v2 manifest and the published Table 4 v2 per-seed, summary and paired-effect tables (`Table4_V2_Package/`). The raw per-run output directories (`results_table4_controlled_v2/`, `results_ablation_controlled_v2/`) are **not** published or archived. The raw CICIoT2023 and UNSW-NB15 datasets are not redistributed because of dataset size and licensing restrictions.
 
 ## Citation
 
-If you use this repository, please cite the associated paper and the archived Zenodo release.
+If you use this repository, please cite the associated paper and the archived Zenodo release (v1.0.4, DOI 10.5281/zenodo.24031823).
