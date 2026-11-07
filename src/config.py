@@ -189,6 +189,11 @@ class RoutingConfig:
     packets_per_update: int = 100
     # top_k (historical deterministic routing) | uniform_random | coverage_aware
     selection_policy: str = "top_k"
+    # Path (edge) assignment, independent of client selection. default = historical coupling: routed (argmax route score) when
+    # routing.enabled, otherwise random edges drawn from the SHARED network generator. routed | random are explicit overrides; random draws
+    # each (round, client) edge from a dedicated stream derived from (seed, round, client) and never consumes the shared generator, so all other
+    # exogenous traces stay identical to the routed run. Explicit values require routing.enabled=true.
+    path_policy: str = "default"
     # coverage_aware utility = route_score - coverage_penalty * (times selected) / (round-1)
     coverage_penalty: float = 0.5
     # independent_draws (historical: packet reception and update delivery are separate
@@ -359,6 +364,10 @@ class Config:
             raise ValueError("routing.max_retransmissions and coverage_penalty must be non-negative")
         if self.routing.selection_policy != "top_k" and not self.routing.enabled:
             raise ValueError("a non-default selection_policy requires routing.enabled=true")
+        if self.routing.path_policy not in {"default", "routed", "random"}:
+            raise ValueError("routing.path_policy must be default, routed or random")
+        if self.routing.path_policy != "default" and not self.routing.enabled:
+            raise ValueError("an explicit routing.path_policy requires routing.enabled=true")
         if self.aggregation.method not in {
             "fedavg",
             "median",
