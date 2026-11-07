@@ -845,17 +845,12 @@ considered in the experimental design.
 	\label{eq:recovered-update}
 \end{equation}
 	
-	The recovered updates are assigned a reduced aggregation coefficient
-	\(\chi_{\mathrm{rec}}\). This prevents surrogate updates from
-	dominating the aggregate while preserving a limited contribution for
-	clients affected by communication failures.
+	The recovered updates are assigned a reduced raw aggregation coefficient \(\chi_{\mathrm{rec}}\). This lowers, but does not by itself bound, their influence, because raw weights are renormalized and capped jointly with the genuine updates (see below).
 	
 	The surrogate update in Eq.~\eqref{eq:recovered-update} is not
 	intended to reproduce the missing local update exactly. Instead, it
 	provides a conservative replacement that reduces the disruptive
-	effect of failed update delivery. If fewer than two valid updates are
-	available, the unavailable client is excluded from the current
-	aggregation round.
+	effect of failed update delivery. If fewer than two valid updates are available, the unavailable client is excluded from the current aggregation round. If no update is received, aggregation, noise injection and the privacy-accountant step are skipped and no global-model update is applied; this never occurred in the 40 controlled runs.
 	
 	After recovery, the server constructs the available update set
 	\(\mathcal{V}_{t}\), containing both successfully received updates
@@ -913,8 +908,7 @@ considered in the experimental design.
 		\label{eq:mad-reliable-set}
 	\end{equation}
 	
-	According to Eq.~\eqref{eq:mad-reliable-set}, only updates whose
-	deviation is less than or equal to \(\tau_t\) are retained. The
+	Here \(\operatorname{MAD}(\mathbf{d})=\operatorname{Median}_i|d_i-\operatorname{Median}(\mathbf{d})|\), and a constant \(10^{-12}\) is added to the scaled MAD to avoid a zero-width threshold. According to Eq.~\eqref{eq:mad-reliable-set}, only updates whose deviation is less than or equal to \(\tau_t\) are retained. The
 	coefficient \(k\) controls the filtering strictness: smaller values
 	produce stricter filtering, whereas larger values retain more diverse
 	updates.
@@ -995,8 +989,7 @@ noise-calibration procedure.
 	The resulting weights satisfy
 	\(\sum_{i\in\mathcal{K}_{t}}a_i^{(t)}=1\) and
 	\(0\leq a_i^{(t)}\leq\overline{a}_{\max}^{(t)}\).
-	Therefore, no individual client or reconstructed update can dominate
-	the global aggregation.
+	When fewer than \(1/a_{\max}=10\) updates are retained the cap is infeasible and the effective cap is \(1/|\mathcal{K}_t|\). In the proposed pipeline (300 rounds), fewer than ten updates were retained in 92\% of rounds (minimum six; largest single weight 0.167), surrogate updates jointly carried a mean weight share of 0.30 (maximum 1.0), and in 10 rounds only surrogates were retained. The weight cap therefore does not prevent surrogate updates from influencing the aggregate in the evaluated reference ordering.
 	
 	For noise calibration, the implementation uses the following
 	effective \(L_2\)-sensitivity scale for the clipped weighted aggregate:
@@ -1281,9 +1274,7 @@ split. The verified prepared data contain 926,133 training and
 146,626 validation records; the reserved 300,000-row test partition
 was not opened in this study. Within the locked validation protocol,
 checkpoint selection, threshold calibration, and report evaluation
-use separate partitions. Consequently, the reported results do not
-establish generalization to independent devices or captures beyond
-the documented file-group separation.
+use separate partitions. Consequently, the reported results do not establish generalization to independent devices or captures beyond the documented file-group separation. Preparation removed feature-identical duplicates (73,867 training and 53,374 validation records) and kept 39 numerical features; file-group separation applies to the 17 of 34 classes with at least three source files, and the other 17 are row-stratified. Each validation partition contains only 1,564 benign records, so report-partition FPR is estimated from 1,564 negatives.
 
 UNSW-NB15 was used as a complementary within-dataset benchmark with
 	a different feature representation and traffic composition. The
@@ -1291,13 +1282,13 @@ UNSW-NB15 was used as a complementary within-dataset benchmark with
 	protocol, and the official test partition was not opened during
 	these controlled experiments.
 	
-	After preprocessing, UNSW-NB15 contained 149,039 training samples,
-	26,302 validation samples, and 82,332 test samples. The dataset
-	originally contained 42 raw features, which were transformed into
-	194 numerical features after categorical encoding.
+	Under the locked protocol, the 175,341 official training records were divided into 150,293 training records and a 25,048-record validation pool, which was further split into calibration (8,350), selection (8,350) and report (8,348) partitions for seed 12 (partition sizes differ by at most four records across seeds); the 82,332-record official test partition was not opened. The 42 raw features expand to 194 numerical features after categorical encoding.
 
-The same base MLP architecture and common training settings were
-used across configurations wherever applicable. The controlled
+\paragraph{Network model.} Each client has three candidate paths (one per edge node). Link latency, stability, security and bandwidth are drawn uniformly at initialization (client--edge 5--80~ms, 0.75--0.99, 0.60--0.98, 20--150~Mbit/s; edge--cloud 5--50~ms, 0.85--0.995, 0.75--0.99, 100--1000~Mbit/s) and perturbed every round by clipped Gaussian noise ($\sigma=0.025$), with client--edge outages at $p_{\mathrm{out}}=0.01$. Path delay is the sum of segment latencies, stability the product of segment stabilities, and security the segment minimum; the three scores are min--max normalized over the client's paths and combined with $\lambda=(0.4,0.3,0.3)$, using the simulator's current link state without measurement noise. An update is sent as 100 packets; first-transmission PDR is binomial with success probability equal to path stability, and update delivery is a separate Bernoulli draw with the same probability. Delay is latency plus serialization plus Gaussian jitter; queueing and retransmissions are not modelled. The full specification is in \texttt{docs/SIMULATION\_SPEC.md} of the repository.
+
+\paragraph{Attack model.} A malicious client sends $-\tau\,\Delta w_i^{(t)}$ with $\tau=5.0$; exactly two of the ten selected clients are malicious in every round (exposure-controlled), independently of network state. Other attacks, collusion and adaptive attackers were not evaluated.
+
+\paragraph{Training configuration.} The same base MLP architecture and common training settings were used across configurations wherever applicable. The controlled
 ablation comparisons use five paired random seeds (12--16).
 Checkpoint selection, decision-threshold calibration, and metric
 reporting are kept separate within the validation-based evaluation
@@ -1407,8 +1398,7 @@ deviation across the five seeds.
 		\label{eq:fpr}
 	\end{equation}
 	
-	A lower FPR indicates fewer false security alerts and therefore
-	greater operational reliability for the intrusion-detection system.
+	A lower FPR indicates fewer false security alerts and therefore greater operational reliability for the intrusion-detection system. The decision threshold is chosen on the calibration partition only: among 1,001 candidates with FPR $\leq0.15$ and recall $\geq0.60$, the one with the highest recall (ties: F1, balanced accuracy) is selected; if none is feasible, recall is maximized subject to FPR $\leq0.15$. Reported FPR values of 0.14--0.15 are therefore largely set by this cap and are not an operationally low false-alarm rate. Checkpoints use selection-partition ROC-AUC with a minimum improvement of $10^{-4}$.
 	Network performance was evaluated using end-to-end delay, packet
 	delivery ratio, path stability, and transfer efficiency.
 	
@@ -1468,8 +1458,7 @@ deviation across the five seeds.
 	
 	where \(N_{\mathrm{stable}}\) is the number of stable selected paths
 	and \(N_{\mathrm{selected}}\) is the total number of selected paths.
-	A higher value indicates greater robustness against link-quality
-	fluctuations, communication failures, and dynamic network changes.
+	Each path contributes \(0.5\,s+0.5\,\varrho\) (link stability \(s\); \(\varrho=1\) if the edge node is unchanged from the previous round), and the reported value is the mean of this score. A higher value indicates greater robustness against link-quality fluctuations, communication failures, and dynamic network changes.
 	
 	Transfer efficiency measures the amount of successfully delivered
 	data or model updates relative to the end-to-end transmission time:
