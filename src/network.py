@@ -119,7 +119,11 @@ class DynamicEdgeCloudNetwork:
             normalized = (values - minimum) / (maximum - minimum)
         return 1.0 - normalized if inverse else normalized
 
-    def update_round(self, intelligent_routing: bool = True) -> Dict[int, RouteDecision]:
+    def update_round(self, intelligent_routing: bool = True, path_policy: str | None = None) -> Dict[int, RouteDecision]:
+        """``path_policy`` None keeps the historical behaviour (routed iff ``intelligent_routing``, otherwise random edges from the shared
+        generator). ``"routed"`` / ``"random"`` override the path assignment only; ``"random"`` uses a dedicated per-(seed, round, client) stream."""
+        if path_policy not in (None, "routed", "random"):
+            raise ValueError("path_policy must be None, 'routed' or 'random'")
         self.round_index += 1
         self._evolve()
         decisions: Dict[int, RouteDecision] = {}
@@ -140,9 +144,14 @@ class DynamicEdgeCloudNetwork:
                 + self.cfg.beta_stability * stability_score
                 + self.cfg.gamma_security * security_score
             )
-            edge_id = int(np.argmax(scores)) if intelligent_routing else int(
-                self.rng.integers(0, self.cfg.num_edges)
-            )
+            if path_policy == "random":
+                edge_id = int(np.random.default_rng([self.seed, 7000, self.round_index, int(client_id)]).integers(0, self.cfg.num_edges))
+            elif path_policy == "routed":
+                edge_id = int(np.argmax(scores))
+            else:
+                edge_id = int(np.argmax(scores)) if intelligent_routing else int(
+                    self.rng.integers(0, self.cfg.num_edges)
+                )
             persistence = float(self.previous_edge.get(client_id, edge_id) == edge_id)
             decisions[client_id] = RouteDecision(
                 client_id=client_id,

@@ -199,7 +199,7 @@ def test_historical_behaviour_is_unchanged_against_the_frozen_phase9e_tree(tmp_p
     shutil.unpack_archive(str(tar), str(tree))
     cfg = _cfg(tmp_path, "hist", routing={"selection_policy": "coverage_aware"})
     raw = yaml.safe_load(cfg.read_text(encoding="utf-8"))
-    for k in ("network_data_coupling", "ucb_c"):
+    for k in ("network_data_coupling", "ucb_c", "path_policy"):   # path_policy: Table 4 v2 default-off key unknown to the frozen tree
         raw["routing"].pop(k, None)
     raw["fl"].pop("client_holdout_fraction", None)
     old_cfg = tmp_path / "cfg_old.yaml"

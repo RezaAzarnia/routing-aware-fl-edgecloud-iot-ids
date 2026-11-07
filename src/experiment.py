@@ -411,6 +411,7 @@ def _write_run_metadata(
             ),
             "algorithm_spec": {
                 "selection_policy": cfg.routing.selection_policy,
+                "path_policy": cfg.routing.path_policy,
                 "coverage_penalty": cfg.routing.coverage_penalty,
                 "delivery_model": cfg.routing.delivery_model,
                 "max_retransmissions": cfg.routing.max_retransmissions,
@@ -714,7 +715,10 @@ def run_experiment(cfg: Config) -> Path:
 
     for round_number in trange(1, cfg.fl.rounds + 1, desc=cfg.experiment.method_name):
         round_start = time.perf_counter()
-        network.update_round(cfg.routing.enabled)
+        network.update_round(
+            cfg.routing.enabled,
+            path_policy=None if cfg.routing.path_policy == "default" else cfg.routing.path_policy,
+        )
         if cfg.routing.enabled:
             policy = cfg.routing.selection_policy
             if policy == "uniform_random":

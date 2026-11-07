@@ -1,6 +1,7 @@
 """Phase 10: locked 40-run matrix, matched-control properties and the frozen analysis (synthetic mini-results only)."""
 import json
 import shutil
+import subprocess
 import sys
 from pathlib import Path
 
@@ -16,7 +17,7 @@ from p6c_common import load_manifest, sha256_text_file, code_fingerprint  # noqa
 M = ROOT / "docs" / "phase10" / "EXPERIMENT_MANIFEST.json"
 
 
-def test_manifest_is_locked_separate_and_has_the_declared_40_run_matrix():
+def test_manifest_is_locked_separate_and_has_the_declared_40_run_matrix(tmp_path):
     m = load_manifest(M)
     assert m["n_runs"] == 40 and m["seeds"] == [22, 23, 24, 25, 26]
     p6, p7 = load_manifest(ROOT / "docs/phase6c/EXPERIMENT_MANIFEST.json"), load_manifest(ROOT / "docs/phase7b/EXPERIMENT_MANIFEST.json")
@@ -25,7 +26,14 @@ def test_manifest_is_locked_separate_and_has_the_declared_40_run_matrix():
     assert all(r["out_dir"].startswith("results_phase10/") and r["dataset"] == "unsw" for r in m["runs"])
     for r in m["runs"]:
         assert sha256_text_file(ROOT / r["config"]) == r["config_sha256"]
-    assert code_fingerprint(ROOT, m["code_fingerprint_globs"]) == m["code_fingerprint"], "code/config changed after the Phase 10 manifest was frozen: rebuild deliberately"
+    # fingerprint of the tree at the commit that froze the manifest (the working tree may carry later, backward-compatible default-off
+    # additions; those are guarded by their own golden-fixture tests, e.g. tests/test_table4_path_policy.py)
+    commit = subprocess.run(["git", "log", "-1", "--format=%H", "--", "docs/phase10/EXPERIMENT_MANIFEST.json"], capture_output=True, text=True, cwd=ROOT).stdout.strip()
+    tar = tmp_path / "p10.tar"
+    subprocess.run(["git", "archive", "--format=tar", "-o", str(tar), commit], check=True, cwd=ROOT)
+    tree = tmp_path / "tree"
+    shutil.unpack_archive(str(tar), str(tree))
+    assert code_fingerprint(tree, m["code_fingerprint_globs"]) == m["code_fingerprint"], "code/config changed after the Phase 10 manifest was frozen: rebuild deliberately"
     assert m["preregistration"]["final_test"] == "never used" and "none" in m["preregistration"]["novelty_claim"]
     assert len(m["preregistration"]["primary_hypotheses"]) == 4
 
