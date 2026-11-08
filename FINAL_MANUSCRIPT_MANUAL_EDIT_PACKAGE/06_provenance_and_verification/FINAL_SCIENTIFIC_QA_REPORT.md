@@ -1,0 +1,32 @@
+# Final Scientific QA Report — SUPP_V1 + SUPP_V2
+
+Scope: independent, read-only re-verification of 246 SUPP_V1 + 44 SUPP_V2 completed runs and of the reused locked evidence (240 Phase 6C runs, 40 Table 4 v2 runs).
+Machine-readable result: `FINAL_QA_RESULTS.json` (script `scripts/supp_final/final_qa.py`, log `_qa_run.log`). Per-run V2 abstention/accounting table: `V2_ABSTENTION_AND_ACCOUNTING_PER_RUN.csv`.
+
+**Outcome: 53 / 53 automated checks PASS. No critical scientific or provenance check failed; the reporting workflow was therefore not halted.**
+
+## Transparency note on the QA run itself
+The first execution of `final_qa.py` produced 6 FAIL lines. All six were defects in my new QA script, not in any run: (a) config-file hashing used a raw-byte hash where the manifests use the project's normalized text hash (`sha256_text_file`) — 2 FAILs ×2 checks; (b) the config-drift comparison iterated keys present only in the resolved config (resolved configs legitimately add defaulted keys) — fixed to compare keys of the locked config; (c) one V2 run has a round in which **no update was delivered and no surrogate existed** (`received_updates = 0`): nothing is aggregated and no noise is released, so weights sum to 0 rather than 1 — my check had assumed every round aggregates; (d) the accounting check compared against a metadata key I had named incorrectly. After correcting the checker (not the data, manifests, configs or sources) all 53 checks pass. No result, manifest or run directory was modified.
+Empty-round occurrences (three runs, all non-DP participation runs, so no privacy accounting is affected): `v2__ciciot__part_uniform_indep__seed14` (round 16, SUPP_V2) and, in SUPP_V1, `unsw/part_coverage_coup/seed14` and `unsw/part_uniform_indep/seed14`. Metrics are reported as logged; the global model is unchanged in such a round.
+
+## Required checks (user list 1–10)
+| # | Requirement | Result | Evidence |
+|---|---|---|---|
+| 1 | All 246 V1 and 44 V2 results verified | PASS | `verify_run_dir` on every run (artifact sha256, 30 rounds, accounting invariants, test_data_loaded=false); COMPLETE.json manifest hash / code fingerprint / config hash equal the locks; V1 inventory 246 verified / 7 failed / 25 pending frozen; V2 44/44, no FAILED.json, no moved-aside attempts |
+| 2 | Manifests, config hashes, fingerprints, datasets | PASS | V1 manifest `d556a243b9a1b22d…`, fingerprint `1916f795b62daa57…` recomputed today = lock; V2 manifest `a08f7fada7e94337…`, fingerprint `ec5d70aec70bb0d4…` = lock; both sidecar `.sha256` valid; V2 records V1 hash; 278 + 44 config hashes match; UNSW CSV and CICIoT2023 train/validation content sha256 PASS in both preflights; every V2 run imported exactly `src.data` and `src.experiment` from `src_v2` and all other `src.*` from the unchanged V1 code |
+| 3 | No reserved test data accessed | PASS | all configs blank test path, manifests `locked_test` empty, `test_data_loaded=false` in every run_metadata (V1, V2); no test-named artifact in any run directory |
+| 4 | No train / holdout / calibration / checkpoint-selection / report leakage | PASS | calibration/selection/report split hashes identical to the locked Phase 6C split for each (dataset, seed) in all 290 runs; selected checkpoint equals replay of the rule on the *selection* partition AUC in all 290; F1/FPR recomputed from confusion counts (max error < 1e-9) |
+| 5 | CIC client-holdout construction (30 runs) | PASS | all enabled; 0 predictor-group and 0 encoded-vector straddling; preprocessor fitted on non-holdout rows only (fit rows = train − holdout); both classes on both sides; realised fraction 0.2001–0.2002 within 3× request; closure ≤ 12 iterations; holdout mask identical across the six arms of a seed and different between seeds; client partition identical across arms of a seed; 44–50 of 50 clients eligible (≥10 held-out attack rows, a rule depending on holdout size only); held-out evaluation recomputed the mask and its sha256 equalled the stored audit hash in all 30 runs |
+| 6 | Positive-weight aggregation and χrec=0 abstention | PASS | weights sum to 1 in every aggregating round and 0 in abstaining/empty rounds (44 V2 runs); abstention only in the 10 χrec=0 runs (0 in the other 34); in every central-DP round with ≤10 retained updates the applied weights equal 1/n exactly (2,750 of 2,940 DP rounds inspected; the 190 other rounds are 180 rounds of the N=100,k=20 arms where the cap is feasible and 10 abstaining rounds) |
+| 7 | Noisy-release / attempted-round accounting | PASS | attempted = 30 in all DP runs; noisy releases = 30 − abstentions; abstaining rounds have noise std 0, no release and an unchanged validation score (model unchanged); ε(attempted) ≥ ε(release) and equal when no abstention; metadata counters equal round-level counters. Both ε are diagnostic RDP estimates, not certified guarantees |
+| 8 | V1/V2 regression equivalence | PASS | `regression_compare.py` re-run: 4 R-family controls + χrec=0 seeds 12, 14 on both datasets bit-identical (all deterministic columns, network/aggregation/recovery tables, split info, final metrics, best and last model tensors); timing columns excluded by design |
+| 9 | Original Table 4 and historical evidence preserved | PASS | 240 Phase 6C and 40 Table 4 v2 runs re-verified against their manifests; `git diff HEAD` shows no tracked file modified (manuscript, `src/`, ledger, README untouched) |
+| 10 | No duplicate counting | PASS | run ids unique within and across versions; the 8 V2 identities that were already verified in V1 are the regression controls and are counted once; all 32 unresolved V1 identities are covered by exactly one V2 run; the analysis table has 352 unique (dataset, arm, seed) identity rows (242 V1, 40 V2, 60 Phase 6C reused, 10 Table 4 reused) |
+
+## Not re-run, and why
+`gate_acceptance.py` (83 checks) contains gate-time checks ("34 pending", "no output directory for pending runs") that are false by construction after the batch finished; its substantive content is covered by checks 5–8 above, re-run on all 44 runs. The earlier 83/83 gate PASS stands as the historical record.
+
+## Known limits of the QA
+- Reused Phase 6C detection metrics come from the audited ledger; their AP is unaudited.
+- Bit-reproducibility holds at the default torch thread count; wall-clock figures are not controlled benchmarks.
+- QA proves the pipeline executed as specified; it does not prove the correctness of the underlying scientific assumptions (e.g. DP accounting model).

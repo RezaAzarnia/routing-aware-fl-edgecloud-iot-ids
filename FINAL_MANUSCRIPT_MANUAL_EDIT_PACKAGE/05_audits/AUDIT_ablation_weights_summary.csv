@@ -1,0 +1,9 @@
+dataset,arm,runs,rounds,uniform,het_raw,maxdev,clipped,noise_std
+ciciot,abl_no_filter,5,150,0,150,0.40842150502425145,0.0,0.0
+ciciot,abl_privacy_clip_only,5,150,150,150,1.3877787807814457e-16,1.0,0.0
+ciciot,abl_reference_gaussian_repro,5,150,150,150,1.3877787807814457e-16,1.0,0.005943037894920058
+ciciot,abl_reference_repro,5,150,0,150,0.5340764984035328,0.0,0.0
+unsw,abl_no_filter,5,150,0,150,0.36726025268112883,0.0,0.0
+unsw,abl_privacy_clip_only,5,150,150,150,1.3877787807814457e-16,0.9495502645502647,0.0
+unsw,abl_reference_gaussian_repro,5,150,150,150,1.3877787807814457e-16,0.9493174603174603,0.011947340155707448
+unsw,abl_reference_repro,5,150,0,150,0.3856857318573186,0.0,0.0

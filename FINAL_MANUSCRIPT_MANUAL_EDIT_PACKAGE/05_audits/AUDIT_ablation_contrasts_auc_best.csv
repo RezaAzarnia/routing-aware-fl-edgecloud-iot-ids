@@ -1,0 +1,11 @@
+dataset,variant,reference,single_factor,mean_diff,ci95_lo,ci95_hi,n_improved,n_deteriorated
+ciciot,ctl_weighting_uniform,reference,True,-0.0002951418315526,-0.0007093193681094,0.0001190357050042,1,4
+unsw,ctl_weighting_uniform,reference,True,-0.0037921967292244,-0.0129116566626165,0.0053272632041676,1,4
+ciciot,abl_no_filter,abl_reference_repro,True,-0.0112340760588908,-0.0304150830026584,0.0079469308848767,0,5
+unsw,abl_no_filter,abl_reference_repro,True,-0.0934475567149443,-0.2010754036205078,0.0141802901906191,0,5
+ciciot,abl_privacy_clip_only,abl_reference_repro,True,-0.0017068497775125,-0.0024951383283972,-0.0009185612266278,0,5
+unsw,abl_privacy_clip_only,abl_reference_repro,True,-0.0262394598121547,-0.0511504255338594,-0.00132849409045,0,5
+ciciot,abl_reference_gaussian_repro,abl_privacy_clip_only,True,-0.0015389017267116,-0.002752173582895,-0.0003256298705281,0,5
+unsw,abl_reference_gaussian_repro,abl_privacy_clip_only,True,-0.0156920103837997,-0.0375000293835435,0.0061160086159441,1,4
+ciciot,abl_reference_gaussian_repro,abl_reference_repro,False,-0.0032457515042241,-0.0048792260535312,-0.001612276954917,0,5
+unsw,abl_reference_gaussian_repro,abl_reference_repro,False,-0.0419314701959544,-0.0589569526483963,-0.0249059877435125,0,5

@@ -1,0 +1,241 @@
+dataset,metric,pipeline,published_pipeline_name,condition,arm,seed,run_id,source,value
+unsw,auc_sel,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",No attack,atk_fedavg_noatk,12,unsw__atk_fedavg_noatk__seed12,SUPP_V1,0.988032019884591
+unsw,auc_sel,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",No attack,atk_fedavg_noatk,13,unsw__atk_fedavg_noatk__seed13,SUPP_V1,0.9869360819613564
+unsw,auc_sel,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",No attack,atk_fedavg_noatk,14,unsw__atk_fedavg_noatk__seed14,SUPP_V1,0.971909754101672
+unsw,auc_sel,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",No attack,atk_fedavg_noatk,15,unsw__atk_fedavg_noatk__seed15,SUPP_V1,0.9794731879907674
+unsw,auc_sel,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",No attack,atk_fedavg_noatk,16,unsw__atk_fedavg_noatk__seed16,SUPP_V1,0.9837649816361164
+unsw,auc_sel,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",SF 10%,atk_fedavg_sf10,12,unsw__atk_fedavg_sf10__seed12,SUPP_V1,0.9413337032779842
+unsw,auc_sel,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",SF 10%,atk_fedavg_sf10,13,unsw__atk_fedavg_sf10__seed13,SUPP_V1,0.9741503485691908
+unsw,auc_sel,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",SF 10%,atk_fedavg_sf10,14,unsw__atk_fedavg_sf10__seed14,SUPP_V1,0.8787139036607092
+unsw,auc_sel,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",SF 10%,atk_fedavg_sf10,15,unsw__atk_fedavg_sf10__seed15,SUPP_V1,0.956137496623364
+unsw,auc_sel,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",SF 10%,atk_fedavg_sf10,16,unsw__atk_fedavg_sf10__seed16,SUPP_V1,0.980864408287922
+unsw,auc_sel,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",SF 20%,scenario_fedavg_topk,12,unsw__scenario_fedavg_topk__seed12,"Phase6C (reused, locked)",0.948132525475614
+unsw,auc_sel,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",SF 20%,scenario_fedavg_topk,13,unsw__scenario_fedavg_topk__seed13,"Phase6C (reused, locked)",0.9340241607392344
+unsw,auc_sel,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",SF 20%,scenario_fedavg_topk,14,unsw__scenario_fedavg_topk__seed14,"Phase6C (reused, locked)",0.7370525313482541
+unsw,auc_sel,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",SF 20%,scenario_fedavg_topk,15,unsw__scenario_fedavg_topk__seed15,"Phase6C (reused, locked)",0.9087380411628778
+unsw,auc_sel,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",SF 20%,scenario_fedavg_topk,16,unsw__scenario_fedavg_topk__seed16,"Phase6C (reused, locked)",0.907209147851905
+unsw,auc_sel,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",SF 30%,atk_fedavg_sf30,12,unsw__atk_fedavg_sf30__seed12,SUPP_V1,0.8591385900857474
+unsw,auc_sel,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",SF 30%,atk_fedavg_sf30,13,unsw__atk_fedavg_sf30__seed13,SUPP_V1,0.575783333372942
+unsw,auc_sel,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",SF 30%,atk_fedavg_sf30,14,unsw__atk_fedavg_sf30__seed14,SUPP_V1,0.7370525313482541
+unsw,auc_sel,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",SF 30%,atk_fedavg_sf30,15,unsw__atk_fedavg_sf30__seed15,SUPP_V1,0.6121104919841365
+unsw,auc_sel,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",SF 30%,atk_fedavg_sf30,16,unsw__atk_fedavg_sf30__seed16,SUPP_V1,0.7390920789859556
+unsw,auc_sel,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",BSF 20%,atk_fedavg_bsf20,12,unsw__atk_fedavg_bsf20__seed12,SUPP_V1,0.9854129319024584
+unsw,auc_sel,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",BSF 20%,atk_fedavg_bsf20,13,unsw__atk_fedavg_bsf20__seed13,SUPP_V1,0.9855750302411928
+unsw,auc_sel,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",BSF 20%,atk_fedavg_bsf20,14,unsw__atk_fedavg_bsf20__seed14,SUPP_V1,0.9745564360995213
+unsw,auc_sel,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",BSF 20%,atk_fedavg_bsf20,15,unsw__atk_fedavg_bsf20__seed15,SUPP_V1,0.9703127339385004
+unsw,auc_sel,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",BSF 20%,atk_fedavg_bsf20,16,unsw__atk_fedavg_bsf20__seed16,SUPP_V1,0.9836635505233224
+unsw,auc_sel,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",LF 20%,atk_fedavg_lf20,12,unsw__atk_fedavg_lf20__seed12,SUPP_V1,0.9841145608471812
+unsw,auc_sel,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",LF 20%,atk_fedavg_lf20,13,unsw__atk_fedavg_lf20__seed13,SUPP_V1,0.9844344665891922
+unsw,auc_sel,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",LF 20%,atk_fedavg_lf20,14,unsw__atk_fedavg_lf20__seed14,SUPP_V1,0.9630770615040244
+unsw,auc_sel,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",LF 20%,atk_fedavg_lf20,15,unsw__atk_fedavg_lf20__seed15,SUPP_V1,0.9810300714038068
+unsw,auc_sel,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",LF 20%,atk_fedavg_lf20,16,unsw__atk_fedavg_lf20__seed16,SUPP_V1,0.9764823399619704
+unsw,auc_sel,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,No attack,atk_ref_noatk,12,unsw__atk_ref_noatk__seed12,SUPP_V1,0.9864895936233268
+unsw,auc_sel,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,No attack,atk_ref_noatk,13,unsw__atk_ref_noatk__seed13,SUPP_V1,0.9867173762817684
+unsw,auc_sel,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,No attack,atk_ref_noatk,14,unsw__atk_ref_noatk__seed14,SUPP_V1,0.9785295122619092
+unsw,auc_sel,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,No attack,atk_ref_noatk,15,unsw__atk_ref_noatk__seed15,SUPP_V1,0.9799693521585257
+unsw,auc_sel,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,No attack,atk_ref_noatk,16,unsw__atk_ref_noatk__seed16,SUPP_V1,0.9830402096300211
+unsw,auc_sel,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,SF 10%,atk_ref_sf10,12,unsw__atk_ref_sf10__seed12,SUPP_V1,0.985585460515076
+unsw,auc_sel,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,SF 10%,atk_ref_sf10,13,unsw__atk_ref_sf10__seed13,SUPP_V1,0.9869220208959316
+unsw,auc_sel,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,SF 10%,atk_ref_sf10,14,unsw__atk_ref_sf10__seed14,SUPP_V1,0.9695405966063848
+unsw,auc_sel,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,SF 10%,atk_ref_sf10,15,unsw__atk_ref_sf10__seed15,SUPP_V1,0.9815636987388348
+unsw,auc_sel,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,SF 10%,atk_ref_sf10,16,unsw__atk_ref_sf10__seed16,SUPP_V1,0.979973775122767
+unsw,auc_sel,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,SF 20%,reference,12,unsw__reference__seed12,"Phase6C (reused, locked)",0.9865741250518544
+unsw,auc_sel,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,SF 20%,reference,13,unsw__reference__seed13,"Phase6C (reused, locked)",0.986908685988815
+unsw,auc_sel,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,SF 20%,reference,14,unsw__reference__seed14,"Phase6C (reused, locked)",0.9830578684797916
+unsw,auc_sel,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,SF 20%,reference,15,unsw__reference__seed15,"Phase6C (reused, locked)",0.9825258915045552
+unsw,auc_sel,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,SF 20%,reference,16,unsw__reference__seed16,"Phase6C (reused, locked)",0.9800548077885364
+unsw,auc_sel,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,SF 30%,atk_ref_sf30,12,unsw__atk_ref_sf30__seed12,SUPP_V1,0.9819276360800866
+unsw,auc_sel,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,SF 30%,atk_ref_sf30,13,unsw__atk_ref_sf30__seed13,SUPP_V1,0.9823949189514908
+unsw,auc_sel,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,SF 30%,atk_ref_sf30,14,unsw__atk_ref_sf30__seed14,SUPP_V1,0.980871108748676
+unsw,auc_sel,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,SF 30%,atk_ref_sf30,15,unsw__atk_ref_sf30__seed15,SUPP_V1,0.9767336897582366
+unsw,auc_sel,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,SF 30%,atk_ref_sf30,16,unsw__atk_ref_sf30__seed16,SUPP_V1,0.9775088637523688
+unsw,auc_sel,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,BSF 20%,atk_ref_bsf20,12,unsw__atk_ref_bsf20__seed12,SUPP_V1,0.9856474480288498
+unsw,auc_sel,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,BSF 20%,atk_ref_bsf20,13,unsw__atk_ref_bsf20__seed13,SUPP_V1,0.9856410776400542
+unsw,auc_sel,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,BSF 20%,atk_ref_bsf20,14,unsw__atk_ref_bsf20__seed14,SUPP_V1,0.9725396304197484
+unsw,auc_sel,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,BSF 20%,atk_ref_bsf20,15,unsw__atk_ref_bsf20__seed15,SUPP_V1,0.9798132281222364
+unsw,auc_sel,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,BSF 20%,atk_ref_bsf20,16,unsw__atk_ref_bsf20__seed16,SUPP_V1,0.976515974294524
+unsw,auc_sel,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,LF 20%,atk_ref_lf20,12,unsw__atk_ref_lf20__seed12,SUPP_V1,0.9872178973993764
+unsw,auc_sel,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,LF 20%,atk_ref_lf20,13,unsw__atk_ref_lf20__seed13,SUPP_V1,0.9869200404641816
+unsw,auc_sel,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,LF 20%,atk_ref_lf20,14,unsw__atk_ref_lf20__seed14,SUPP_V1,0.9832016808320349
+unsw,auc_sel,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,LF 20%,atk_ref_lf20,15,unsw__atk_ref_lf20__seed15,SUPP_V1,0.9799273009910342
+unsw,auc_sel,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,LF 20%,atk_ref_lf20,16,unsw__atk_ref_lf20__seed16,SUPP_V1,0.9808140393070812
+unsw,auc_last,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",No attack,atk_fedavg_noatk,12,unsw__atk_fedavg_noatk__seed12,SUPP_V1,0.9871430370792276
+unsw,auc_last,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",No attack,atk_fedavg_noatk,13,unsw__atk_fedavg_noatk__seed13,SUPP_V1,0.9863765439775996
+unsw,auc_last,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",No attack,atk_fedavg_noatk,14,unsw__atk_fedavg_noatk__seed14,SUPP_V1,0.971909754101672
+unsw,auc_last,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",No attack,atk_fedavg_noatk,15,unsw__atk_fedavg_noatk__seed15,SUPP_V1,0.975816947901178
+unsw,auc_last,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",No attack,atk_fedavg_noatk,16,unsw__atk_fedavg_noatk__seed16,SUPP_V1,0.982296623522301
+unsw,auc_last,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",SF 10%,atk_fedavg_sf10,12,unsw__atk_fedavg_sf10__seed12,SUPP_V1,0.8056518485481984
+unsw,auc_last,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",SF 10%,atk_fedavg_sf10,13,unsw__atk_fedavg_sf10__seed13,SUPP_V1,0.9144321455231812
+unsw,auc_last,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",SF 10%,atk_fedavg_sf10,14,unsw__atk_fedavg_sf10__seed14,SUPP_V1,0.8700431773730126
+unsw,auc_last,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",SF 10%,atk_fedavg_sf10,15,unsw__atk_fedavg_sf10__seed15,SUPP_V1,0.926529249788688
+unsw,auc_last,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",SF 10%,atk_fedavg_sf10,16,unsw__atk_fedavg_sf10__seed16,SUPP_V1,0.9577223041240774
+unsw,auc_last,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",SF 20%,scenario_fedavg_topk,12,unsw__scenario_fedavg_topk__seed12,"Phase6C (reused, locked)",0.7706239191793725
+unsw,auc_last,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",SF 20%,scenario_fedavg_topk,13,unsw__scenario_fedavg_topk__seed13,"Phase6C (reused, locked)",0.7510628647130103
+unsw,auc_last,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",SF 20%,scenario_fedavg_topk,14,unsw__scenario_fedavg_topk__seed14,"Phase6C (reused, locked)",0.5
+unsw,auc_last,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",SF 20%,scenario_fedavg_topk,15,unsw__scenario_fedavg_topk__seed15,"Phase6C (reused, locked)",0.5
+unsw,auc_last,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",SF 20%,scenario_fedavg_topk,16,unsw__scenario_fedavg_topk__seed16,"Phase6C (reused, locked)",0.5
+unsw,auc_last,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",SF 30%,atk_fedavg_sf30,12,unsw__atk_fedavg_sf30__seed12,SUPP_V1,0.5
+unsw,auc_last,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",SF 30%,atk_fedavg_sf30,13,unsw__atk_fedavg_sf30__seed13,SUPP_V1,0.5
+unsw,auc_last,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",SF 30%,atk_fedavg_sf30,14,unsw__atk_fedavg_sf30__seed14,SUPP_V1,0.5
+unsw,auc_last,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",SF 30%,atk_fedavg_sf30,15,unsw__atk_fedavg_sf30__seed15,SUPP_V1,0.5
+unsw,auc_last,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",SF 30%,atk_fedavg_sf30,16,unsw__atk_fedavg_sf30__seed16,SUPP_V1,0.5
+unsw,auc_last,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",BSF 20%,atk_fedavg_bsf20,12,unsw__atk_fedavg_bsf20__seed12,SUPP_V1,0.9854129319024584
+unsw,auc_last,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",BSF 20%,atk_fedavg_bsf20,13,unsw__atk_fedavg_bsf20__seed13,SUPP_V1,0.9817775193534392
+unsw,auc_last,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",BSF 20%,atk_fedavg_bsf20,14,unsw__atk_fedavg_bsf20__seed14,SUPP_V1,0.9745564360995213
+unsw,auc_last,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",BSF 20%,atk_fedavg_bsf20,15,unsw__atk_fedavg_bsf20__seed15,SUPP_V1,0.9697834305461266
+unsw,auc_last,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",BSF 20%,atk_fedavg_bsf20,16,unsw__atk_fedavg_bsf20__seed16,SUPP_V1,0.9839572485518424
+unsw,auc_last,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",LF 20%,atk_fedavg_lf20,12,unsw__atk_fedavg_lf20__seed12,SUPP_V1,0.9841145608471812
+unsw,auc_last,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",LF 20%,atk_fedavg_lf20,13,unsw__atk_fedavg_lf20__seed13,SUPP_V1,0.9844344665891922
+unsw,auc_last,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",LF 20%,atk_fedavg_lf20,14,unsw__atk_fedavg_lf20__seed14,SUPP_V1,0.9779581907092402
+unsw,auc_last,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",LF 20%,atk_fedavg_lf20,15,unsw__atk_fedavg_lf20__seed15,SUPP_V1,0.971694481170451
+unsw,auc_last,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",LF 20%,atk_fedavg_lf20,16,unsw__atk_fedavg_lf20__seed16,SUPP_V1,0.969995072685806
+unsw,auc_last,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,No attack,atk_ref_noatk,12,unsw__atk_ref_noatk__seed12,SUPP_V1,0.9864895936233268
+unsw,auc_last,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,No attack,atk_ref_noatk,13,unsw__atk_ref_noatk__seed13,SUPP_V1,0.9867173762817684
+unsw,auc_last,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,No attack,atk_ref_noatk,14,unsw__atk_ref_noatk__seed14,SUPP_V1,0.9709748912941014
+unsw,auc_last,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,No attack,atk_ref_noatk,15,unsw__atk_ref_noatk__seed15,SUPP_V1,0.97843224005579
+unsw,auc_last,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,No attack,atk_ref_noatk,16,unsw__atk_ref_noatk__seed16,SUPP_V1,0.9830402096300211
+unsw,auc_last,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,SF 10%,atk_ref_sf10,12,unsw__atk_ref_sf10__seed12,SUPP_V1,0.9856522340722456
+unsw,auc_last,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,SF 10%,atk_ref_sf10,13,unsw__atk_ref_sf10__seed13,SUPP_V1,0.986900632233032
+unsw,auc_last,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,SF 10%,atk_ref_sf10,14,unsw__atk_ref_sf10__seed14,SUPP_V1,0.9695405966063848
+unsw,auc_last,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,SF 10%,atk_ref_sf10,15,unsw__atk_ref_sf10__seed15,SUPP_V1,0.9779841673723604
+unsw,auc_last,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,SF 10%,atk_ref_sf10,16,unsw__atk_ref_sf10__seed16,SUPP_V1,0.979973775122767
+unsw,auc_last,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,SF 20%,reference,12,unsw__reference__seed12,"Phase6C (reused, locked)",0.9865741250518544
+unsw,auc_last,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,SF 20%,reference,13,unsw__reference__seed13,"Phase6C (reused, locked)",0.986908685988815
+unsw,auc_last,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,SF 20%,reference,14,unsw__reference__seed14,"Phase6C (reused, locked)",0.9830578684797916
+unsw,auc_last,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,SF 20%,reference,15,unsw__reference__seed15,"Phase6C (reused, locked)",0.9763412341997856
+unsw,auc_last,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,SF 20%,reference,16,unsw__reference__seed16,"Phase6C (reused, locked)",0.9800548077885364
+unsw,auc_last,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,SF 30%,atk_ref_sf30,12,unsw__atk_ref_sf30__seed12,SUPP_V1,0.973701384691474
+unsw,auc_last,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,SF 30%,atk_ref_sf30,13,unsw__atk_ref_sf30__seed13,SUPP_V1,0.9818381205649882
+unsw,auc_last,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,SF 30%,atk_ref_sf30,14,unsw__atk_ref_sf30__seed14,SUPP_V1,0.980871108748676
+unsw,auc_last,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,SF 30%,atk_ref_sf30,15,unsw__atk_ref_sf30__seed15,SUPP_V1,0.9745955826337788
+unsw,auc_last,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,SF 30%,atk_ref_sf30,16,unsw__atk_ref_sf30__seed16,SUPP_V1,0.9775088637523688
+unsw,auc_last,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,BSF 20%,atk_ref_bsf20,12,unsw__atk_ref_bsf20__seed12,SUPP_V1,0.9743248906207544
+unsw,auc_last,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,BSF 20%,atk_ref_bsf20,13,unsw__atk_ref_bsf20__seed13,SUPP_V1,0.9856410776400542
+unsw,auc_last,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,BSF 20%,atk_ref_bsf20,14,unsw__atk_ref_bsf20__seed14,SUPP_V1,0.9725396304197484
+unsw,auc_last,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,BSF 20%,atk_ref_bsf20,15,unsw__atk_ref_bsf20__seed15,SUPP_V1,0.9760755262733318
+unsw,auc_last,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,BSF 20%,atk_ref_bsf20,16,unsw__atk_ref_bsf20__seed16,SUPP_V1,0.976515974294524
+unsw,auc_last,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,LF 20%,atk_ref_lf20,12,unsw__atk_ref_lf20__seed12,SUPP_V1,0.9872178973993764
+unsw,auc_last,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,LF 20%,atk_ref_lf20,13,unsw__atk_ref_lf20__seed13,SUPP_V1,0.9869200404641816
+unsw,auc_last,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,LF 20%,atk_ref_lf20,14,unsw__atk_ref_lf20__seed14,SUPP_V1,0.9780672134770756
+unsw,auc_last,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,LF 20%,atk_ref_lf20,15,unsw__atk_ref_lf20__seed15,SUPP_V1,0.9798299627705238
+unsw,auc_last,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,LF 20%,atk_ref_lf20,16,unsw__atk_ref_lf20__seed16,SUPP_V1,0.9723716568001556
+ciciot,auc_sel,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",No attack,atk_fedavg_noatk,12,ciciot__atk_fedavg_noatk__seed12,SUPP_V1,0.9962448291777196
+ciciot,auc_sel,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",No attack,atk_fedavg_noatk,13,ciciot__atk_fedavg_noatk__seed13,SUPP_V1,0.9963342935117764
+ciciot,auc_sel,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",No attack,atk_fedavg_noatk,14,ciciot__atk_fedavg_noatk__seed14,SUPP_V1,0.9958865528997471
+ciciot,auc_sel,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",No attack,atk_fedavg_noatk,15,ciciot__atk_fedavg_noatk__seed15,SUPP_V1,0.9967504975105956
+ciciot,auc_sel,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",No attack,atk_fedavg_noatk,16,ciciot__atk_fedavg_noatk__seed16,SUPP_V1,0.9961654127249948
+ciciot,auc_sel,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",SF 10%,atk_fedavg_sf10,12,ciciot__atk_fedavg_sf10__seed12,SUPP_V1,0.9957220642076066
+ciciot,auc_sel,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",SF 10%,atk_fedavg_sf10,13,ciciot__atk_fedavg_sf10__seed13,SUPP_V1,0.995324089820678
+ciciot,auc_sel,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",SF 10%,atk_fedavg_sf10,14,ciciot__atk_fedavg_sf10__seed14,SUPP_V1,0.9941845953011926
+ciciot,auc_sel,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",SF 10%,atk_fedavg_sf10,15,ciciot__atk_fedavg_sf10__seed15,SUPP_V1,0.9957701801341626
+ciciot,auc_sel,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",SF 10%,atk_fedavg_sf10,16,ciciot__atk_fedavg_sf10__seed16,SUPP_V1,0.9934333750427936
+ciciot,auc_sel,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",SF 20%,scenario_fedavg_topk,12,ciciot__scenario_fedavg_topk__seed12,"Phase6C (reused, locked)",0.994414175377772
+ciciot,auc_sel,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",SF 20%,scenario_fedavg_topk,13,ciciot__scenario_fedavg_topk__seed13,"Phase6C (reused, locked)",0.9451740938100844
+ciciot,auc_sel,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",SF 20%,scenario_fedavg_topk,14,ciciot__scenario_fedavg_topk__seed14,"Phase6C (reused, locked)",0.9804840109666516
+ciciot,auc_sel,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",SF 20%,scenario_fedavg_topk,15,ciciot__scenario_fedavg_topk__seed15,"Phase6C (reused, locked)",0.9956364335335413
+ciciot,auc_sel,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",SF 20%,scenario_fedavg_topk,16,ciciot__scenario_fedavg_topk__seed16,"Phase6C (reused, locked)",0.9907892832003892
+ciciot,auc_sel,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",SF 30%,atk_fedavg_sf30,12,ciciot__atk_fedavg_sf30__seed12,SUPP_V1,0.9931229834036364
+ciciot,auc_sel,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",SF 30%,atk_fedavg_sf30,13,ciciot__atk_fedavg_sf30__seed13,SUPP_V1,0.9193019746697552
+ciciot,auc_sel,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",SF 30%,atk_fedavg_sf30,14,ciciot__atk_fedavg_sf30__seed14,SUPP_V1,0.9068961973711864
+ciciot,auc_sel,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",SF 30%,atk_fedavg_sf30,15,ciciot__atk_fedavg_sf30__seed15,SUPP_V1,0.9938893081698448
+ciciot,auc_sel,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",SF 30%,atk_fedavg_sf30,16,ciciot__atk_fedavg_sf30__seed16,SUPP_V1,0.9783753511954768
+ciciot,auc_sel,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",BSF 20%,atk_fedavg_bsf20,12,ciciot__atk_fedavg_bsf20__seed12,SUPP_V1,0.995901269917842
+ciciot,auc_sel,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",BSF 20%,atk_fedavg_bsf20,13,ciciot__atk_fedavg_bsf20__seed13,SUPP_V1,0.9959647733779224
+ciciot,auc_sel,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",BSF 20%,atk_fedavg_bsf20,14,ciciot__atk_fedavg_bsf20__seed14,SUPP_V1,0.9957828310320908
+ciciot,auc_sel,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",BSF 20%,atk_fedavg_bsf20,15,ciciot__atk_fedavg_bsf20__seed15,SUPP_V1,0.9965861067007176
+ciciot,auc_sel,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",BSF 20%,atk_fedavg_bsf20,16,ciciot__atk_fedavg_bsf20__seed16,SUPP_V1,0.996013049851716
+ciciot,auc_sel,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",LF 20%,atk_fedavg_lf20,12,ciciot__atk_fedavg_lf20__seed12,SUPP_V1,0.9960773132936108
+ciciot,auc_sel,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",LF 20%,atk_fedavg_lf20,13,ciciot__atk_fedavg_lf20__seed13,SUPP_V1,0.995915601779816
+ciciot,auc_sel,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",LF 20%,atk_fedavg_lf20,14,ciciot__atk_fedavg_lf20__seed14,SUPP_V1,0.9955550348364928
+ciciot,auc_sel,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",LF 20%,atk_fedavg_lf20,15,ciciot__atk_fedavg_lf20__seed15,SUPP_V1,0.9965735381826984
+ciciot,auc_sel,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",LF 20%,atk_fedavg_lf20,16,ciciot__atk_fedavg_lf20__seed16,SUPP_V1,0.9959434094502606
+ciciot,auc_sel,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,No attack,atk_ref_noatk,12,ciciot__atk_ref_noatk__seed12,SUPP_V1,0.9959999644845512
+ciciot,auc_sel,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,No attack,atk_ref_noatk,13,ciciot__atk_ref_noatk__seed13,SUPP_V1,0.9962047999696416
+ciciot,auc_sel,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,No attack,atk_ref_noatk,14,ciciot__atk_ref_noatk__seed14,SUPP_V1,0.9958204952464438
+ciciot,auc_sel,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,No attack,atk_ref_noatk,15,ciciot__atk_ref_noatk__seed15,SUPP_V1,0.9967604847523336
+ciciot,auc_sel,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,No attack,atk_ref_noatk,16,ciciot__atk_ref_noatk__seed16,SUPP_V1,0.995991169818734
+ciciot,auc_sel,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,SF 10%,atk_ref_sf10,12,ciciot__atk_ref_sf10__seed12,SUPP_V1,0.9959594487634786
+ciciot,auc_sel,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,SF 10%,atk_ref_sf10,13,ciciot__atk_ref_sf10__seed13,SUPP_V1,0.9961801499779016
+ciciot,auc_sel,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,SF 10%,atk_ref_sf10,14,ciciot__atk_ref_sf10__seed14,SUPP_V1,0.9958499968538824
+ciciot,auc_sel,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,SF 10%,atk_ref_sf10,15,ciciot__atk_ref_sf10__seed15,SUPP_V1,0.9967789320932972
+ciciot,auc_sel,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,SF 10%,atk_ref_sf10,16,ciciot__atk_ref_sf10__seed16,SUPP_V1,0.9958369419395554
+ciciot,auc_sel,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,SF 20%,reference,12,ciciot__reference__seed12,"Phase6C (reused, locked)",0.996148337433737
+ciciot,auc_sel,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,SF 20%,reference,13,ciciot__reference__seed13,"Phase6C (reused, locked)",0.9962134626038004
+ciciot,auc_sel,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,SF 20%,reference,14,ciciot__reference__seed14,"Phase6C (reused, locked)",0.9959586649369868
+ciciot,auc_sel,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,SF 20%,reference,15,ciciot__reference__seed15,"Phase6C (reused, locked)",0.9968412476165088
+ciciot,auc_sel,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,SF 20%,reference,16,ciciot__reference__seed16,"Phase6C (reused, locked)",0.996073723358864
+ciciot,auc_sel,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,SF 30%,atk_ref_sf30,12,ciciot__atk_ref_sf30__seed12,SUPP_V1,0.9961169100456934
+ciciot,auc_sel,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,SF 30%,atk_ref_sf30,13,ciciot__atk_ref_sf30__seed13,SUPP_V1,0.9957055295229058
+ciciot,auc_sel,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,SF 30%,atk_ref_sf30,14,ciciot__atk_ref_sf30__seed14,SUPP_V1,0.995721354709489
+ciciot,auc_sel,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,SF 30%,atk_ref_sf30,15,ciciot__atk_ref_sf30__seed15,SUPP_V1,0.9966432934577052
+ciciot,auc_sel,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,SF 30%,atk_ref_sf30,16,ciciot__atk_ref_sf30__seed16,SUPP_V1,0.9961437894681874
+ciciot,auc_sel,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,BSF 20%,atk_ref_bsf20,12,ciciot__atk_ref_bsf20__seed12,SUPP_V1,0.9959583541092402
+ciciot,auc_sel,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,BSF 20%,atk_ref_bsf20,13,ciciot__atk_ref_bsf20__seed13,SUPP_V1,0.9962404640750157
+ciciot,auc_sel,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,BSF 20%,atk_ref_bsf20,14,ciciot__atk_ref_bsf20__seed14,SUPP_V1,0.9956407692375888
+ciciot,auc_sel,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,BSF 20%,atk_ref_bsf20,15,ciciot__atk_ref_bsf20__seed15,SUPP_V1,0.996625947551385
+ciciot,auc_sel,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,BSF 20%,atk_ref_bsf20,16,ciciot__atk_ref_bsf20__seed16,SUPP_V1,0.996135748319562
+ciciot,auc_sel,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,LF 20%,atk_ref_lf20,12,ciciot__atk_ref_lf20__seed12,SUPP_V1,0.9961230793007532
+ciciot,auc_sel,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,LF 20%,atk_ref_lf20,13,ciciot__atk_ref_lf20__seed13,SUPP_V1,0.9959016010169636
+ciciot,auc_sel,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,LF 20%,atk_ref_lf20,14,ciciot__atk_ref_lf20__seed14,SUPP_V1,0.9958106298440476
+ciciot,auc_sel,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,LF 20%,atk_ref_lf20,15,ciciot__atk_ref_lf20__seed15,SUPP_V1,0.996683073492963
+ciciot,auc_sel,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,LF 20%,atk_ref_lf20,16,ciciot__atk_ref_lf20__seed16,SUPP_V1,0.9959552549406304
+ciciot,auc_last,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",No attack,atk_fedavg_noatk,12,ciciot__atk_fedavg_noatk__seed12,SUPP_V1,0.9960251009892864
+ciciot,auc_last,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",No attack,atk_fedavg_noatk,13,ciciot__atk_fedavg_noatk__seed13,SUPP_V1,0.9958807552865584
+ciciot,auc_last,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",No attack,atk_fedavg_noatk,14,ciciot__atk_fedavg_noatk__seed14,SUPP_V1,0.9958773091528448
+ciciot,auc_last,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",No attack,atk_fedavg_noatk,15,ciciot__atk_fedavg_noatk__seed15,SUPP_V1,0.9967968388528408
+ciciot,auc_last,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",No attack,atk_fedavg_noatk,16,ciciot__atk_fedavg_noatk__seed16,SUPP_V1,0.9960898394424528
+ciciot,auc_last,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",SF 10%,atk_fedavg_sf10,12,ciciot__atk_fedavg_sf10__seed12,SUPP_V1,0.9825978018153638
+ciciot,auc_last,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",SF 10%,atk_fedavg_sf10,13,ciciot__atk_fedavg_sf10__seed13,SUPP_V1,0.5780576044359605
+ciciot,auc_last,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",SF 10%,atk_fedavg_sf10,14,ciciot__atk_fedavg_sf10__seed14,SUPP_V1,0.5
+ciciot,auc_last,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",SF 10%,atk_fedavg_sf10,15,ciciot__atk_fedavg_sf10__seed15,SUPP_V1,0.9854407503572836
+ciciot,auc_last,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",SF 10%,atk_fedavg_sf10,16,ciciot__atk_fedavg_sf10__seed16,SUPP_V1,0.9896235801831716
+ciciot,auc_last,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",SF 20%,scenario_fedavg_topk,12,ciciot__scenario_fedavg_topk__seed12,"Phase6C (reused, locked)",0.3117705548496912
+ciciot,auc_last,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",SF 20%,scenario_fedavg_topk,13,ciciot__scenario_fedavg_topk__seed13,"Phase6C (reused, locked)",0.5
+ciciot,auc_last,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",SF 20%,scenario_fedavg_topk,14,ciciot__scenario_fedavg_topk__seed14,"Phase6C (reused, locked)",0.5
+ciciot,auc_last,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",SF 20%,scenario_fedavg_topk,15,ciciot__scenario_fedavg_topk__seed15,"Phase6C (reused, locked)",0.5009379628221615
+ciciot,auc_last,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",SF 20%,scenario_fedavg_topk,16,ciciot__scenario_fedavg_topk__seed16,"Phase6C (reused, locked)",0.5
+ciciot,auc_last,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",SF 30%,atk_fedavg_sf30,12,ciciot__atk_fedavg_sf30__seed12,SUPP_V1,0.5
+ciciot,auc_last,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",SF 30%,atk_fedavg_sf30,13,ciciot__atk_fedavg_sf30__seed13,SUPP_V1,0.5
+ciciot,auc_last,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",SF 30%,atk_fedavg_sf30,14,ciciot__atk_fedavg_sf30__seed14,SUPP_V1,0.5
+ciciot,auc_last,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",SF 30%,atk_fedavg_sf30,15,ciciot__atk_fedavg_sf30__seed15,SUPP_V1,0.5
+ciciot,auc_last,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",SF 30%,atk_fedavg_sf30,16,ciciot__atk_fedavg_sf30__seed16,SUPP_V1,0.5
+ciciot,auc_last,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",BSF 20%,atk_fedavg_bsf20,12,ciciot__atk_fedavg_bsf20__seed12,SUPP_V1,0.995988423315173
+ciciot,auc_last,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",BSF 20%,atk_fedavg_bsf20,13,ciciot__atk_fedavg_bsf20__seed13,SUPP_V1,0.9958734305631354
+ciciot,auc_last,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",BSF 20%,atk_fedavg_bsf20,14,ciciot__atk_fedavg_bsf20__seed14,SUPP_V1,0.9954630568519623
+ciciot,auc_last,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",BSF 20%,atk_fedavg_bsf20,15,ciciot__atk_fedavg_bsf20__seed15,SUPP_V1,0.9950540989559156
+ciciot,auc_last,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",BSF 20%,atk_fedavg_bsf20,16,ciciot__atk_fedavg_bsf20__seed16,SUPP_V1,0.9951690400803824
+ciciot,auc_last,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",LF 20%,atk_fedavg_lf20,12,ciciot__atk_fedavg_lf20__seed12,SUPP_V1,0.9953701869269418
+ciciot,auc_last,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",LF 20%,atk_fedavg_lf20,13,ciciot__atk_fedavg_lf20__seed13,SUPP_V1,0.9952117323473626
+ciciot,auc_last,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",LF 20%,atk_fedavg_lf20,14,ciciot__atk_fedavg_lf20__seed14,SUPP_V1,0.5039621280445984
+ciciot,auc_last,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",LF 20%,atk_fedavg_lf20,15,ciciot__atk_fedavg_lf20__seed15,SUPP_V1,0.20757690676176
+ciciot,auc_last,FedAvg (top-k/routed; no filtering or imputation),"FedAvg (no filter, no recovery)",LF 20%,atk_fedavg_lf20,16,ciciot__atk_fedavg_lf20__seed16,SUPP_V1,0.3533986840410256
+ciciot,auc_last,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,No attack,atk_ref_noatk,12,ciciot__atk_ref_noatk__seed12,SUPP_V1,0.9957053538376576
+ciciot,auc_last,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,No attack,atk_ref_noatk,13,ciciot__atk_ref_noatk__seed13,SUPP_V1,0.9959710169613564
+ciciot,auc_last,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,No attack,atk_ref_noatk,14,ciciot__atk_ref_noatk__seed14,SUPP_V1,0.9959953426111
+ciciot,auc_last,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,No attack,atk_ref_noatk,15,ciciot__atk_ref_noatk__seed15,SUPP_V1,0.99680739370507
+ciciot,auc_last,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,No attack,atk_ref_noatk,16,ciciot__atk_ref_noatk__seed16,SUPP_V1,0.9960553098042386
+ciciot,auc_last,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,SF 10%,atk_ref_sf10,12,ciciot__atk_ref_sf10__seed12,SUPP_V1,0.9958415774762214
+ciciot,auc_last,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,SF 10%,atk_ref_sf10,13,ciciot__atk_ref_sf10__seed13,SUPP_V1,0.9953684030459606
+ciciot,auc_last,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,SF 10%,atk_ref_sf10,14,ciciot__atk_ref_sf10__seed14,SUPP_V1,0.995976855117295
+ciciot,auc_last,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,SF 10%,atk_ref_sf10,15,ciciot__atk_ref_sf10__seed15,SUPP_V1,0.996797514579616
+ciciot,auc_last,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,SF 10%,atk_ref_sf10,16,ciciot__atk_ref_sf10__seed16,SUPP_V1,0.9959440311188936
+ciciot,auc_last,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,SF 20%,reference,12,ciciot__reference__seed12,"Phase6C (reused, locked)",0.9961725955122313
+ciciot,auc_last,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,SF 20%,reference,13,ciciot__reference__seed13,"Phase6C (reused, locked)",0.9950545278358952
+ciciot,auc_last,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,SF 20%,reference,14,ciciot__reference__seed14,"Phase6C (reused, locked)",0.9959431235496508
+ciciot,auc_last,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,SF 20%,reference,15,ciciot__reference__seed15,"Phase6C (reused, locked)",0.9968412476165088
+ciciot,auc_last,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,SF 20%,reference,16,ciciot__reference__seed16,"Phase6C (reused, locked)",0.9959396388948548
+ciciot,auc_last,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,SF 30%,atk_ref_sf30,12,ciciot__atk_ref_sf30__seed12,SUPP_V1,0.9961169100456934
+ciciot,auc_last,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,SF 30%,atk_ref_sf30,13,ciciot__atk_ref_sf30__seed13,SUPP_V1,0.9957324836942466
+ciciot,auc_last,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,SF 30%,atk_ref_sf30,14,ciciot__atk_ref_sf30__seed14,SUPP_V1,0.9957642624527868
+ciciot,auc_last,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,SF 30%,atk_ref_sf30,15,ciciot__atk_ref_sf30__seed15,SUPP_V1,0.9957666393258604
+ciciot,auc_last,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,SF 30%,atk_ref_sf30,16,ciciot__atk_ref_sf30__seed16,SUPP_V1,0.9959333681503808
+ciciot,auc_last,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,BSF 20%,atk_ref_bsf20,12,ciciot__atk_ref_bsf20__seed12,SUPP_V1,0.9959972751488296
+ciciot,auc_last,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,BSF 20%,atk_ref_bsf20,13,ciciot__atk_ref_bsf20__seed13,SUPP_V1,0.996255964919602
+ciciot,auc_last,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,BSF 20%,atk_ref_bsf20,14,ciciot__atk_ref_bsf20__seed14,SUPP_V1,0.9954212437629032
+ciciot,auc_last,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,BSF 20%,atk_ref_bsf20,15,ciciot__atk_ref_bsf20__seed15,SUPP_V1,0.991539630483408
+ciciot,auc_last,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,BSF 20%,atk_ref_bsf20,16,ciciot__atk_ref_bsf20__seed16,SUPP_V1,0.9953100237147664
+ciciot,auc_last,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,LF 20%,atk_ref_lf20,12,ciciot__atk_ref_lf20__seed12,SUPP_V1,0.9959810715632504
+ciciot,auc_last,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,LF 20%,atk_ref_lf20,13,ciciot__atk_ref_lf20__seed13,SUPP_V1,0.995899945521356
+ciciot,auc_last,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,LF 20%,atk_ref_lf20,14,ciciot__atk_ref_lf20__seed14,SUPP_V1,0.9957443694769964
+ciciot,auc_last,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,LF 20%,atk_ref_lf20,15,ciciot__atk_ref_lf20__seed15,SUPP_V1,0.9967075888603684
+ciciot,auc_last,Non-private MAD + median imputation (top-k/routed),MAD filter + surrogate recovery,LF 20%,atk_ref_lf20,16,ciciot__atk_ref_lf20__seed16,SUPP_V1,0.9944608243617992

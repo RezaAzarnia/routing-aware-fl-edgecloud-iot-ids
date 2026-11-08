@@ -1,0 +1,69 @@
+% NOTE: line numbers below refer to Git HEAD 7d5280d only. For the latest author-approved manuscript use MANUSCRIPT_PATCHES_C1_C11_ANCHORED.tex (anchor-based, with already-applied checks).
+% BEFORE/AFTER corrections for manuscript/main.tex (the manuscript itself was NOT modified). Line numbers refer to main.tex at commit 7d5280d.
+% Evidence: SUPPLEMENTARY_WEIGHT_AUDIT_FINAL.csv, audits/AUDIT_*.csv, FINAL_SCIENTIFIC_QA_REPORT.md.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% C1 (line 848): chi_rec description
+% BEFORE
+The recovered updates are assigned a reduced raw aggregation coefficient \(\chi_{\mathrm{rec}}\). This lowers, but does not by itself bound, their influence, because raw weights are renormalized and capped jointly with the genuine updates (see below).
+% AFTER
+The recovered updates are assigned a reduced raw aggregation coefficient \(\chi_{\mathrm{rec}}\). In the non-private pipeline the raw weights are normalized without a cap, so \(\chi_{\mathrm{rec}}\) lowers (without bounding) the share of recovered updates. In the central-Gaussian pipeline, however, the capped normalization yields exactly uniform weights whenever at most ten updates are retained (see below), so \(\chi_{\mathrm{rec}}\) has no effect on the applied weights there.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% C2 (lines 958--963): raw weights
+% BEFORE
+Before normalization, the raw aggregation weight of a successfully received update is proportional to its local dataset size \(n_i\). For a reconstructed update, the corresponding raw weight is reduced by the coefficient \(\chi_{\mathrm{rec}}\). Let \(b_i^{(t)}\) denote this raw weight. The effective weight cap, the final normalized weights, and the clipped weighted aggregate are defined jointly as
+% AFTER
+\label{sec:aggregation-weights}
+Before normalization, the raw aggregation weight of a successfully received update is proportional to its local dataset size \(n_i\); for a reconstructed update it is multiplied by \(\chi_{\mathrm{rec}}\). Let \(b_i^{(t)}\) denote this raw weight. In the non-private pipeline the weights are \(a_i^{(t)}=b_i^{(t)}/\sum_{j}b_j^{(t)}\) (no cap). When central Gaussian noise is enabled, the effective weight cap, the final normalized weights, and the clipped weighted aggregate are defined jointly as
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% C3 (line 992): consequences of the cap
+% BEFORE
+When fewer than \(1/a_{\max}=10\) updates are retained the cap is infeasible and the effective cap is \(1/|\mathcal{K}_t|\). In the proposed pipeline (300 rounds), fewer than ten updates were retained in 92\% of rounds (minimum six; largest single weight 0.167), surrogate updates jointly carried a mean weight share of 0.30 (maximum 1.0), and in 10 rounds only surrogates were retained. The weight cap therefore does not prevent surrogate updates from influencing the aggregate in the evaluated reference ordering.
+% AFTER
+When at most \(1/a_{\max}=10\) updates are retained the cap is infeasible and \(\operatorname{CapNormalize}\) returns exactly \(a_i^{(t)}=1/|\mathcal{K}_t|\) for every retained update, independently of \(n_i\) and of \(\chi_{\mathrm{rec}}\). With ten selected clients per round this holds in every aggregation round of the proposed pipeline: in all audited central-Gaussian runs (98 runs, 2{,}940 rounds) every round with at most ten retained updates was exactly uniform (maximum deviation \(1.4\times10^{-16}\)); the only exceptions were arms with 20 selected clients and rounds without a valid contribution. Consequently sample-size weighting and \(\chi_{\mathrm{rec}}\) are inert in the proposed pipeline (setting \(\chi_{\mathrm{rec}}=0\) reproduces the reference bit-for-bit unless a round abstains, see below). In the proposed pipeline (300 rounds), fewer than ten updates were retained in 92\% of rounds (minimum six; largest single weight 0.167); surrogate updates jointly carried a mean weight share of 0.30 (maximum 1.0), and in 3.3\% of rounds only surrogates were retained. A surrogate with zero raw weight still receives weight \(1/|\mathcal{K}_t|\) in a mixed round. If every retained update has zero raw weight (possible only when \(\chi_{\mathrm{rec}}=0\) and no genuine update is retained), the round abstains: the global model and server momentum are unchanged, no noise is added and no release is counted. The weight cap therefore does not limit surrogate influence in the evaluated reference ordering.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% C4 (lines 2100--2118): Table 5 caption and row labels
+% BEFORE
+\caption{Audited mean paired ROC--AUC differences over five seeds. Filtering is compared with the matched reference; privacy effects are ordered contrasts, with Gaussian noise added after clipping and capped weighting.}
+...
+Clipping + cap (selected) & $-0.0017$ & $-0.0262$ \\
+Added Gaussian (selected) & $-0.0015$ & $-0.0157$ \\
+Full privacy pipeline (selected) & $-0.0032$ & $-0.0419$ \\
+% AFTER
+\caption{Audited mean paired ROC--AUC differences over five seeds. Filtering is compared with the matched reference. ``Added Gaussian'' changes only the Gaussian noise (identical clipping, weights and network traces). The other two privacy rows are combined contrasts: they change clipping, the aggregation path and the weights (heterogeneous sample-size weights replaced by exactly uniform weights) together.}
+...
+Clipping + uniform capped weights, no noise (combined; selected) & $-0.0017$ & $-0.0262$ \\
+Added Gaussian (noise only; selected) & $-0.0015$ & $-0.0157$ \\
+Clipping, uniform weights and noise (combined; selected) & $-0.0032$ & $-0.0419$ \\
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% C5 (lines 2121--2135): interpretation of Table 5
+% BEFORE
+The ordered privacy comparison in Table~\ref{tab:ablation-summary} separates the effect of clipping and capped weighting without Gaussian noise from the incremental effect of adding Gaussian perturbation to that same pipeline. ... The non-noise stages therefore represent approximately 53\% and 63\% of these point-estimate losses. These are conditional, sequential comparisons rather than a factorial attribution of independent effects; ...
+% AFTER
+The ordered privacy comparison in Table~\ref{tab:ablation-summary} separates a combined non-noise change (clipping together with the switch to exactly uniform capped weights) from the incremental effect of adding Gaussian noise to that same pipeline; only the latter (Added Gaussian) is a single-mechanism contrast. The combined non-noise change accounts for 53\% (CICIoT2023) and 63\% (UNSW-NB15) of the point-estimate loss, but its share cannot be attributed to clipping or to weighting separately. These are conditional comparisons with five paired seeds (smallest attainable exact $p=0.0625$), not a factorial attribution.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% C6 (lines 2232--2238, Discussion): clipping and capped weighting
+% BEFORE
+The ablation results in Section~\ref{subsec:ablation} also indicate that clipping and capped weighting contribute to the observed utility loss alongside Gaussian noise. Accordingly, privacy-related utility changes must be interpreted at the pipeline level.
+% AFTER
+The ablation results in Section~\ref{subsec:ablation} indicate that the non-noise part of the privacy pipeline (clipping combined with the replacement of sample-size weights by uniform weights) contributes to the observed utility loss alongside Gaussian noise; these two components were not separated. Privacy-related utility changes must therefore be interpreted at the pipeline level, and the reported $\widehat{\varepsilon}$ remains a diagnostic estimate rather than a certified guarantee.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% C7 (line 273, contributions): capped weighting
+% BEFORE
+\item Clipping, capped weighting, central Gaussian noise, and server momentum are combined to balance estimated privacy, learning stability, and IDS performance.
+% AFTER
+\item Clipping, capped (in practice uniform, with at most ten retained clients) weighting, central Gaussian noise, and server momentum are combined and evaluated as a bundle; their individual contributions to estimated privacy, stability and IDS performance are not separated.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% C8 (lines 85, 248, 660, 931, 1252): wording "capped weighting"
+% BEFORE (each occurrence)  ... capped weighting ...
+% AFTER  Replace by "capped (uniform when at most ten updates are retained) weighting in the central-Gaussian path" at first mention (line 85/248) and keep "capped weighting" elsewhere with the Section~\ref{sec:aggregation-weights} cross-reference.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% C9 attack robustness / abstract and discussion (add; no existing sentence is deleted)
+% AFTER (add to Discussion / Limitations)
+Robustness was evaluated only against static attacks (sign-flip at 10--30\% exposure, a norm-preserving sign-flip and label flipping). The pipeline improves over FedAvg only under sign-flip contamination (e.g.\ $+0.275$ ROC--AUC on UNSW-NB15 at 30\%); without an attack the two are indistinguishable. Adaptive, filter-aware attackers were not evaluated, and the surrogate component carries about 30\% of the aggregation weight without a demonstrated detection benefit (Section~\ref{sec:supplementary}).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% C10 fairness / scalability / participation provenance
+% AFTER (add after Figs 3--6 caption or text):
+Held-out client recall in the supplementary participation study is computed on client-level holdouts that were never used for training (CICIoT2023 under a leakage-safe group-disjoint holdout). Figures 3--6 should state the seeds of the study they report (seeds 12--16 are reported in Section~\ref{sec:supplementary}).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% C11 (Abstract / Conclusion ~ line 2248): no change to reported numbers
+% Table 4 v2 values and the abstract's F1/AUC figures are unchanged and verified; only add "diagnostic" where epsilon is quoted and "static" where robustness is stated.

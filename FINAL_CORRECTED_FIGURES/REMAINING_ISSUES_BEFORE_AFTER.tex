@@ -1,0 +1,702 @@
+% =====================================================================
+%  REMAINING_ISSUES_BEFORE_AFTER.tex
+%  Manuscript: Routing-Aware Federated Intrusion Detection with Robust
+%  Aggregation and Median-Based Update Imputation
+%  Source checked: main.tex (version of 2026-11-08 17:21, 18 pages)
+%  Line numbers refer to that main.tex.
+%  BEFORE = text as it stands now; AFTER = replacement LaTeX source.
+%  [INSERT ...] = facts only the authors have; [VERIFY] = confirm first.
+% =====================================================================
+\documentclass[10pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=2cm]{geometry}
+\usepackage{xcolor}
+\usepackage{fvextra}
+\usepackage[most]{tcolorbox}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{lmodern}
+
+\definecolor{bef}{HTML}{B3261E}
+\definecolor{aft}{HTML}{1E7B34}
+\definecolor{note}{HTML}{555555}
+
+\fvset{breaklines=true,breakanywhere=true,fontsize=\small}
+
+\newtcolorbox{before}[1][]{enhanced,breakable,colback=bef!4,colframe=bef!70,
+  boxrule=0.6pt,arc=2pt,left=4pt,right=4pt,top=2pt,bottom=2pt,
+  fonttitle=\bfseries\small,title={BEFORE #1}}
+\newtcolorbox{after}[1][]{enhanced,breakable,colback=aft!4,colframe=aft!70,
+  boxrule=0.6pt,arc=2pt,left=4pt,right=4pt,top=2pt,bottom=2pt,
+  fonttitle=\bfseries\small,title={AFTER #1}}
+
+\newcommand{\issue}[3]{\section{#1}{\raggedright\noindent\textcolor{note}{\small\textbf{Location:} #2\quad\textbf{Report item:} #3}\par}\smallskip}
+\newcommand{\why}[1]{\noindent\textcolor{note}{\small #1}\par\smallskip}
+
+\setlength{\parindent}{0pt}
+\title{Remaining manuscript issues --- BEFORE / AFTER (LaTeX)}
+\author{Checked against \texttt{main.tex}, 2026-11-08}
+\date{}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\bigskip
+
+\noindent\textbf{Status.} Figures~1 and~3 and both captions are fixed (except the small wording point in Section~15). The items below are still open. Sections 1--15 can be applied now; Section~16 lists what needs data or author information.
+
+% =====================================================================
+\issue{Corresponding author and declarations}{lines 49--50; insert before line 2464 (\texttt{\textbackslash FloatBarrier})}{Comment 19}
+\why{Elsevier/FGCS requires these statements; none is present.}
+
+\begin{before}[lines 49--50]
+\begin{Verbatim}
+\author[1]{Nahideh Derakhshanfard}
+\ead{n.derakhshan@iaut.ac.ir}
+\end{Verbatim}
+\end{before}
+
+\begin{after}
+\begin{Verbatim}
+\author[1]{Nahideh Derakhshanfard\corref{cor1}}
+\ead{n.derakhshan@iaut.ac.ir}
+\cortext[cor1]{Corresponding author.}
+\end{Verbatim}
+\end{after}
+
+\begin{before}[after the Data Availability section]
+\begin{Verbatim}
+(no declarations)
+\end{Verbatim}
+\end{before}
+
+\begin{after}[insert before \texttt{\textbackslash FloatBarrier}, line 2464]
+\begin{Verbatim}
+\section*{CRediT authorship contribution statement}
+\textbf{Nahideh Derakhshanfard:} [INSERT roles].
+\textbf{Reza Azarnia:} [INSERT roles].
+\textbf{Amir Mollanejad:} [INSERT roles].
+\textbf{Ali Asghar Pour Haji Kazem:} [INSERT roles].
+\textbf{Neda Dadashkhani:} [INSERT roles].
+\textbf{Parisa Khoshvaght:} [INSERT roles].
+\textbf{Mehdi Hosseinzadeh:} [INSERT roles].
+
+\section*{Declaration of competing interest}
+The authors declare that they have no known competing financial interests or
+personal relationships that could have appeared to influence the work reported
+in this paper. % [VERIFY]
+
+\section*{Funding}
+This research did not receive any specific grant from funding agencies in the
+public, commercial, or not-for-profit sectors. % [VERIFY or INSERT agency + grant no.]
+
+\section*{Ethics statement}
+This study analyses publicly available network-traffic datasets (CICIoT2023 and
+UNSW-NB15) and involves no human participants or animals.
+
+\section*{Declaration of generative AI and AI-assisted technologies in the writing process}
+During the preparation of this work the authors used [INSERT tool] in order to
+[INSERT purpose]. After using this tool, the authors reviewed and edited the
+content as needed and take full responsibility for the content of the publication.
+\end{Verbatim}
+\end{after}
+
+% =====================================================================
+\issue{Optimizer, loss, software and licence}{lines 1405--1406; line 2446}{Comment 18}
+\why{\texttt{LocalOpt} is never specified; no licence is stated.}
+
+\begin{before}[lines 1405--1406]
+\begin{Verbatim}
+The same base MLP architecture and common training settings were
+used across configurations wherever applicable.
+\end{Verbatim}
+\end{before}
+
+\begin{after}
+\begin{Verbatim}
+All configurations use the same MLP (hidden layers 128--96--64,
+[INSERT activation] activations, dropout 0.2, one sigmoid output unit).
+Local training minimizes binary cross-entropy with [INSERT optimizer]
+(learning rate 0.0003, batch size 256, two local epochs); weights are
+initialized with [INSERT scheme]. Experiments used Python [INSERT],
+[INSERT framework and version], and the RDP accountant of
+[INSERT library and version].
+\end{Verbatim}
+\end{after}
+
+\begin{before}[line 2446, Code Availability]
+\begin{Verbatim}
+available in the \href{https://github.com/RezaAzarnia/routing-aware-fl-edgecloud-iot-ids}{GitHub repository}.
+\end{Verbatim}
+\end{before}
+
+\begin{after}
+\begin{Verbatim}
+available in the \href{https://github.com/RezaAzarnia/routing-aware-fl-edgecloud-iot-ids}{GitHub repository}
+under the [INSERT, e.g. MIT] licence.
+\end{Verbatim}
+\end{after}
+
+% =====================================================================
+\issue{Baselines that were never evaluated}{lines 1305--1309}{Comment 10}
+
+\begin{before}[lines 1305--1309]
+\begin{Verbatim}
+In addition to standard federated-learning baselines, the experimental design
+considers mechanisms motivated by modular and hierarchical resilient
+federated learning approaches
+\cite{almeida2025modular,chen2025hierarchical}.
+\end{Verbatim}
+\end{before}
+
+\begin{after}
+\begin{Verbatim}
+The comparators are FedAvg under three selection/path settings
+(TK/R, UR/R and UR/X), a non-private MAD-filtered reference and a
+DP+FedAvg control (Table~\ref{tab:overall-results}). The modular and
+hierarchical resilient frameworks of
+\cite{almeida2025modular,chen2025hierarchical} were not
+re-implemented, so no comparison with them is claimed.
+\end{Verbatim}
+\end{after}
+
+% =====================================================================
+\issue{Research gap and Table 1}{lines 231--241; Table 1, lines 508--649}{Comment 16}
+
+\begin{before}[lines 231--241]
+\begin{Verbatim}
+Despite these advances, most existing studies address only part of the
+overall problem. Some works mainly focus on intrusion detection and IDS
+model quality, but they do not explicitly incorporate path stability
+or communication failure into the learning process. Other studies
+emphasize privacy preservation, secure aggregation, or Byzantine fault
+tolerance while ignoring the impact of unstable paths, network
+latency, and failed update delivery on FL decision-making.
+Conversely, edge routing and scheduling approaches often aim to reduce
+latency or energy consumption, but they rarely integrate robust
+filtering for suspicious updates, central Gaussian privacy noise, and
+failure recovery within a unified FL framework.
+\end{Verbatim}
+\end{before}
+
+\begin{after}
+\begin{Verbatim}
+The studies closest to this work differ in which of four mechanisms they
+evaluate together: routing-based path or client selection, handling of
+missing updates, robust filtering of received updates, and a privacy
+mechanism. Table~\ref{tab:related-work} records, for each study, whether
+a mechanism is part of the method, reported as not evaluated, or absent.
+None of the compared studies [VERIFY against Table 1] evaluates routing-
+based selection together with missing-update imputation and MAD filtering
+on an intrusion-detection benchmark; that combination is the subject of
+this study.
+\end{Verbatim}
+\end{after}
+
+\why{Table 1: replace the generic ``Main strength / Main limitation'' columns with mechanism columns and add the four systems named in the Introduction. Every \texttt{[V]} cell must be filled from the original paper.}
+
+\begin{before}[Table 1 header and last row]
+\begin{Verbatim}
+\begin{tabularx}{\textwidth}{@{}l p{2.6cm} Y Y Y@{}}
+Ref./year & Method & Main focus & Main strength & Main limitation \\
+...
+\textbf{Proposed}, 2026 & Routing-aware FL & IDS, routing, privacy, and recovery
+  & Unified Edge--Cloud FL framework & Simulation-based; trusted or semi-trusted server \\
+\end{Verbatim}
+\end{before}
+
+\begin{after}
+\begin{Verbatim}
+\begin{tabularx}{\textwidth}{@{}l p{2.2cm} Y Y Y Y Y@{}}
+\toprule
+Ref. & Method & Path/client selection & Missing updates & Robust filtering
+  & Privacy mechanism & Evaluation data \\
+\midrule
+\cite{bhardwaj2024routing} & FL-based routing & Opportunistic routing & [V] & [V] & [V] & [V] \\
+\cite{chen2025hierarchical} & Hierarchical FL & [V] & Fault tolerance [V] & [V] & [V] & [V] \\
+\cite{geng2024smpc} & SMPC-based FL IDS & [V] & [V] & [V] & SMPC & [V] \\
+\cite{lan2025ckks} & CKKS-based FL & [V] & [V] & [V] & CKKS encryption & [V] \\
+\cite{soomro2026securedyn} & SecureDyn-FL & [V] & [V] & [V] & [V] & [V] \\
+\cite{shah2026trisafe} & TriSAFE & [V] & [V] & [V] & Secure aggr.\ + DP & [V] \\
+\cite{tang2026fedcst} & FedCST & [V] & [V] & [V] & [V] & [V] \\
+\cite{alanazi2026edgeguard} & EdgeGuard-AI & Load-aware scheduling & [V] & [V] & [V] & [V] \\
+% ... remaining references, same columns ...
+\textbf{This study} & Routing-aware FL & Top-$k$ by delay, stability, security
+  & Median surrogate (no information recovered) & MAD
+  & Server-side Gaussian; diagnostic RDP, not certified
+  & CICIoT2023, UNSW-NB15 (simulated network) \\
+\bottomrule
+\end{tabularx}
+\end{Verbatim}
+\end{after}
+
+% =====================================================================
+\issue{``Recovery'' wording for the surrogate (text no longer matches Figure 1)}{20 places, listed below}{Comment 5}
+\why{Figure 1 now says ``Surrogate Imputation''. ``Recovery'' stays only where it means F1 recovery (Table 6, recovery rounds). Also rename every \texttt{\textbackslash eqref\{eq:recovered-update\}}.}
+
+\begin{before}[one line per location]
+\begin{Verbatim}
+L241   failure recovery within a unified FL framework.
+L643   & IDS, routing, privacy, and recovery
+L666   recovery, filtering, privacy-aware aggregation, and global-model
+L675   updates and applies robust filtering and surrogate recovery, with
+L832   received updates using failure recovery, robust filtering, and
+L834   \subsection{Failure Recovery and Robust Update Filtering}
+L846   missing-update surrogates are reconstructed before MAD filtering.
+L849   reconstructed from the retained real updates.
+L853-854 a surrogate update is generated using coordinate-wise median reconstruction:
+L868   \label{eq:recovered-update}      (and \eqref at L884)
+L891   After recovery, the server constructs the available update set
+L893   and recovered surrogate updates. The robust center and the deviation
+L967   Following robust filtering and any configured surrogate recovery,
+L1239  Reconstruct missing updates using the coordinate-wise median
+L1315  behavior, robust filtering, surrogate recovery, weighting, and
+L1716-1718 The update reconstruction ratio measures the proportion of failed or
+       missing model updates successfully reconstructed by the recovery mechanism:
+L1723  \frac{N_{\mathrm{recovered}}}{N_{\mathrm{failed}}+\xi}
+L1822  Recovered-update coefficient
+L1849  Failure recovery & --- & Coordinate-wise median \\
+L2185  changes for the remaining controls. Removing surrogate recovery,
+L2188  surrogate reconstruction did not produce clearly distinguishable
+\end{Verbatim}
+\end{before}
+
+\begin{after}
+\begin{Verbatim}
+L241   missing-update imputation within the same FL framework.
+L643   & IDS, routing, privacy, and update imputation
+L666   surrogate imputation, filtering, aggregation, and global-model
+L675   updates and applies robust filtering and surrogate imputation, with
+L832   received updates using surrogate imputation, robust filtering, and
+L834   \subsection{Surrogate Imputation and Robust Update Filtering}
+L846   missing-update surrogates are computed before MAD filtering.
+L849   computed from the retained real updates.
+L853-854 a surrogate update is generated using coordinate-wise median imputation:
+L868   \label{eq:surrogate-update}      (and \eqref{eq:surrogate-update} at L884)
+L891   After imputation, the server constructs the available update set
+L893   and surrogate updates. The robust center and the deviation
+L967   Following robust filtering and any configured surrogate imputation,
+L1239  Impute missing updates with the coordinate-wise median
+L1315  behavior, robust filtering, surrogate imputation, weighting, and
+L1716-1718 The surrogate availability ratio measures the proportion of failed or
+       missing model updates for which a surrogate was generated:
+L1723  \frac{N_{\mathrm{imputed}}}{N_{\mathrm{failed}}+\xi}   (also L1728)
+L1822  Surrogate raw-weight factor
+L1849  Missing-update handling & --- & Coordinate-wise median surrogate \\
+L2185  changes for the remaining controls. Removing surrogate imputation,
+L2188  surrogate imputation did not produce clearly distinguishable
+\end{Verbatim}
+\end{after}
+
+% =====================================================================
+\issue{Metrics defined but never reported}{lines 1608--1631 and 1678--1695}{Comment 13}
+\why{Eq.~(24) Recovery Time and Eq.~(27) Communication cost have no reported values. Delete Eq.~(24) and its paragraph (lines 1613--1631), and pin Eq.~(27) to the scalability results.}
+
+\begin{before}[lines 1608--1609]
+\begin{Verbatim}
+Resilience was evaluated using recovery time, recovery rounds, and
+recovery success.
+\end{Verbatim}
+\end{before}
+
+\begin{after}
+\begin{Verbatim}
+Resilience was evaluated using the F1 recovery fraction, recovery
+rounds, and the surrogate availability ratio.
+\end{Verbatim}
+\end{after}
+
+\begin{before}[lines 1678--1695]
+\begin{Verbatim}
+Communication cost measures the total volume of model-update data
+transmitted by participating clients during federated training:
+  (Eq. communication-cost)
+A lower communication cost is generally preferable. However, it
+should be interpreted together with end-to-end delay, PDR, path
+stability, transfer efficiency, and intrusion-detection performance.
+\end{Verbatim}
+\end{before}
+
+\begin{after}
+\begin{Verbatim}
+Communication cost is the simulated serialized uplink traffic of the
+selected clients, summed over rounds:
+  (Eq. communication-cost, unchanged)
+Each update holds [INSERT P] parameters stored as [INSERT float32]
+([INSERT] MB per update); downlink broadcast, metadata,
+retransmissions and imputed surrogates are not counted. It is
+reported for the scalability study (Figure~\ref{fig:scalability-new}).
+\end{Verbatim}
+\end{after}
+
+% =====================================================================
+\issue{Zero-weight surrogate sentence contradicts the code and Figure 1}{lines 1052--1058}{new (found in code audit)}
+\why{\texttt{capped\_normalized\_weights} gives every retained update, including a zero-raw-weight surrogate, exactly $1/|\mathcal K_t|$ whenever the raw-weight sum is positive. The sentence is only true for the abstention case.}
+
+\begin{before}[lines 1052--1058]
+\begin{Verbatim}
+When all retained raw weights sum to zero, the SUPP\_V2 corrective
+implementation takes a \emph{no-valid-contribution} abstention:
+the global model and server momentum remain unchanged, no Gaussian
+noise is released, and no zero-weight surrogate gains positive
+weight. Release-based and attempted-round accounting diagnostics
+are recorded separately. This branch does not change any
+positive-weight aggregation round.
+\end{Verbatim}
+\end{before}
+
+\begin{after}
+\begin{Verbatim}
+When all retained raw weights sum to zero, the SUPP\_V2 corrective
+implementation takes a \emph{no-valid-contribution} abstention:
+the global model and server momentum remain unchanged and no Gaussian
+noise is released. Release-based and attempted-round accounting
+diagnostics are recorded separately. This branch does not change any
+positive-weight aggregation round; in such rounds the uniform cap
+assigns $1/|\mathcal K_t|$ to every retained update, including a
+surrogate whose raw weight is zero.
+\end{Verbatim}
+\end{after}
+
+% =====================================================================
+\issue{CapNormalize has no formula}{lines 1033--1035}{Comment 6}
+
+\begin{before}[lines 1033--1035]
+\begin{Verbatim}
+For a round with a positive raw-weight sum, the central-Gaussian
+weights satisfy \(\sum_{i\in\mathcal K_t}a_i^{(t)}=1\) and
+\(0\leq a_i^{(t)}\leq\overline a_{\max}^{(t)}\).
+\end{Verbatim}
+\end{before}
+
+\begin{after}
+\begin{Verbatim}
+\(\operatorname{CapNormalize}\) assigns
+\(a_i^{(t)}=\min\bigl(\overline a_{\max}^{(t)},\,\lambda_t b_i^{(t)}\bigr)\),
+iteratively fixing capped entries and distributing the remaining mass
+among the others, with \(\lambda_t>0\) chosen so that the weights sum
+to one. For a round with a positive raw-weight sum, the central-Gaussian
+weights therefore satisfy \(\sum_{i\in\mathcal K_t}a_i^{(t)}=1\) and
+\(0\leq a_i^{(t)}\leq\overline a_{\max}^{(t)}\).
+\end{Verbatim}
+\end{after}
+
+% =====================================================================
+\issue{Adjacency and accountant details}{after line 1109; Table 3, line 1801}{Comment 3}
+
+\begin{before}[line 1108]
+\begin{Verbatim}
+The implementation tracks the cumulative privacy budget using an
+RDP accountant.
+\end{Verbatim}
+\end{before}
+
+\begin{after}
+\begin{Verbatim}
+The implementation tracks the cumulative privacy budget using an
+RDP accountant ([INSERT library and version], R\'enyi orders
+[INSERT orders]). Adjacency is defined at the [INSERT client / record]
+level, i.e.\ adding or removing one [INSERT client's update / record].
+\end{Verbatim}
+\end{after}
+
+\begin{before}[line 1801, Table 3]
+\begin{Verbatim}
+	Target privacy budgets
+\end{Verbatim}
+\end{before}
+
+\begin{after}
+\begin{Verbatim}
+	Diagnostic RDP targets
+\end{Verbatim}
+\end{after}
+
+% =====================================================================
+\issue{Network model: link dynamics and failure combination}{lines 1383--1384}{Comment 4}
+
+\begin{before}[lines 1382--1384]
+\begin{Verbatim}
+Link attributes
+vary stochastically by round, and client--edge outages occur with
+probability 0.01.
+\end{Verbatim}
+\end{before}
+
+\begin{after}
+\begin{Verbatim}
+Link attributes vary by round as [INSERT process, e.g. a bounded
+Gaussian perturbation with \(\sigma=0.025\)] [VERIFY], and client--edge
+outages occur independently with probability 0.01. Injected client
+failures (\(p_f\)) are drawn independently of link outages; an update
+is missing if either event occurs. [VERIFY]
+\end{Verbatim}
+\end{after}
+
+% =====================================================================
+\issue{Data provenance}{line 1374}{Comment 8}
+
+\begin{before}[lines 1373--1374]
+\begin{Verbatim}
+The split and
+preparation fingerprints are documented in the locked manifests.
+\end{Verbatim}
+\end{before}
+
+\begin{after}
+\begin{Verbatim}
+The split and
+preparation fingerprints are documented in the locked manifests.
+Attack/benign counts are [INSERT] (CICIoT2023 training),
+[INSERT] (CICIoT2023 validation), [INSERT] (UNSW-NB15 training) and
+[INSERT] (UNSW-NB15 validation). Scaling and categorical encoders are
+fitted on training records only. Client partitions draw, for each class,
+client proportions from a Dirichlet distribution with
+\(\alpha_{\mathrm{Dir}}=0.5\) [VERIFY], with a minimum of 100 records per
+client.
+\end{Verbatim}
+\end{after}
+
+% =====================================================================
+\issue{Abstract: multi-factor comparison stated without qualification}{lines 102--105}{Comment 17}
+
+\begin{before}[lines 102--105]
+\begin{Verbatim}
+Relative to FedAvg with uniform selection and
+random paths, its mean delivery delay decreases from 87.3 to
+66.0~ms, while first-transmission PDR increases from 0.694 to
+0.851.
+\end{Verbatim}
+\end{before}
+
+\begin{after}
+\begin{Verbatim}
+Relative to FedAvg with uniform selection and
+random paths, a comparison that changes selection, routing and
+aggregation together, its mean delivery delay decreases from 87.3 to
+66.0~ms, while first-transmission PDR increases from 0.694 to
+0.851.
+\end{Verbatim}
+\end{after}
+
+% =====================================================================
+\issue{Contributions and keywords overclaim}{lines 270--276; lines 119--128}{Comment 20}
+
+\begin{before}[lines 270--276]
+\begin{Verbatim}
+\item An integrated FL framework is proposed to jointly address
+intrusion detection, routing-aware communication, privacy-aware
+aggregation, and fault tolerance in Edge--Cloud IoT systems.
+
+\item A routing-aware client and path selection scheme is designed
+using latency, path stability, and route-security indicators to
+reduce end-to-end delay and improve communication reliability.
+\end{Verbatim}
+\end{before}
+
+\begin{after}
+\begin{Verbatim}
+\item An FL pipeline for intrusion detection is implemented in which
+routing-aware selection, surrogate imputation, MAD filtering and
+optional server-side Gaussian perturbation can be switched on and off,
+so that each can be evaluated in controlled comparisons.
+
+\item Clients and paths are ranked by simulated latency, stability and
+security indicators; the effect of this ranking on simulated delivery
+delay and packet delivery is measured separately from its effect on
+detection.
+\end{Verbatim}
+\end{after}
+
+\begin{before}[lines 119--128]
+\begin{Verbatim}
+\begin{keyword}
+Federated learning \sep Internet of Things \sep Edge--Cloud architecture
+\sep Intrusion detection \sep Routing-aware aggregation \sep Fault tolerance
+\sep Privacy-aware aggregation \sep Network resilience
+\end{keyword}
+\end{Verbatim}
+\end{before}
+
+\begin{after}
+\begin{Verbatim}
+\begin{keyword}
+Federated learning \sep IoT intrusion detection \sep Routing-aware client selection
+\sep Robust aggregation \sep Surrogate update imputation
+\sep Gaussian perturbation \sep Communication failures
+\end{keyword}
+\end{Verbatim}
+\end{after}
+
+% =====================================================================
+\issue{Generic sentences in the Introduction and section openings}{lines 134--146, 149--151, 171--175, 201--203, 307--315, 654--656, 1298, 1338--1341}{Comment 20 / Section D}
+
+\begin{before}[lines 134--137]
+\begin{Verbatim}
+The rapid expansion of Internet of Things (IoT) systems in smart
+cities, digital healthcare, intelligent manufacturing, transportation,
+and critical infrastructure has generated massive volumes of
+distributed, heterogeneous, and highly sensitive data.
+\end{Verbatim}
+\end{before}
+\begin{after}
+\begin{Verbatim}
+IoT intrusion-detection models are increasingly trained across many
+devices whose traffic data cannot be pooled centrally.
+\end{Verbatim}
+\end{after}
+
+\begin{before}[lines 149--151]
+\begin{Verbatim}
+learning paradigm that enables IDS models to be trained without
+transferring raw data, thereby reducing the risk of information
+exposure.
+\end{Verbatim}
+\end{before}
+\begin{after}
+\begin{Verbatim}
+learning paradigm that enables IDS models to be trained without
+transferring the training records, although transmitted model updates
+may still expose information to the receiving server.
+\end{Verbatim}
+\end{after}
+
+\begin{before}[lines 171--175]
+\begin{Verbatim}
+consider privacy and Byzantine resilience indicate that FL security
+should go beyond decentralized model training and include client
+behavior analysis, reliability assessment, and robust aggregation
+\cite{shu2026trustworthy}.
+\end{Verbatim}
+\end{before}
+\begin{after}
+\begin{Verbatim}
+consider privacy and Byzantine resilience treat update confidentiality,
+poisoning resistance and delivery reliability as separate requirements,
+each needing its own assumptions and evaluation
+\cite{shu2026trustworthy}.
+\end{Verbatim}
+\end{after}
+
+\begin{before}[lines 201--203]
+\begin{Verbatim}
+Although these approaches can provide strong
+confidentiality and secure aggregation, they often introduce
+considerable computational or communication overhead.
+\end{Verbatim}
+\end{before}
+\begin{after}
+\begin{Verbatim}
+These approaches add cryptographic or protocol steps whose computation
+and communication costs are reported in [VERIFY: cite the figures from
+the original papers].
+\end{Verbatim}
+\end{after}
+
+\begin{before}[lines 307--315]
+\begin{Verbatim}
+This section reviews federated-learning-based studies related to
+IoT security, fault tolerance, privacy preservation, and routing
+optimization in Edge--Cloud IoT systems. The reviewed studies are
+organized into four main categories: ... These research directions are
+reviewed to identify the remaining gaps addressed by the proposed
+framework.
+\end{Verbatim}
+\end{before}
+\begin{after}
+\begin{Verbatim}
+The studies below are grouped by the mechanism they contribute: IDS
+model quality, failure handling, privacy protection, and path or client
+selection. Table~\ref{tab:related-work} compares them on those four
+mechanisms.
+\end{Verbatim}
+\end{after}
+
+\begin{before}[lines 654--656]
+\begin{Verbatim}
+This study proposes a federated learning framework with
+routing-aware, privacy-aware, and fault-tolerant mechanisms for
+intrusion detection in Edge--Cloud IoT systems.
+\end{Verbatim}
+\end{before}
+\begin{after}
+\begin{Verbatim}
+This study evaluates a federated learning pipeline that combines
+routing-aware selection, surrogate imputation, robust filtering and
+optional Gaussian perturbation for intrusion detection in Edge--Cloud
+IoT systems.
+\end{Verbatim}
+\end{after}
+
+\begin{before}[line 1298]
+\begin{Verbatim}
+\section{Simulation}
+\end{Verbatim}
+\end{before}
+\begin{after}
+\begin{Verbatim}
+\section{Experimental Evaluation}
+\end{Verbatim}
+\end{after}
+
+\begin{before}[lines 1338--1341]
+\begin{Verbatim}
+This experimental design enables the proposed framework to be
+evaluated not only in terms of intrusion detection performance, but
+also with respect to routing stability, communication delay, privacy
+awareness, and fault tolerance.
+\end{Verbatim}
+\end{before}
+\begin{after}
+\begin{Verbatim}
+% (delete: repeats the opening of Section 4)
+\end{Verbatim}
+\end{after}
+
+% =====================================================================
+\issue{Figure 3 caption wording}{lines 2026--2031}{Comment 12 (follow-up)}
+\why{``Gaussian and adaptive attacks'' reads as if a ``Gaussian attack'' existed; the point is that the Gaussian-perturbed configuration was not tested. The methods are now also distinguished by marker shape.}
+
+\begin{before}[lines 2026--2031]
+\begin{Verbatim}
+\caption{Non-adaptive attack comparison using paired seeds 12--16
+	on UNSW-NB15 and CICIoT2023. Both arms use top-$k$ selection and
+	routed paths: orange, unfiltered FedAvg; blue, non-private MAD with
+	median imputation. Top/bottom panels show selected/last-round ROC--AUC;
+	dots indicate seeds and bars means. SF: sign flip; BSF: norm-preserving
+	sign flip; LF: label flip. Gaussian and adaptive attacks are not tested.}
+\end{Verbatim}
+\end{before}
+
+\begin{after}
+\begin{Verbatim}
+\caption{Non-adaptive attack comparison using paired seeds 12--16
+	on UNSW-NB15 and CICIoT2023. Both arms use top-$k$ selection and
+	routed paths: orange circles, unfiltered FedAvg; blue squares,
+	non-private MAD with median imputation. Top/bottom panels show
+	selected/last-round ROC--AUC; markers indicate seeds and bars means.
+	SF: sign flip; BSF: norm-preserving sign flip; LF: label flip.
+	The Gaussian-perturbed configuration and adaptive attacks were not
+	evaluated.}
+\end{Verbatim}
+\end{after}
+
+% =====================================================================
+\section{Items that need data or author information}
+These cannot be written from the manuscript alone:
+\begin{enumerate}[leftmargin=*,itemsep=2pt]
+\item \textbf{Reserved test sets were never reported.} Run the frozen-threshold final evaluation of the main Table~4 rows, or state explicitly why it is withheld.
+\item Confusion matrices, per-seed thresholds, and recall at 1\% and 5\% validation FPR (Comment 9).
+\item An explanation for $\mathrm{AUC}_{\mathrm{last}}=0.5000\,(0.0000)$ of FedAvg (UR/X) on CICIoT2023 (Table~4).
+\item Line 2264: ``server learning rate 5.0'' versus 1.0 in the review report --- check against the logs.
+\item Longest participation gap per policy (Comment 7); the column \texttt{max\_selection\_gap} already exists in the supplementary per-seed CSV.
+\item Attack/benign counts per split; parameter count and bytes per update.
+\item CRediT roles, funding, competing interests, AI-use statement, optimizer, activation, initialization, software versions, licence, adjacency, accountant library and orders.
+\item Hyperparameter-selection rationale ($k=2.5$, $C$, $\chi_{\mathrm{rec}}$) and tuning budget (Comment 15).
+\item All \texttt{[V]} cells of the new Table~1, taken from the original papers.
+\item A new Zenodo version that includes SUPP\_V1/V2, with the DOI updated in Code/Data Availability; submit Supplementary Figure~S2 and Table~S6.
+\item DOIs for references that lack them (e.g.\ [1]--[3], [5]--[9]).
+\end{enumerate}
+
+\end{document}

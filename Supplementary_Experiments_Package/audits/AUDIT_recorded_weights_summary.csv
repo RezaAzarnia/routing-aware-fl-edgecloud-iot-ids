@@ -1,0 +1,73 @@
+pipeline,dataset,arm,runs,rounds,uniform,het_raw,maxdev,sur_mean,sur_max,surrogate_only_rounds,max_retained
+central-DP (cap active path),ciciot,reference_gaussian,5,150,150,150,1.3877787807814457e-16,0.3038386243386243,0.9999999999999998,5,10
+central-DP (cap active path),ciciot,scale_n100_k10,3,90,90,90,1.3877787807814457e-16,0.31726631393298055,0.9999999999999998,1,10
+central-DP (cap active path),ciciot,scale_n100_k20,3,90,0,90,0.06286114058151517,0.22038122565125592,0.9999999999999991,1,20
+central-DP (cap active path),ciciot,scale_n25_k10,3,90,90,90,1.3877787807814457e-16,0.31483245149911815,0.9999999999999998,3,10
+central-DP (cap active path),ciciot,scale_n25_k5,3,90,90,85,1.1102230246251565e-16,0.28555555555555556,1.0,6,5
+central-DP (cap active path),ciciot,scale_n50_k10,3,90,90,90,1.3877787807814457e-16,0.2711507936507936,0.9999999999999998,1,10
+central-DP (cap active path),ciciot,sens_C0p5x,3,90,90,90,1.1102230246251565e-16,0.27209876543209877,0.9999999999999998,1,10
+central-DP (cap active path),ciciot,sens_C2x,3,90,90,90,1.3877787807814457e-16,0.2737301587301587,0.9999999999999998,1,10
+central-DP (cap active path),ciciot,sens_alpha0p1,3,90,90,90,1.3877787807814457e-16,0.29772927689594353,0.9999999999999998,1,10
+central-DP (cap active path),ciciot,sens_alpha1p0,3,90,90,90,1.1102230246251565e-16,0.2749382716049383,0.9999999999999998,1,10
+central-DP (cap active path),ciciot,sens_chi0_dp,2,60,60,60,1.1102230246251565e-16,0.2662169312169312,0.714285714285714,0,10
+central-DP (cap active path),ciciot,sens_k1p5,3,90,90,90,1.3877787807814457e-16,0.28378306878306875,0.9999999999999998,1,10
+central-DP (cap active path),ciciot,sens_k3p5,3,90,90,90,1.1102230246251565e-16,0.26839506172839506,0.9999999999999998,1,10
+central-DP (cap active path),ciciot,t4_e3_dpfedavg_random_path,5,150,150,150,1.3877787807814457e-16,0.0,0.0,0,10
+central-DP (cap active path),ciciot,t4_e4_proposed_eps20,5,150,150,150,1.3877787807814457e-16,0.303521164021164,0.9999999999999998,5,10
+central-DP (cap active path),unsw,reference_gaussian,5,150,150,150,1.3877787807814457e-16,0.30550264550264544,0.9999999999999998,5,10
+central-DP (cap active path),unsw,scale_n100_k10,3,90,90,90,1.3877787807814457e-16,0.31836419753086415,0.9999999999999998,1,10
+central-DP (cap active path),unsw,scale_n100_k20,3,90,0,90,0.0591055668703327,0.24792736476806274,0.9999999999999999,1,20
+central-DP (cap active path),unsw,scale_n25_k10,3,90,90,90,1.3877787807814457e-16,0.31316578483245144,0.9999999999999998,3,10
+central-DP (cap active path),unsw,scale_n25_k5,3,90,90,85,1.1102230246251565e-16,0.2924074074074074,1.0,6,5
+central-DP (cap active path),unsw,scale_n50_k10,3,90,90,90,1.3877787807814457e-16,0.2738403880070546,0.9999999999999998,1,10
+central-DP (cap active path),unsw,sens_C0p5x,5,150,150,150,1.3877787807814457e-16,0.30805291005291,0.9999999999999998,5,10
+central-DP (cap active path),unsw,sens_C2x,5,150,150,150,1.3877787807814457e-16,0.3044550264550264,0.9999999999999998,5,10
+central-DP (cap active path),unsw,sens_alpha0p1,5,150,150,150,1.3877787807814457e-16,0.334547619047619,0.9999999999999999,5,10
+central-DP (cap active path),unsw,sens_alpha1p0,5,150,150,150,1.3877787807814457e-16,0.3025952380952381,0.9999999999999998,5,10
+central-DP (cap active path),unsw,sens_chi0_dp,2,60,60,60,1.1102230246251565e-16,0.26791666666666664,0.833333333333333,0,10
+central-DP (cap active path),unsw,sens_k1p5,5,150,150,150,1.3877787807814457e-16,0.3202142857142857,0.9999999999999998,5,10
+central-DP (cap active path),unsw,sens_k3p5,5,150,150,150,1.1102230246251565e-16,0.2981111111111111,0.9999999999999998,5,10
+central-DP (cap active path),unsw,t4_e3_dpfedavg_random_path,5,150,150,150,1.3877787807814457e-16,0.0,0.0,0,10
+central-DP (cap active path),unsw,t4_e4_proposed_eps20,5,150,150,150,1.3877787807814457e-16,0.3054259259259259,0.9999999999999998,5,10
+no noise (plain weighted FedAvg path),ciciot,atk_fedavg_bsf20,5,150,0,150,0.6322891889175517,0.0,0.0,0,10
+no noise (plain weighted FedAvg path),ciciot,atk_fedavg_lf20,5,150,0,150,0.6322891889175517,0.0,0.0,0,10
+no noise (plain weighted FedAvg path),ciciot,atk_fedavg_noatk,5,150,0,150,0.6322891889175517,0.0,0.0,0,10
+no noise (plain weighted FedAvg path),ciciot,atk_fedavg_sf10,5,150,0,150,0.6322891889175517,0.0,0.0,0,10
+no noise (plain weighted FedAvg path),ciciot,atk_fedavg_sf30,5,150,0,150,0.6322891889175517,0.0,0.0,0,10
+no noise (plain weighted FedAvg path),ciciot,atk_ref_bsf20,5,150,0,150,0.5340764984035328,0.18870153242526455,0.9999999999999999,5,10
+no noise (plain weighted FedAvg path),ciciot,atk_ref_lf20,5,150,0,150,0.5340764984035328,0.19531123723786287,0.9999999999999999,5,10
+no noise (plain weighted FedAvg path),ciciot,atk_ref_noatk,5,150,0,150,0.5340764984035328,0.1855528016883714,0.9999999999999999,5,10
+no noise (plain weighted FedAvg path),ciciot,atk_ref_sf10,5,150,0,150,0.5340764984035328,0.1986351777943033,0.9999999999999999,5,10
+no noise (plain weighted FedAvg path),ciciot,atk_ref_sf30,5,150,0,150,0.5340764984035328,0.23096864752408766,0.9999999999999999,5,10
+no noise (plain weighted FedAvg path),ciciot,ctl_imputation_cap010,5,150,0,150,0.6331260491377994,0.10913010954574846,0.9999999999999999,5,10
+no noise (plain weighted FedAvg path),ciciot,ctl_imputation_none,5,150,0,150,0.5634178085555719,0.0,0.0,0,9
+no noise (plain weighted FedAvg path),ciciot,ctl_imputation_postfilter,5,150,0,150,0.4539151790833684,0.185017411213643,0.7915903413821813,0,10
+no noise (plain weighted FedAvg path),ciciot,ix_routeoff_surron,5,150,0,150,0.4297098942705527,0.41415455873785867,0.9999999999999999,26,10
+no noise (plain weighted FedAvg path),ciciot,reference,5,150,0,150,0.5340764984035328,0.20830853396790086,0.9999999999999999,5,10
+no noise (plain weighted FedAvg path),ciciot,sens_chi0,3,90,0,89,0.7173622768197772,0.0,0.0,1,10
+no noise (plain weighted FedAvg path),ciciot,sens_chi0p25,3,90,0,90,0.5156920912917486,0.11282836062125985,0.9999999999999998,1,10
+no noise (plain weighted FedAvg path),ciciot,sens_chi0p75,3,90,0,90,0.4030039046838775,0.2260259046266515,0.9999999999999998,1,10
+no noise (plain weighted FedAvg path),unsw,atk_fedavg_bsf20,5,150,0,150,0.492327937886564,0.0,0.0,0,10
+no noise (plain weighted FedAvg path),unsw,atk_fedavg_lf20,5,150,0,150,0.492327937886564,0.0,0.0,0,10
+no noise (plain weighted FedAvg path),unsw,atk_fedavg_noatk,5,150,0,150,0.492327937886564,0.0,0.0,0,10
+no noise (plain weighted FedAvg path),unsw,atk_fedavg_sf10,5,150,0,150,0.492327937886564,0.0,0.0,0,10
+no noise (plain weighted FedAvg path),unsw,atk_fedavg_sf30,5,150,0,150,0.492327937886564,0.0,0.0,0,10
+no noise (plain weighted FedAvg path),unsw,atk_ref_bsf20,5,150,0,150,0.3856857318573186,0.2038309042276531,0.9999999999999999,5,10
+no noise (plain weighted FedAvg path),unsw,atk_ref_lf20,5,150,0,150,0.366379359683161,0.20638489594842313,0.9999999999999999,5,10
+no noise (plain weighted FedAvg path),unsw,atk_ref_noatk,5,150,0,150,0.3886514043253855,0.19180165069051325,0.9999999999999999,5,10
+no noise (plain weighted FedAvg path),unsw,atk_ref_sf10,5,150,0,150,0.4128249087837626,0.2046331060781299,0.9999999999999999,5,10
+no noise (plain weighted FedAvg path),unsw,atk_ref_sf30,5,150,0,150,0.45030896924933267,0.22938515555638558,0.9999999999999999,5,10
+no noise (plain weighted FedAvg path),unsw,ctl_imputation_cap010,5,150,0,150,0.7333333333333332,0.1177475166987855,0.9999999999999999,5,10
+no noise (plain weighted FedAvg path),unsw,ctl_imputation_none,5,150,0,150,0.5750336021505376,0.0,0.0,0,9
+no noise (plain weighted FedAvg path),unsw,ctl_imputation_postfilter,5,150,0,150,0.4221992099106355,0.19450356388438889,0.7883263663105742,0,10
+no noise (plain weighted FedAvg path),unsw,ix_routeoff_surron,5,150,0,150,0.48841128523278143,0.4339194552843136,1.0,26,10
+no noise (plain weighted FedAvg path),unsw,part_coverage_coup,5,149,1,148,0.5881907152228298,0.5560494423503527,1.0,40,10
+no noise (plain weighted FedAvg path),unsw,part_coverage_indep,5,150,1,149,0.5858284699314895,0.529619970840504,1.0,41,10
+no noise (plain weighted FedAvg path),unsw,part_topk_coup,5,150,1,149,0.5434155488244627,0.5077538914358712,0.9999999999999999,25,10
+no noise (plain weighted FedAvg path),unsw,part_topk_indep,5,150,0,150,0.46692054395093385,0.4215418953900213,1.0,21,10
+no noise (plain weighted FedAvg path),unsw,part_uniform_coup,5,150,3,147,0.48987408674024563,0.6296593110314724,1.0,62,10
+no noise (plain weighted FedAvg path),unsw,part_uniform_indep,5,149,5,144,0.5291387869630909,0.6256479097937546,1.0,56,10
+no noise (plain weighted FedAvg path),unsw,reference,5,150,0,150,0.3856857318573186,0.2209760116863076,0.9999999999999999,5,10
+no noise (plain weighted FedAvg path),unsw,sens_chi0,5,150,0,145,0.8333333333333334,0.0,0.0,5,10
+no noise (plain weighted FedAvg path),unsw,sens_chi0p25,5,150,0,150,0.42337537537537534,0.15069249781805755,0.9999999999999999,5,10
+no noise (plain weighted FedAvg path),unsw,sens_chi0p75,5,150,0,150,0.39662711893935443,0.2777847072949567,0.9999999999999999,5,10

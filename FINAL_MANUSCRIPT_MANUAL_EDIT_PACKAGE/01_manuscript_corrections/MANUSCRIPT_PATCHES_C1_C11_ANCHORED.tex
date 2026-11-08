@@ -1,0 +1,89 @@
+% =====================================================================================================================
+% Source-independent, context-anchored patches C1-C11 (+Z). Apply to the LATEST AUTHOR-APPROVED main.tex; do not rely on line numbers.
+% For each patch: LOCATE = unique text to search for; ACTION; STATUS-CHECK = if this marker is already in your file, the patch is already applied (skip).
+% Run:  python scripts/supp_final/check_anchors.py <your main.tex>   -> prints "apply" / "ALREADY APPLIED" / "ANCHOR MISSING" per patch.
+% Numbers in Table 4, Table 5 and the Abstract are NOT touched by any patch (only labels, captions and surrounding prose).
+% Statistical language: every patch keeps comparisons exploratory (exact sign-flip floor 0.0625 at n=5; t-intervals unadjusted for ~1,700 comparisons).
+% =====================================================================================================================
+
+% ---------------------------------------------------------------- C1  chi_rec sentence (Failure Recovery section)
+% LOCATE:  "This lowers, but does not by itself bound, their influence"  (the sentences beginning "The recovered updates are assigned a reduced raw aggregation coefficient")
+% ACTION:  replace those sentences with:
+% STATUS-CHECK: "has no effect on the applied weights there"
+The recovered updates are assigned a reduced raw aggregation coefficient \(\chi_{\mathrm{rec}}\). In the non-private pipeline the raw weights are normalized without a cap, so \(\chi_{\mathrm{rec}}\) lowers (without bounding) the share of recovered updates. In the central-Gaussian pipeline, however, the capped normalization yields exactly uniform weights whenever at most ten updates are retained (Section~\ref{sec:aggregation-weights}), so \(\chi_{\mathrm{rec}}\) has no effect on the applied weights there.
+
+% ---------------------------------------------------------------- C2  raw weights paragraph (Privacy-Aware Aggregation section)
+% LOCATE:  paragraph starting "Before normalization, the raw aggregation weight of a successfully received update" up to "are defined jointly as" (just before the equation eq:capped-weighting)
+% ACTION:  replace that paragraph with:
+% STATUS-CHECK: "sec:aggregation-weights"
+\label{sec:aggregation-weights}
+Before normalization, the raw aggregation weight of a successfully received update is proportional to its local dataset size \(n_i\); for a reconstructed update it is multiplied by \(\chi_{\mathrm{rec}}\). Let \(b_i^{(t)}\) denote this raw weight. In the non-private pipeline the weights are \(a_i^{(t)}=b_i^{(t)}/\sum_{j}b_j^{(t)}\) (no cap). When central Gaussian noise is enabled, the effective weight cap, the final normalized weights, and the clipped weighted aggregate are defined jointly as
+
+% ---------------------------------------------------------------- C3  consequences of the cap (paragraph after eq:capped-weighting)
+% LOCATE:  from "When fewer than \(1/a_{\max}=10\) updates are retained" to the end of that paragraph ("...in the evaluated reference ordering.")
+% ACTION:  replace the whole paragraph with (all existing audited numbers -- 92%, 0.167, 0.30, max 1.0 -- are retained):
+% STATUS-CHECK: "independently of \(n_i\) and of \(\chi_{\mathrm{rec}}\)"
+When at most \(1/a_{\max}=10\) updates are retained the cap is infeasible and \(\operatorname{CapNormalize}\) returns exactly \(a_i^{(t)}=1/|\mathcal{K}_t|\) for every retained update, independently of \(n_i\) and of \(\chi_{\mathrm{rec}}\). With ten selected clients per round this holds in every aggregation round of the proposed pipeline: in all audited central-Gaussian runs (98 runs, 2{,}940 rounds) every round with at most ten retained updates was exactly uniform (maximum deviation \(1.4\times10^{-16}\)); the only exceptions were arms with 20 selected clients and rounds without a valid contribution. Consequently sample-size weighting and \(\chi_{\mathrm{rec}}\) are inert in the proposed pipeline (setting \(\chi_{\mathrm{rec}}=0\) reproduces the reference bit-for-bit unless a round abstains, see below). In the proposed pipeline (300 rounds), fewer than ten updates were retained in 92\% of rounds (minimum six; largest single weight 0.167); surrogate updates jointly carried a mean weight share of 0.30 (maximum 1.0), and in 10 rounds (3.3\%) only surrogates were retained. A surrogate with zero raw weight still receives weight \(1/|\mathcal{K}_t|\) in a mixed round. If every retained update has zero raw weight (possible only when \(\chi_{\mathrm{rec}}=0\) and no genuine update is retained), the round abstains: the global model and server momentum are unchanged, no noise is added and no release is counted. The weight cap therefore does not limit surrogate influence in the evaluated reference ordering.
+
+% ---------------------------------------------------------------- C4  Table 5 (tab:ablation-summary) caption and two row labels; NUMBERS UNCHANGED
+% LOCATE:  \caption{Audited mean paired ROC--AUC differences over five seeds. ...}  and the rows "Clipping + cap (selected)" and "Full privacy pipeline (selected)"
+% STATUS-CHECK: "combined; selected"
+% caption ->
+\caption{Audited mean paired ROC--AUC differences over five seeds (exploratory). Filtering is compared with the matched reference. ``Added Gaussian'' changes only the Gaussian noise (identical clipping, weights and network traces). The other two privacy rows are combined contrasts: they change clipping, the aggregation path and the weights (heterogeneous sample-size weights replaced by exactly uniform weights) together.}
+% rows (the values $-0.0017$, $-0.0262$, $-0.0015$, $-0.0157$, $-0.0032$, $-0.0419$ must stay exactly as in the audited table) ->
+Clipping + uniform capped weights, no noise (combined; selected) & $-0.0017$ & $-0.0262$ \\
+Added Gaussian (noise only; selected) & $-0.0015$ & $-0.0157$ \\
+Clipping, uniform weights and noise (combined; selected) & $-0.0032$ & $-0.0419$ \\
+
+% ---------------------------------------------------------------- C5  interpretation of Table 5
+% LOCATE:  paragraph beginning "The ordered privacy comparison in Table~\ref{tab:ablation-summary}" through "...interactions were not separately estimated." (keep the following sentence about the privacy budget)
+% STATUS-CHECK: "combined non-noise change"
+The ordered privacy comparison in Table~\ref{tab:ablation-summary} separates a combined non-noise change (clipping together with the switch to exactly uniform capped weights) from the incremental effect of adding Gaussian noise to that same pipeline; only the latter (Added Gaussian) is a single-mechanism contrast. The combined non-noise change accounts for approximately 53\% (CICIoT2023) and 63\% (UNSW-NB15) of the point-estimate loss, but its share cannot be attributed to clipping or to weighting separately. These are conditional comparisons with five paired seeds (smallest attainable exact $p=0.0625$), not a factorial attribution.
+
+% ---------------------------------------------------------------- C6  Privacy Diagnostics closing paragraph
+% LOCATE:  "also indicate that" ... "Accordingly, privacy-related utility changes must be interpreted at the pipeline level."
+% STATUS-CHECK: "were not separated"
+The ablation results in Section~\ref{subsec:ablation} indicate that the non-noise part of the privacy pipeline (clipping combined with the replacement of sample-size weights by uniform weights) contributes to the observed utility loss alongside Gaussian noise; these two components were not separated. Privacy-related utility changes must therefore be interpreted at the pipeline level, and the reported $\widehat{\varepsilon}$ remains a diagnostic estimate rather than a certified guarantee.
+
+% ---------------------------------------------------------------- C7  contributions bullet
+% LOCATE:  \item Clipping, capped weighting, central Gaussian noise, and server momentum are combined ...
+% STATUS-CHECK: "evaluated as a bundle"
+\item Clipping, capped (in practice uniform, with at most ten retained clients) weighting, central Gaussian noise, and server momentum are combined and evaluated as a bundle; their individual contributions to estimated privacy, stability and IDS performance are not separated.
+
+% ---------------------------------------------------------------- C8  first mentions of "capped weighting" (Abstract, Introduction overview, Method overview, aggregation-section opening, Simulation overview)
+% LOCATE:  every occurrence of "capped weighting" outside C4-C7 (9 occurrences in the Git-HEAD source).
+% ACTION:  at the FIRST occurrence (Abstract) write "capped weighting (uniform when at most ten updates are retained; central-Gaussian path)";
+%          elsewhere keep "capped weighting" and, where it describes the aggregation, append "(Section~\ref{sec:aggregation-weights})".
+% STATUS-CHECK: "uniform when at most ten"
+% (no numeric content is altered)
+
+% ---------------------------------------------------------------- C9  scope of the attack-robustness evidence
+% LOCATE:  subsubsection "Adversarial Robustness under Sign-flip Poisoning"; insert after the sentence ending "genuinely received updates." and before \begin{figure}
+% STATUS-CHECK: "filter-aware attackers were not evaluated"
+% NOTE: the attack-model paragraph and the Conclusion ALREADY state that other attacks, collusion and adaptive attackers were not evaluated -> no duplicate limitation sentence is needed there.
+% If the supplementary section is NOT inserted, drop the last clause and the \ref.
+Robustness was evaluated only against static attacks (sign-flip, a norm-preserving sign-flip and label flipping). In the supplementary study, the MAD-plus-surrogate pipeline exceeded FedAvg under sign-flip contamination (paired difference in selected-checkpoint ROC--AUC $+0.275$, 95\% interval $[+0.135,+0.415]$ on UNSW-NB15 at 30\% exposure; higher in 5/5 seeds), whereas without an attack the two were indistinguishable. These are exploratory five-seed comparisons, unadjusted for multiplicity. Adaptive, filter-aware attackers were not evaluated, and surrogates carried about 30\% of the aggregation weight without a demonstrated detection benefit (Section~\ref{sec:supplementary}).
+
+% ---------------------------------------------------------------- C10  provenance of the routing / participation figures
+% LOCATE:  subsubsection "Routing and Network Performance Results on UNSW-NB15" (and the captions of the participation/concentration/exposure figures)
+% STATUS-CHECK: "seeds 12--16 are reported in Section"
+% ACTION:  add this sentence at the start of the subsubsection; the author must confirm the seed set of Figs. 3--6 (the earlier audit found they match the Phase 10 study, seeds 22--26):
+Held-out client recall in the supplementary participation study is computed on client-level holdouts never used for training (CICIoT2023 under a leakage-safe, group-disjoint holdout); seeds 12--16 are reported in Section~\ref{sec:supplementary}. The seeds of Figs.~\ref{fig:routing-fairness}--\ref{fig:malicious-exposure} are \textbf{[AUTHOR TO CONFIRM: seeds]}.
+
+% ---------------------------------------------------------------- C11  statistical and diagnostic wording
+% (a) LOCATE "no two-sided exact sign-flip test can reach $p<0.05$." (Routing results, after "attributable to either factor alone. Results are exploratory:")   STATUS-CHECK "exact sign-flip test cannot return"
+% ACTION: replace "with only five paired seeds, no two-sided exact sign-flip test can reach $p<0.05$." with
+with only five paired seeds the exact sign-flip test cannot return a two-sided $p$ below 0.0625, and any interval that excludes zero is unadjusted for multiplicity and exploratory.
+% (b) LOCATE "a two-sided exact sign-flip test has a minimum attainable $p$-value of 0.0625;" (Ablation)   STATUS-CHECK "unadjusted"
+% ACTION: replace with
+a two-sided exact sign-flip test has a minimum attainable $p$-value of 0.0625 and intervals excluding zero are unadjusted for multiplicity;
+% (c) Diagnostic-epsilon wording is ALREADY present in the Abstract, Methods, Results and Conclusion of the Git-HEAD source (do not duplicate); the Conclusion limitation paragraph
+%     ("Results are confined to a simulated network, a sign-flip attacker model ... diagnostics rather than certified ...") is also already present.
+
+% ---------------------------------------------------------------- Z  Code / Data Availability (Zenodo) -- recommended existing version: v.1.0.5
+% LOCATE:  "A versioned snapshot (release" ... "analysis scripts." in \section*{Code Availability}; and "The Zenodo archive ... includes the locked experiment manifest" in \section*{Data Availability}
+% STATUS-CHECK: "not included in this archive"
+% Code Availability ->
+A versioned snapshot (release \texttt{v.1.0.5}) is archived on Zenodo, \href{https://doi.org/10.5281/zenodo.24032087}{10.5281/zenodo.24032087} (all versions: \href{https://doi.org/10.5281/zenodo.21131047}{10.5281/zenodo.21131047}). It contains the code, the locked configurations and the Table~4 controlled-study manifest and analysis scripts. The supplementary experiments reported in Section~\ref{sec:supplementary} (SUPP\_V1/V2 manifests, scripts and result tables) are not included in this archive.
+% Data Availability -> in "The Zenodo archive \href{...24031823}{...}" replace the DOI by 10.5281/zenodo.24032087 and append: "The supplementary result tables are not archived there."
+% (Do NOT write that the supplementary results are publicly archived unless a later release actually contains them.)

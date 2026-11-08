@@ -1,0 +1,324 @@
+{
+ "n_pass": 53,
+ "n_fail": 0,
+ "checks": [
+  {
+   "group": "1 inventory",
+   "check": "SUPP_V1: 246 verified-candidate / 7 failed / 25 pending (frozen)",
+   "status": "PASS",
+   "detail": "(246, 7, 25)"
+  },
+  {
+   "group": "1 inventory",
+   "check": "SUPP_V2: 44/44 COMPLETE.json present, no FAILED.json",
+   "status": "PASS",
+   "detail": "44"
+  },
+  {
+   "group": "1 inventory",
+   "check": "SUPP_V2: no moved-aside incomplete/failed attempt directories",
+   "status": "PASS",
+   "detail": "[]"
+  },
+  {
+   "group": "1 V1 integrity",
+   "check": "246 runs: verify_run_dir (artifact hashes, 30 rounds, accounting, test_data_loaded=false) vs locked manifest",
+   "status": "PASS",
+   "detail": "246/246 verified []"
+  },
+  {
+   "group": "1 V1 integrity",
+   "check": "246 runs: COMPLETE.json manifest hash, code fingerprint and config hash equal the lock",
+   "status": "PASS",
+   "detail": "[]"
+  },
+  {
+   "group": "1 V1 integrity",
+   "check": "246 runs: config file sha256 equals the manifest",
+   "status": "PASS",
+   "detail": "[]"
+  },
+  {
+   "group": "1 V1 integrity",
+   "check": "246 runs: run_metadata test_data_loaded is false",
+   "status": "PASS",
+   "detail": "[]"
+  },
+  {
+   "group": "1 V1 integrity",
+   "check": "246 runs: resolved run config equals the locked config (no drift)",
+   "status": "PASS",
+   "detail": "[]"
+  },
+  {
+   "group": "1 V2 integrity",
+   "check": "44 runs: verify_run_dir (artifact hashes, 30 rounds, accounting, test_data_loaded=false) vs locked manifest",
+   "status": "PASS",
+   "detail": "44/44 verified []"
+  },
+  {
+   "group": "1 V2 integrity",
+   "check": "44 runs: COMPLETE.json manifest hash, code fingerprint and config hash equal the lock",
+   "status": "PASS",
+   "detail": "[]"
+  },
+  {
+   "group": "1 V2 integrity",
+   "check": "44 runs: config file sha256 equals the manifest",
+   "status": "PASS",
+   "detail": "[]"
+  },
+  {
+   "group": "1 V2 integrity",
+   "check": "44 runs: run_metadata test_data_loaded is false",
+   "status": "PASS",
+   "detail": "[]"
+  },
+  {
+   "group": "1 V2 integrity",
+   "check": "44 runs: resolved run config equals the locked config (no drift)",
+   "status": "PASS",
+   "detail": "[]"
+  },
+  {
+   "group": "2 provenance",
+   "check": "V1 manifest self-hash valid and equals sidecar .sha256",
+   "status": "PASS",
+   "detail": "d556a243b9a1b22d"
+  },
+  {
+   "group": "2 provenance",
+   "check": "V2 manifest self-hash valid and equals sidecar .sha256",
+   "status": "PASS",
+   "detail": "a08f7fada7e94337"
+  },
+  {
+   "group": "2 provenance",
+   "check": "V1 code fingerprint recomputed today equals the V1 lock (V2 work altered no V1-fingerprinted file)",
+   "status": "PASS",
+   "detail": "1916f795b62daa57"
+  },
+  {
+   "group": "2 provenance",
+   "check": "V2 code fingerprint recomputed today equals the V2 lock",
+   "status": "PASS",
+   "detail": "ec5d70aec70bb0d4"
+  },
+  {
+   "group": "2 provenance",
+   "check": "V2 manifest records the V1 manifest hash unchanged",
+   "status": "PASS",
+   "detail": ""
+  },
+  {
+   "group": "2 provenance",
+   "check": "V2 preflight incl. dataset sha256 (UNSW csv, CICIoT2023 train/validation content) all PASS",
+   "status": "PASS",
+   "detail": "14 PASS / 0 FAIL"
+  },
+  {
+   "group": "2 provenance",
+   "check": "V1 preflight incl. dataset sha256 all PASS",
+   "status": "PASS",
+   "detail": "11 PASS / 0 FAIL"
+  },
+  {
+   "group": "2 provenance",
+   "check": "every V2 run imported exactly src.data and src.experiment from src_v2 (all other src.* modules are the unchanged V1 code)",
+   "status": "PASS",
+   "detail": "[]"
+  },
+  {
+   "group": "3 test data",
+   "check": "V1: every config has a blank test path / validation-only flag; manifest locked_test empty",
+   "status": "PASS",
+   "detail": "278"
+  },
+  {
+   "group": "3 test data",
+   "check": "V2: every config has a blank test path / validation-only flag; manifest locked_test empty",
+   "status": "PASS",
+   "detail": "44"
+  },
+  {
+   "group": "3 test data",
+   "check": "no artifact containing test-set predictions/scores exists in any V1/V2 run directory",
+   "status": "PASS",
+   "detail": "[]"
+  },
+  {
+   "group": "4 leakage V1",
+   "check": "checkpoint selection = replay of the rule on the SELECTION partition ROC-AUC (no report-partition use)",
+   "status": "PASS",
+   "detail": "0 mismatches of 246"
+  },
+  {
+   "group": "4 leakage V1",
+   "check": "F1/FPR recomputed from logged confusion counts (selected and last)",
+   "status": "PASS",
+   "detail": "max abs err 5.55e-16"
+  },
+  {
+   "group": "4 leakage V1",
+   "check": "validation calibration/selection/report split identical to locked Phase 6C split of same dataset+seed (no validation drift/leakage)",
+   "status": "PASS",
+   "detail": "[]"
+  },
+  {
+   "group": "4 leakage V2",
+   "check": "checkpoint selection = replay of the rule on the SELECTION partition ROC-AUC (no report-partition use)",
+   "status": "PASS",
+   "detail": "0 mismatches of 44"
+  },
+  {
+   "group": "4 leakage V2",
+   "check": "F1/FPR recomputed from logged confusion counts (selected and last)",
+   "status": "PASS",
+   "detail": "max abs err 5.55e-16"
+  },
+  {
+   "group": "4 leakage V2",
+   "check": "validation calibration/selection/report split identical to locked Phase 6C split of same dataset+seed (no validation drift/leakage)",
+   "status": "PASS",
+   "detail": "[]"
+  },
+  {
+   "group": "5 CIC holdout",
+   "check": "30 CIC participation runs, each with an enabled holdout audit",
+   "status": "PASS",
+   "detail": "30"
+  },
+  {
+   "group": "5 CIC holdout",
+   "check": "zero predictor-group and encoded-vector straddling between training and holdout in all 30",
+   "status": "PASS",
+   "detail": ""
+  },
+  {
+   "group": "5 CIC holdout",
+   "check": "preprocessor fitted on non-holdout rows only in all 30; fit rows = train - holdout",
+   "status": "PASS",
+   "detail": ""
+  },
+  {
+   "group": "5 CIC holdout",
+   "check": "both classes in training remainder and holdout, realised fraction within 3x request, closure converged (<=12 its)",
+   "status": "PASS",
+   "detail": "closure its [9, 10, 11]; realised fraction 0.2001-0.2002"
+  },
+  {
+   "group": "5 CIC holdout",
+   "check": "matched randomisation: holdout mask identical across the six arms of a seed",
+   "status": "PASS",
+   "detail": "{12: 1, 13: 1, 14: 1, 15: 1, 16: 1}"
+  },
+  {
+   "group": "5 CIC holdout",
+   "check": "client partition identical across the six arms of a seed",
+   "status": "PASS",
+   "detail": "{12: 1, 13: 1, 14: 1, 15: 1, 16: 1}"
+  },
+  {
+   "group": "5 CIC holdout",
+   "check": "holdout masks differ between seeds (seed-driven)",
+   "status": "PASS",
+   "detail": ""
+  },
+  {
+   "group": "5 CIC holdout",
+   "check": "per-client eligible-for-recall counts recorded (>=10 holdout attack rows); eligibility depends on holdout sizes only",
+   "status": "PASS",
+   "detail": "eligible clients per run min 44 max 50 of 50"
+  },
+  {
+   "group": "5 CIC holdout",
+   "check": "test data never loaded in the 30 CIC holdout runs",
+   "status": "PASS",
+   "detail": ""
+  },
+  {
+   "group": "5 CIC holdout",
+   "check": "UNSW V2 runs: enabled flag matches design (participation runs) and CIC non-participation V2 runs have holdout disabled",
+   "status": "PASS",
+   "detail": ""
+  },
+  {
+   "group": "6 weights",
+   "check": "aggregation weights sum to 1 in every non-abstaining round and to 0 in abstaining rounds (44 V2 runs)",
+   "status": "PASS",
+   "detail": "[]"
+  },
+  {
+   "group": "7 accounting",
+   "check": "noisy-release / attempted-round counters, abstention noise=0, eps_attempted>=eps_release, unchanged validation score on abstention, abstention only in chi_rec=0 arm (44 V2 runs)",
+   "status": "PASS",
+   "detail": "[]"
+  },
+  {
+   "group": "6 weights",
+   "check": "non-chi0 V2 runs (34) contain zero abstention rounds",
+   "status": "PASS",
+   "detail": ""
+  },
+  {
+   "group": "6 weights",
+   "check": "chi_rec=0 V2 runs: abstention counts recorded (diagnostic)",
+   "status": "PASS",
+   "detail": "[{'run_id': 'v2__ciciot__sens_chi0_dp__seed12', 'abstention_rounds': 0}, {'run_id': 'v2__ciciot__sens_chi0_dp__seed13', 'abstention_rounds': 1}, {'run_id': 'v2__ciciot__sens_chi0_dp__seed14', 'abstention_rounds': 0}, {'run_id': 'v2__ciciot__sens_chi0_dp__seed15', 'abstention_rounds': 4}, {'run_id': 'v2__ciciot__sens_chi0_dp__seed16', 'abstention_rounds': 0}, {'run_id': 'v2__unsw__sens_chi0_dp__seed12', 'abstention_rounds': 0}, {'run_id': 'v2__unsw__sens_chi0_dp__seed13', 'abstention_rounds': 1}, {'run_id': 'v2__unsw__sens_chi0_dp__seed14', 'abstention_rounds': 0}, {'run_id': 'v2__unsw__sens_chi0_dp__seed15', 'abstention_rounds': 4}, {'run_id': 'v2__unsw__sens_chi0_dp__seed16', 'abstention_rounds': 0}]"
+  },
+  {
+   "group": "6 weights",
+   "check": "central-DP runs (V1+V2): every aggregation round with <=10 retained updates has exactly uniform weights 1/n",
+   "status": "PASS",
+   "detail": "2790 DP rounds inspected, 0 non-uniform"
+  },
+  {
+   "group": "8 regression",
+   "check": "V1 vs V2 regression controls (4 UNSW/CIC controls + chi0 seeds 12,14 x 2 datasets): all deterministic artifacts and model tensors bit-identical",
+   "status": "PASS",
+   "detail": "GATE PASS"
+  },
+  {
+   "group": "9 historical",
+   "check": "locked Phase 6C: 240 runs re-verified against their manifest (artifact hashes unchanged)",
+   "status": "PASS",
+   "detail": "[]"
+  },
+  {
+   "group": "9 historical",
+   "check": "Table 4 v2: 40 runs re-verified against their manifest (artifact hashes unchanged)",
+   "status": "PASS",
+   "detail": "[]"
+  },
+  {
+   "group": "9 historical",
+   "check": "git: no tracked file differs from HEAD (manuscript, src, ledger, Table 4 evidence, README untouched)",
+   "status": "PASS",
+   "detail": ""
+  },
+  {
+   "group": "9 historical",
+   "check": "Table 4 v2 published tables / Phase 9 ledger tracked and unchanged",
+   "status": "PASS",
+   "detail": ""
+  },
+  {
+   "group": "10 duplicates",
+   "check": "run ids unique within and between V1 and V2",
+   "status": "PASS",
+   "detail": ""
+  },
+  {
+   "group": "10 duplicates",
+   "check": "V2 identities already verified in V1 = exactly the 8 regression controls (4 R-family + chi0 seeds 12,14 x 2 datasets); these are counted ONCE in pooled analysis",
+   "status": "PASS",
+   "detail": "[('unsw', 'part_topk_indep', 12), ('unsw', 'part_coverage_coup', 12), ('unsw', 'part_uniform_coup', 13), ('ciciot', 'sens_k1p5', 12), ('ciciot', 'sens_chi0_dp', 12), ('ciciot', 'sens_chi0_dp', 14), ('unsw', 'sens_chi0_dp', 12), ('unsw', 'sens_chi0_dp', 14)]"
+  },
+  {
+   "group": "10 duplicates",
+   "check": "all 32 unresolved V1 identities (7 failed + 25 pending) are each completed by exactly one V2 run",
+   "status": "PASS",
+   "detail": "32 unresolved V1 identities; covered by V2: 32; uncovered: []"
+  }
+ ]
+}

@@ -8,6 +8,12 @@
 \usepackage{graphicx}
 
 \usepackage{microtype}
+\usepackage{flushend}
+\setlength{\emergencystretch}{1.5em}
+% Moderate journal-compatible float separation, without shrinking text.
+\setlength{\dbltextfloatsep}{11pt plus 2pt minus 1pt}
+\setlength{\textfloatsep}{12pt plus 2pt minus 1pt}
+\setlength{\dblfloatsep}{9pt plus 2pt minus 1pt}
 
 \usepackage{placeins}
 \usepackage{url}
@@ -16,9 +22,13 @@
 \usepackage{stfloats}
 \graphicspath{{images/}}
 
-\setcounter{dbltopnumber}{2}
+\setcounter{topnumber}{3}
+\setcounter{dbltopnumber}{3}
+\renewcommand{\topfraction}{0.90}
 \renewcommand{\dbltopfraction}{0.90}
-\renewcommand{\dblfloatpagefraction}{0.80}
+\renewcommand{\textfraction}{0.08}
+\renewcommand{\floatpagefraction}{0.73}
+\renewcommand{\dblfloatpagefraction}{0.73}
 \newcommand{\pkw}[1]{\textbf{#1}}
 \newcommand{\pindent}{\hspace*{1.5em}}
 \newcommand{\pindenttwo}{\hspace*{3.0em}}
@@ -29,14 +39,16 @@
 \begin{document}
 	
 	\begin{frontmatter}
+		\title{Routing-Aware Federated Intrusion Detection with Robust
+			Aggregation and Median-Based Update Imputation}
 		
-		\title{A Routing-Aware Federated Learning Framework for Secure and
-			Resilient Edge--Cloud IoT Intrusion Detection}
 % =========================================================
 % Authors
 % =========================================================
 
-\author[1]{Nahideh Derakhshanfard}
+\author[1]{Nahideh Derakhshanfard\corref{cor1}}
+\ead{n.derakhshan@iaut.ac.ir}
+\cortext[cor1]{Corresponding author}
 \author[1]{Reza Azarnia}
 \author[2]{Amir Mollanejad}
 \author[3]{Ali Asghar Pour Haji Kazem}
@@ -72,47 +84,49 @@
 
 \address[6]{School of Engineering \& Technology,
 	Duy Tan University,
-	Da Nang, Vietnam
-\\[1.2ex]
-\normalfont Co-author: n.derakhshan@iaut.ac.ir}
+	Da Nang, Vietnam}
 
 	
-	\begin{abstract}
-In federated intrusion detection, unreliable update delivery and
-abnormal client updates can both affect model training. We evaluate
-a routing-aware Edge--Cloud federated learning framework combining
-path and client selection, median-based surrogate imputation,
-MAD filtering, clipping, capped weighting, optional server-side
-Gaussian perturbation, and momentum. Controlled experiments use
-CICIoT2023 and UNSW-NB15, five paired seeds (12--16), and the
-report partition of a locked validation split; the reserved test
-sets were not accessed. On CICIoT2023, the proposed configuration
-with diagnostic $\widehat{\varepsilon}\approx20$ achieves F1=0.9914
-and ROC--AUC=0.9937. Relative to FedAvg with uniform selection and
-random paths, its mean delivery delay decreases from 87.3 to
-66.0~ms, while first-transmission PDR increases from 0.694 to
-0.851. On UNSW-NB15, the same proposed configuration attains
-F1=0.9065 and ROC--AUC=0.9522; a controlled MAD-filter comparison
-improves ROC--AUC by 0.098 over FedAvg with selection and paths
-held fixed. Independent path-assignment and client-selection
-controls improve simulated network metrics without a detectable
-change in selected-checkpoint ROC--AUC. The complete privacy
-pipeline decreases ROC--AUC by 0.0032 and 0.0419 on the two
-datasets, respectively. Five-seed effects remain uncertain, and
-the diagnostic privacy accounting does not establish an end-to-end
-differential-privacy guarantee.
+
+\begin{abstract}
+	In federated intrusion detection, unreliable update delivery and
+	abnormal client updates can both affect model training. We evaluate
+	a routing-aware Edge--Cloud federated learning framework combining
+	path and client selection, median-based surrogate imputation,
+	MAD filtering, clipping, configuration-dependent weighting, optional
+	server-side Gaussian perturbation, and momentum. In non-abstaining
+	rounds with a positive raw-weight sum, the capped Gaussian branch
+	uses uniform weights with at most ten retained updates. Controlled experiments use
+	CICIoT2023 and UNSW-NB15, five paired seeds (12--16), and the
+	report partition of a locked validation split; the reserved test
+	sets were not accessed. On CICIoT2023, the proposed configuration
+	with diagnostic $\widehat{\varepsilon}\approx20$ achieves F1=0.9914
+and ROC--AUC=0.9937. In a multi-component comparison with FedAvg using uniform client
+	selection and random paths, simulated mean update-delivery delay
+	decreases from 87.3 to 66.0~ms, while first-transmission PDR
+	increases from 0.694 to 0.851. This contrast does not isolate
+	the effect of routing alone. On UNSW-NB15, the same proposed configuration attains
+	F1=0.9065 and ROC--AUC=0.9522; a controlled MAD-filter comparison
+	improves ROC--AUC by 0.098 over FedAvg with selection and paths
+	held fixed. Independent path-assignment and client-selection
+	controls improve simulated network metrics without a detectable
+	change in selected-checkpoint ROC--AUC. The complete privacy
+	pipeline decreases ROC--AUC by 0.0032 and 0.0419 on the two
+	datasets, respectively. Five-seed effects remain uncertain, and
+	the diagnostic privacy accounting does not establish an end-to-end
+	differential-privacy guarantee.
 \end{abstract}
+
 	
 		
-		\begin{keyword}		
-			Federated learning
-			\sep Internet of Things
-			\sep Edge--Cloud architecture
-			\sep Intrusion detection
-			\sep Routing-aware aggregation
-			\sep Fault tolerance
-			\sep Privacy-aware aggregation
-			\sep Network resilience
+		\begin{keyword}
+			Federated intrusion detection
+			\sep Routing-aware client selection
+			\sep Edge--Cloud IoT
+			\sep Robust aggregation
+			\sep Median-based surrogate imputation
+			\sep Gaussian perturbation
+			\sep Communication reliability
 		\end{keyword}
 	\end{frontmatter}
 	
@@ -216,74 +230,70 @@ filtering \cite{zhang2026malicious}.
 	joint consideration of security, network load, trust, and node
 	communication status \cite{alanazi2026edgeguard}.
 	
-	Despite these advances, most existing studies address only part of the
-	overall problem. Some works mainly focus on intrusion detection and IDS
-	model quality, but they do not explicitly incorporate path stability
-	or communication failure into the learning process. Other studies
-	emphasize privacy preservation, secure aggregation, or Byzantine fault
-	tolerance while ignoring the impact of unstable paths, network
-	latency, and failed update delivery on FL decision-making.
-	Conversely, edge routing and scheduling approaches often aim to reduce
-	latency or energy consumption, but they rarely integrate robust
-	filtering for suspicious updates, central Gaussian privacy noise, and
-	failure recovery within a unified FL framework.
+	The reviewed studies address intrusion detection, robust model
+	exchange, privacy mechanisms, and network scheduling under
+	different assumptions and evaluation protocols. Rather than
+	claiming that any of these components is absent from earlier work,
+	this study examines the interaction of routing-aware update
+	delivery, median-based surrogate imputation, and MAD filtering
+	under a specified simulated failure model. Matched experiments
+isolate particular mechanisms where possible; comparisons that
+change several components are interpreted as pipeline-level effects.
 	
-	Therefore, an important research gap remains: the lack of a unified
-	framework that jointly addresses intrusion detection, network-aware
-	path selection, privacy preservation, robust filtering, and fault
-	tolerance in Edge--Cloud-based IoT systems. To address this gap, this
-	paper proposes a routing-aware, privacy-aware, and fault-tolerant FL
-	framework for intrusion detection in Edge--Cloud IoT systems.
+	This study investigates whether routing-aware update delivery,
+	median-based surrogate imputation, and robust aggregation can be
+	jointly evaluated for federated intrusion detection under simulated
+	communication failures. The contribution is an integrated empirical
+	framework and a set of controlled comparisons on two intrusion-
+	detection benchmarks. It does not introduce a new median estimator
+	or establish a formal differential-privacy guarantee.
 	
 	In the proposed framework, IoT nodes train local models without
 	sharing raw data and transmit only model updates through selected
 	paths to the Edge--Cloud server. Latency, path stability, and security
 	indicators guide client and route selection so that the FL process
-	adapts to the current network state. To reduce the impact of client
-	and link failures, failed updates are reconstructed using
-	coordinate-wise median reconstruction when sufficient valid updates
-	are available. Then, median absolute deviation (MAD)-based robust
-	filtering around a robust center is applied to control suspicious
-	updates. Finally, reliable updates are aggregated using clipping,
-	capped weighting, and central Gaussian noise, and the global model is
-	updated using server momentum. The proposed mechanism provides an
-	estimated central differential privacy budget for the released
-	aggregated update and global model under a trusted or semi-trusted
-	server assumption.
+adapts to the current network state. To reduce the impact of client and
+	link failures, missing updates are replaced by coordinate-wise
+	median-based surrogates when sufficient valid updates are available;
+	this does not reconstruct the missing clients' local information.
+	Median absolute deviation (MAD)-based robust filtering controls
+	highly deviating updates. Retained updates then undergo clipping,
+	capped weighting, and optional server-side Gaussian perturbation,
+	followed by a momentum-based global-model update. The reported
+	privacy-budget estimate is an accounting diagnostic, not a certified
+	end-to-end differential-privacy guarantee for the adaptive pipeline.
+	
 	
 	The main contributions of this paper are summarized as follows:
 	
 	\begin{itemize}
-		\item An integrated FL framework is proposed to jointly address
-		intrusion detection, routing-aware communication, privacy-aware
-		aggregation, and fault tolerance in Edge--Cloud IoT systems.
-		
-		\item A routing-aware client and path selection scheme is designed
-		using latency, path stability, and route-security indicators to
-		reduce end-to-end delay and improve communication reliability.
-		
-		\item A failure-recovery mechanism is introduced using
-		coordinate-wise median reconstruction and reduced weighting to
-		retain failed-client contributions in a controlled manner.
+	\item We implement and evaluate an Edge--Cloud FL-IDS pipeline
+	combining routing-aware selection, missing-update imputation,
+	MAD-based filtering, and optional central Gaussian perturbation
+	under explicit simulation assumptions.
+	
+	\item We measure simulated update-delivery, path, participation,
+	and detection outcomes under matched client- and path-selection
+	controls. Comparisons changing several mechanisms are reported
+	as pipeline-level effects rather than improvements attributed
+	exclusively to routing.
+	\item Median-based surrogate imputation substitutes a shared
+		coordinate-wise median for missing updates. Its raw-weight reduction
+		is effective without Gaussian perturbation but is neutralized by
+		uniform capped normalization in the evaluated Gaussian branch;
+		no missing-client information is recovered.
 		
 		\item A MAD-based robust filtering mechanism is applied to suppress
 		unreliable, suspicious, or highly deviating updates before
 		aggregation.
 		
-		\item Clipping, capped weighting, central Gaussian noise, and server
-		momentum are combined to balance estimated privacy, learning
-		stability, and IDS performance.
+				\item Clipping, capped normalization, server-side Gaussian noise,
+		and server momentum are evaluated as a combined aggregation pipeline.
+		The reported privacy budget is diagnostic, and the individual
+		effects of clipping and weighting are not identified.
 	\end{itemize}
 	
-	The remainder of this paper is organized as follows.
-	Section~\ref{sec:related} reviews related work on FL-based techniques
-	for IoT security, privacy preservation, resilience, and routing.
-	Section~\ref{sec:method} describes the proposed framework, system
-	architecture, mathematical formulation, and algorithmic procedure.
-	Section~\ref{sec:experiments} presents the simulation environment,
-	datasets, evaluation metrics, and experimental results.
-	Finally, Section~\ref{sec:conclusion} concludes the paper and outlines
-	future research directions.
+	
 	\section{Related Work}
 	\label{sec:related}
 	
@@ -335,13 +345,6 @@ filtering \cite{zhang2026malicious}.
 	IoT networks, showing that FL can also contribute to routing-related
 	decision-making \cite{bhardwaj2024routing}.
 	
-	Overall, these studies demonstrate the relevance of federated
-	learning for IoT security, intrusion detection, resilience, and
-	routing support. However, most of them primarily focus on detection
-	accuracy, scheduling, or isolated robustness mechanisms. The joint
-	integration of intrusion detection, routing-aware communication,
-	privacy-aware aggregation, and failure recovery therefore remains
-	limited.
 	\subsection{Fault-Tolerant and Resilient Federated Learning
 		in Edge Networks}
 	\label{subsec:fault-tolerant-fl}
@@ -383,14 +386,6 @@ filtering \cite{zhang2026malicious}.
 	\cite{lan2025ckks}. Although this method improves data security, it
 	also introduces additional cryptographic and computational overhead.
 	
-	Taken together, these studies show that resilient federated learning
-	in Edge--Cloud environments requires adaptive participation,
-	low-latency communication, and mechanisms for handling unreliable
-	clients or communication links. Nevertheless, most existing
-	fault-tolerant federated learning studies do not explicitly combine
-	failure recovery with routing-aware path selection, robust update
-	filtering, and privacy-aware aggregation in a unified
-	intrusion-detection framework.
 	\subsection{Privacy and Data Security Approaches in
 		Heterogeneous Environments}
 	\label{subsec:privacy-security}
@@ -432,16 +427,7 @@ filtering \cite{zhang2026malicious}.
 	introduced a trust-based access-control framework for secure and
 	privacy-preserving IoT systems \cite{padmavathi2025trust}.
 	
-	These studies show that privacy-aware federated learning often
-	requires additional mechanisms such as cryptography, trust management,
-	blockchain, access control, or knowledge distillation. However, these
-	mechanisms may increase computational or communication overhead and
-	are not always designed together with routing stability,
-	failed-update recovery, or robust aggregation.
-	
-	Therefore, privacy preservation in Edge--Cloud IoT systems should be
-	considered together with network reliability, fault tolerance, and
-	update-level robustness rather than as an isolated objective.
+
 	\subsection{Routing and Network-Efficiency Optimization in
 		FL-Based Edge--Cloud Architectures}
 	\label{subsec:routing-efficiency}
@@ -470,23 +456,11 @@ filtering \cite{zhang2026malicious}.
 	These mechanisms provide important foundations for reliable and
 	efficient routing in Edge--Cloud systems.
 	
-	However, routing-oriented studies commonly focus on latency, energy
-	consumption, or path optimization, while security, privacy, robust
-	filtering, and failure recovery are considered separately or are not
-	integrated into the same framework.
-	
-	Taken together, the reviewed studies establish the importance of
-	federated learning for IoT security, resilience, privacy, and
-	communication efficiency. Related approaches to edge coordination,
-	request scheduling, and quality-of-service management address
-	important network requirements
-	\cite{almeida2025modular,aburukba2025scheduling,liu2024iiot,zhou2024qos}.
-	However, intrusion detection, routing-aware selection, robust
-	aggregation, and failed-update recovery are generally examined as
-	separate concerns. This motivates the integrated Edge--Cloud
-	framework investigated in this study.
-	Table~\ref{tab:related-work} summarizes the main characteristics,
-	strengths, and limitations of the reviewed approaches.
+	These studies motivate a joint empirical evaluation of routing,
+	missing-update imputation, and robust aggregation under comparable
+	simulated network conditions. Table~\ref{tab:related-work} gives a
+	descriptive overview; its study-specific capabilities and limitations
+	require confirmation against the original publications.
 	
 	\begin{table*}[!t]
 		\caption{Summary and comparison of related work.}
@@ -633,12 +607,12 @@ filtering \cite{zhang2026malicious}.
 	\FloatBarrier
 	\section{Proposed Method}
 	\label{sec:method}
+	This study evaluates an Edge--Cloud federated intrusion-detection
+	pipeline that combines network-informed participation, surrogate
+	imputation, MAD filtering, and configuration-dependent aggregation.
+	The effects of the individual controls are distinguished wherever
+	they are tested under matched experimental conditions.
 	
-	This study proposes a federated learning framework with
-	routing-aware, privacy-aware, and fault-tolerant mechanisms for
-	intrusion detection in Edge--Cloud IoT systems. The proposed method
-	aligns the federated learning process with the dynamic state of the
-	underlying communication network.
 	
 	Client and communication-path selection are therefore not determined
 	solely by training participation. They also consider network-level
@@ -655,20 +629,20 @@ filtering \cite{zhang2026malicious}.
 	path-stability, and security-related indicators. Second, selected
 	clients train their models locally and transmit model updates without
 	sharing raw data. Third, the server identifies missing or abnormal
-	updates and applies robust filtering and surrogate recovery, with
+	updates and applies robust filtering and surrogate imputation, with
 	the processing order depending on the evaluated configuration.
-	Finally, retained updates undergo clipping and capped weighted
-	aggregation, followed by optional server-side Gaussian perturbation
-	and a momentum-based global-model update.
+	Finally, retained updates are aggregated through the configured
+	non-private or clipping-and-capping Gaussian branch, followed by
+	optional server-side perturbation and a momentum-based model update.
 	
 \begin{figure*}[!t]
 	\centering
-	\includegraphics[width=0.94\textwidth]{fig1.png}
-	\caption{Overview of the routing-aware federated intrusion-detection
-		framework. Stage 3 illustrates the real-only filtering variant,
-		in which MAD filtering precedes surrogate recovery; the original
-		reference configuration reverses this order. Server-side
-		Gaussian perturbation is optional.}
+	\includegraphics[width=0.93\textwidth]{fig1.png}
+	\caption{Routing-aware Edge--Cloud federated IDS architecture.
+		In the primary reference configuration, median imputation precedes
+		MAD filtering; the real-only filtering control reverses that order.
+		Clipping and capped normalization apply only to the central-Gaussian
+		branch, not to non-private aggregation.}
 	\label{fig:framework-overview}
 \end{figure*}
 	
@@ -742,10 +716,15 @@ achievable routing score of each client and the client participation ratio
 	condition and reduces the participation of clients whose available
 	paths are weak, unstable, or insecure.
 	
+
 The selection strategy intentionally prioritizes communication
-reliability. However, the client participation ratio keeps the number of
-participating clients fixed, while the effect of non-IID data is
-considered in the experimental design.
+reliability. Selecting a fixed number of clients per round does
+not guarantee participation coverage or fairness: clients with
+persistently weaker routes may be underrepresented. The effects
+on participation concentration are examined in
+Section~\ref{subsec:attack-routing-tradeoffs}, but worst-client
+performance under correlated route quality and local label
+distributions remains outside the evaluated scope.
 	
 	\subsection{Local Update Generation without Raw Data Sharing}
 	\label{subsec:local-update}
@@ -808,7 +787,7 @@ considered in the experimental design.
 	\(p_{i}^{*(t)}\). The Edge--Cloud server subsequently processes the
 	received updates using failure recovery, robust filtering, and
 	privacy-aware aggregation.
-	\subsection{Failure Recovery and Robust Update Filtering}
+	\subsection{Surrogate Imputation and Robust Update Filtering}
 	\label{subsec:failure-recovery}
 	
 	In practical Edge--Cloud IoT environments, some selected clients may
@@ -820,15 +799,13 @@ considered in the experimental design.
 	Before aggregation, the Edge--Cloud server identifies the successfully
 	received real updates, denoted by \(\mathcal{U}_{t}\). Two processing
 	orders are considered. In the original reference configuration,
-	missing-update surrogates are reconstructed before MAD filtering.
+	missing-update surrogates are inserted before MAD filtering.
 	In the real-only filtering variant, MAD is first applied to received
-	real updates, and missing-update surrogates are subsequently
-	reconstructed from the retained real updates.
+	real updates, then surrogates are computed from the retained updates.
 	
 	For the original reference configuration, when a selected client
 	fails to deliver its update and \(|\mathcal{U}_{t}|\geq 2\),
-	a surrogate update is generated using coordinate-wise median
-	reconstruction:
+	a surrogate update is computed as the coordinate-wise median:
 	
 \begin{equation}
 	\Delta w_{i,\mathrm{rec}}^{(t)}
@@ -845,16 +822,29 @@ considered in the experimental design.
 	\label{eq:recovered-update}
 \end{equation}
 	
-	The recovered updates are assigned a reduced raw aggregation coefficient \(\chi_{\mathrm{rec}}\). This lowers, but does not by itself bound, their influence, because raw weights are renormalized and capped jointly with the genuine updates (see below).
 	
-	The surrogate update in Eq.~\eqref{eq:recovered-update} is not
-	intended to reproduce the missing local update exactly. Instead, it
-	provides a conservative replacement that reduces the disruptive
-	effect of failed update delivery. If fewer than two valid updates are available, the unavailable client is excluded from the current aggregation round. If no update is received, aggregation, noise injection and the privacy-accountant step are skipped and no global-model update is applied; this never occurred in the 40 controlled runs.
+	The surrogate for each missing update is assigned a reduced raw-weight
+	factor \(\chi_{\mathrm{rec}}\). In the non-Gaussian reference,
+	this factor affects normalized sample-size weights but does not
+	bound the collective surrogate share. In the central-Gaussian branch,
+	the implemented cap produces equal applied weights when at most ten
+	updates survive (Section~\ref{subsec:private-aggregation}); hence
+	\(\chi_{\mathrm{rec}}\) does not down-weight surrogates there.
+	Matched imputation-omission comparisons did not establish a detection
+	benefit (Section~\ref{subsec:routing-surrogate}).
 	
-	After recovery, the server constructs the available update set
-	\(\mathcal{V}_{t}\), containing both successfully received updates
-	and recovered surrogate updates. The robust center and the deviation
+	
+	
+	The surrogate in Eq.~\eqref{eq:recovered-update} substitutes a
+	median direction; it does not recover the missing client's local
+	information. With fewer than two received updates the unavailable
+	client is excluded. With no received update, aggregation, Gaussian
+	noise and accounting are skipped, and the global model is unchanged.
+	This zero-update case did not occur in the 40 controlled runs.
+	
+	After imputation, the server constructs the available update set
+	\(\mathcal{V}_{t}\), containing both received real updates and
+	imputed surrogate updates. The robust center and the deviation
 	of each available update from this center are defined jointly as
 	
 	\begin{equation}
@@ -908,10 +898,12 @@ considered in the experimental design.
 		\label{eq:mad-reliable-set}
 	\end{equation}
 	
-	Here \(\operatorname{MAD}(\mathbf{d})=\operatorname{Median}_i|d_i-\operatorname{Median}(\mathbf{d})|\), and a constant \(10^{-12}\) is added to the scaled MAD to avoid a zero-width threshold. According to Eq.~\eqref{eq:mad-reliable-set}, only updates whose deviation is less than or equal to \(\tau_t\) are retained. The
-	coefficient \(k\) controls the filtering strictness: smaller values
-	produce stricter filtering, whereas larger values retain more diverse
-	updates.
+	Here, \(\operatorname{MAD}(\mathbf{d})=\operatorname{Median}_i
+	|d_i-\operatorname{Median}(\mathbf{d})|\). The implementation
+	uses a numerical floor of \(10^{-12}\) inside the scaled-MAD term
+	to avoid a zero-width threshold. Updates with deviation no greater
+	than \(\tau_t\) are retained, and \(k\) sets filtering strictness.
+	
 	
 	The filtering decision applies only to the current communication
 	round and should not be interpreted as a permanent malicious-client
@@ -926,14 +918,16 @@ considered in the experimental design.
 	\subsection{Privacy-Aware Aggregation and Global Model Update}
 	\label{subsec:private-aggregation}
 	
-	Following robust filtering and any configured surrogate recovery,
+Following robust filtering and any configured surrogate imputation,
 	the Edge--Cloud server constructs the aggregate from the retained
-	updates. This stage includes update clipping, capped weighting,
-	and server momentum. Central Gaussian perturbation is applied only
-	when the private aggregation mode is enabled.
+	updates. In the central-Gaussian branch the retained updates are
+clipped and aggregated with capped weights before noise is added;
+in the non-private reference the retained updates are instead
+aggregated without this clipping or cap. Server momentum acts
+on whichever aggregate the configured branch supplies.
 	
-	First, each reliable update is clipped using the clipping threshold
-	\(C\):
+	In the central-Gaussian branch only, each reliable update is
+clipped using threshold \(C\):
 	
 	\begin{equation}
 		\overline{\Delta w}_{i}^{(t)}
@@ -955,13 +949,17 @@ Clipping limits the influence of unusually large client updates and
 controls the update magnitude used in the subsequent aggregation and
 noise-calibration procedure.
 	
-	Before normalization, the raw aggregation weight of a successfully
-	received update is proportional to its local dataset size \(n_i\).
-	For a reconstructed update, the corresponding raw weight is reduced
-	by the coefficient \(\chi_{\mathrm{rec}}\). Let \(b_i^{(t)}\) denote
-	this raw weight. The effective weight cap, the final normalized weights,
-	and the clipped weighted aggregate are defined jointly as
-	
+Before normalization, each received real update has a raw weight
+\(b_i^{(t)}\) proportional to its client sample size; a surrogate's
+raw weight is further multiplied by \(\chi_{\mathrm{rec}}\).
+In the non-private branch, weights are normalized without a cap:
+\(a_i^{(t)}=b_i^{(t)}/\sum_{j\in\mathcal K_t}b_j^{(t)}\),
+provided the sum is positive. Only the central-Gaussian branch uses
+the feasible cap and \(\operatorname{CapNormalize}\) shown below. In
+the Gaussian branch the aggregate uses clipped updates; the
+non-private reference aggregates retained, unclipped updates.
+
+
 \begin{equation}
 	\begin{aligned}
 		\overline{a}_{\max}^{(t)}
@@ -985,12 +983,46 @@ noise-calibration procedure.
 	\end{aligned}
 	\label{eq:capped-weighting}
 \end{equation}
-	
-	The resulting weights satisfy
-	\(\sum_{i\in\mathcal{K}_{t}}a_i^{(t)}=1\) and
-	\(0\leq a_i^{(t)}\leq\overline{a}_{\max}^{(t)}\).
-	When fewer than \(1/a_{\max}=10\) updates are retained the cap is infeasible and the effective cap is \(1/|\mathcal{K}_t|\). In the proposed pipeline (300 rounds), fewer than ten updates were retained in 92\% of rounds (minimum six; largest single weight 0.167), surrogate updates jointly carried a mean weight share of 0.30 (maximum 1.0), and in 10 rounds only surrogates were retained. The weight cap therefore does not prevent surrogate updates from influencing the aggregate in the evaluated reference ordering.
-	
+	Operationally, $\operatorname{CapNormalize}$ repeatedly normalizes
+	the raw weights of active entries to the remaining unit mass,
+	fixes entries whose tentative share exceeds the feasible cap at
+	that cap, and redistributes the residual mass. If all remaining
+	active raw weights are zero after some entries have been capped,
+	residual mass is divided equally among those active entries.
+	The complete zero-sum input is handled separately by abstention
+	before normalization. With positive total raw weight, the
+	resulting weights sum to one and satisfy
+	$0\leq a_i^{(t)}\leq\overline a_{\max}^{(t)}$.
+For a round with a positive raw-weight sum, the central-Gaussian
+weights satisfy \(\sum_{i\in\mathcal K_t}a_i^{(t)}=1\) and
+\(0\leq a_i^{(t)}\leq\overline a_{\max}^{(t)}\).
+With \(a_{\max}=0.1\) and at most ten retained updates,
+\(\overline a_{\max}^{(t)}=1/|\mathcal K_t|\). Because the
+weights sum to one, every retained update then receives exactly
+\(a_i^{(t)}=1/|\mathcal K_t|\), regardless of client size or
+\(\chi_{\mathrm{rec}}\). A weight audit found uniform applied
+weights for all 2,750 central-Gaussian aggregation rounds with at
+most ten retained updates (maximum deviation \(1.4\times10^{-16}\));
+the remaining audited rounds included larger client sets or abstentions.
+In the original proposed configurations (300 rounds), fewer than
+ten updates survived in 92\% of rounds (minimum six), yielding
+a largest applied share of 0.167. Surrogates jointly carried a mean
+weight share of 0.30 (maximum 1.0), and only surrogates remained
+in ten rounds. Thus the Gaussian-path cap does not implement
+surrogate down-weighting and is not evidence of an independent
+weighting benefit.
+
+When all retained raw weights sum to zero, the SUPP\_V2
+implementation takes a \emph{no-valid-contribution} abstention:
+the global model and server momentum remain unchanged, and no
+Gaussian noise is released. Release-based and attempted-round
+accounting diagnostics are recorded separately. The abstention
+branch does not alter rounds with a positive raw-weight sum; in
+such rounds, the feasible cap gives every retained update weight
+$1/|\mathcal K_t|$ when at most ten updates remain, even if a
+surrogate's raw weight was zero.
+
+
 	For noise calibration, the implementation uses the following
 	effective \(L_2\)-sensitivity scale for the clipped weighted aggregate:
 	
@@ -1038,8 +1070,14 @@ weighted aggregate is perturbed as follows:
 	and is evaluated using the estimated central-DP accounting procedure
 	described below.
 	
-The implementation tracks the cumulative privacy budget using an
-RDP accountant. For accounting, the routing-aware top-\(k\)
+The implementation computes a diagnostic RDP-based estimate using
+an internal approximation to the Poisson-subsampled Gaussian
+mechanism and integer Renyi orders $\alpha=2,\ldots,128$.
+The scaling factor $\varphi=1$ follows the implemented add/remove
+noise-calibration convention. This is not a proof of record-level
+or client-level differential privacy: actual participant selection,
+filtering, and weighting do not satisfy the assumptions needed
+for an end-to-end certified adjacency-based privacy bound. For accounting, the routing-aware top-\(k\)
 participation fraction is represented by
 \(q=|\mathcal{S}_t|/N=0.2\) and treated as a Poisson-sampling
 approximation. The noise multiplier is calibrated to the target budget. Because the actual routing-aware selection is
@@ -1047,6 +1085,13 @@ deterministic rather than Poisson and the robust filtering stage is
 data-dependent, the resulting \(\widehat{\varepsilon}\) is reported
 as an estimated central-DP budget under a trusted or semi-trusted
 server assumption, not as a formal end-to-end guarantee.
+The aggregation server receives individual client model updates
+before server-side perturbation. Consequently, Gaussian noise
+added after aggregation does not protect these updates from the
+receiving server. The study does not establish record-level or
+client-level differential privacy for the released model under
+the actual adaptive selection and filtering mechanism.
+
 	Finally, server momentum and the global-model update are performed
 	jointly as
 	
@@ -1067,9 +1112,12 @@ server assumption, not as a formal end-to-end guarantee.
 	\end{equation}
 	
 	In Eq.~\eqref{eq:global-update}, \(\mu\) is the server momentum
-	coefficient and \(\eta_s\) is the server learning rate. Momentum
-	reduces round-to-round fluctuations caused by non-IID data,
-	communication failures, suspicious updates, and privacy noise. The updated global model \(w^{(t+1)}\) is then distributed to the
+	coefficient and \(\eta_s\) is the server learning rate.
+	Server momentum accumulates the current aggregate with the
+	previous server velocity. Its effect on training stability
+	depends on the evaluated configuration and is not assumed
+	to improve every outcome.
+	The updated global model \(w^{(t+1)}\) is then distributed to the
 	clients selected for the next communication round. The complete
 	procedure is summarized in Table~\ref{alg:proposed-framework}.
 	
@@ -1149,7 +1197,8 @@ server assumption, not as a formal end-to-end guarantee.
 		
 		10 &
 		\pindent
-		Detect missing, failed, or undelivered updates. \\
+If no update arrived, keep \(w^{(t)}\) and \(v^{(t)}\) unchanged, skip aggregation/noise/accounting, and continue; otherwise detect missing updates. \\
+
 		
 		11 &
 		\pindent
@@ -1158,8 +1207,8 @@ server assumption, not as a formal end-to-end guarantee.
 		
 		12 &
 		\pindenttwo
-		Reconstruct missing updates using the coordinate-wise median
-		and assign reduced weight \(\chi_{\mathrm{rec}}\). \\
+		Insert coordinate-wise median surrogates for missing updates
+		and assign raw-weight factor \(\chi_{\mathrm{rec}}\). \\
 		
 		13 &
 		\pindent
@@ -1181,20 +1230,21 @@ server assumption, not as a formal end-to-end guarantee.
 		
 		17 &
 		\pindent
-		Clip reliable updates using \(C\), then cap and normalize
-		their aggregation weights. \\
+		If retained raw weights sum to zero, abstain with unchanged model and
+momentum. Otherwise, in central-Gaussian mode clip and cap-normalize;
+in non-private mode aggregate retained un-clipped updates. \\\
 		
 		18 &
 		\pindent
-		Compute the clipped weighted aggregate \(u^{(t)}\) and its
-		effective sensitivity scale \(\Delta_2^{(t)}\).  \\
+		For the Gaussian branch compute the clipped aggregate and noise
+calibration scale; otherwise compute the un-clipped aggregate. \\\
 		
 		
 		19 &
 		\pindent
-		If central Gaussian privacy mode is enabled, add calibrated
-		noise and update the privacy accountant; otherwise set
-		\(\widetilde{u}^{(t)}=u^{(t)}\). \\
+		In a non-abstaining Gaussian round, add noise and count one noisy
+		release; otherwise use \(\widetilde{u}^{(t)}=u^{(t)}\). Report
+		attempted and released privacy rounds separately. \\
 		
 		20 &
 		\pindent
@@ -1223,20 +1273,19 @@ server assumption, not as a formal end-to-end guarantee.
 	federated learning environment using CICIoT2023 and UNSW-NB15.
 	The evaluation considers intrusion-detection performance, routing
 	reliability, client participation, attack robustness, failure
-	recovery, and privacy-related behavior. In addition to standard
-	federated-learning baselines, the experimental design considers
-	mechanisms motivated by modular and hierarchical resilient
-	federated learning approaches
-	\cite{almeida2025modular,chen2025hierarchical}.
+	recovery, and privacy-related behavior. The controlled comparisons include FedAvg under distinct
+	client-selection and path-assignment policies, a non-private
+	MAD-filtered reference, and a Gaussian-perturbed FedAvg control.
+	The modular and hierarchical FL architectures discussed in
+	\cite{almeida2025modular,chen2025hierarchical} were not
+	re-implemented as experimental baselines.
 	
 	CICIoT2023 serves as the primary IoT-oriented benchmark, while
 	UNSW-NB15 provides a complementary network-intrusion benchmark
 	with different traffic characteristics. Component-wise comparisons
 	are used to distinguish the effects of client selection, delivery
-	behavior, robust filtering, surrogate recovery, weighting, and
-	server momentum. Comparisons that modify multiple mechanisms
-	are interpreted as pipeline-level contrasts rather than isolated
-	ablations.
+	behavior, robust filtering, surrogate imputation, weighting, and
+	server momentum.
 	
 	\subsection{Experimental Setup and Simulation Settings}
 	\label{subsec:experimental-setup}
@@ -1247,15 +1296,13 @@ server assumption, not as a formal end-to-end guarantee.
 	model updates are transmitted through the selected communication
 	paths.
 	
-	After receiving client updates, the Edge--Cloud server handles
-	missing-update surrogates and MAD filtering, then performs clipping,
-	capped weighted aggregation and momentum updating. Server-side
-	Gaussian perturbation is optional and its accounting is diagnostic.
-	
-	This experimental design enables the proposed framework to be
-	evaluated not only in terms of intrusion detection performance, but
-	also with respect to routing stability, communication delay, privacy
-	awareness, and fault tolerance.
+
+After receiving client updates, the Edge--Cloud server performs
+failure detection, median-based surrogate imputation where possible,
+robust filtering and a configuration-dependent aggregation branch.
+Only the central-Gaussian branch clips, caps and perturbs retained
+updates before the momentum-based model
+update; the order of filtering and imputation is configuration-specific.
 	
 	Two network-intrusion datasets were used in the experiments.
 	CICIoT2023 was selected as the primary dataset because it contains
@@ -1268,34 +1315,85 @@ server assumption, not as a formal end-to-end guarantee.
 	was formulated as a binary classification problem consisting of
 	attack and benign traffic.
 	
-	For the controlled experiments, CICIoT2023 was re-prepared using
-a file-group-disjoint split rather than the earlier row-level
-split. The verified prepared data contain 926,133 training and
-146,626 validation records; the reserved 300,000-row test partition
-was not opened in this study. Within the locked validation protocol,
-checkpoint selection, threshold calibration, and report evaluation
-use separate partitions. Consequently, the reported results do not establish generalization to independent devices or captures beyond the documented file-group separation. Preparation removed feature-identical duplicates (73,867 training and 53,374 validation records) and kept 39 numerical features; file-group separation applies to the 17 of 34 classes with at least three source files, and the other 17 are row-stratified. Each validation partition contains only 1,564 benign records, so report-partition FPR is estimated from 1,564 negatives.
-
-UNSW-NB15 was used as a complementary within-dataset benchmark with
-	a different feature representation and traffic composition. The
-	official training data were partitioned under the locked validation
-	protocol, and the official test partition was not opened during
-	these controlled experiments.
 	
-	Under the locked protocol, the 175,341 official training records were divided into 150,293 training records and a 25,048-record validation pool, which was further split into calibration (8,350), selection (8,350) and report (8,348) partitions for seed 12 (partition sizes differ by at most four records across seeds); the 82,332-record official test partition was not opened. The 42 raw features expand to 194 numerical features after categorical encoding.
+	The locked CICIoT2023 preparation contains 926,133 training and
+	146,626 validation records with 39 numerical features; the reserved
+	300,000-record test partition was not accessed. Preparation removed
+	73,867 feature-identical training duplicates and 53,374 validation
+	duplicates. The \texttt{file\_group} policy separated source-file
+	groups for 17 of 34 classes with enough files; the remaining 17
+	classes were row-stratified. Thus, this is not a universal
+	capture-disjoint or held-out-device evaluation. The validation pool
+	was divided into distinct calibration, checkpoint-selection, and
+	report partitions, with 1,564 benign records in each report partition.
+	
+	UNSW-NB15 is a separate within-dataset benchmark rather than a
+	cross-dataset transfer experiment. Its 175,341 official training
+	records were divided into 150,293 training records and a 25,048-record
+	validation pool. For seed 12, the calibration, selection, and report
+	partitions contain 8,350, 8,350, and 8,348 records, respectively
+	(other seeds differ by at most four records). The 82,332-record
+	official test partition was not accessed. Its 42 raw features become
+194 numeric features after categorical encoding. The split and preparation fingerprints are documented in the locked
+	manifests. Categorical encoders and numerical scalers are fitted
+	only on the training portion; validation records are transformed
+	without refitting. Non-IID client partitions use a class-conditional
+	Dirichlet allocation with $\alpha_{\mathrm{Dir}}=0.5$ across 50
+	clients, followed by rebalancing when needed to enforce at least
+	100 training records per client.
+	
 
-\paragraph{Network model.} Each client has three candidate paths (one per edge node). Link latency, stability, security and bandwidth are drawn uniformly at initialization (client--edge 5--80~ms, 0.75--0.99, 0.60--0.98, 20--150~Mbit/s; edge--cloud 5--50~ms, 0.85--0.995, 0.75--0.99, 100--1000~Mbit/s) and perturbed every round by clipped Gaussian noise ($\sigma=0.025$), with client--edge outages at $p_{\mathrm{out}}=0.01$. Path delay is the sum of segment latencies, stability the product of segment stabilities, and security the segment minimum; the three scores are min--max normalized over the client's paths and combined with $\lambda=(0.4,0.3,0.3)$, using the simulator's current link state without measurement noise. An update is sent as 100 packets; first-transmission PDR is binomial with success probability equal to path stability, and update delivery is a separate Bernoulli draw with the same probability. Delay is latency plus serialization plus Gaussian jitter; queueing and retransmissions are not modelled. The full specification is in \texttt{docs/SIMULATION\_SPEC.md} of the repository.
+\paragraph{Network model}
+Each client has three candidate paths, one through each edge node.
+Initial client--edge links use uniformly drawn latency (5--80~ms),
+stability (0.75--0.99), security (0.60--0.98), and bandwidth
+(20--150~Mbit/s); corresponding edge--cloud ranges are 5--50~ms,
+0.85--0.995, 0.75--0.99, and 100--1000~Mbit/s. Link states persist across rounds and evolve through multiplicative
+Gaussian latency perturbations and additive Gaussian stability and
+security perturbations (dynamic scale $\sigma=0.025$). This creates
+temporally correlated link attributes. Each client--edge link has a
+per-round outage draw with probability 0.01; an outage reduces its
+simulated stability to at most 0.05 rather than automatically
+removing an update. Separately, a selected client may fail under
+an independent explicit-failure draw ($p_f=0.1$). A real update is
+unavailable when that explicit failure occurs or when the simulated
+network transfer is not delivered. Path delay sums link delays, stability multiplies
+link stabilities, and security takes the minimum. Routing scores use
+per-client min--max-normalized latency, stability, and security with
+weights 0.4/0.3/0.3 and the simulator's current, directly accessible
+link state. Security is a simulated link attribute, not measured
+attack detection. Packet delivery uses 100 independent packet
+attempts per update; update arrival is a separate Bernoulli draw.
+Transmission delay adds serialization and stochastic jitter to path
+latency. Queueing, congestion and physical measurement error are not
+modeled. The reference delivery model has no retransmissions;
+separate packet-coupled controls model retransmission attempts,
+and account for their simulated time and link-byte overhead.
 
-\paragraph{Attack model.} A malicious client sends $-\tau\,\Delta w_i^{(t)}$ with $\tau=5.0$; exactly two of the ten selected clients are malicious in every round (exposure-controlled), independently of network state. Other attacks, collusion and adaptive attackers were not evaluated.
+\paragraph{Attack model}
+In the evaluated sign-flip scenario, an attack replaces the update
+of a malicious client with $-5\Delta w_i^{(t)}$. Exactly two of ten
+selected clients are assigned as malicious in each round,
+independently of network state. Adaptive poisoning, collusion, and
+security-score manipulation were not evaluated.
 
-\paragraph{Training configuration.} The same base MLP architecture and common training settings were used across configurations wherever applicable. The controlled
+The same multilayer perceptron (MLP) architecture was used across
+matched configurations wherever applicable. The network has three
+hidden layers with 128, 96 and 64 units, respectively, ReLU
+activations, dropout of 0.2 after the last hidden layer, and a
+two-logit output layer for binary classification. Local models
+were trained using the Adam optimizer and cross-entropy loss,
+with a learning rate of $3\times10^{-4}$, batch size of 256,
+two local epochs and zero weight decay. The controlled
 ablation comparisons use five paired random seeds (12--16).
 Checkpoint selection, decision-threshold calibration, and metric
 reporting are kept separate within the validation-based evaluation
-protocol. The reserved test partitions are not accessed during
-these ablation runs. Results distinguish selected-checkpoint and
-final-round performance, and error bars indicate one standard
-deviation across the five seeds.
+protocol. The reserved test partitions were not accessed during
+these reported controlled comparisons and ablation runs.
+Results distinguish selected-checkpoint and final-round
+performance, and error bars indicate one standard deviation
+across the five seeds.
+
 	
 	\subsection{Evaluation Metrics}
 	\label{subsec:evaluation-metrics}
@@ -1311,96 +1409,92 @@ deviation across the five seeds.
 	was considered the positive class, whereas benign traffic was
 	considered the negative class.
 	
-	Accuracy measures the proportion of correctly classified attack
-	and benign samples among all evaluated samples. It is defined as
+The standard binary-classification metrics are defined below.
+Here, \(TP\), \(TN\), \(FP\), and \(FN\) denote true positives,
+true negatives, false positives, and false negatives,
+respectively. Accuracy measures overall classification
+correctness, while Precision and Recall characterize
+attack detection performance.
+
+\begin{equation}
+	\mathrm{Accuracy}
+	=
+	\frac{TP+TN}
+	{TP+TN+FP+FN},
+	\label{eq:accuracy}
+\end{equation}
+
+\begin{equation}
+	\mathrm{Precision}
+	=
+	\frac{TP}{TP+FP}.
+	\label{eq:precision}
+\end{equation}
+
+\begin{equation}
+	\mathrm{Recall}
+	=
+	\frac{TP}{TP+FN}.
+	\label{eq:recall}
+\end{equation}
+
+The F1-score is the harmonic mean of Precision and Recall.
+ROC-AUC measures discrimination across classification
+thresholds, whereas PR-AUC summarizes the precision--recall
+trade-off and is informative under class imbalance.
+
+\begin{equation}
+	\mathrm{F1\mbox{-}score}
+	=
+	\frac{
+		2\,\mathrm{Precision}\,\mathrm{Recall}
+	}{
+		\mathrm{Precision}+\mathrm{Recall}
+	}.
+	\label{eq:f1-score}
+\end{equation}
+
+\begin{equation}
+	\mathrm{ROC\mbox{-}AUC}
+	=
+	\int_{0}^{1}
+	\mathrm{TPR}(\mathrm{FPR})
+	\,d(\mathrm{FPR}),
+	\label{eq:roc-auc}
+\end{equation}
+
+\begin{equation}
+	\mathrm{PR\mbox{-}AUC}
+	=
+	\int_{0}^{1}
+	\mathrm{Precision}(\mathrm{Recall})
+	\,d(\mathrm{Recall}).
+	\label{eq:pr-auc}
+\end{equation}
+
+Here, \(\mathrm{TPR}\) is the true positive rate and is
+equivalent to Recall. The false positive rate measures
+the proportion of benign samples incorrectly classified
+as attacks:
+
+\begin{equation}
+	\mathrm{FPR}
+	=
+	\frac{FP}{FP+TN}.
+	\label{eq:fpr}
+\end{equation}
 	
-	\begin{equation}
-		\mathrm{Accuracy}
-		=
-		\frac{TP+TN}
-		{TP+TN+FP+FN},
-		\label{eq:accuracy}
-	\end{equation}
 	
-	where \(TP\), \(TN\), \(FP\), and \(FN\) denote true positives,
-	true negatives, false positives, and false negatives,
-	respectively.
-	
-	Precision measures the proportion of samples predicted as attacks
-	that are actually attack samples:
-	
-	\begin{equation}
-		\mathrm{Precision}
-		=
-		\frac{TP}{TP+FP}.
-		\label{eq:precision}
-	\end{equation}
-	
-	Recall, also referred to as the attack detection rate, measures the
-	proportion of actual attack samples that are correctly detected:
-	
-	\begin{equation}
-		\mathrm{Recall}
-		=
-		\frac{TP}{TP+FN}.
-		\label{eq:recall}
-	\end{equation}
-	
-	The F1-score is the harmonic mean of Precision and Recall and
-	represents the balance between attack detection and false alarms:
-	
-	\begin{equation}
-		\mathrm{F1\mbox{-}score}
-		=
-		\frac{
-			2\,\mathrm{Precision}\,\mathrm{Recall}
-		}{
-			\mathrm{Precision}+\mathrm{Recall}
-		}.
-		\label{eq:f1-score}
-	\end{equation}
-	
-	ROC-AUC evaluates the ability of the intrusion-detection model to
-	distinguish attack traffic from benign traffic over different
-	decision thresholds:
-	
-	\begin{equation}
-		\mathrm{ROC\mbox{-}AUC}
-		=
-		\int_{0}^{1}
-		\mathrm{TPR}(\mathrm{FPR})
-		\,d(\mathrm{FPR}),
-		\label{eq:roc-auc}
-	\end{equation}
-	
-	where \(\mathrm{TPR}\) denotes the true positive rate, which is
-	equivalent to Recall.
-	
-	PR-AUC evaluates the model in the Precision--Recall space and is
-	particularly informative when the class distribution is imbalanced:
-	
-	\begin{equation}
-		\mathrm{PR\mbox{-}AUC}
-		=
-		\int_{0}^{1}
-		\mathrm{Precision}(\mathrm{Recall})
-		\,d(\mathrm{Recall}).
-		\label{eq:pr-auc}
-	\end{equation}
-	
-	Finally, FPR measures the proportion of benign samples that are
-	incorrectly classified as attacks:
-	
-	\begin{equation}
-		\mathrm{FPR}
-		=
-		\frac{FP}{FP+TN}.
-		\label{eq:fpr}
-	\end{equation}
-	
-	A lower FPR indicates fewer false security alerts and therefore greater operational reliability for the intrusion-detection system. The decision threshold is chosen on the calibration partition only: among 1,001 candidates with FPR $\leq0.15$ and recall $\geq0.60$, the one with the highest recall (ties: F1, balanced accuracy) is selected; if none is feasible, recall is maximized subject to FPR $\leq0.15$. Reported FPR values of 0.14--0.15 are therefore largely set by this cap and are not an operationally low false-alarm rate. Checkpoints use selection-partition ROC-AUC with a minimum improvement of $10^{-4}$.
-	Network performance was evaluated using end-to-end delay, packet
-	delivery ratio, path stability, and transfer efficiency.
+	A lower FPR indicates fewer false security alerts. The operating
+	threshold is selected on the calibration partition from 1,001
+	candidates satisfying FPR $\leq0.15$ and recall $\geq0.60$,
+	maximizing recall (ties: F1, balanced accuracy, closeness to 0.5).
+	If no candidate is feasible, recall is maximized subject to the
+	FPR cap, with infeasibility flagged. The observed FPR near 0.15
+	is consequently cap-driven, not operationally low. Checkpoints
+	are selected by selection-partition ROC--AUC with minimum
+	improvement $10^{-4}$. Network metrics include delivery delay,
+	packet PDR, path stability, and transfer efficiency.
 	
 	End-to-end delay measures the average time required for a packet or
 	model update to travel from its source to the destination. It is
@@ -1426,10 +1520,12 @@ deviation across the five seeds.
 	delay indicates faster update transmission and more efficient
 	routing.
 	
-	First-transmission packet delivery ratio (PDR) measures the fraction
-	of attempted packets successfully received on their initial
-	transmission. In this simulator, successful model-update delivery
-	is recorded separately and does not follow directly from PDR:
+
+First-transmission packet delivery ratio (PDR) measures the fraction
+of attempted packets successfully received on their initial
+transmission. It is distinct from the final successful delivery
+of a model update:
+
 	
 	\begin{equation}
 		\mathrm{PDR}
@@ -1439,26 +1535,28 @@ deviation across the five seeds.
 		\label{eq:pdr}
 	\end{equation}
 	
-	where \(N_{\mathrm{received}}\) counts packets received on the
-	first transmission and \(N_{\mathrm{sent}}\) counts first attempts.
-	The model-update delivery rate is the number of updates actually
-	delivered divided by the number of selected update transmissions;
-	it is reported independently of PDR in Table~\ref{tab:overall-results}.
+	where \(N_{\mathrm{received}}\) and \(N_{\mathrm{sent}}\) denote the
+	numbers of successfully received and transmitted packets,
+	respectively. A higher PDR indicates more reliable communication and
+	better link quality.
 	
-	Path stability evaluates the proportion of selected communication
-	paths that remain stable during the evaluated communication rounds:
+	
+	The reported path-stability score averages the simulated link
+	stability and round-to-round route persistence of selected paths:
 	
 	\begin{equation}
 		\mathrm{Path\ Stability}
-		=
-		\frac{N_{\mathrm{stable}}}
-		{N_{\mathrm{selected}}},
+		=\frac{1}{|\mathcal{S}|}\sum_{(i,t)\in\mathcal{S}}
+		\bigl(0.5s_i^{(t)}+0.5\varrho_i^{(t)}\bigr),
 		\label{eq:path-stability}
 	\end{equation}
 	
-	where \(N_{\mathrm{stable}}\) is the number of stable selected paths
-	and \(N_{\mathrm{selected}}\) is the total number of selected paths.
-	Each path contributes \(0.5\,s+0.5\,\varrho\) (link stability \(s\); \(\varrho=1\) if the edge node is unchanged from the previous round), and the reported value is the mean of this score. A higher value indicates greater robustness against link-quality fluctuations, communication failures, and dynamic network changes.
+	where \(\mathcal{S}\) indexes evaluated selected paths,
+	\(s_i^{(t)}\) is their link-stability value, and
+	\(\varrho_i^{(t)}=1\) when the client retains its previous
+	edge node (zero otherwise). The score is not simply the
+	fraction of paths above a binary stability threshold.
+	
 	
 	Transfer efficiency measures the amount of successfully delivered
 	data or model updates relative to the end-to-end transmission time:
@@ -1476,30 +1574,12 @@ deviation across the five seeds.
 	corresponding end-to-end transmission time. A higher transfer
 	efficiency indicates more effective use of the available network
 	resources.
-	Resilience was evaluated using recovery time, recovery rounds, and
-	recovery success. Privacy and communication behavior was evaluated
+	Resilience was evaluated using the F1 recovery fraction, recovery
+	rounds, and surrogate-imputation coverage. Privacy and communication behavior was evaluated
 	using the estimated privacy budget, noise-to-signal ratio, and
 	communication cost.
 	
-	Recovery time measures the time required for the federated learning
-	system to return to a stable state after a client failure, link
-	failure, or missing update. It is defined as
-	
-	\begin{equation}
-		\mathrm{Recovery\ Time}
-		=
-		t_{\mathrm{recovered}}
-		-
-		t_{\mathrm{failure}}.
-		\label{eq:recovery-time}
-	\end{equation}
-	
-	In Eq.~\eqref{eq:recovery-time},
-	\(t_{\mathrm{failure}}\) denotes the time at which the failure occurs,
-	whereas \(t_{\mathrm{recovered}}\) denotes the time at which the
-	system returns to an acceptable stable state. A lower recovery time
-	indicates stronger resilience and a more effective failure-recovery
-	mechanism.
+
 	
 The estimated privacy budget is tracked using an RDP accountant based
 on the accounting participation fraction, the number of
@@ -1546,8 +1626,8 @@ and the DP failure probability:
 	privacy noise has a smaller disruptive effect on the model-update
 	direction.
 	
-	Communication cost measures the total volume of model-update data
-	transmitted by participating clients during federated training:
+	The nominal communication cost is the sum of model-update payload
+	sizes for selected clients over communication rounds:
 	
 	\begin{equation}
 		C_{\mathrm{comm}}
@@ -1561,9 +1641,19 @@ and the DP failure probability:
 		\label{eq:communication-cost}
 	\end{equation}
 	
-	A lower communication cost is generally preferable. However, it
-	should be interpreted together with end-to-end delay, PDR, path
-	stability, transfer efficiency, and intrusion-detection performance.
+	Equation~\eqref{eq:communication-cost} describes attempted uplink
+	payload, not measured physical traffic. The model contains 23,842
+	parameters for the 39-feature CICIoT2023 task and 43,682 for the
+	194-feature UNSW-NB15 task. FP32 updates therefore occupy 95,368
+	and 174,728 bytes, respectively. At ten selected clients for 30
+	rounds, the nominal attempted payload is 28.6104 and 52.4184
+	MB (decimal), excluding downlink broadcasts, headers, and
+	server-constructed surrogates. The separately reported
+	\texttt{communication\_bytes\_on\_wire} includes simulated
+	retransmission traffic where packet-coupled delivery is enabled;
+	it is not a hardware network measurement. The scalability
+	comparison in Figure~\ref{fig:scalability-new} reports that metric
+	under specified configurations.
 	
 	Recovery rounds measure the number of communication rounds required
 	for the model or system-stability indicator to return to an acceptable
@@ -1584,21 +1674,22 @@ and the DP failure probability:
 	which stability is restored. A lower value indicates faster recovery.
 	
 
-The update reconstruction ratio measures the proportion of
-failed or missing model updates successfully reconstructed
-by the recovery mechanism:
+The surrogate-imputation coverage ratio measures the fraction of
+missing selected-client updates for which a coordinate-wise median
+surrogate is inserted:
 
 \begin{equation}
-	R_{\mathrm{upd}}
+	R_{\mathrm{imp}}
 	=
-	\frac{N_{\mathrm{recovered}}}
+	\frac{N_{\mathrm{imputed}}}
 	{N_{\mathrm{failed}}+\xi}.
 	\label{eq:update-reconstruction}
 \end{equation}
 
-Here, $N_{\mathrm{recovered}}$ denotes successfully reconstructed
-updates and $N_{\mathrm{failed}}$ denotes failed or missing updates.
-This ratio is not applicable when no failure occurs.
+Here, $N_{\mathrm{imputed}}$ counts inserted surrogates and
+$N_{\mathrm{failed}}$ counts missing selected-client updates.
+This metric is not applicable when no update is missing and does
+not measure recovery of the missing client's information.
 
 The F1 recovery fraction reported in
 Table~\ref{tab:failure-sensitivity} is a separate metric:
@@ -1606,6 +1697,7 @@ it measures the fraction of recorded failure events for which
 smoothed validation F1-score returns to at least 95\% of its
 pre-failure value. Recovery rounds measure the number of
 rounds required to reach that threshold.
+
 
 \subsection{Parameters}
 \label{subsec:parameters}
@@ -1668,7 +1760,7 @@ failure-related parameters used in the experiments.
 		& \(k\)
 		& \(2.5\) \\
 		
-	Target privacy budgets
+	Diagnostic RDP targets
 	& \(\varepsilon\)
 	& \(\approx10,\ \approx20\) \\
 		
@@ -1689,7 +1781,7 @@ failure-related parameters used in the experiments.
 		& \(p_f\)
 		& \(0.1\) \\
 		
-		Recovered-update coefficient
+		Surrogate raw-weight factor
 		& \(\chi_{\mathrm{rec}}\)
 		& \(0.5\) \\
 		
@@ -1712,315 +1804,299 @@ failure-related parameters used in the experiments.
 		Main comparison seeds
 		& ---
 		& \(12\)--\(16\) (five paired seeds) \\
-		
 	
 		Privacy mechanism
 		& ---
 		& Server-side Gaussian perturbation \\
-		Failure recovery
+		Missing-update handling
 		& ---
-		& Coordinate-wise median \\
+		& Coordinate-wise median surrogate \\
 		
 		\bottomrule
 	\end{tabularx}
 \end{table}
 
 
-	\subsection{Performance Evaluation of the Proposed Framework on CICIoT2023}
+	
+	\subsection{Controlled Performance Evaluation on CICIoT2023
+		and UNSW-NB15}
 	\label{subsec:ciciot-performance}
-		\begin{table*}[!t]
-\centering
-\scriptsize
-\setlength{\tabcolsep}{2pt}
-\renewcommand{\arraystretch}{0.99}
-\caption{Controlled comparison on the locked validation/report partition (five paired seeds, 12--16; mean (SD)). AUC$_\mathrm{last}$ is last-round ROC--AUC; Delay is in ms for delivered updates, PDR is first-transmission packet success, Deliv. is update-delivery success, Stab. is path stability, and TE is transfer efficiency in Mbit/s. TK = top-$k$ selection, UR = uniform selection, R = routed paths, and X = random paths. The $\varepsilon$ labels refer to diagnostic RDP targets, not certified guarantees.}
-\label{tab:overall-results}
-\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lccccccccc@{}}
-\toprule
-Configuration & F1 & AUC & AUC$_{\mathrm{last}}$ & FPR & Delay & PDR & Deliv. & Stab. & TE \\
-\midrule
-\multicolumn{10}{@{}l}{\textit{CICIoT2023}} \\
-FedAvg (TK/R) & 0.9794 (0.0259) & 0.9813 (0.0211) & 0.4625 (0.0843) & 0.1513 (0.0122) & 66.0 (5.9) & 0.851 (0.015) & 0.848 (0.036) & 0.923 (0.007) & 12.9 (1.3) \\
-FedAvg (UR/R) & 0.9904 (0.0010) & 0.9930 (0.0015) & 0.5516 (0.1154) & 0.1400 (0.0108) & 71.8 (4.2) & 0.782 (0.032) & 0.779 (0.022) & 0.855 (0.023) & 12.1 (0.9) \\
-FedAvg (UR/X; E1) & 0.9909 (0.0011) & 0.9934 (0.0013) & 0.5000 (0.0000) & 0.1440 (0.0079) & 87.3 (5.2) & 0.694 (0.035) & 0.685 (0.038) & 0.523 (0.010) & 9.9 (0.8) \\
-MAD filter (UR/R) & 0.9933 (0.0003) & 0.9962 (0.0003) & 0.9958 (0.0007) & 0.1473 (0.0122) & 71.8 (4.2) & 0.782 (0.032) & 0.779 (0.022) & 0.855 (0.023) & 12.1 (0.9) \\
-MAD filter (UR/X; E2) & 0.9932 (0.0003) & 0.9960 (0.0003) & 0.9933 (0.0050) & 0.1477 (0.0146) & 87.3 (5.2) & 0.694 (0.035) & 0.685 (0.038) & 0.523 (0.010) & 9.9 (0.8) \\
-DP+FedAvg (UR/X; E3) & 0.9827 (0.0092) & 0.9738 (0.0186) & 0.9732 (0.0181) & 0.1481 (0.0213) & 87.3 (5.2) & 0.694 (0.035) & 0.685 (0.038) & 0.523 (0.010) & 9.9 (0.8) \\
-Ref. no noise (TK/R) & 0.9934 (0.0002) & 0.9962 (0.0003) & 0.9960 (0.0006) & 0.1441 (0.0181) & 66.0 (5.9) & 0.851 (0.015) & 0.848 (0.036) & 0.923 (0.007) & 12.9 (1.3) \\
-Proposed $\varepsilon\approx10$ & 0.9911 (0.0004) & 0.9930 (0.0014) & 0.9931 (0.0016) & 0.1407 (0.0184) & 66.0 (5.9) & 0.851 (0.015) & 0.848 (0.036) & 0.923 (0.007) & 12.9 (1.3) \\
-Proposed $\varepsilon\approx20$ (E4) & 0.9914 (0.0011) & 0.9937 (0.0013) & 0.9938 (0.0013) & 0.1468 (0.0124) & 66.0 (5.9) & 0.851 (0.015) & 0.848 (0.036) & 0.923 (0.007) & 12.9 (1.3) \\
-\midrule
-\multicolumn{10}{@{}l}{\textit{UNSW-NB15}} \\
-FedAvg (TK/R) & 0.7703 (0.2023) & 0.8870 (0.0856) & 0.6043 (0.1430) & 0.1425 (0.0149) & 76.8 (6.3) & 0.851 (0.015) & 0.848 (0.036) & 0.923 (0.007) & 20.4 (1.8) \\
-FedAvg (UR/R) & 0.7217 (0.2069) & 0.8752 (0.0863) & 0.6493 (0.1749) & 0.1464 (0.0158) & 82.0 (4.8) & 0.782 (0.032) & 0.779 (0.022) & 0.855 (0.023) & 19.2 (1.3) \\
-FedAvg (UR/X; E1) & 0.7094 (0.2163) & 0.8759 (0.0839) & 0.5551 (0.1230) & 0.1449 (0.0168) & 97.4 (5.7) & 0.694 (0.035) & 0.685 (0.038) & 0.523 (0.010) & 16.1 (1.2) \\
-MAD filter (UR/R) & 0.9526 (0.0026) & 0.9825 (0.0018) & 0.9770 (0.0083) & 0.1431 (0.0143) & 82.0 (4.8) & 0.782 (0.032) & 0.779 (0.022) & 0.855 (0.023) & 19.2 (1.3) \\
-MAD filter (UR/X; E2) & 0.9425 (0.0211) & 0.9737 (0.0208) & 0.8334 (0.2371) & 0.1422 (0.0168) & 97.4 (5.7) & 0.694 (0.035) & 0.685 (0.038) & 0.523 (0.010) & 16.1 (1.2) \\
-DP+FedAvg (UR/X; E3) & 0.8314 (0.0480) & 0.8854 (0.0221) & 0.7894 (0.1357) & 0.1534 (0.0063) & 97.4 (5.7) & 0.694 (0.035) & 0.685 (0.038) & 0.523 (0.010) & 16.1 (1.2) \\
-Ref. no noise (TK/R) & 0.9544 (0.0021) & 0.9838 (0.0029) & 0.9826 (0.0045) & 0.1449 (0.0085) & 76.8 (6.3) & 0.851 (0.015) & 0.848 (0.036) & 0.923 (0.007) & 20.4 (1.8) \\
-Proposed $\varepsilon\approx10$ & 0.9005 (0.0335) & 0.9419 (0.0166) & 0.9285 (0.0187) & 0.1488 (0.0102) & 76.8 (6.3) & 0.851 (0.015) & 0.848 (0.036) & 0.923 (0.007) & 20.4 (1.8) \\
-Proposed $\varepsilon\approx20$ (E4) & 0.9065 (0.0351) & 0.9522 (0.0149) & 0.9517 (0.0149) & 0.1455 (0.0067) & 76.8 (6.3) & 0.851 (0.015) & 0.848 (0.036) & 0.923 (0.007) & 20.4 (1.8) \\
-\bottomrule
-\end{tabular*}
-\end{table*}
-
-
-	This section reports controlled comparisons on the CICIoT2023
-validation/report partition. The original test-set-oriented Table~4
-has been replaced by runs with matched seeds, partitions and attack
-settings. Table~\ref{tab:overall-results} distinguishes client
-selection, path assignment and aggregation/privacy settings; it
-reports selected-checkpoint and last-round performance separately.
-
-\subsubsection{Intrusion Detection Results on CICIoT2023}
-\label{subsubsec:ciciot-ids}
-
-CICIoT2023 detection scores remain high across the robust controls.
-The non-private reference pipeline gives ROC--AUC=0.9962, whereas
-the proposed diagnostic $\varepsilon\approx20$ configuration gives
-F1=0.9914 and ROC--AUC=0.9937. The corresponding
-$\varepsilon\approx10$ variant gives ROC--AUC=0.9930.
-Relative to the matched non-private reference, the full
-$\varepsilon\approx10$ pipeline reduces selected-checkpoint
-ROC--AUC by 0.0032 across five seeds. This sequential pipeline
-contrast includes clipping and capped weighting as well as
-Gaussian perturbation; no certified privacy guarantee is claimed.
-
-The FedAvg controls illustrate why selected checkpoints must be
-reported alongside final-round results. With uniform selection and
-random paths, FedAvg achieves a selected-checkpoint ROC--AUC of
-0.9934 but falls to 0.5000 at round 30 under the evaluated sign-flip
-attack. The matched MAD-filter control maintains final-round
-ROC--AUC=0.9933. The matched selected-checkpoint MAD effect is only
-+0.0025, so conclusions about robustness depend on the evaluation
-point.
-
-\subsubsection{Routing and Network Performance Results on CICIoT2023}
-\label{subsubsec:ciciot-network}
-
-The new controls separate two communication mechanisms. Holding
-uniform selection and FedAvg fixed, routing the paths rather than
-assigning random edges reduces mean delivered-update delay from
-87.3 to 71.8~ms. First-transmission PDR increases from 0.694 to
-0.782 and path stability from 0.523 to 0.855; these directions hold
-in all five paired seeds. Holding routed paths fixed, top-$k$
-selection further reduces delay to 66.0~ms, with PDR=0.851 and
-path stability=0.923. Thus, the full proposed configuration reduces
-delay by 24.4\% compared with random-path FedAvg, but only 8.2\%
-compared with routed-path uniform-selection FedAvg.
-
-The packet PDR measures success of the first transmission, whereas
-actual model-update delivery is a separate outcome (0.851 versus
-0.848 for the reference). These two quantities should not be used
-interchangeably. Path assignment and selection improve simulated
-network metrics without a clear selected-checkpoint ROC--AUC
-improvement. The reported transfer-efficiency values describe
-successful traffic per unit of delivered-update delay; network
-outcomes from privacy or aggregation variants with identical route
-policies coincide by construction.
-
-\subsection{Complementary Benchmark Evaluation on UNSW-NB15}
-\label{subsec:unsw-generalization}
-
-UNSW-NB15 is a second within-dataset benchmark with distinct traffic
-and feature representations; it does not constitute cross-dataset
-transfer. The primary evidence in Table~\ref{tab:overall-results}
-comes from the same locked validation-only protocol and five paired
-seeds used on CICIoT2023. The compared arms are executed FedAvg,
-MAD-filter and DP+FedAvg configurations with explicit path/selection
-policies, plus the non-private and Gaussian reference pipelines.
-The previously mentioned ``Modular Edge FL-inspired'' and
-``MCHFL-style'' methods were not executed and are not presented
-as evaluated baselines.
-
-\subsubsection{Intrusion Detection Results on UNSW-NB15}
-\label{subsubsec:unsw-ids}
-
-On the report partition, the proposed diagnostic
-$\varepsilon\approx20$ configuration achieves F1=0.9065,
-ROC--AUC=0.9522 and FPR=0.1455. FedAvg with uniform selection and
-random paths gives F1=0.7094, ROC--AUC=0.8759 and FPR=0.1449;
-this multi-component contrast must not be attributed to routing.
-In the matched random-path, uniform-selection comparison, enabling
-MAD filtering improves ROC--AUC by 0.0978 (five-seed paired 95\%
-interval 0.017--0.179). By contrast, switching path assignment
-while holding the aggregation pipeline fixed does not reveal a
-clear detection-AUC effect. The non-private reference achieves
-ROC--AUC=0.9838; the matched proposed Gaussian pipeline at
-diagnostic $\varepsilon\approx10$ achieves 0.9419, a paired
-change of $-0.0419$. The reported FPR is calibrated on validation;
-performance and false-alarm rates on the untouched official test
-partition remain unmeasured under this protocol.
-
-\subsubsection{Adversarial Robustness under Sign-flip Poisoning}
 	
-	The experiments examine adversarial updates and robust
-	aggregation under a 20\% sign-flip attack on UNSW-NB15.
-	Figure~\ref{fig:attack-robustness} distinguishes
-	selected-checkpoint ROC-AUC from final-round ROC-AUC
-	and reports MAD-filtering outcomes across different
-	numbers of genuinely received updates.
 	
-	\begin{figure}[!b]
+	\begin{table*}[!b]
 		\centering
-		\includegraphics[width=0.86\columnwidth]{fig2.png}
-		\caption{Sign-flip attack (20\%) on UNSW-NB15:
-			(a) selected-checkpoint and final-round ROC-AUC;
-			(b) MAD decisions by the number of genuine
-			received updates.}
-		\label{fig:attack-robustness}
-	\end{figure}
-
-	\subsubsection{Routing and Network Performance Results on UNSW-NB15}
-	\label{subsubsec:unsw-network}
+		\scriptsize
+		\setlength{\tabcolsep}{2pt}
+		\renewcommand{\arraystretch}{0.99}
+		\caption{Controlled comparison on the locked validation/report
+			partition (five paired seeds, 12--16; mean (SD)).
+			AUC$_{\mathrm{last}}$ is last-round ROC--AUC;
+			Delay is in ms for delivered updates, PDR is first-transmission
+			packet success, Deliv. is update-delivery success, Stab. is path
+			stability, and TE is transfer efficiency in Mbit/s.
+			TK = top-$k$ selection, UR = uniform selection,
+			R = routed paths, and X = random paths.
+			The $\varepsilon$ labels refer to diagnostic RDP targets,
+			not certified guarantees.}
+		\label{tab:overall-results}
+		
+		\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lccccccccc@{}}
+			\toprule
+			Configuration & F1 & AUC & AUC$_{\mathrm{last}}$ &
+			FPR & Delay & PDR & Deliv. & Stab. & TE \\
+			\midrule
+			
+			\multicolumn{10}{@{}l}{\textit{CICIoT2023}} \\
+			
+			FedAvg (TK/R)
+			& 0.9794 (0.0259) & 0.9813 (0.0211) & 0.4625 (0.0843)
+			& 0.1513 (0.0122) & 66.0 (5.9) & 0.851 (0.015)
+			& 0.848 (0.036) & 0.923 (0.007) & 12.9 (1.3) \\
+			
+			FedAvg (UR/R)
+			& 0.9904 (0.0010) & 0.9930 (0.0015) & 0.5516 (0.1154)
+			& 0.1400 (0.0108) & 71.8 (4.2) & 0.782 (0.032)
+			& 0.779 (0.022) & 0.855 (0.023) & 12.1 (0.9) \\
+			
+			FedAvg (UR/X; E1)
+			& 0.9909 (0.0011) & 0.9934 (0.0013) & 0.5000 (0.0000)
+			& 0.1440 (0.0079) & 87.3 (5.2) & 0.694 (0.035)
+			& 0.685 (0.038) & 0.523 (0.010) & 9.9 (0.8) \\
+			
+			MAD filter (UR/R)
+			& 0.9933 (0.0003) & 0.9962 (0.0003) & 0.9958 (0.0007)
+			& 0.1473 (0.0122) & 71.8 (4.2) & 0.782 (0.032)
+			& 0.779 (0.022) & 0.855 (0.023) & 12.1 (0.9) \\
+			
+			MAD filter (UR/X; E2)
+			& 0.9932 (0.0003) & 0.9960 (0.0003) & 0.9933 (0.0050)
+			& 0.1477 (0.0146) & 87.3 (5.2) & 0.694 (0.035)
+			& 0.685 (0.038) & 0.523 (0.010) & 9.9 (0.8) \\
+			
+			DP+FedAvg (UR/X; E3)
+			& 0.9827 (0.0092) & 0.9738 (0.0186) & 0.9732 (0.0181)
+			& 0.1481 (0.0213) & 87.3 (5.2) & 0.694 (0.035)
+			& 0.685 (0.038) & 0.523 (0.010) & 9.9 (0.8) \\
+			
+			Ref. no noise (TK/R)
+			& 0.9934 (0.0002) & 0.9962 (0.0003) & 0.9960 (0.0006)
+			& 0.1441 (0.0181) & 66.0 (5.9) & 0.851 (0.015)
+			& 0.848 (0.036) & 0.923 (0.007) & 12.9 (1.3) \\
+			
+			Proposed $\varepsilon\approx10$
+			& 0.9911 (0.0004) & 0.9930 (0.0014) & 0.9931 (0.0016)
+			& 0.1407 (0.0184) & 66.0 (5.9) & 0.851 (0.015)
+			& 0.848 (0.036) & 0.923 (0.007) & 12.9 (1.3) \\
+			
+			Proposed $\varepsilon\approx20$ (E4)
+			& 0.9914 (0.0011) & 0.9937 (0.0013) & 0.9938 (0.0013)
+			& 0.1468 (0.0124) & 66.0 (5.9) & 0.851 (0.015)
+			& 0.848 (0.036) & 0.923 (0.007) & 12.9 (1.3) \\
+			
+			\midrule
+			
+			\multicolumn{10}{@{}l}{\textit{UNSW-NB15}} \\
+			
+			FedAvg (TK/R)
+			& 0.7703 (0.2023) & 0.8870 (0.0856) & 0.6043 (0.1430)
+			& 0.1425 (0.0149) & 76.8 (6.3) & 0.851 (0.015)
+			& 0.848 (0.036) & 0.923 (0.007) & 20.4 (1.8) \\
+			
+			FedAvg (UR/R)
+			& 0.7217 (0.2069) & 0.8752 (0.0863) & 0.6493 (0.1749)
+			& 0.1464 (0.0158) & 82.0 (4.8) & 0.782 (0.032)
+			& 0.779 (0.022) & 0.855 (0.023) & 19.2 (1.3) \\
+			
+			FedAvg (UR/X; E1)
+			& 0.7094 (0.2163) & 0.8759 (0.0839) & 0.5551 (0.1230)
+			& 0.1449 (0.0168) & 97.4 (5.7) & 0.694 (0.035)
+			& 0.685 (0.038) & 0.523 (0.010) & 16.1 (1.2) \\
+			
+			MAD filter (UR/R)
+			& 0.9526 (0.0026) & 0.9825 (0.0018) & 0.9770 (0.0083)
+			& 0.1431 (0.0143) & 82.0 (4.8) & 0.782 (0.032)
+			& 0.779 (0.022) & 0.855 (0.023) & 19.2 (1.3) \\
+			
+			MAD filter (UR/X; E2)
+			& 0.9425 (0.0211) & 0.9737 (0.0208) & 0.8334 (0.2371)
+			& 0.1422 (0.0168) & 97.4 (5.7) & 0.694 (0.035)
+			& 0.685 (0.038) & 0.523 (0.010) & 16.1 (1.2) \\
+			
+			DP+FedAvg (UR/X; E3)
+			& 0.8314 (0.0480) & 0.8854 (0.0221) & 0.7894 (0.1357)
+			& 0.1534 (0.0063) & 97.4 (5.7) & 0.694 (0.035)
+			& 0.685 (0.038) & 0.523 (0.010) & 16.1 (1.2) \\
+			
+			Ref. no noise (TK/R)
+			& 0.9544 (0.0021) & 0.9838 (0.0029) & 0.9826 (0.0045)
+			& 0.1449 (0.0085) & 76.8 (6.3) & 0.851 (0.015)
+			& 0.848 (0.036) & 0.923 (0.007) & 20.4 (1.8) \\
+			
+			Proposed $\varepsilon\approx10$
+			& 0.9005 (0.0335) & 0.9419 (0.0166) & 0.9285 (0.0187)
+			& 0.1488 (0.0102) & 76.8 (6.3) & 0.851 (0.015)
+			& 0.848 (0.036) & 0.923 (0.007) & 20.4 (1.8) \\
+			
+			Proposed $\varepsilon\approx20$ (E4)
+			& 0.9065 (0.0351) & 0.9522 (0.0149) & 0.9517 (0.0149)
+			& 0.1455 (0.0067) & 76.8 (6.3) & 0.851 (0.015)
+			& 0.848 (0.036) & 0.923 (0.007) & 20.4 (1.8) \\
+			
+			\bottomrule
+		\end{tabular*}
+	\end{table*}
 	
-	The network-level results for UNSW-NB15 are summarized in
-	Table~\ref{tab:overall-results}, allowing comparison with
-	the corresponding metrics reported for CICIoT2023.
-	Figure~\ref{fig:routing-fairness} compares routing
-	reliability, client participation, and detection
-	performance under alternative selection and delivery
-	configurations. The comparisons are descriptive when
-	multiple configuration settings differ.
-	
-	\begin{figure*}[!t]
-		\centering
-		\includegraphics[width=0.91\textwidth]{fig3.png}
-		\caption{UNSW-NB15 routing, participation fairness,
-			and detection over five seeds:
-			(a) first-transmission PDR,
-			(b) delay,
-			(c) received-update ratio,
-			(d) selection Gini,
-			(e) never-selected clients,
-			and (f) selected-checkpoint ROC-AUC.}
-		\label{fig:routing-fairness}
-	\end{figure*}
+\subsubsection{Adversarial Robustness under Static Poisoning}
+\label{subsubsec:static-attacks}
 
+The controlled Table~\ref{tab:overall-results} contains the original
+20\% sign-flip condition; Figure~\ref{fig:attack-robustness} also
+illustrates the MAD decisions by the number of genuine arrivals.
+Figure~\ref{fig:attack-sweep} reports a five-seed comparison of non-private FedAvg
+(no filter or imputation) with the MAD-plus-surrogate reference on
+both datasets under no attack, static sign flips at 10\%, 20\% and
+30\% exposure, norm-preserving sign flips (BSF, 20\%) and label
+flipping (LF, 20\%). These controls are distinct from the
+Gaussian-perturbed proposed rows in Table~\ref{tab:overall-results}.
 
-The six panels in Figure~\ref{fig:routing-fairness} illustrate why
-communication reliability and client-selection fairness must be
-considered together. The top-$k$ reference favors routes with strong
-network scores but concentrates participation among fewer clients;
-coverage-aware selection provides a different balance. The packet-
-coupled configuration also changes the delivery process, so its
-performance should be interpreted as a pipeline-level comparison.
+Under 30\% sign-flip exposure, mean selected-checkpoint ROC--AUC
+on UNSW-NB15 was 0.7046 for FedAvg and 0.9799 for the filtered
+reference, a paired difference of +0.2753 (unadjusted 95\%
+$t$-interval [+0.1353,+0.4152]; $n=5$).
+Without an attack the two approaches differed by only +0.0009.
+At 20\% norm-preserving sign flips, MAD retained roughly 80\% of
+malicious updates, so these trials do not demonstrate that such
+updates are reliably detected. Under LF on CICIoT2023,
+FedAvg's mean last-round AUC was 0.6111 despite selected-checkpoint
+AUC of 0.9960, illustrating checkpoint sensitivity.
+All contrasts are exploratory, without multiplicity correction.
+Adaptive or filter-aware poisoning, collusion and security-score
+spoofing were not tested.
 
-	 The method matrix separates routing from aggregation. The
-uniform-selection FedAvg and MAD-filter controls with random paths
-are compared against the corresponding routed-path controls, with
-selected clients, attack assignments and failure draws matched.
-These contrasts indicate improvements in communication measures,
-not an independently detected accuracy gain. In particular, on
-UNSW-NB15 routed uniform-selection FedAvg reduces delivered-update
-delay from 97.4 to 82.0~ms, increases first-transmission PDR from
-0.694 to 0.782 and increases path stability from 0.523 to 0.855.
-The top-$k$ routed configuration decreases delay further to
-76.8~ms. Five-seed uncertainty and the use of independently drawn
-packet-delivery uniforms between path policies limit inference.
-
-Figure~\ref{fig:delivery-comparison} compares
-	communication outcomes under independent and
-	coupled network settings. Update delivery,
-	first-transmission packet success, and delivery
-	delay are reported separately.
-	
-	\begin{figure*}[!b]
-		\centering
-		\includegraphics[width=0.97\textwidth]{fig4.png}
-		\caption{Communication outcomes on UNSW-NB15:
-			(a) update delivery ratio,
-			(b) first-transmission PDR, and
-			(c) delay of delivered updates.
-			Markers and error bars summarize five seeds.}
-		\label{fig:delivery-comparison}
-	\end{figure*}
-
-
-First-transmission PDR and successful update delivery are distinct
-outcomes. Figure~\ref{fig:delivery-comparison} reports both with
-latency and individual-seed variation. Because coupling affects
-multiple communication processes, this comparison is descriptive
-rather than an isolated estimate of one mechanism's effect.
-
-	For UNSW-NB15, the selected-checkpoint advantage over FedAvg
-is associated primarily with robust aggregation under the controlled
-comparison, whereas routed-path assignment and top-$k$ selection
-improve network outcomes. The proposed $\varepsilon\approx20$
-configuration has delivered-update delay 76.8~ms and
-first-transmission PDR=0.851, compared with 97.4~ms and 0.694
-for random-path uniform-selection FedAvg. This comparison changes
-both path assignment and selection, so its combined effect is not
-attributable to either factor alone. Results are exploratory:
-with only five paired seeds, no two-sided exact sign-flip test
-can reach $p<0.05$. Detection results are validation/report
-partition outcomes rather than independent test-set results.
-
-% =========================================================
-% Ablation Study
-% =========================================================
-
-
-% [layout] flow from network outcomes into selection results
-
-\FloatBarrier
-\subsection{Client-Selection Concentration and Exposure}
-\label{subsec:attack-routing-tradeoffs}
-
-Client-selection policies differ in how participation
-is distributed across clients.
-Figure~\ref{fig:selection-concentration} shows the
-cumulative share of selections across clients ranked
-by selection frequency. Steeper curves indicate
-greater concentration among a smaller subset of clients.
+\begin{figure}[!t]
+  \centering
+  \includegraphics[width=\columnwidth]{fig2.png}
+  \caption{Original UNSW-NB15 20\% sign-flip control:
+  (a) selected-checkpoint versus last-round ROC--AUC;
+  (b) MAD decisions by the number of genuine arrivals.}
+  \label{fig:attack-robustness}
+\end{figure}
 
 \begin{figure*}[!t]
-	\centering
-	\includegraphics[width=0.84\textwidth]{fig5.png}
-	\caption{Cumulative client-selection concentration
-		in independent and coupled networks across four
-		selection policies. Curves represent five-seed means.}
-	\label{fig:selection-concentration}
+  \centering
+  \includegraphics[width=0.93\textwidth]{fig3.png}
+  \caption{Non-adaptive attack comparison using paired seeds 12--16
+  	on UNSW-NB15 and CICIoT2023. Both arms use top-$k$ selection
+  	and routed paths: orange circles, unfiltered FedAvg; blue squares,
+  	non-private MAD with median imputation. Top/bottom panels show
+  	selected/last-round ROC--AUC; markers indicate seeds and bars means.
+  	SF: sign flip; BSF: norm-preserving sign flip; LF: label flip.
+  	The Gaussian-perturbed configuration and adaptive attacks were not
+  	evaluated.}
+  \label{fig:attack-sweep}
 \end{figure*}
 
 
-The selection curves complement the Gini and never-selected-client
-statistics in Figure~\ref{fig:routing-fairness}. The top-$k$ policy
-shows more concentrated participation, while uniform selection
-spreads opportunities across more clients. Coverage-aware and
-history-based policies occupy different positions between these
-extremes. Hence, high delivery reliability need not imply balanced
-participation across the client population.
+
+\subsubsection{Controlled Detection and Network Performance}
+\label{subsubsec:unsw-network}
+
+Table~\ref{tab:overall-results} separates routing, selection and
+aggregation controls on the locked validation/report partitions.
+For CICIoT2023, changing FedAvg from uniform selection with random
+paths (UR/X) to uniform selection with routed paths (UR/R)
+reduced mean delivery delay from 87.3 to 71.8~ms and raised
+first-transmission packet PDR from 0.694 to 0.782. Path stability
+rose from 0.523 to 0.855. The corresponding UNSW-NB15 path
+control reduced delay from 97.4 to 82.0~ms with the same PDR
+and stability changes. These network outcomes do not isolate
+a detection benefit, and delivered-update delay is not online
+intrusion-alert latency.
+
+The proposed $\widehat\varepsilon\approx20$ rows achieved F1 and
+selected-checkpoint ROC--AUC of 0.9914/0.9937 (CICIoT2023)
+and 0.9065/0.9522 (UNSW-NB15), respectively. Their routing
+conditions are matched to FedAvg (top-$k$/routed) in Table~\ref{tab:overall-results};
+therefore the identical mean network measurements cannot be
+attributed to MAD filtering or Gaussian perturbation. Against
+FedAvg with random paths and uniform selection, the comparison
+changes several mechanisms at once.
+
+Benign FPR remains approximately 0.1468 on CICIoT2023 and
+0.1455 on UNSW-NB15, corresponding to about 147 and 146
+false alarms per 1,000 benign validation/report records.
+Because the classification threshold was calibrated under a
+validation FPR cap of 0.15, these figures do not demonstrate an
+acceptable deployment false-alarm burden.
+
+\subsubsection{Routing and Surrogate Imputation: a Matched \texorpdfstring{$2\times2$}{2 x 2} Control}
+\label{subsec:routing-surrogate}
+
+Figure~\ref{fig:routing-surrogate} summarizes a non-private $2\times2$ control varying routing and
+surrogate imputation using identical splits and five paired seeds.
+On UNSW-NB15, selected-checkpoint AUC for routing on was
+0.9822 without surrogates and 0.9838 with them; with routing
+off, it was 0.9737 and 0.9685, respectively.
+The interaction difference was +0.0068 (unadjusted 95\%
+$t$-interval [$-0.0024$, +0.0159]); on CICIoT2023 it was
++0.0005 [$-0.0004$, +0.0014]. Neither interval establishes an
+interaction or an independent detection benefit from surrogate
+imputation. Reconstructed median vectors cannot recover the
+missing clients' private training information.
+
+\begin{figure*}[!t]
+  \centering
+  \includegraphics[width=0.87\textwidth]{fig4.png}
+  \caption{Routing $\times$ surrogate-imputation control: selected
+  ROC--AUC for five paired seeds under the four routing/imputation
+  combinations. The two datasets are evaluated separately; the
+  non-private controls do not establish an effect in the Gaussian
+  pipeline. Shown comparisons are exploratory.}
+  \label{fig:routing-surrogate}
+\end{figure*}
 
 
-Figure~\ref{fig:malicious-exposure} examines the
-association between malicious-client exposure and
-last-round detection performance. The results show
-variation across network settings and random seeds;
-the relationship is descriptive rather than causal.
 
-\begin{figure}[!t]
-	\centering
-	\includegraphics[width=0.89\columnwidth]{fig6.png}
-	\caption{Malicious-client exposure versus final
-		validation ROC-AUC under independent and coupled
-		settings. Circle, diamond, square, and triangle
-		denote top-$k$, coverage, uniform, and UCB
-		policies, respectively; hollow markers show
-		policy means ($n=5$).}
-	\label{fig:malicious-exposure}
-\end{figure}
+\subsection{Participation Fairness and Held-out Client Recall}
+\label{subsec:attack-routing-tradeoffs}
+
+Top-$k$ routing preferentially selects well-connected clients; this
+is a reliability objective rather than a fairness guarantee.
+Figure~\ref{fig:participation-new} summarizes the matched
+participation study. Across five seeds, selection Gini was
+approximately 0.73 for top-$k$, 0.49 for coverage-aware
+and 0.21 for uniform selection, while the average number of
+never-selected clients was 27, 8 and 0 of 50, respectively.
+
+Held-out client recall was measured only on evaluation rows that
+were never used for training, with eligible clients requiring at
+least ten held-out attack examples. UNSW-NB15 used the SUPP\_V1
+holdout; CICIoT2023 used the SUPP\_V2 group-disjoint predictor
+holdout fitted with training-only preprocessing. The two
+protocols are therefore reported separately rather than pooled.
+On UNSW-NB15 under independent network assignment, the mean
+worst eligible-client recall was 0.916 for top-$k$ versus 0.779
+for uniform selection. The mean paired difference was $-0.1375$
+(unadjusted 95\% $t$-interval [$-0.260$,$-0.015$]); the two-sided
+exact sign-flip test gave $p=0.0625$. With only five seeds and
+many exploratory comparisons, this is not a confirmatory
+superiority or harm claim. Greater participation coverage did
+not consistently improve the least-served eligible client's recall.
+
+\begin{figure*}[!t]
+  \centering
+  \includegraphics[width=0.85\textwidth]{fig5.png}
+  \caption{Participation and client-level holdout outcomes: worst
+  eligible-client attack recall (top) and selection Gini (bottom)
+  for top-$k$, coverage-aware and uniform selection with independent
+  and coupled simulated networks. Dots are five seeds, bars are
+  means. UNSW-NB15 and CICIoT2023 use separate SUPP\_V1 and
+  leakage-controlled SUPP\_V2 holdout protocols, respectively.}
+  \label{fig:participation-new}
+\end{figure*}
 
 
-The individual-seed points in Figure~\ref{fig:malicious-exposure}
-show that similar malicious-client exposure can coincide with
-different final-round detection outcomes. The hollow markers
-summarize policy-level means, but they do not remove within-policy
-variability. This descriptive relationship should not be taken
-as evidence that exposure alone determines ROC-AUC; routing,
-aggregation, and stochastic training conditions also differ.
 
-\FloatBarrier
 \subsection{Ablation}
 \label{subsec:ablation}
 
@@ -2056,7 +2132,7 @@ not filtered.
 
 \begin{figure*}[!b]
 	\centering
-	\includegraphics[width=0.94\textwidth]{fig7.png}
+	\includegraphics[width=0.94\textwidth]{fig6.png}
 	\caption{Effect of disabling MAD-based robust filtering on
 		validation/report-partition ROC--AUC: (a) CICIoT2023 and
 		(b) UNSW-NB15. Each pair of markers represents the same random
@@ -2070,7 +2146,7 @@ not filtered.
 \label{subsubsec:ablation-components}
 
 Figure~\ref{fig:ablation-components} compares paired ROC--AUC
-changes for the remaining controls. Removing surrogate recovery,
+changes for the remaining controls. Omitting surrogate imputation,
 disabling server momentum while holding the server learning rate at
 $\eta_s=0.5$, and applying MAD filtering to genuine updates before
 surrogate reconstruction did not produce clearly distinguishable
@@ -2084,23 +2160,26 @@ never-selected clients were 27.2, 8, and 0, respectively.
 
 \begin{figure*}[!t]
 	\centering
-	\includegraphics[width=0.94\textwidth]{fig8.png}
+	\includegraphics[width=0.94\textwidth]{fig7.png}
 	\caption{Paired ROC--AUC changes (variant minus matched comparator)
 		for CICIoT2023 and UNSW-NB15. Blue circles denote selected
 		checkpoints and orange diamonds denote the last round; filled
 		and hollow markers distinguish single-factor and pipeline-level
 		contrasts. Horizontal intervals summarize uncertainty across
 		paired seeds. The horizontal axis uses a symmetric-logarithmic
-		scale, and the privacy contrasts have different matched
-		comparators, as specified in the text.}
+scale and privacy contrasts have different matched comparators.
+The plotted ``Clip + weight cap'' category is a combined change in
+clipping, aggregation path and heterogeneous-to-uniform weights,
+not a cap-only effect.}
 	\label{fig:ablation-components}
 \end{figure*}
 
-\begin{table}[!t]
-	\caption{Audited mean paired ROC--AUC differences over five seeds.
-		Filtering is compared with the matched reference; privacy effects
-		are ordered contrasts, with Gaussian noise added after clipping
-		and capped weighting.}
+\begin{table}[!tbp]
+	\caption{Audited mean paired ROC--AUC differences over five seeds
+		(exploratory). The Gaussian-only row changes only noise under
+		identical clipping, uniform weights and network traces; the other
+		privacy rows combine a change to clipping, aggregation path and
+		heterogeneous-to-uniform weighting.}
 	\label{tab:ablation-summary}
 	\centering
 	\footnotesize
@@ -2112,28 +2191,32 @@ never-selected clients were 27.2, 8, and 0, respectively.
 		\midrule
 		No MAD filter (selected) & $-0.011$ & $-0.093$ \\
 		No MAD filter (last) & $-0.309$ & $-0.518$ \\
-		Clipping + cap (selected) & $-0.0017$ & $-0.0262$ \\
-		Added Gaussian (selected) & $-0.0015$ & $-0.0157$ \\
-		Full privacy pipeline (selected) & $-0.0032$ & $-0.0419$ \\
+		Clip + uniform (combined) & $-0.0017$ & $-0.0262$ \\
+		Added Gaussian (noise only) & $-0.0015$ & $-0.0157$ \\
+		Full pipeline (combined) & $-0.0032$ & $-0.0419$ \\
 		\bottomrule
 	\end{tabular}
 \end{table}
 
-The ordered privacy comparison in Table~\ref{tab:ablation-summary}
-separates the effect of clipping and capped weighting without
-Gaussian noise from the incremental effect of adding Gaussian
-perturbation to that same pipeline. At the selected checkpoint,
-clipping and capped weighting yielded differences of $-0.0017$
-and $-0.0262$ on CICIoT2023 and UNSW-NB15. Subsequent Gaussian
-perturbation contributed further differences of $-0.0015$ and
-$-0.0157$, giving full-pipeline contrasts of $-0.0032$ and
-$-0.0419$, respectively. The non-noise stages therefore represent
-approximately 53\% and 63\% of these point-estimate losses.
-These are conditional, sequential comparisons rather than a
-factorial attribution of independent effects; interactions were
-not separately estimated. The associated privacy budget
-($\widehat{\varepsilon}\approx10$) is an accounting estimate, not
-a certified end-to-end guarantee.
+Table~\ref{tab:ablation-summary} gives ordered contrasts, not
+individual contributions from every component. The no-noise
+``Clip + uniform'' comparison changes both clipping and the
+aggregation mode, replacing heterogeneous sample-size weights
+with uniform capped weights. Its paired AUC differences are
+$-0.0017$ and $-0.0262$ on CICIoT2023 and UNSW-NB15.
+Adding Gaussian noise to that already clipped, uniformly weighted
+pipeline is a controlled \emph{noise-only} change ($-0.0015$
+and $-0.0157$, respectively), because the clipping outcomes,
+applied weights and selected network traces match by seed.
+The full combined contrasts are $-0.0032$ and $-0.0419$.
+The non-noise combined step represents approximately 53\% and
+63\% of the respective point-estimate losses, but this is
+\emph{not} a decomposition of clipping and weighting effects.
+These five-seed comparisons are exploratory and the reported
+$\widehat\varepsilon\approx10$ is diagnostic rather than a
+certified privacy guarantee.
+
+
 
 Communication changes require similar care. On CICIoT2023,
 packet-coupled delivery reduced the delivered-update ratio from
@@ -2144,15 +2227,53 @@ the delivery process, it is not an isolated ablation of the routing
 algorithm. Likewise, a historical configuration combining zero
 momentum with server learning rate 5.0 cannot identify the effect
 of momentum alone. With only five paired seeds, a two-sided exact
-sign-flip test has a minimum attainable $p$-value of 0.0625;
-small observed differences should therefore not be interpreted as
-statistical equivalence or definitive component effects. The
+sign-flip test has a minimum attainable $p$-value of 0.0625,
+whereas parametric $t$-intervals can exclude zero. Such intervals
+are unadjusted for the large number of exploratory comparisons
+and do not establish definitive component effects. The
 reported comparisons use audited metrics and exclude unregistered
 checkpoint files.
 
-\FloatBarrier
+\subsection{Parameter Sensitivity and Simulated Resource Scaling}
+\label{subsec:sensitivity-scaling}
 
-\FloatBarrier
+Parameter sweeps used matched seeds and the validation/report
+protocol, not the reserved test sets. On UNSW-NB15 ($n=5$),
+Dirichlet $\alpha=0.1$ relative to 0.5 decreased selected AUC by
+$-0.1159$; its unadjusted 95\% interval ranged from $-0.2114$ to
+$-0.0203$. Halving the clipping norm changed AUC by $-0.0187$
+(interval $-0.0359$ to $-0.0015$). Other parameter effects
+were small or imprecise. CICIoT2023 sensitivity runs used three
+seeds for most parameters, so their uncertainty is less resolved.
+Detailed confidence intervals appear in Supplementary Figure~S2. The $\chi_{\mathrm{rec}}$ sweep on the non-private reference is
+kept distinct from the Gaussian-path $\chi_{\mathrm{rec}}=0$
+abstention control (Table S6).
+
+
+
+Figure~\ref{fig:scalability-new} summarizes a separate three-seed scalability study varying the total number
+of simulated clients $N\in\{25,50,100\}$ and the selected count
+$k\in\{5,10,20\}$. At $N=50$, $k=10$, selected AUC was about
+0.9521 (UNSW-NB15) and 0.9929 (CICIoT2023); doubling $N$
+while retaining $k=10$ yielded 0.9205 and 0.9908, respectively.
+The simulated serialized-update traffic scales with $k$, from
+26.2 to 104.7 MB per run on UNSW-NB15 and from 14.3 to
+57.2 MB on CICIoT2023 when $k$ rises from 5 to 20.
+Peak working-set measurements were approximately 1.03 GB and
+2.56 GB, respectively, dominated by in-memory data. Wall times
+were measured on one shared CPU host and must not be interpreted
+as production IoT latency or a hardware scalability guarantee.
+
+\begin{figure*}[!t]
+  \centering
+  \includegraphics[width=0.93\textwidth]{fig8.png}
+  \caption{Exploratory three-seed scalability controls for
+  UNSW-NB15 (top) and CICIoT2023 (bottom): selected ROC--AUC,
+  shared-host runtime, and simulated bytes on the wire for
+  different $N$ and $k$. The network quantities are simulated and
+  wall-clock values are not deployment benchmarks.}
+  \label{fig:scalability-new}
+\end{figure*}
 
 \subsection{Controlled Failure Sensitivity and Privacy Diagnostics}
 \label{subsec:resilience-privacy}
@@ -2175,7 +2296,7 @@ from 1.52 to 4.11 across the evaluated settings, while
 the validation-F1 recovery fraction remained between
 0.962 and 0.973.
 
-\begin{table}[!t]
+\begin{table}[!tbp]
 	\caption{Audited failure sensitivity of the UNSW-NB15
 		reference configuration (five-seed means).}
 	\label{tab:failure-sensitivity}
@@ -2199,9 +2320,8 @@ the validation-F1 recovery fraction remained between
 The reported recovery fraction measures the proportion
 of failure events followed by restoration of smoothed
 validation F1-score to at least 95\% of its pre-failure
-value. It is distinct from the proportion of missing
-client updates successfully reconstructed. Recovery
-success did not show a monotonic decline as injected
+value. It is distinct from surrogate-imputation coverage.
+F1 recovery did not decline monotonically as injected
 failures increased.
 
 The observed packet delivery ratio and mean delay
@@ -2220,6 +2340,7 @@ $\widehat{\varepsilon}=9.999$. The corresponding
 noise-to-signal ratios were approximately 23.53 on
 CICIoT2023 and 35.29 on UNSW-NB15.
 
+
 The new Table~\ref{tab:overall-results} also reports completed
 DP+FedAvg and $\varepsilon\approx20$ controls. Comparisons across
 these configurations are multi-factor and should not be used to
@@ -2230,72 +2351,82 @@ approximation. Thus, the reported privacy budget is
 not a certified end-to-end differential-privacy
 guarantee.
 
-The ablation results in
-Section~\ref{subsec:ablation} also indicate that
-clipping and capped weighting contribute to the
-observed utility loss alongside Gaussian noise.
-Accordingly, privacy-related utility changes must be
-interpreted at the pipeline level.
+The ablation results in Section~\ref{subsec:ablation} isolate
+an incremental Gaussian-only utility change, but the other
+contrasts combine clipping and the transition from heterogeneous
+to uniform weights. Their separate effects were not identified.
+Consequently, privacy-related utility differences must be
+interpreted at the specified pipeline level.
 
 
-	\section{Conclusion}
+\section{Conclusion}
 \label{sec:conclusion}
 
-The controlled evaluation examined routing-aware update delivery,
+This study evaluated routing-aware update delivery with
 median-based surrogate imputation, MAD filtering and optional
-Gaussian perturbation in simulated Edge--Cloud intrusion detection.
-In CICIoT2023, the proposed diagnostic $\varepsilon\approx20$
-configuration achieves F1=0.9914 and ROC--AUC=0.9937 on the
-validation/report partition. Mean delivered-update delay is
-66.0~ms, compared with 87.3~ms for uniform-selection FedAvg
-using random paths and 71.8~ms for the corresponding routed-path
-baseline. On UNSW-NB15, the proposed configuration achieves
-F1=0.9065 and ROC--AUC=0.9522. The matched MAD-filter control
-improves ROC--AUC by approximately 0.098 over FedAvg with
-other conditions held fixed. Path assignment and client selection
-improve simulated network metrics without an independently
-detectable gain in selected-checkpoint detection AUC.
+Gaussian-perturbed aggregation for federated IDS training under
+simulated Edge--Cloud communication failures. On the locked
+validation/report partitions, the $\widehat\varepsilon\approx20$
+configuration achieved F1/ROC--AUC of 0.9914/0.9937 on CICIoT2023
+and 0.9065/0.9522 on UNSW-NB15. Against random-path,
+uniform-selection FedAvg, CICIoT2023 simulated update delay
+changed from 87.3 to 66.0~ms and first-transmission PDR from
+0.694 to 0.851, but this is a multi-component comparison.
 
-The separate five-seed ablation demonstrates the importance of
-MAD filtering for last-round stability, while the privacy pipeline
-reduces selected-checkpoint AUC relative to the non-private
-reference. These estimates have limited resolution with only five
-paired seeds. Results are confined to a simulated network, a
-sign-flip attacker model and validation/report partitions; they do
-not establish independent official-test performance or transfer
-to deployed networks. Accounting values
-$\widehat{\varepsilon}\approx10$ and $20$ are diagnostics rather
-than certified end-to-end differential-privacy guarantees.
-Future studies should validate test-set transfer under a frozen
-protocol, assess operational false-alarm requirements and evaluate
-network realism, adversarial adaptation and privacy calibration.
+Under a static 30\% sign-flip attack, the non-private MAD-plus-
+surrogate reference retained a selected-checkpoint AUC of 0.9799
+on UNSW-NB15 versus 0.7046 for unfiltered FedAvg. This contrast
+supports conditional robustness to the tested sign-flip model,
+not a guarantee against adaptive attacks. The matched routing
+$\times$ imputation controls found no demonstrated standalone
+detection benefit from inserting median surrogates. In the
+central-Gaussian pipeline, the weight cap forces exactly uniform
+weights with at most ten retained updates; neither client sample
+size nor $\chi_{\mathrm{rec}}$ influences the applied weights in
+those non-abstaining rounds. The utility loss attributed to the
+non-noise privacy step combines clipping and reweighting,
+whereas the incremental Gaussian-noise contrast is isolated.
 
-\section*{Code Availability}
+Selection policies with lower participation concentration did
+not consistently improve the worst eligible-client held-out
+recall. Resource and sensitivity measurements come from small
+paired-seed simulations and shared-host CPU runs. Benign FPR
+near 0.15, incomplete capture-level independence in parts of
+CICIoT2023, untested adaptive poisoning, and the absence of a
+real Edge--Cloud testbed constrain deployment conclusions.
+Finally, individual updates are visible to the receiving server
+and the RDP estimates rely on a sampling approximation that does
+not certify privacy under deterministic selection and filtering.
+Future work should address adaptive attackers, stronger
+independent-data evaluation, operational false-alarm thresholds,
+and a privacy mechanism with an appropriate formal accountant.
 
-The source code, configurations, run manifest and analysis scripts are
-publicly available at
-\href{https://github.com/RezaAzarnia/routing-aware-fl-edgecloud-iot-ids}{github.com/RezaAzarnia/routing-aware-fl-edgecloud-iot-ids}.
-A versioned snapshot (release \texttt{v1.0.4}) is archived on Zenodo,
-\href{https://doi.org/10.5281/zenodo.24031823}{10.5281/zenodo.24031823}.
-It contains the code, the locked configurations and the Table~4 controlled-study manifest and
-analysis scripts.
+
+
+	\section*{Code Availability}
+
+The implementation, locked configurations and analysis scripts are
+available in the \href{https://github.com/RezaAzarnia/routing-aware-fl-edgecloud-iot-ids}{GitHub repository}.
+The versioned \href{https://doi.org/10.5281/zenodo.24032087}{Zenodo snapshot}
+(\texttt{v.1.0.5}, commit \texttt{7d598855}) predates SUPP\_V1/V2 and
+does not archive their new attack, sensitivity, participation or
+scalability results.
 
 \section*{Data Availability}
 
-The public \href{https://cicresearch.ca/IOTDataset/CIC_IOT_Dataset2023/}
-{CICIoT2023} and
-\href{https://www.kaggle.com/datasets/mrwellsdavid/unsw-nb15}
-{UNSW-NB15} datasets were used; no new dataset was generated. The raw datasets are not redistributed. The Zenodo archive
-\href{https://doi.org/10.5281/zenodo.24031823}{10.5281/zenodo.24031823}
-includes the locked experiment manifest and the published per-seed,
-summary and paired-effect tables of the controlled five-seed study
-(seeds 12--16). The raw per-run output directories (round logs,
-validation predictions, model checkpoints) are not published and are
-therefore not archived; values that depend on them can be checked only
-through the published tables and the manifest.
+\href{https://cicresearch.ca/IOTDataset/CIC_IOT_Dataset2023/}{CICIoT2023}
+and \href{https://www.kaggle.com/datasets/mrwellsdavid/unsw-nb15}{UNSW-NB15}
+are publicly available; their raw datasets are not redistributed.
+The \href{https://doi.org/10.5281/zenodo.24032087}{v.1.0.5 archive}
+includes the controlled Table~\ref{tab:overall-results} manifest and
+per-seed, summary and paired-effect CSVs (seeds 12--16).
+New SUPP\_V1/V2 per-seed, summary, figure-data and QA files are supplied
+separately with this revision, not in that archive. Complete raw
+run outputs, checkpoints and validation predictions are not publicly archived.
 
-	\FloatBarrier
+\FloatBarrier
 	\setlength{\bibsep}{0pt}
+\interlinepenalty=10000
 	\bibliographystyle{elsarticle-num}
 	\bibliography{references}
 	

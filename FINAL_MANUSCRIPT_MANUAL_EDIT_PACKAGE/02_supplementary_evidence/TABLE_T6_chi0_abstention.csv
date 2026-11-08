@@ -1,0 +1,11 @@
+Dataset,Seed,abstention rounds,round ids,noisy releases,attempted rounds,ε release-based (diagnostic),ε attempted-round (diagnostic),AUC sel χ=0,AUC sel reference_gaussian,Δ sel,Δ last,V2 run id
+CICIoT2023,12,0,-,30,30,9.999,9.999,0.9935,0.9935,+0.0000,+0.0000,v2__ciciot__sens_chi0_dp__seed12
+CICIoT2023,13,1,21,29,30,9.858,9.999,0.9911,0.9912,-0.0000,-0.0000,v2__ciciot__sens_chi0_dp__seed13
+CICIoT2023,14,0,-,30,30,9.999,9.999,0.9939,0.9939,+0.0000,+0.0000,v2__ciciot__sens_chi0_dp__seed14
+CICIoT2023,15,4,14;15;16;22,26,30,9.434,9.999,0.9951,0.9946,+0.0006,+0.0000,v2__ciciot__sens_chi0_dp__seed15
+CICIoT2023,16,0,-,30,30,9.999,9.999,0.9919,0.9919,+0.0000,+0.0000,v2__ciciot__sens_chi0_dp__seed16
+UNSW-NB15,12,0,-,30,30,9.999,9.999,0.9569,0.9569,+0.0000,+0.0000,v2__unsw__sens_chi0_dp__seed12
+UNSW-NB15,13,1,21,29,30,9.858,9.999,0.9627,0.9603,+0.0024,+0.0018,v2__unsw__sens_chi0_dp__seed13
+UNSW-NB15,14,0,-,30,30,9.999,9.999,0.9389,0.9389,+0.0000,+0.0000,v2__unsw__sens_chi0_dp__seed14
+UNSW-NB15,15,4,14;15;16;22,26,30,9.434,9.999,0.9388,0.9322,+0.0067,+0.0034,v2__unsw__sens_chi0_dp__seed15
+UNSW-NB15,16,0,-,30,30,9.999,9.999,0.9211,0.9211,+0.0000,-0.0000,v2__unsw__sens_chi0_dp__seed16

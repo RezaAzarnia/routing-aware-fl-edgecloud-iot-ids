@@ -1,0 +1,13 @@
+dataset,arm,differs_from_reference_only_in_declared_fields,observed_diff,seeds_12_16_in_locked_manifest,config_sha256_equals_manifest,validation_split_identical_to_reference_runs,all_five_runs_complete
+unsw,reference,True,{},True,True,True,True
+unsw,ctl_imputation_none,True,"{'failure.recovery_enabled': (True, False)}",True,True,True,True
+unsw,ctl_imputation_cap010,True,"{'failure.surrogate_total_weight_cap': (None, 0.1)}",True,True,True,True
+unsw,ctl_imputation_postfilter,True,"{'aggregation.surrogate_handling': (None, 'post_filter_real_only')}",True,True,True,True
+unsw,reference_gaussian,True,"{'privacy.target_epsilon': (None, 10.0), 'privacy.auto_calibrate_noise': (False, True), 'privacy.mode': ('none', 'central_client')}",True,True,True,True
+unsw,scenario_fedavg_topk,True,"{'routing.selection_policy': (None, 'top_k'), 'aggregation.method': ('distance_filter', 'fedavg'), 'failure.recovery_enabled': (True, False)}",True,True,True,True
+ciciot,reference,True,{},True,True,True,True
+ciciot,ctl_imputation_none,True,"{'failure.recovery_enabled': (True, False)}",True,True,True,True
+ciciot,ctl_imputation_cap010,True,"{'failure.surrogate_total_weight_cap': (None, 0.1)}",True,True,True,True
+ciciot,ctl_imputation_postfilter,True,"{'aggregation.surrogate_handling': (None, 'post_filter_real_only')}",True,True,True,True
+ciciot,reference_gaussian,True,"{'privacy.target_epsilon': (None, 10.0), 'privacy.auto_calibrate_noise': (False, True), 'privacy.mode': ('none', 'central_client')}",True,True,True,True
+ciciot,scenario_fedavg_topk,True,"{'routing.selection_policy': (None, 'top_k'), 'aggregation.method': ('distance_filter', 'fedavg'), 'failure.recovery_enabled': (True, False)}",True,True,True,True

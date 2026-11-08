@@ -1,0 +1,205 @@
+\begin{thebibliography}{10}
+\expandafter\ifx\csname url\endcsname\relax
+  \def\url#1{\texttt{#1}}\fi
+\expandafter\ifx\csname urlprefix\endcsname\relax\def\urlprefix{URL }\fi
+\expandafter\ifx\csname href\endcsname\relax
+  \def\href#1#2{#2} \def\path#1{#1}\fi
+
+\bibitem{soomro2026securedyn}
+I.~A. Soomro, et~al., {SecureDyn-FL}: A robust privacy-preserving federated
+  learning framework for intrusion detection in {IoT} networks, IEEE
+  Transactions on Network and Service Management 23 (2026) 1742--1765.
+
+\bibitem{carillo2026incremental}
+R.~Carillo, et~al., A federated and incremental network intrusion detection
+  system for {IoT} emerging threats, IEEE Transactions on Network and Service
+  Management 23 (2026) 3865--3880.
+
+\bibitem{latif2026multimodel}
+S.~Latif, D.~Djenouri, Adaptive multi-model hierarchical federated learning for
+  robust {IoT} intrusion detection, Sensors 26~(10) (2026) 3198.
+
+\bibitem{s2dfl2026}
+J.~Yang, Y.~Chen, {S2D-FL}: Sparsity-guided and trust-aware federated learning
+  for joint robustness and privacy in {IoT} edge computing, IEEE Open Journal
+  of the Computer Society 7 (2026) 914--923.
+\newblock \href {https://doi.org/10.1109/OJCS.2026.3689594}
+  {\path{doi:10.1109/OJCS.2026.3689594}}.
+
+\bibitem{shu2026trustworthy}
+J.~Shu, et~al., A trustworthy federated learning framework for joint privacy
+  and byzantine resilience, IEEE Internet of Things Journal 13~(7) (2026)
+  12673--12686.
+
+\bibitem{liu2026anonymous}
+W.~Liu, et~al., Anonymous and byzantine-robust federated learning with secure
+  and efficient aggregation, IEEE Transactions on Dependable and Secure
+  Computing 23~(3) (2026) 5214--5225.
+
+\bibitem{zhu2026bpflh}
+G.~Zhu, et~al., {BPFLH}: Byzantine-robust privacy-preserving federated learning
+  for heterogeneous data, IEEE Transactions on Dependable and Secure Computing
+  23~(3) (2026) 6103--6118.
+
+\bibitem{zhang2026endpca}
+M.~Zhang, et~al., {EndPCA}: Ensemble defense with provably convergent
+  aggregation against poisoning attacks in federated learning, IEEE
+  Transactions on Information Forensics and Security 21 (2026) 1438--1453.
+
+\bibitem{zhang2026malicious}
+Y.~Zhang, et~al., {``Malicious or Benign?''}: Enhancing the contribution of
+  model updates in byzantine-robust heterogeneous federated learning, IEEE
+  Transactions on Network Science and Engineering 13 (2026) 6027--6040.
+
+\bibitem{shah2026trisafe}
+S.~H. Shah, I.~Walker, M.~Borowczak, {TriSAFE}: Transcript-bound verifiable
+  secure aggregation with differential privacy and timing defenses for
+  gateway-assisted {IoT} federated learning, IEEE Access 14 (2026)
+  89354--89379.
+
+\bibitem{wang2026desa}
+L.~Wang, et~al., {DeSA}: Decentralized secure aggregation for federated
+  learning in zero-trust device-to-device networks, IEEE Transactions on
+  Information Forensics and Security 21 (2026) 1987--2001.
+
+\bibitem{tang2026fedcst}
+Y.~Tang, et~al., {FedCST}: Reliable federated learning under clustered data
+  distribution in industrial internet of things, Computer Networks 280 (2026)
+  112209.
+
+\bibitem{abdallah2026routing}
+W.~Abdallah, Federated edge intelligence for secure and adaptive routing in
+  {IoT}: A {GRU-RL}-based framework, Journal of Combinatorial Optimization
+  51~(2) (2026) 1--28.
+
+\bibitem{zhang2026adaptive}
+Y.~Zhang, et~al., Adaptive routing protocol for large-scale power internet of
+  things based on edge computing and federated learning, Scientific Reports 16
+  (2026) 12246.
+
+\bibitem{alanazi2026edgeguard}
+A.~G. Alanazi, H.~A. Alanazi, {EdgeGuard-AI}: Zero-trust and load-aware
+  federated scheduling for secure and low-latency {IoT} edge networks, Sensors
+  26~(6) (2026) 1989.
+
+\bibitem{almeida2025modular}
+L.~Almeida, et~al., Federated learning for a dynamic edge: A modular and
+  resilient approach, Sensors 25~(12) (2025) 3812.
+\newblock \href {https://doi.org/10.3390/s25123812}
+  {\path{doi:10.3390/s25123812}}.
+
+\bibitem{aburukba2025scheduling}
+S.~R. S, R.~Aburukba, Federated learning-driven {IoT} request scheduling for
+  fault tolerance in cloud data centers, Mathematics 13~(13) (2025) 2198.
+\newblock \href {https://doi.org/10.3390/math13132198}
+  {\path{doi:10.3390/math13132198}}.
+
+\bibitem{albanbay2025ids}
+N.~Albanbay, et~al., Federated learning-based intrusion detection in {IoT}
+  networks: Performance evaluation and data scaling study, Journal of Sensor
+  and Actuator Networks 14~(4) (2025) 78.
+\newblock \href {https://doi.org/10.3390/jsan14040078}
+  {\path{doi:10.3390/jsan14040078}}.
+
+\bibitem{alghadi2025dos}
+T.~Q. Al-Ghadi, et~al., Leveraging federated learning for {DoS} attack
+  detection in {IoT} networks based on ensemble feature selection and deep
+  learning models, Cyber Security and Applications 3 (2025) 100098.
+\newblock \href {https://doi.org/10.1016/j.csa.2025.100098}
+  {\path{doi:10.1016/j.csa.2025.100098}}.
+
+\bibitem{chen2025hierarchical}
+X.~Chen, et~al., Multicenter hierarchical federated learning with
+  fault-tolerance mechanisms for resilient edge computing networks, IEEE
+  Transactions on Neural Networks and Learning Systems 36~(1) (2025) 47--61.
+
+\bibitem{geng2024smpc}
+T.~Geng, J.~Liu, C.-T. Huang, A privacy-preserving federated learning framework
+  for {IoT} environment based on secure multi-party computation, in: 2024 IEEE
+  Annual Congress on Artificial Intelligence of Things (AIoT), IEEE, 2024, pp.
+  117--122.
+\newblock \href {https://doi.org/10.1109/AIoT63253.2024.00032}
+  {\path{doi:10.1109/AIoT63253.2024.00032}}.
+
+\bibitem{bhardwaj2024routing}
+M.~Bhardwaj, et~al., A novel federated learning approach for routing
+  optimisation in opportunistic {IoT} networks, International Journal of Sensor
+  Networks 46~(1) (2024) 24--38.
+
+\bibitem{haripriya2025fault}
+R.~Haripriya, et~al., Optimizing fault tolerance and latency of federated
+  learning using edge servers and pre-trained model, IEEE Access 13 (2025)
+  158737--158750.
+
+\bibitem{liu2026reliability}
+Y.~Liu, et~al., Secure federated learning with configurable reliability in
+  heterogeneous edge computing, Computer Networks 274 (2026) 111808.
+\newblock \href {https://doi.org/10.1016/j.comnet.2025.111808}
+  {\path{doi:10.1016/j.comnet.2025.111808}}.
+
+\bibitem{mughal2024adaptive}
+F.~R. Mughal, et~al., Adaptive federated learning for resource-constrained
+  {IoT} devices through edge intelligence and multi-edge clustering, Scientific
+  Reports 14~(1) (2024) 28746.
+
+\bibitem{liu2024iiot}
+X.~Liu, X.~Dong, N.~Jia, W.~Zhao, Federated learning-oriented edge computing
+  framework for the {IIoT}, Sensors 24~(13) (2024) 4182.
+\newblock \href {https://doi.org/10.3390/s24134182}
+  {\path{doi:10.3390/s24134182}}.
+
+\bibitem{zhou2024qos}
+J.~Zhou, S.~Pal, C.~Dong, K.~Wang, Enhancing quality of service through
+  federated learning in edge--cloud architecture, Ad Hoc Networks 156 (2024)
+  103430.
+\newblock \href {https://doi.org/10.1016/j.adhoc.2024.103430}
+  {\path{doi:10.1016/j.adhoc.2024.103430}}.
+
+\bibitem{lan2025ckks}
+Y.~Lan, et~al., An efficient and secure adaptive federated learning method
+  based on {CKKS} for data processing in the internet of things, Internet of
+  Things 33 (2025) 101725.
+\newblock \href {https://doi.org/10.1016/j.iot.2025.101725}
+  {\path{doi:10.1016/j.iot.2025.101725}}.
+
+\bibitem{peng2025fdids}
+H.~Peng, C.~Wu, Y.~Xiao, {FD-IDS}: Federated learning with knowledge
+  distillation for intrusion detection in {Non-IID} {IoT} environments, Sensors
+  25~(14) (2025) 4309.
+\newblock \href {https://doi.org/10.3390/s25144309}
+  {\path{doi:10.3390/s25144309}}.
+
+\bibitem{wang2024trust}
+L.~Wang, Y.~Li, L.~Zuo, Trust management for {IoT} devices based on federated
+  learning and blockchain, The Journal of Supercomputing 81 (2025) 232.
+\newblock \href {https://doi.org/10.1007/s11227-024-06715-4}
+  {\path{doi:10.1007/s11227-024-06715-4}}.
+
+\bibitem{rahmati2025cybersecurity}
+M.~Rahmati, A.~Pagano, Federated learning-driven cybersecurity framework for
+  {IoT} networks with privacy preserving and real-time threat detection
+  capabilities, Informatics 12~(3) (2025) 62.
+\newblock \href {https://doi.org/10.3390/informatics12030062}
+  {\path{doi:10.3390/informatics12030062}}.
+
+\bibitem{li2023privacy}
+D.~Li, et~al., Ubiquitous intelligent federated learning privacy-preserving
+  scheme under edge computing, Future Generation Computer Systems 144 (2023)
+  205--218.
+
+\bibitem{bayat2025qlearning}
+M.~Bayat, et~al., Enhancing secure {IoT} data sharing through dynamic
+  {Q}-learning and blockchain at the edge, Scientific Reports 15~(1) (2025)
+  39153.
+
+\bibitem{albogami2025deepfl}
+N.~N. Albogami, Intelligent deep federated learning model for enhancing
+  security in internet of things enabled edge computing environment, Scientific
+  Reports 15~(1) (2025) 4041.
+
+\bibitem{padmavathi2025trust}
+V.~Padmavathi, R.~Saminathan, A federated edge intelligence framework with
+  trust-based access control for secure and privacy-preserving {IoT} systems,
+  Scientific Reports 15~(1) (2025) 35832.
+
+\end{thebibliography}

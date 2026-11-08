@@ -1,0 +1,11 @@
+Dataset,Cell,ROC-AUC sel mean (SD),F1 sel mean (SD),surrogate weight share,surrogate-only rounds (fraction)
+UNSW-NB15,routing ON / surrogate OFF,0.9822 (0.0056),0.9540 (0.0030),0.000 (0.000),0.000 (0.000)
+UNSW-NB15,routing ON / surrogate ON,0.9838 (0.0029),0.9544 (0.0021),0.221 (0.048),0.033 (0.058)
+UNSW-NB15,routing OFF / surrogate OFF,0.9737 (0.0208),0.9425 (0.0211),0.000 (0.000),0.000 (0.000)
+UNSW-NB15,routing OFF / surrogate ON,0.9685 (0.0238),0.9436 (0.0144),0.434 (0.059),0.173 (0.083)
+UNSW-NB15,interaction contrast,"+0.0068 [-0.0024, +0.0159]","exact sign-flip p=0.0625 (n=5, floor 0.0625)",,
+CICIoT2023,routing ON / surrogate OFF,0.9962 (0.0003),0.9934 (0.0005),0.000 (0.000),0.000 (0.000)
+CICIoT2023,routing ON / surrogate ON,0.9962 (0.0003),0.9934 (0.0002),0.208 (0.058),0.033 (0.058)
+CICIoT2023,routing OFF / surrogate OFF,0.9960 (0.0003),0.9932 (0.0003),0.000 (0.000),0.000 (0.000)
+CICIoT2023,routing OFF / surrogate ON,0.9955 (0.0009),0.9927 (0.0009),0.414 (0.074),0.173 (0.083)
+CICIoT2023,interaction contrast,"+0.0005 [-0.0004, +0.0014]","exact sign-flip p=0.1250 (n=5, floor 0.0625)",,

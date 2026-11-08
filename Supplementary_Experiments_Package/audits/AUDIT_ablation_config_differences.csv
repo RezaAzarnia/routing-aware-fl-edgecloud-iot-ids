@@ -1,0 +1,9 @@
+dataset,variant,reference,config_differences
+unsw,abl_privacy_clip_only,abl_reference_repro,"{'privacy.mode': ('none', 'central_client'), 'privacy.noise_multiplier': (1.0, 0.0)}"
+unsw,abl_reference_gaussian_repro,abl_privacy_clip_only,"{'privacy.target_epsilon': (None, 10.0), 'privacy.noise_multiplier': (0.0, 1.0), 'privacy.auto_calibrate_noise': (False, True)}"
+unsw,abl_reference_gaussian_repro,abl_reference_repro,"{'privacy.mode': ('none', 'central_client'), 'privacy.target_epsilon': (None, 10.0), 'privacy.auto_calibrate_noise': (False, True)}"
+unsw,"trace identity (selected clients, failures, delivery) across reference_repro / clip_only / gaussian",-,identical in 5/5 seeds
+ciciot,abl_privacy_clip_only,abl_reference_repro,"{'privacy.mode': ('none', 'central_client'), 'privacy.noise_multiplier': (1.0, 0.0)}"
+ciciot,abl_reference_gaussian_repro,abl_privacy_clip_only,"{'privacy.target_epsilon': (None, 10.0), 'privacy.noise_multiplier': (0.0, 1.0), 'privacy.auto_calibrate_noise': (False, True)}"
+ciciot,abl_reference_gaussian_repro,abl_reference_repro,"{'privacy.mode': ('none', 'central_client'), 'privacy.target_epsilon': (None, 10.0), 'privacy.auto_calibrate_noise': (False, True)}"
+ciciot,"trace identity (selected clients, failures, delivery) across reference_repro / clip_only / gaussian",-,identical in 5/5 seeds
